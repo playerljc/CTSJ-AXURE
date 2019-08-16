@@ -1,0 +1,38 @@
+{
+  "name": "@ctsj/axure",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startapp": "ctbuild --type startapp",
+    "buildapp": "ctbuild --type buildapp",
+    "link": "npm link @ctsj/build && npm link @ctmobile/ui-util"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/playerljc/CTUI.git"
+  },
+  "author": "playerljc <playerljc@163.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/playerljc/CTUI/issues"
+  },
+  "homepage": "https://github.com/playerljc/CTUI#readme",
+  "devDependencies": {
+    "babel-eslint": "^8.1.2",
+    "eslint": "^4.14.0",
+    "eslint-config-airbnb": "^16.0.0",
+    "eslint-plugin-babel": "^4.0.0",
+    "eslint-plugin-compat": "^2.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-markdown": "^1.0.0-beta.6",
+    "eslint-plugin-react": "^7.0.1",
+    "font-awesome": "^4.7.0",
+    "lodash": "^4.17.15",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "uuid": "^3.3.2"
+  }
+}

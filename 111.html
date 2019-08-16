@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    #a {
+      display: none;
+    }
+  </style>
+  <script>
+    window.onload = function () {
+      const style = window.getComputedStyle(document.getElementById('a'));
+      debugger
+      console.log(style.display);
+    }
+  </script>
+</head>
+<body>
+  <div id="a"></div>
+</body>
+</html>

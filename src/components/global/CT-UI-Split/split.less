@@ -1,0 +1,46 @@
+.ct-split {
+  position: relative;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  box-sizing: border-box;
+  display: flex;
+
+  .ct-split-main {
+    box-sizing: border-box;
+    flex-grow: 1;
+    min-width: 30px;
+    min-height: 30px;
+    position: relative;
+
+    .ct-split-separator {
+      position: absolute;
+      background-color: rgba(0, 0, 0, .6);
+      display: none;
+      z-index: 19999;
+    }
+
+    .ct-split-separator.horizontal {
+      top: 0;
+      bottom: 0;
+      width: 3px;
+    }
+
+    .ct-split-separator.vertical {
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+  }
+
+  .ct-split-top,
+  .ct-split-bottom,
+  .ct-split-left,
+  .ct-split-right {
+    flex-shrink: 0;
+  }
+
+}

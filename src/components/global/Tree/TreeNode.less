@@ -1,0 +1,52 @@
+.AX-TreeNode {
+  overflow: auto;
+  .AX-TreeNode-Summary {
+    display: flex;
+    align-items: center;
+    outline:0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    .AX-TreeNode-Summary-Inner {
+      width: 100%;
+      .AX-TreeNode-Icon {
+        margin:0 10px 0 5px;
+        font-size: 14px;
+      }
+    }
+  }
+  .AX-TreeNode-Children {
+    box-sizing: border-box;
+    padding-left: 20px;
+  }
+}
+
+.AX-TreeNode.Active {
+  > .AX-TreeNode-Summary {
+    > .AX-TreeNode-Summary-Inner {
+      > .AX-TreeNode-Name {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.AX-TreeNode.Leaf {
+  & ::-webkit-details-marker {
+    display: none;
+  }
+
+  .AX-TreeNode-Summary {
+    .AX-TreeNode-Icon {
+      margin-left: 6px;
+    }
+  }
+}
+
+.AX-TreeNode.Leaf {
+  & ::-moz-list-bullet {
+    font-size: 0;
+    float: left;
+  }
+}

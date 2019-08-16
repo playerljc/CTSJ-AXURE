@@ -1,0 +1,29 @@
+.AX-AccordionItem {
+  & ::-webkit-details-marker {
+    direction: ltr;
+    color: gray;
+    margin-left: .5ch;
+  }
+
+  .AX-AccordionItem-Trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: 0;
+    .AX-AccordionItem-Trigger-Name {
+      height: 100%;
+    }
+  }
+}
+
+.AX-AccordionItem {
+  & ::-moz-list-bullet {
+    direction: ltr;
+    color: gray;
+    margin-left: .5ch;
+  }
+}

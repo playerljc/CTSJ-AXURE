@@ -1,0 +1,80 @@
+/*竖*/
+
+.g-flex.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+/*横*/
+
+.g-flex.horizontal {
+  display: flex;
+}
+
+/*居中竖*/
+
+.g-flex.vcenter {
+  align-items: center;
+}
+
+/*居中横*/
+
+.g-flex.hcenter {
+  justify-content: center;
+}
+
+/*start竖*/
+
+.g-flex.vstart {
+  align-items: flex-start;
+}
+
+/*start横*/
+
+.g-flex.hstart {
+  justify-content: flex-start;
+}
+
+/*end竖*/
+
+.g-flex.vend {
+  align-items: flex-end;
+}
+
+/*end横*/
+
+.g-flex.hend {
+  justify-content: flex-end;
+}
+
+/*两端横*/
+
+.g-flex.hbetween {
+  justify-content: space-between;
+}
+
+/* ----------------项------------------ */
+
+/*自适应*/
+
+.g-flex .g-flex-auto {
+  flex-grow: 1;
+}
+
+/*自适应竖*/
+
+.g-flex.vertical .g-flex-auto {
+  min-height: 0;
+}
+
+/* 自适应竖横向 */
+
+.g-flex.horizontal .g-flex-auto {
+  min-width: 0;
+}
+
+/*宽(高)固定*/
+
+.g-flex .g-flex-fixed {
+  flex-shrink: 0;
+}

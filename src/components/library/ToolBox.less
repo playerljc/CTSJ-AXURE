@@ -1,0 +1,47 @@
+.ToolBox {
+  .AX-Accordion {
+    .AX-AccordionItem {
+      & ::-webkit-details-marker {
+        display: none;
+      }
+
+      & ::-moz-list-bullet {
+        display: none;
+      }
+
+      .AX-AccordionItem-Trigger {
+        // close
+        &:before {
+          font-family: FontAwesome;
+          content: '\f105';
+          font-size: 21px;
+          margin-left: 10px;
+          color: #ccc;
+          font-weight: bold;
+        }
+
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+
+        .AX-AccordionItem-Trigger-Name {
+          font-size: 14px;
+          height: auto;
+        }
+      }
+    }
+
+    .AX-AccordionItem[open] {
+      .AX-AccordionItem-Trigger {
+        // open
+        &:before {
+          font-family: FontAwesome;
+          content: '\f107';
+          font-size: 21px;
+          margin-left: 10px;
+          color: #ccc;
+          font-weight: bold;
+        }
+      }
+    }
+
+  }
+}

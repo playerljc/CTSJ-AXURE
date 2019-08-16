@@ -1,0 +1,38 @@
+[
+  {
+    "groupName": "Base Component",
+    "key": "base",
+    "components": [
+      {
+        "name": "Rect1",
+        "key": "Rect1"
+      },
+      {
+        "name": "Rect2",
+        "key": "Rect2"
+      },
+      {
+        "name": "Rect3",
+        "key": "Rect3"
+      }
+    ]
+  },
+  {
+    "groupName": "Form",
+    "key": "form",
+    "components": [
+      {
+        "name": "TextField",
+        "key": "TextField"
+      },
+      {
+        "name": "TextArea",
+        "key": "TextArea"
+      },
+      {
+        "name": "Select",
+        "key": "Select"
+      }
+    ]
+  }
+]
