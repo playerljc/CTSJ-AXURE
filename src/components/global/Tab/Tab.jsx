@@ -73,7 +73,8 @@ class Tab extends React.Component {
           <div className={`${selectorPrefix}-Bar-Item-Inner`}>{name}</div>
           <span
             className={`${selectorPrefix}-Bar-Item-Trigger fa fa-close`}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               this.onTabRemove(key);
             }}
           />

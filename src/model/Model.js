@@ -19,4 +19,7 @@ export default {
   removePage(pageId) {
     Model.delete(pageId);
   },
+  get(pageId) {
+    return Model.get(pageId) || [];
+  },
 };

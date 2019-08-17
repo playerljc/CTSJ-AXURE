@@ -69,7 +69,29 @@ class CanvasPanel extends Component {
   };
 
   onRemove = (key) => {
+    const data = [...this.state.data];
+    const index = data.findIndex(t => t.id === key);
+    data.splice(index, 1);
 
+    let isChangeTab = false;
+    let activeKey = this.state.activeKey;
+    if (data.length !== 0 && key === activeKey) {
+      activeKey = data[0].id;
+      isChangeTab = true;
+    }
+
+    this.setState({
+      data,
+      activeKey,
+    }, () => {
+      Emitter.trigger(Actions.components.business.canvaspanel.removetab, {
+        removeKey: key,
+        activeKey,
+      });
+      if (isChangeTab) {
+        Emitter.trigger(Actions.components.business.canvaspanel.tabchange, activeKey);
+      }
+    });
   };
 
   render() {
@@ -90,7 +112,7 @@ class CanvasPanel extends Component {
                     className={`${selectorPrefix}-TabDroppable ${activeKey === id ? 'ct-droppable-target' : ''}`}
                     data-pageid={id}
                   >
-                    <div className={`${selectorPrefix}-TabScroll ct-drag`} />
+                    <div className={`${selectorPrefix}-TabScroll ${activeKey === id ? 'ct-drag ct-resizeable' : ''}`} />
                   </div>
                 </TabPanel>
               );

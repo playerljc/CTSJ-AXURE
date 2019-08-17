@@ -15,7 +15,6 @@ export default function (Component) {
           <Component
             {...this.props}
             ref={(ins) => {
-              debugger
               this.ins = ins;
             }}
           />

@@ -57,20 +57,31 @@ class PagePanel extends Component {
     };
 
     this.onTabChange = this.onTabChange.bind(this);
+    this.onTabRemove = this.onTabRemove.bind(this);
   }
 
   componentDidMount() {
     Emitter.on(Actions.components.business.canvaspanel.tabchange, this.onTabChange);
+    Emitter.on(Actions.components.business.canvaspanel.removetab, this.onTabRemove);
   }
 
   componentWillUnMount() {
     Emitter.remove(Actions.components.business.canvaspanel.tabchange, this.onTabChange);
+    Emitter.remove(Actions.components.business.canvaspanel.removetab, this.onTabRemove);
   }
 
   onTabChange(key) {
     this.setState({
       activeKey: key,
     });
+  }
+
+  onTabRemove({ removeKey, activeKey }) {
+    if (removeKey === activeKey && activeKey === this.state.activeKey) {
+      this.setState({
+        activeKey: '',
+      });
+    }
   }
 
   render() {

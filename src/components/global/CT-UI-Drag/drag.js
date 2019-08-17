@@ -9,6 +9,8 @@
   moveStep: [number] 移动的步进 默认值1
   showGuide: [Boolean] 是否显示辅助线 (没实现)
   showStaff: [Boolean] 是否显示标尺 (没实现)
+  onStart: Function
+  onEnd: Function
  }
 
  布局:
@@ -31,44 +33,10 @@
  demo:
 
  */
-import { Dom6 } from '@ctmobile/ui-util';
+import { Dom6 } from '../../../util/CTMobile-UI-Util';
 import './drag.less';
 
-const selectorPrefix = 'ct-drag-';
-
-// const Dom6 = {
-//   getTopDom(target, selector) {
-//     if (!target || !selector) return null;
-//
-//     if (target.className.indexOf(selector) !== -1) {
-//       return target;
-//     }
-//
-//     let parentDom = target;
-//     while ((parentDom = parentDom.parentNode)) {
-//       if (parentDom.className.indexOf(selector) !== -1) {
-//         break;
-//       } else if (parentDom === document.body) break;
-//     }
-//
-//     if (parentDom) {
-//       if (parentDom === document.body) {
-//         return null;
-//       } else {
-//         return parentDom;
-//       }
-//     } else {
-//       return null;
-//     }
-//   },
-//
-//   createElement(html) {
-//     const dom = document.createElement('div');
-//     dom.innerHTML = html;
-//     return dom.firstElementChild;
-//   },
-// };
-
+const selectorPrefix = 'ct-drag';
 
 /**
  * getDragTarget
@@ -76,11 +44,11 @@ const selectorPrefix = 'ct-drag-';
  * @return {HTMLElement}
  */
 function getDragTarget(el) {
-  if (el.classList.contains(`${selectorPrefix}item`)) {
+  if (el.classList.contains(`${selectorPrefix}-item`)) {
     return el;
   }
 
-  const targetEl = Dom6.getTopDom(el, `${selectorPrefix}item`);
+  const targetEl = Dom6.getTopDom(el, `${selectorPrefix}-item`);
   return targetEl;
 }
 
@@ -93,7 +61,7 @@ function createCloneEl(sourceEl) {
   const self = this;
   const { cloneClasses = [] } = self.config;
   const cloneClassNames = cloneClasses.join(' ');
-  self.sourceEl = Dom6.createElement(`<div class="${selectorPrefix}clone ${cloneClassNames}"></div>`);
+  self.sourceEl = Dom6.createElement(`<div class="${selectorPrefix}-clone ${cloneClassNames}"></div>`);
   self.sourceEl.style.width = `${sourceEl.offsetWidth}px`;
   self.sourceEl.style.height = `${sourceEl.offsetHeight}px`;
   const computedStyle = window.getComputedStyle(sourceEl);
@@ -108,7 +76,7 @@ function createCloneEl(sourceEl) {
  * @return {HTMLElement}
  */
 function createMapEl() {
-  const mapEl = Dom6.createElement(`<div class="${selectorPrefix}map"></div>`);
+  const mapEl = Dom6.createElement(`<div class="${selectorPrefix}-map"></div>`);
   this.el.appendChild(mapEl);
   return mapEl;
 }
@@ -214,9 +182,14 @@ function mouseupDetail() {
  */
 function initEvents() {
   const self = this;
-  self.el.addEventListener('mousedown', self.onMousedown);
-  self.el.addEventListener('mouseup', self.onMouseup);
-  self.el.addEventListener('mousemove', self.onMousemove);
+  Dom6.off(self.el, 'drag', 'mousedown');
+  Dom6.on(self.el, 'drag', 'mousedown', self.onMousedown);
+
+  Dom6.off(self.el, 'drag', 'mouseup');
+  Dom6.on(self.el, 'drag', 'mouseup', self.onMouseup);
+
+  Dom6.off(self.el, 'drag', 'mousemove');
+  Dom6.on(self.el, 'drag', 'mousemove', self.onMousemove);
 }
 
 /**
@@ -287,6 +260,14 @@ class Drag {
     const sourceEl = getDragTarget(e.target);
     if (!sourceEl) return false;
 
+    e.preventDefault();
+    e.stopPropagation();
+
+    const { onStart } = self.config;
+    if (onStart) {
+      onStart(self.el, sourceEl);
+    }
+
     self.isdown = true;
 
     const { mode = 'normal' } = self.config;
@@ -319,6 +300,20 @@ class Drag {
 
     if (disable) return false;
     mouseupDetail.call(self);
+
+    const { onEnd, mode = 'normal' } = self.config;
+
+    if (onEnd) {
+      let sourceEl;
+      if (mode === 'normal') {
+        sourceEl = self.sourceEl;
+      } else {
+        sourceEl = self.srcEl;
+      }
+
+      onEnd(self.el, sourceEl);
+    }
+
     reset.call(self);
   }
 
@@ -326,22 +321,33 @@ class Drag {
    * onMousemove
    */
   onMousemove(e) {
+    console.log('drag');
+
     const self = this;
     const { disable = false } = self;
 
-    if (disable) return false;
+    if (disable) {
+      document.body.style.cursor = 'default';
+      return false;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
     if (!self.isdown) {
       const sourceEl = getDragTarget(e.target);
       if (sourceEl) {
         self.mouseenterEl = sourceEl;
-        self.el.style.cursor = 'move';
+        document.body.style.move = 'move';
       } else if (self.mouseenterEl) {
-        self.el.style.cursor = 'default';
+        document.body.style.cursor = 'default';
         self.mouseenterEl = null;
       }
 
       return false;
     }
+
+    document.body.style.cursor = 'move';
 
     const curPoint = stepDetail.call(self, { pageX: e.pageX, pageY: e.pageY });
     const { curX, curY } = curPoint;
@@ -385,19 +391,76 @@ class Drag {
   }
 }
 
+
 /**
- * DragFactory
+ * DragManager
+ * @class DragManager
+ * @classdesc DragManager
  */
-const DragFactory = {
+class DragManager {
   /**
-   * 创建一个Drag
+   * constructor
+   */
+  constructor(el, config) {
+    this.el = el;
+    this.config = Object.assign({}, config);
+    this.managers = new Map();
+    this.init();
+  }
+
+  /**
+   * init
+   */
+  init() {
+    // TODO change
+    this.managers.clear();
+    const els = this.el.querySelectorAll(`.${selectorPrefix}`);
+    for (let i = 0; i < els.length; i++) {
+      this.managers.set(els[i], new Drag(els[i], this.config));
+    }
+  }
+
+  /**
+   * getGroup
+   * @param {HTMLElement} - groupEl
+   * @return {Drag}
+   * TODO change
+   */
+  getGroup(groupEl) {
+    return this.managers.get(groupEl);
+  }
+
+  /**
+   * refresh
+   */
+  refresh() {
+    this.init();
+  }
+
+  /**
+   * setDisable
+   * @param {Boolean} - disable
+   */
+  setDisable(disable) {
+    this.managers.forEach((t) => {
+      t.setDisable(disable);
+    });
+  }
+}
+
+/**
+ * DragManagerFactory
+ */
+const DragManagerFactory = {
+  /**
+   * 创建一个DragManager
    * @param {HtmlElement} - el
    * @param {Object} - config
-   * @return {Drag} - Drag
+   * @return {DragManager} - DragManager
    */
   create(el, config) {
-    return new Drag(el, config);
+    return new DragManager(el, config);
   },
 };
 
-export default DragFactory;
+export default DragManagerFactory;

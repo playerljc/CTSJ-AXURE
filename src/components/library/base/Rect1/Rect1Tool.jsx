@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Droppable from '../../Droppable';
+import Droppable from '../../DroppableHOC';
 import './Rect1Tool.less';
 
 /**
@@ -12,7 +12,7 @@ class Rect1Tool extends React.Component {
   render() {
     const { name = '' } = this.props;
     return (
-      <div>{name}</div>
+      <div style={{ border: '1px solid' }}>{name}</div>
     );
   }
 }

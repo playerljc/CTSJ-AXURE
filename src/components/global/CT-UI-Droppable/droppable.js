@@ -234,6 +234,11 @@ function initDragSourceEvent() {
 
         if (disable) return false;
 
+        const { onStart } = self.config;
+        if (onStart) {
+          onStart();
+        }
+
         self.isdown = true;
         self.sourceEl = sourceEl;
         const rect = sourceEl.getBoundingClientRect();
@@ -576,6 +581,11 @@ function reset(targetEls) {
   if (self.boundaryDetectionHandler) {
     cancelAnimationFrame(self.boundaryDetectionHandler);
     self.boundaryDetectionHandler = null;
+  }
+
+  const { onEnd } = self.config;
+  if (onEnd) {
+    onEnd();
   }
 }
 

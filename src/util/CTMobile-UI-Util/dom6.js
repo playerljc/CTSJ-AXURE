@@ -34,11 +34,77 @@ export default {
       return null;
     }
   },
-  off() {
-
+  /**
+   * off
+   * @param {HTMLElement} - el
+   * @param {String} - tag
+   * @param {String} - type
+   * @param {Function} - handler
+   */
+  off(el, tag, type, handler) {
+    if (tag && type && handler) {
+      const value = eventListenerHandlers.get(el);
+      if (value && value[tag] && value[tag][type]) {
+        const index = value[tag][type].indexOf(handler);
+        if (index !== -1) { value[tag][type].splice(index, 1); }
+        el.removeEventListener(type, handler);
+      }
+    } else if (tag && type && !handler) {
+      const value = eventListenerHandlers.get(el);
+      if (value && value[tag] && value[tag][type]) {
+        value[tag][type].forEach((h) => {
+          el.removeEventListener(type, h);
+        });
+        value[tag][type] = [];
+      }
+    } else if (tag && !type && !handler) {
+      const value = eventListenerHandlers.get(el);
+      if (value && value[tag]) {
+        for (const t in value[tag]) {
+          const h = value[tag][t];
+          h.forEach((ih) => {
+            el.removeEventListener(t, ih);
+          });
+          value[tag][t] = [];
+        }
+      }
+    }
   },
-  on() {
+  /**
+   * on
+   * @param {HTMLElement} - el
+   * @param {String} - tag
+   * @param {String} - type
+   * @param {Function} - handler
+   * @param {Boolean} - capture
+   */
+  on(el, tag, type, handler, capture = false) {
+    let value = eventListenerHandlers.get(el);
+    if (!value) {
+      value = {
+        [tag]: {
+          [type]: [],
+        },
+      };
+      eventListenerHandlers.set(el, value);
+    }
 
+    let evtObj = value[tag];
+    if (!evtObj) {
+      evtObj = {
+        [type]: [],
+      };
+      value[tag] = evtObj;
+    }
+
+    let handlers = evtObj[type];
+    if (!handlers) {
+      handlers = [];
+      evtObj[type] = handlers;
+    }
+
+    handlers.push(handler);
+    el.addEventListener(type, handler, capture);
   },
   once() {
 

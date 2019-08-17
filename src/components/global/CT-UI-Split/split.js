@@ -9,6 +9,7 @@
    onCanMove: Function 可以进行拖动
    onMove: Function  拖动中
    onSuccess: Function 拖动结束
+   onStart Function
  }
 
  布局:
@@ -32,39 +33,8 @@
 
  demo:
  * */
-import { Dom6 } from '@ctmobile/ui-util';
+import { Dom6 } from '../../../util/CTMobile-UI-Util';
 import './split.less';
-// const Dom6 = {
-//   getTopDom(target, selector) {
-//     if (!target || !selector) return null;
-//
-//     if (target.className.indexOf(selector) !== -1) {
-//       return target;
-//     }
-//
-//     let parentDom = target;
-//     while ((parentDom = parentDom.parentNode)) {
-//       if (parentDom.className.indexOf(selector) !== -1) {
-//         break;
-//       } else if (parentDom === document.body) break;
-//     }
-//
-//     if (parentDom) {
-//       if (parentDom === document.body) {
-//         return null;
-//       } else {
-//         return parentDom;
-//       }
-//     } else {
-//       return null;
-//     }
-//   },
-//   createElement(html) {
-//     const dom = document.createElement('div');
-//     dom.innerHTML = html;
-//     return dom.firstElementChild;
-//   },
-// };
 
 const selectorPrefix = 'ct-split';
 // 边缘的步进
@@ -373,6 +343,11 @@ class Split {
     }
 
     // console.log('mousedown', self.config.direction);
+
+    const { onStart } = self.config;
+    if (onStart) {
+      onStart();
+    }
 
     self.isDown = true;
     self.baseX = e.clientX;

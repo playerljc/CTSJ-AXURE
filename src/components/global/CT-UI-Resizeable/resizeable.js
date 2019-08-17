@@ -6,7 +6,8 @@
  配置:
  el
  {
-
+   onStart: Function
+   onEnd: Function
 }
 
  布局:
@@ -26,6 +27,7 @@
 
  demo:
  */
+import { Dom6 } from '../../../util/CTMobile-UI-Util';
 import './resizeable.less';
 
 const selectorPrefix = 'ct-resizeable';
@@ -46,14 +48,136 @@ class Resizeable {
    * constructor
    * @constructor
    * @param {HTMLElement} - el
+   * @param {Object} - config
    * @param {ResizeableGroup} - parent
+   * @param {Number} - index
    */
-  constructor(el, parent) {
+  constructor(el, config, parent, index) {
     this.el = el;
+    this.config = Object.assign({}, config);
+    this.index = index;
     this.parent = parent;
     this.disable = false;
+
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+
     this.initVar();
     this.initEvents();
+  }
+
+  onMouseDown(e) {
+    const self = this;
+    const { disable = false } = self;
+
+    if (self.parent.disable || disable) return false;
+
+    if (!self.isCanResize) {
+      return false;
+    }
+
+    // el的baseWith
+    self.baseWidth = self.el.offsetWidth;
+    // el的baseHeight
+    self.baseHeight = self.el.offsetHeight;
+    // 左侧的临界值
+    self.leftCritical = -self.baseWidth + minWidth;
+    // 右侧的临界值
+    self.rightCritical = self.baseWidth - minWidth;
+    // 上方的临界值
+    self.topCritical = -self.baseHeight + minHeight;
+    // 下方的临界值
+    self.bottomCritical = self.baseHeight - minHeight;
+    // clientX
+    self.clientX = self.el.offsetLeft;
+    // clientY
+    self.clientY = self.el.offsetTop;
+
+    const { onStart } = self.config;
+    if (onStart) {
+      onStart();
+    }
+
+    self.isDown = true;
+    self.parent.cur = self;
+    self.baseX = e.clientX;
+    self.baseY = e.clientY;
+  }
+
+  onMouseMove(e) {
+    const self = this;
+    const { disable } = self;
+
+    if (self.parent.disable || disable) return false;
+
+    if (self.parent.cur && self.parent.cur !== self) {
+      return false;
+    }
+
+    // 开启拖动模式
+    if (self.isCanResize && self.isDown) {
+      // el的mousemove不处理，放parent的mousemove处理
+      return false;
+    }
+
+    console.log('resize', 'mousemove', disable, self.el.innerText, self);
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    self.rect = self.el.getBoundingClientRect();
+
+    const { clientX, clientY } = e;
+
+    if (clientX - edgeStep <= self.rect.left &&
+      clientY - edgeStep > self.rect.top &&
+      clientY + edgeStep < self.rect.bottom) {
+      self.direction = 'left';
+      self.isCanResize = true;
+      document.body.style.cursor = 'w-resize';
+    } else if (clientX + edgeStep >= self.rect.right &&
+      clientY - edgeStep > self.rect.top &&
+      clientY + edgeStep < self.rect.bottom) {
+      self.direction = 'right';
+      self.isCanResize = true;
+      document.body.style.cursor = 'e-resize';
+    } else if (clientX - edgeStep <= self.rect.left &&
+      clientY - edgeStep <= self.rect.top) {
+      self.direction = 'lefttop';
+      self.isCanResize = true;
+      document.body.style.cursor = 'nw-resize';
+    } else if (clientX - edgeStep <= self.rect.left &&
+      clientY + edgeStep >= self.rect.bottom) {
+      self.direction = 'leftbottom';
+      self.isCanResize = true;
+      document.body.style.cursor = 'sw-resize';
+    } else if (clientX + edgeStep >= self.rect.right &&
+      clientY - edgeStep <= self.rect.top) {
+      self.direction = 'righttop';
+      self.isCanResize = true;
+      document.body.style.cursor = 'ne-resize';
+    } else if (clientX + edgeStep >= self.rect.right &&
+      clientY + edgeStep >= self.rect.bottom) {
+      self.direction = 'rightbottom';
+      self.isCanResize = true;
+      document.body.style.cursor = 'se-resize';
+    } else if (clientY - edgeStep <= self.rect.top &&
+      clientX - edgeStep > self.rect.left &&
+      clientX + edgeStep < self.rect.right) {
+      self.direction = 'top';
+      self.isCanResize = true;
+      document.body.style.cursor = 'n-resize';
+    } else if (clientY + edgeStep >= self.rect.bottom &&
+      clientX - edgeStep > self.rect.left &&
+      clientX + edgeStep < self.rect.right) {
+      self.direction = 'bottom';
+      self.isCanResize = true;
+      document.body.style.cursor = 's-resize';
+    } else {
+      self.isCanResize = false;
+      self.parent.cur = null;
+      document.body.style.cursor = 'move';
+    }
   }
 
   /**
@@ -68,130 +192,19 @@ class Resizeable {
     this.baseX = null;
     this.baseY = null;
 
-    // el的baseWith
-    this.baseWidth = this.el.offsetWidth;
-    // el的baseHeight
-    this.baseHeight = this.el.offsetHeight;
-    // 左侧的临界值
-    this.leftCritical = -this.baseWidth + minWidth;
-    // 右侧的临界值
-    this.rightCritical = this.baseWidth - minWidth;
-    // 上方的临界值
-    this.topCritical = -this.baseHeight + minHeight;
-    // 下方的临界值
-    this.bottomCritical = this.baseHeight - minHeight;
     // 方向
     this.direction = null;
-
-    // clientX
-    this.clientX = this.el.offsetLeft;
-    // clientY
-    this.clientY = this.el.offsetTop;
   }
 
   /**
    * initEvents
    */
   initEvents() {
-    const self = this;
-    /**
-     * el mousedown
-     */
-    this.el.addEventListener('mousedown', (e) => {
-      const { disable = false } = self;
+    Dom6.off(this.el, 'resize', 'mousedown');
+    Dom6.on(this.el, 'resize', 'mousedown', this.onMouseDown);
 
-      if (disable) return false;
-
-      if (!self.isCanResize) {
-        // console.log('el down no');
-        return false;
-      }
-      // console.log('el down yes');
-      self.isDown = true;
-      self.parent.cur = self;
-      self.baseX = e.clientX;
-      self.baseY = e.clientY;
-    });
-
-    /**
-     * el mousemove
-     */
-    this.el.addEventListener('mousemove', (e) => {
-      const { disable = false } = self;
-
-      if (disable) return false;
-
-      // console.log('555');
-      if (self.parent.cur && self.parent.cur !== self) {
-        // console.log('el-mousemove', self.id);
-        return false;
-      }
-
-      // 开启拖动模式
-      if (self.isCanResize && self.isDown) {
-        // el的mousemove不处理，放parent的mousemove处理
-        return false;
-      }
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      self.rect = self.el.getBoundingClientRect();
-
-      const { clientX, clientY } = e;
-
-      // console.log(clientX, clientY);
-
-      if (clientX - edgeStep <= self.rect.left &&
-        clientY - edgeStep > self.rect.top &&
-        clientY + edgeStep < self.rect.bottom) {
-        self.direction = 'left';
-        self.isCanResize = true;
-        self.el.style.cursor = 'w-resize';
-      } else if (clientX + edgeStep >= self.rect.right &&
-        clientY - edgeStep > self.rect.top &&
-        clientY + edgeStep < self.rect.bottom) {
-        self.direction = 'right';
-        self.isCanResize = true;
-        self.el.style.cursor = 'e-resize';
-      } else if (clientX - edgeStep <= self.rect.left &&
-        clientY - edgeStep <= self.rect.top) {
-        self.direction = 'lefttop';
-        self.isCanResize = true;
-        self.el.style.cursor = 'nw-resize';
-      } else if (clientX - edgeStep <= self.rect.left &&
-        clientY + edgeStep >= self.rect.bottom) {
-        self.direction = 'leftbottom';
-        self.isCanResize = true;
-        self.el.style.cursor = 'sw-resize';
-      } else if (clientX + edgeStep >= self.rect.right &&
-        clientY - edgeStep <= self.rect.top) {
-        self.direction = 'righttop';
-        self.isCanResize = true;
-        self.el.style.cursor = 'ne-resize';
-      } else if (clientX + edgeStep >= self.rect.right &&
-        clientY + edgeStep >= self.rect.bottom) {
-        self.direction = 'rightbottom';
-        self.isCanResize = true;
-        self.el.style.cursor = 'se-resize';
-      } else if (clientY - edgeStep <= self.rect.top &&
-        clientX - edgeStep > self.rect.left &&
-        clientX + edgeStep < self.rect.right) {
-        self.direction = 'top';
-        self.isCanResize = true;
-        self.el.style.cursor = 'n-resize';
-      } else if (clientY + edgeStep >= self.rect.bottom &&
-        clientX - edgeStep > self.rect.left &&
-        clientX + edgeStep < self.rect.right) {
-        self.direction = 'bottom';
-        self.isCanResize = true;
-        self.el.style.cursor = 's-resize';
-      } else {
-        self.isCanResize = false;
-        self.parent.cur = null;
-        self.el.style.cursor = 'default';
-      }
-    });
+    Dom6.off(this.el, 'resize', 'mousemove');
+    Dom6.on(this.el, 'resize', 'mousemove', this.onMouseMove);
   }
 
   /**
@@ -202,20 +215,8 @@ class Resizeable {
     this.isDown = false;
     this.baseX = null;
     this.baseY = null;
-    this.baseWidth = this.el.offsetWidth;
-    this.baseHeight = this.el.offsetHeight;
-    // 左侧的临界值
-    this.leftCritical = -this.baseWidth + minWidth;
-    // 右侧的临界值
-    this.rightCritical = this.baseWidth - minWidth;
-    // 上方的临界值
-    this.topCritical = -this.baseHeight + minHeight;
-    // 下方的临界值
-    this.bottomCritical = this.baseHeight - minHeight;
-    this.clientX = this.el.offsetLeft;
-    this.clientY = this.el.offsetTop;
-    // this.rect = this.el.getBoundingClientRect();
     this.direction = null;
+    this.disable = false;
   }
 
   /**
@@ -224,8 +225,10 @@ class Resizeable {
    */
   setDisable(disable) {
     this.disable = disable;
+    console.log('resize', 'setDisable', this.disable, this.el.innerText, this);
   }
 }
+
 
 /**
  * ResizeableGroup
@@ -237,14 +240,102 @@ class ResizeableGroup {
    * constructor
    * @constructor
    * @param {HTMLElement} - el
+   * @param {Object} - config
    */
-  constructor(el) {
+  constructor(el, config) {
     this.el = el;
+    this.config = Object.assign({}, config);
+    this.ins = new Map();
     this.disable = false;
+
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
+
     this.rect = this.el.getBoundingClientRect();
     this.cur = null;
     this.initEvents();
     this.init();
+  }
+
+  onMouseMove(e) {
+    const self = this;
+
+    const { disable = false } = self;
+
+    if (disable) {
+      document.body.style.cursor = 'move';
+      return false;
+    }
+
+    if (!(self.cur && self.cur.isCanResize && self.cur.isDown)) {
+      if (self.cur) {
+        self.reset();
+      }
+      document.body.style.cursor = 'default';
+      return false;
+    }
+
+    console.log('resizeGroup', 'mousemove', disable);
+
+    const { clientX, clientY } = e;
+
+    const width = clientX - self.cur.baseX;
+    const height = clientY - self.cur.baseY;
+
+    const left = self.cur.clientX; // self.cur.rect.left - self.rect.left;
+    const top = self.cur.clientY; // self.cur.rect.top - self.rect.top;
+
+    if (self.cur.direction === 'right') {
+      document.body.style.cursor = 'e-resize';
+      self.cur.el.style.width = width > self.cur.leftCritical ? `${self.cur.baseWidth + width}px` : `${minWidth}px`;
+    } else if (self.cur.direction === 'left') {
+      document.body.style.cursor = 'w-resize';
+      self.cur.el.style.width = width < self.cur.rightCritical ? `${self.cur.baseWidth - width}px` : `${minWidth}px`;
+      self.cur.el.style.left = width < self.cur.rightCritical ? `${left + width}px` : `${left + self.cur.rightCritical}px`;
+    } else if (self.cur.direction === 'top') {
+      document.body.style.cursor = 'n-resize';
+      self.cur.el.style.height = height < self.cur.bottomCritical ? `${self.cur.baseHeight - height}px` : `${minHeight}px`;
+      self.cur.el.style.top = height < self.cur.bottomCritical ? `${top + height}px` : `${top + self.cur.bottomCritical}px`;
+    } else if (self.cur.direction === 'bottom') {
+      document.body.style.cursor = 's-resize';
+      self.cur.el.style.height = height > self.cur.topCritical ? `${self.cur.baseHeight + height}px` : `${minHeight}px`;
+    } else if (self.cur.direction === 'lefttop') {
+      document.body.style.cursor = 'nw-resize';
+      self.cur.el.style.width = width < self.cur.rightCritical ? `${self.cur.baseWidth - width}px` : `${minWidth}px`;
+      self.cur.el.style.left = width < self.cur.rightCritical ? `${left + width}px` : `${left + self.cur.rightCritical}px`;
+      self.cur.el.style.height = height < self.cur.bottomCritical ? `${self.cur.baseHeight - height}px` : `${minHeight}px`;
+      self.cur.el.style.top = height < self.cur.bottomCritical ? `${top + height}px` : `${top + self.cur.bottomCritical}px`;
+    } else if (self.cur.direction === 'leftbottom') {
+      document.body.style.cursor = 'sw-resize';
+      self.cur.el.style.width = width < self.cur.rightCritical ? `${self.cur.baseWidth - width}px` : `${minWidth}px`;
+      self.cur.el.style.left = width < self.cur.rightCritical ? `${left + width}px` : `${left + self.cur.rightCritical}px`;
+      self.cur.el.style.height = height > self.cur.topCritical ? `${self.cur.baseHeight + height}px` : `${minHeight}px`;
+    } else if (self.cur.direction === 'righttop') {
+      document.body.style.cursor = 'ne-resize';
+      self.cur.el.style.width = width > self.cur.leftCritical ? `${self.cur.baseWidth + width}px` : `${minWidth}px`;
+      self.cur.el.style.height = height < self.cur.bottomCritical ? `${self.cur.baseHeight - height}px` : `${minHeight}px`;
+      self.cur.el.style.top = height < self.cur.bottomCritical ? `${top + height}px` : `${top + self.cur.bottomCritical}px`;
+    } else if (self.cur.direction === 'rightbottom') {
+      document.body.style.cursor = 'se-resize';
+      self.cur.el.style.width = width > self.cur.leftCritical ? `${self.cur.baseWidth + width}px` : `${minWidth}px`;
+      self.cur.el.style.height = height > self.cur.topCritical ? `${self.cur.baseHeight + height}px` : `${minHeight}px`;
+    }
+  }
+
+  onMouseUp() {
+    const self = this;
+    const { disable = false } = self;
+
+    if (disable) return false;
+    if (!(self.cur && self.cur.isCanResize && self.cur.isDown)) {
+      return false;
+    }
+    self.reset();
+
+    const { onEnd } = self.config;
+    if (onEnd) {
+      onEnd();
+    }
   }
 
   /**
@@ -253,74 +344,11 @@ class ResizeableGroup {
   initEvents() {
     const self = this;
 
-    /**
-     * group mousemove
-     */
-    self.el.addEventListener('mousemove', (e) => {
-      const { disable = false } = self;
+    Dom6.off(self.el, 'resize', 'mousemove');
+    Dom6.on(self.el, 'resize', 'mousemove', this.onMouseMove);
 
-      if (disable) return false;
-      // console.log('body-mousemove', self.cur.id);
-      // console.log('666');
-      if (!(self.cur && self.cur.isCanResize && self.cur.isDown)) {
-        if (self.cur) {
-          self.reset();
-        }
-        return false;
-      }
-
-      const { clientX, clientY } = e;
-
-      const width = clientX - self.cur.baseX;
-      const height = clientY - self.cur.baseY;
-
-      // var curStyle = window.getComputedStyle(self.cur.el);
-      const left = self.cur.clientX; // self.cur.rect.left - self.rect.left;
-      const top = self.cur.clientY; // self.cur.rect.top - self.rect.top;
-
-      if (self.cur.direction === 'right') {
-        self.cur.el.style.width = width > self.cur.leftCritical ? `${self.cur.baseWidth + width}px` : `${minWidth}px`;
-      } else if (self.cur.direction === 'left') {
-        self.cur.el.style.width = width < self.cur.rightCritical ? `${self.cur.baseWidth - width}px` : `${minWidth}px`;
-        self.cur.el.style.left = width < self.cur.rightCritical ? `${left + width}px` : `${left + self.cur.rightCritical}px`;
-      } else if (self.cur.direction === 'top') {
-        self.cur.el.style.height = height < self.cur.bottomCritical ? `${self.cur.baseHeight - height}px` : `${minHeight}px`;
-        self.cur.el.style.top = height < self.cur.bottomCritical ? `${top + height}px` : `${top + self.cur.bottomCritical}px`;
-      } else if (self.cur.direction === 'bottom') {
-        self.cur.el.style.height = height > self.cur.topCritical ? `${self.cur.baseHeight + height}px` : `${minHeight}px`;
-      } else if (self.cur.direction === 'lefttop') {
-        self.cur.el.style.width = width < self.cur.rightCritical ? `${self.cur.baseWidth - width}px` : `${minWidth}px`;
-        self.cur.el.style.left = width < self.cur.rightCritical ? `${left + width}px` : `${left + self.cur.rightCritical}px`;
-        self.cur.el.style.height = height < self.cur.bottomCritical ? `${self.cur.baseHeight - height}px` : `${minHeight}px`;
-        self.cur.el.style.top = height < self.cur.bottomCritical ? `${top + height}px` : `${top + self.cur.bottomCritical}px`;
-      } else if (self.cur.direction === 'leftbottom') {
-        self.cur.el.style.width = width < self.cur.rightCritical ? `${self.cur.baseWidth - width}px` : `${minWidth}px`;
-        self.cur.el.style.left = width < self.cur.rightCritical ? `${left + width}px` : `${left + self.cur.rightCritical}px`;
-        self.cur.el.style.height = height > self.cur.topCritical ? `${self.cur.baseHeight + height}px` : `${minHeight}px`;
-      } else if (self.cur.direction === 'righttop') {
-        self.cur.el.style.width = width > self.cur.leftCritical ? `${self.cur.baseWidth + width}px` : `${minWidth}px`;
-        self.cur.el.style.height = height < self.cur.bottomCritical ? `${self.cur.baseHeight - height}px` : `${minHeight}px`;
-        self.cur.el.style.top = height < self.cur.bottomCritical ? `${top + height}px` : `${top + self.cur.bottomCritical}px`;
-      } else if (self.cur.direction === 'rightbottom') {
-        self.cur.el.style.width = width > self.cur.leftCritical ? `${self.cur.baseWidth + width}px` : `${minWidth}px`;
-        self.cur.el.style.height = height > self.cur.topCritical ? `${self.cur.baseHeight + height}px` : `${minHeight}px`;
-      }
-    });
-
-    /**
-     * group mouseup
-     */
-    self.el.addEventListener('mouseup', () => {
-      const { disable = false } = self;
-
-      if (disable) return false;
-      if (!(self.cur && self.cur.isCanResize && self.cur.isDown)) {
-        // console.log('抬起，没reset');
-        return false;
-      }
-      // console.log('抬起，reset');
-      self.reset();
-    });
+    Dom6.off(self.el, 'resize', 'mouseup');
+    Dom6.on(self.el, 'resize', 'mouseup', this.onMouseUp);
   }
 
   /**
@@ -338,10 +366,19 @@ class ResizeableGroup {
    */
   init() {
     const els = this.el.querySelectorAll(`.${selectorPrefix}-item`);
-    this.ins = [];
+    this.ins.clear();
     for (let i = 0; i < els.length; i++) {
-      this.ins.push(new Resizeable(els[i], this, i));
+      this.ins.set(els[i], new Resizeable(els[i], this.config, this, i));
     }
+  }
+
+  /**
+   * getResize
+   * @param {HTMLElement} - el
+   * @return {Resizeable}
+   */
+  getResize(el) {
+    return this.ins.get(el);
   }
 
   /**
@@ -371,8 +408,13 @@ class ResizeableGroup {
 class ResizeableGroupManager {
   /**
    * constructor
+   * @param {HTMLElement} - el
+   * @param {Object} - config
    */
-  constructor() {
+  constructor(el, config) {
+    this.el = el;
+    this.config = Object.assign({}, config);
+    this.resizeManager = new Map();
     this.init();
   }
 
@@ -380,11 +422,22 @@ class ResizeableGroupManager {
    * init
    */
   init() {
-    this.resizeManagers = [];
-    const resizeableEls = document.querySelectorAll(`.${selectorPrefix}`);
+    // TODO change
+    this.resizeManager.clear();
+    const resizeableEls = this.el.querySelectorAll(`.${selectorPrefix}`);
     for (let i = 0; i < resizeableEls.length; i++) {
-      this.resizeManagers.push(new ResizeableGroup(resizeableEls[i]));
+      this.resizeManager.set(resizeableEls[i], new ResizeableGroup(resizeableEls[i], this.config));
     }
+  }
+
+  /**
+   * getGroup
+   * @param {HTMLElement} - groupEl
+   * @return {ResizeableGroup}
+   * TODO change
+   */
+  getGroup(groupEl) {
+    return this.resizeManager.get(groupEl);
   }
 
   /**
@@ -399,7 +452,7 @@ class ResizeableGroupManager {
    * @param {Boolean} - disable
    */
   setDisable(disable) {
-    this.resizeManagers.forEach((t) => {
+    this.resizeManager.forEach((t) => {
       t.setDisable(disable);
     });
   }
@@ -411,10 +464,12 @@ class ResizeableGroupManager {
 const ResizeableFactory = {
   /**
    * 创建一个Resizeable
+   * @param {HTMLElement} - el
+   * @param {Object} - config
    * @return {ResizeableGroupManager} - ResizeableGroupManager
    */
-  create() {
-    return new ResizeableGroupManager();
+  create(el, config) {
+    return new ResizeableGroupManager(el, config);
   },
 };
 

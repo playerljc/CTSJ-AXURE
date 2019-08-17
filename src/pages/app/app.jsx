@@ -9,6 +9,7 @@ import CanvasPanel from '../../components/business/CanvasPanel/CanvasPanel';
 import SplitFactory from '../../components/global/CT-UI-Split/split';
 import DroppableFactory from '../../components/global/CT-UI-Droppable/droppable';
 import DragFactory from '../../components/global/CT-UI-Drag/drag';
+import ResizeableFactory from '../../components/global/CT-UI-Resizeable/resizeable';
 
 import Actions from '../../util/Actions';
 import Emitter from '../../util/Emitter';
@@ -24,37 +25,58 @@ class App extends React.Component {
 
     this.onAddTab = this.onAddTab.bind(this);
     this.onChangeTab = this.onChangeTab.bind(this);
+    this.onRemoveTab = this.onRemoveTab.bind(this);
   }
 
   componentDidMount() {
     this.initEvents();
     this.initSplit();
     this.initDroppable();
+    this.initResizeable();
+    this.initDrag();
   }
 
   componentWillUnMount() {
     Emitter.remove(Actions.components.business.canvaspanel.addtab, this.onAddTab);
     Emitter.remove(Actions.components.business.canvaspanel.tabchange, this.onChangeTab);
+    Emitter.remove(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
   }
 
   initEvents() {
     Emitter.on(Actions.components.business.canvaspanel.addtab, this.onAddTab);
     Emitter.on(Actions.components.business.canvaspanel.tabchange, this.onChangeTab);
+    Emitter.on(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
   }
 
   initSplit() {
     /**
      * 初始化Split vertical
      */
-    SplitFactory.create(this.el, {
+    this.splitV = SplitFactory.create(this.el, {
       direction: 'vertical',
+      onStart: () => {
+
+      },
+      onSuccess: () => {
+
+      },
     });
 
     /**
      * 初始化Split horizontal
      */
-    SplitFactory.create(this.subEl, {
+    this.splitH = SplitFactory.create(this.subEl, {
       direction: 'horizontal',
+      onStart: () => {
+        this.droppable.setDisable(true);
+        this.drag.setDisable(true);
+        this.resizeable.setDisable(true);
+      },
+      onSuccess: () => {
+        this.droppable.setDisable(false);
+        this.drag.setDisable(false);
+        this.resizeable.setDisable(false);
+      },
     });
   }
 
@@ -81,17 +103,24 @@ class App extends React.Component {
           <Component.Component
             groupKKey={groupKKey}
             componentKey={componentKey}
+            number={Modal.get(pageId).length + 1}
             getInstance={(ins) => {
               Modal.add(pageId, ins);
             }}
           />, el
         );
 
+        const targetEl = targetEls[0].querySelector('.CanvasPanel-TabScroll');
+        const sourceEl = el.firstElementChild;
         naturalRelease.fn.call(
           naturalRelease.context,
-          targetEls[0].querySelector('.CanvasPanel-TabScroll'),
-          el.firstElementChild
+          targetEl,
+          sourceEl
         );
+
+        const resizeGroup = this.resizeable.getGroup(targetEl);
+        resizeGroup.refresh();
+
         return true;
       },
       /**
@@ -102,9 +131,19 @@ class App extends React.Component {
         scroll,
         targetEls,
       }) => {
-        // const demo5ScrollEl = this.demo5Scroll;
-        // scroll(condition, demo5ScrollEl);
         scroll(condition, targetEls[0]);
+      },
+      onStart: () => {
+        this.splitH.setDisable(true);
+        this.splitV.setDisable(true);
+        this.drag.setDisable(true);
+        this.resizeable.setDisable(true);
+      },
+      onEnd: () => {
+        this.splitH.setDisable(false);
+        this.splitV.setDisable(false);
+        this.drag.setDisable(false);
+        this.resizeable.setDisable(false);
       },
       // 拖动对象的附加样式，拖动移动起来后触发
       dragSourceExtendClasses: ['sourceActive'],
@@ -122,21 +161,68 @@ class App extends React.Component {
     });
   }
 
+  initDrag() {
+    this.drag = DragFactory.create(this.subEl, {
+      mode: 'clone',
+      showMap: true,
+      moveStep: 1,
+      onStart: (el, sourceEl) => {
+        this.splitV.setDisable(true);
+        this.splitH.setDisable(true);
+        this.droppable.setDisable(true);
+        this.resizeable.setDisable(true);
+        // const resizeGroup = this.resizeable.getGroup(el);
+        // if (resizeGroup) {
+        //   resizeGroup.setDisable(true);
+        // }
+      },
+      onEnd: (el, sourceEl) => {
+        this.splitV.setDisable(false);
+        this.splitH.setDisable(false);
+        this.resizeable.setDisable(false);
+        this.droppable.setDisable(false);
+        // const resizeGroup = this.resizeable.getGroup(el);
+        // if (resizeGroup) {
+        //   resizeGroup.setDisable(false);
+        // }
+      },
+    });
+  }
+
+  initResizeable() {
+    this.resizeable = ResizeableFactory.create(this.subEl, {
+      onStart: () => {
+        this.splitV.setDisable(true);
+        this.splitH.setDisable(true);
+        this.droppable.setDisable(true);
+        this.drag.setDisable(true);
+      },
+      onEnd: () => {
+        this.splitV.setDisable(false);
+        this.splitH.setDisable(false);
+        this.droppable.setDisable(false);
+        this.drag.setDisable(false);
+      },
+    });
+  }
+
   onAddTab() {
     this.droppable.refresh();
-
-    const dragEls = Array.from(this.canvasEl.querySelectorAll('.ct-drag'));
-    dragEls.forEach((el) => {
-      DragFactory.create(el, {
-        mode: 'clone',
-        showMap: true,
-        moveStep: 1,
-      });
-    });
+    this.drag.refresh();
+    this.resizeable.refresh();
   }
 
   onChangeTab() {
     this.droppable.refresh();
+    this.drag.refresh();
+    this.resizeable.refresh();
+  }
+
+  onRemoveTab({ removeKey, activeKey }) {
+    Modal.removePage(removeKey);
+    this.droppable.refresh();
+    this.drag.refresh();
+    this.resizeable.refresh();
   }
 
   render() {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Droppable from '../../Droppable';
+import Droppable from '../../DroppableHOC';
 import './Rect3Tool.less';
 
 /**
