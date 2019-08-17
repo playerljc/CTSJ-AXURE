@@ -1,5 +1,8 @@
 const Model = new Map();
 
+/**
+ * 所有页面的Shape模型
+ */
 export default {
   add(pageId, Shape) {
     let Shapes = Model.get(pageId);

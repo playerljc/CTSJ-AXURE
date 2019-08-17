@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ComponentBase from '../../ComponentBaseHOC';
-import Drag from '../../DragHOC';
+import Drag from '../../DragResizeHOC';
 import './Rect1Component.less';
 
 /**
