@@ -55,10 +55,16 @@ class App extends React.Component {
     this.splitV = SplitFactory.create(this.el, {
       direction: 'vertical',
       onStart: () => {
-
+        this.splitH.setDisable(true);
+        this.droppable.setDisable(true);
+        this.drag.setDisable(true);
+        this.resizeable.setDisable(true);
       },
       onSuccess: () => {
-
+        this.splitH.setDisable(false);
+        this.droppable.setDisable(false);
+        this.drag.setDisable(false);
+        this.resizeable.setDisable(false);
       },
     });
 
@@ -68,11 +74,13 @@ class App extends React.Component {
     this.splitH = SplitFactory.create(this.subEl, {
       direction: 'horizontal',
       onStart: () => {
+        this.splitV.setDisable(true);
         this.droppable.setDisable(true);
         this.drag.setDisable(true);
         this.resizeable.setDisable(true);
       },
       onSuccess: () => {
+        this.splitV.setDisable(false);
         this.droppable.setDisable(false);
         this.drag.setDisable(false);
         this.resizeable.setDisable(false);
