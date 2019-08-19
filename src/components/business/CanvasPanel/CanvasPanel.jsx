@@ -35,8 +35,8 @@ class CanvasPanel extends Component {
   }
 
   /**
-   * add
-   * @param t
+   * onDBClick
+   * @param {Object} - t
    */
   onDBClick(t) {
     const data = [...this.state.data];
@@ -60,22 +60,30 @@ class CanvasPanel extends Component {
     });
   }
 
-  onChange = (key) => {
+  /**
+   * onChange
+   * @param {String} - pageId
+   */
+  onChange = (pageId) => {
     this.setState({
-      activeKey: key,
+      activeKey: pageId,
     }, () => {
-      Emitter.trigger(Actions.components.business.canvaspanel.tabchange, key);
+      Emitter.trigger(Actions.components.business.canvaspanel.tabchange, pageId);
     });
   };
 
-  onRemove = (key) => {
+  /**
+   * onRemove
+   * @param {String} - pageId
+   */
+  onRemove = (pageId) => {
     const data = [...this.state.data];
-    const index = data.findIndex(t => t.id === key);
+    const index = data.findIndex(t => t.id === pageId);
     data.splice(index, 1);
 
     let isChangeTab = false;
     let activeKey = this.state.activeKey;
-    if (data.length !== 0 && key === activeKey) {
+    if (data.length !== 0 && pageId === activeKey) {
       activeKey = data[0].id;
       isChangeTab = true;
     }
@@ -85,7 +93,7 @@ class CanvasPanel extends Component {
       activeKey,
     }, () => {
       Emitter.trigger(Actions.components.business.canvaspanel.removetab, {
-        removeKey: key,
+        removeKey: pageId,
         activeKey,
       });
       if (isChangeTab) {
@@ -93,6 +101,14 @@ class CanvasPanel extends Component {
       }
     });
   };
+
+  /**
+   * onTabClick
+   * @param {String} - pageId
+   */
+  onTabClick(pageId) {
+    Emitter.trigger(Actions.components.business.canvaspanel.tabclick, pageId);
+  }
 
   render() {
     const { data = [], activeKey } = this.state;
@@ -105,17 +121,20 @@ class CanvasPanel extends Component {
         >
           {
             data.map((t) => {
-              const { name, id } = t;
+              const { name, id: pageId } = t;
               return (
-                <TabPanel name={name} key={id}>
+                <TabPanel name={name} key={pageId}>
                   <div
-                    className={`${selectorPrefix}-TabDroppable ${activeKey === id ? 'ct-droppable-target' : ''}`}
-                    data-pageid={id}
+                    className={`${selectorPrefix}-TabDroppable ${activeKey === pageId ? 'ct-droppable-target' : ''}`}
+                    data-pageid={pageId}
                   >
                     <div
-                      className={`${selectorPrefix}-TabScroll ${activeKey === id ? 'ct-drag ct-resizeable' : ''}`}
-                      data-pageid={id}
-                      id={id}
+                      className={`${selectorPrefix}-TabScroll ${activeKey === pageId ? 'ct-drag ct-resizeable' : ''}`}
+                      data-pageid={pageId}
+                      id={pageId}
+                      onClick={() => {
+                        this.onTabClick(pageId);
+                      }}
                     />
                   </div>
                 </TabPanel>

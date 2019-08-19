@@ -5,12 +5,13 @@
 
 .左侧工具箱工具拖动到右侧,点击之后才能resize
 .激活的Shape的z-index应该是最大的，unActive的时候恢复到以前的z-index
+.点击page取消activeShape
 .属性面板
 .概要面板
 
 .框选
 .拖动辅助线
-
+.ContextMenu
 
 .PagePanel中Tree拖动换位置
 .Tree

@@ -33,6 +33,7 @@ class App extends React.Component {
     this.onAddTab = this.onAddTab.bind(this);
     this.onChangeTab = this.onChangeTab.bind(this);
     this.onRemoveTab = this.onRemoveTab.bind(this);
+    this.onTabClick = this.onTabClick.bind(this);
     this.onLibraryComponentActive = this.onLibraryComponentActive.bind(this);
 
     // 存储每一个页面active的Shape实例
@@ -59,6 +60,7 @@ class App extends React.Component {
     Emitter.remove(Actions.components.business.canvaspanel.addtab, this.onAddTab);
     Emitter.remove(Actions.components.business.canvaspanel.tabchange, this.onChangeTab);
     Emitter.remove(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
+    Emitter.remove(Actions.components.business.canvaspanel.tabclick, this.onTabClick);
     Emitter.remove(Actions.components.library.component.active, this.onLibraryComponentActive);
   }
 
@@ -69,6 +71,7 @@ class App extends React.Component {
     Emitter.on(Actions.components.business.canvaspanel.addtab, this.onAddTab);
     Emitter.on(Actions.components.business.canvaspanel.tabchange, this.onChangeTab);
     Emitter.on(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
+    Emitter.on(Actions.components.business.canvaspanel.tabclick, this.onTabClick);
     Emitter.on(Actions.components.library.component.active, this.onLibraryComponentActive);
   }
 
@@ -368,6 +371,14 @@ class App extends React.Component {
     this.droppable.refresh();
     this.drag.refresh();
     this.resizeable.refresh();
+  }
+
+  /**
+   * onTabClick
+   * @param {String} - pageId
+   */
+  onTabClick(pageId) {
+    this.acitveShapeUnActive(pageId);
   }
 
   /**
