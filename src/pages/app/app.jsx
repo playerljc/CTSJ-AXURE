@@ -127,49 +127,8 @@ class App extends React.Component {
        * @param params
        * @return {boolean}
        */
-      onPutSuccess: ({
-        cloneSourceEl,
-        naturalRelease,
-        // rect,
-        // sourceEl,
-        targetEls,
-      }) => {
-        const groupKey = cloneSourceEl.dataset.groupkey;
-        const componentKey = cloneSourceEl.dataset.componentkey;
-        const componentId = uuidv1();
-        const pageId = this.curPageId;// targetEls[0].dataset.pageid;
-        const el = Dom6.createElement('<div></div>');
-        const Component = Register.get(groupKey).get(componentKey);
-        ReactDOM.render(
-          <Component.Component
-            // groupKKey={groupKey}
-            // componentKey={componentKey}
-            pageId={pageId}
-            componentId={componentId}
-            number={Model.getShapesByPage(pageId).length + 1}
-            getInstance={(ins) => {
-              Model.add(ins);
-            }}
-          />, el
-        );
-
-        const targetEl = targetEls[0].querySelector('.CanvasPanel-TabScroll');
-        const sourceEl = el.firstElementChild;
-        naturalRelease.fn.call(
-          naturalRelease.context,
-          targetEl,
-          sourceEl
-        );
-
-        const resizeGroup = this.resizeable.getGroup(targetEl);
-        resizeGroup.refresh();
-
-        Emitter.trigger(Actions.components.library.component.active, {
-          pageId,
-          componentId,
-        });
-
-        return true;
+      onPutSuccess: (params) => {
+        return this.onDroppablePutSuccess(params);
       },
       /**
        * 触碰边缘的时候触发,并且滚动
@@ -264,7 +223,6 @@ class App extends React.Component {
     });
   }
 
-
   /**
    * getResizeByPageAndShape
    * @param {String} - pageId
@@ -318,6 +276,60 @@ class App extends React.Component {
         resize.setDisable(false);
       }
     }
+  }
+
+  /**
+   * onDroppablePutSuccess
+   * @param {HTMLElement} - cloneSourceEl
+   * @param {Function} - naturalRelease
+   * @param {Array<HTMLElement>} - targetEls
+   * @param {Object} - rect
+   * @param {HTMLElement} - sourceEl
+   * @return {boolean}
+   */
+  onDroppablePutSuccess({
+    cloneSourceEl,
+    naturalRelease,
+    // rect,
+    // sourceEl,
+    targetEls,
+  }) {
+    const groupKey = cloneSourceEl.dataset.groupkey;
+    const componentKey = cloneSourceEl.dataset.componentkey;
+    const componentId = uuidv1();
+    const pageId = this.curPageId;// targetEls[0].dataset.pageid;
+    const el = Dom6.createElement('<div></div>');
+    const Component = Register.get(groupKey).get(componentKey);
+    ReactDOM.render(
+      <Component.Component
+        // groupKKey={groupKey}
+        // componentKey={componentKey}
+        pageId={pageId}
+        componentId={componentId}
+        number={Model.getShapesByPage(pageId).length + 1}
+        getInstance={(ins) => {
+          Model.add(ins);
+        }}
+      />, el
+    );
+
+    const targetEl = targetEls[0].querySelector('.CanvasPanel-TabScroll');
+    const sourceEl = el.firstElementChild;
+    naturalRelease.fn.call(
+      naturalRelease.context,
+      targetEl,
+      sourceEl
+    );
+
+    const resizeGroup = this.resizeable.getGroup(targetEl);
+    resizeGroup.refresh();
+
+    Emitter.trigger(Actions.components.library.component.active, {
+      pageId,
+      componentId,
+    });
+
+    return true;
   }
 
   /**

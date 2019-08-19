@@ -1,5 +1,15 @@
 import React from 'react';
 
+/**
+ * 获取组件最大的层级数
+ * @return {string}
+ */
+function getMaxLevelNumber() {
+  return '99999';
+}
+
+export { getMaxLevelNumber };
+
 export default function (Component) {
   return class extends React.Component {
     componentDidMount() {

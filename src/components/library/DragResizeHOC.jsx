@@ -1,4 +1,5 @@
 import React from 'react';
+import { getMaxLevelNumber } from './ComponentBaseHOC';
 import './DragResizeHOC.less';
 
 const selectorPrefix = 'ct-axure-shape';
@@ -74,7 +75,7 @@ export default (Component, { groupKey, componentKey }) => {
         <div
           ref={(el) => { this.el = el; }}
           className={`${selectorPrefix} ct-drag-item ct-resizeable-item ${active ? 'active' : ''}`}
-          style={{ zIndex: number }}
+          style={{ zIndex: active ? getMaxLevelNumber() : number }}
           data-groupkey={groupKey}
           data-componentkey={componentKey}
           data-pageid={pageId}
