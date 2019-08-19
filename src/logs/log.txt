@@ -1,0 +1,18 @@
+.工具箱拖动的锁定setDisable ,锁定drag,resize
+.鼠标指针不对, drag和resize的时候鼠标指针不对
+.level的检查, drag和resize的level的时候有的没实现
+
+
+.左侧工具箱工具拖动到右侧,点击之后才能resize
+.属性面板
+.概要面板
+
+.框选
+.拖动辅助线
+
+
+.PagePanel中Tree拖动换位置
+.Tree
+ .上方添加
+ .下方添加
+ .子页面

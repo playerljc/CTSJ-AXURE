@@ -56,7 +56,7 @@ class CanvasPanel extends Component {
       data,
       activeKey,
     }, () => {
-      Emitter.trigger(Actions.components.business.canvaspanel.addtab);
+      Emitter.trigger(Actions.components.business.canvaspanel.addtab, activeKey);
     });
   }
 
@@ -112,7 +112,11 @@ class CanvasPanel extends Component {
                     className={`${selectorPrefix}-TabDroppable ${activeKey === id ? 'ct-droppable-target' : ''}`}
                     data-pageid={id}
                   >
-                    <div className={`${selectorPrefix}-TabScroll ${activeKey === id ? 'ct-drag ct-resizeable' : ''}`} />
+                    <div
+                      className={`${selectorPrefix}-TabScroll ${activeKey === id ? 'ct-drag ct-resizeable' : ''}`}
+                      data-pageid={id}
+                      id={id}
+                    />
                   </div>
                 </TabPanel>
               );

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import uuidv1 from 'uuid/v1';
 import SystemMenuBar from '../../components/business/SystemMenuBar/SystemMenuBar';
 import SystemToolBar from '../../components/business/SystemToolBar/SystemToolBar';
 import FunctionalPanel from '../../components/business/FunctionalPanel/FunctionalPanel';
@@ -14,20 +15,35 @@ import ResizeableFactory from '../../components/global/CT-UI-Resizeable/resizeab
 import Actions from '../../util/Actions';
 import Emitter from '../../util/Emitter';
 import { Dom6 } from '../../util/CTMobile-UI-Util';
-import Modal from '../../model/Model';
+import Model from '../../model/Model';
 import Register from '../../components/library/Register';
 
 import './app.less';
 
 class App extends React.Component {
+  /**
+   * App
+   * @class App
+   * @classdesc App
+   * @param props
+   */
   constructor(props) {
     super(props);
 
     this.onAddTab = this.onAddTab.bind(this);
     this.onChangeTab = this.onChangeTab.bind(this);
     this.onRemoveTab = this.onRemoveTab.bind(this);
+    this.onLibraryComponentActive = this.onLibraryComponentActive.bind(this);
+
+    // 存储每一个页面active的Shape实例
+    this.pageActiveShapeMap = new Map();
+
+    this.curPageId = '';
   }
 
+  /**
+   * componentDidMount
+   */
   componentDidMount() {
     this.initEvents();
     this.initSplit();
@@ -36,18 +52,29 @@ class App extends React.Component {
     this.initDrag();
   }
 
+  /**
+   * componentWillUnMount
+   */
   componentWillUnMount() {
     Emitter.remove(Actions.components.business.canvaspanel.addtab, this.onAddTab);
     Emitter.remove(Actions.components.business.canvaspanel.tabchange, this.onChangeTab);
     Emitter.remove(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
+    Emitter.remove(Actions.components.library.component.active, this.onLibraryComponentActive);
   }
 
+  /**
+   * initEvents
+   */
   initEvents() {
     Emitter.on(Actions.components.business.canvaspanel.addtab, this.onAddTab);
     Emitter.on(Actions.components.business.canvaspanel.tabchange, this.onChangeTab);
     Emitter.on(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
+    Emitter.on(Actions.components.library.component.active, this.onLibraryComponentActive);
   }
 
+  /**
+   * initSplit
+   */
   initSplit() {
     /**
      * 初始化Split vertical
@@ -58,13 +85,15 @@ class App extends React.Component {
         this.splitH.setDisable(true);
         this.droppable.setDisable(true);
         this.drag.setDisable(true);
-        this.resizeable.setDisable(true);
+        // this.resizeable.setDisable(true);
+        this.activeShapeEnable();
       },
       onSuccess: () => {
         this.splitH.setDisable(false);
         this.droppable.setDisable(false);
         this.drag.setDisable(false);
-        this.resizeable.setDisable(false);
+        this.activeShapeEnable();
+        // this.resizeable.setDisable(false);
       },
     });
 
@@ -88,6 +117,9 @@ class App extends React.Component {
     });
   }
 
+  /**
+   * initDroppable
+   */
   initDroppable() {
     this.droppable = DroppableFactory.create(this.subEl, {
       /**
@@ -102,18 +134,21 @@ class App extends React.Component {
         // sourceEl,
         targetEls,
       }) => {
-        const groupKKey = cloneSourceEl.dataset.groupkey;
+        const groupKey = cloneSourceEl.dataset.groupkey;
         const componentKey = cloneSourceEl.dataset.componentkey;
-        const pageId = targetEls[0].dataset.pageid;
+        const componentId = uuidv1();
+        const pageId = this.curPageId;// targetEls[0].dataset.pageid;
         const el = Dom6.createElement('<div></div>');
-        const Component = Register.get(groupKKey).get(componentKey);
+        const Component = Register.get(groupKey).get(componentKey);
         ReactDOM.render(
           <Component.Component
-            groupKKey={groupKKey}
-            componentKey={componentKey}
-            number={Modal.get(pageId).length + 1}
+            // groupKKey={groupKey}
+            // componentKey={componentKey}
+            pageId={pageId}
+            componentId={componentId}
+            number={Model.getShapesByPage(pageId).length + 1}
             getInstance={(ins) => {
-              Modal.add(pageId, ins);
+              Model.add(ins);
             }}
           />, el
         );
@@ -128,6 +163,11 @@ class App extends React.Component {
 
         const resizeGroup = this.resizeable.getGroup(targetEl);
         resizeGroup.refresh();
+
+        Emitter.trigger(Actions.components.library.component.active, {
+          pageId,
+          componentId,
+        });
 
         return true;
       },
@@ -151,7 +191,7 @@ class App extends React.Component {
         this.splitH.setDisable(false);
         this.splitV.setDisable(false);
         this.drag.setDisable(false);
-        this.resizeable.setDisable(false);
+        // this.resizeable.setDisable(false);
       },
       // 拖动对象的附加样式，拖动移动起来后触发
       dragSourceExtendClasses: ['sourceActive'],
@@ -169,34 +209,44 @@ class App extends React.Component {
     });
   }
 
+  /**
+   * initDrag
+   */
   initDrag() {
     this.drag = DragFactory.create(this.subEl, {
       mode: 'clone',
       showMap: true,
       moveStep: 1,
       onStart: (el, sourceEl) => {
+        if (!el || !sourceEl) return false;
+        // drag点击
+        console.log('drag', 'onStart');
         this.splitV.setDisable(true);
         this.splitH.setDisable(true);
         this.droppable.setDisable(true);
         this.resizeable.setDisable(true);
-        // const resizeGroup = this.resizeable.getGroup(el);
-        // if (resizeGroup) {
-        //   resizeGroup.setDisable(true);
-        // }
       },
       onEnd: (el, sourceEl) => {
+        if (!el || !sourceEl) return false;
         this.splitV.setDisable(false);
         this.splitH.setDisable(false);
-        this.resizeable.setDisable(false);
         this.droppable.setDisable(false);
-        // const resizeGroup = this.resizeable.getGroup(el);
-        // if (resizeGroup) {
-        //   resizeGroup.setDisable(false);
-        // }
+
+        // this.resizeable.setDisable(false);
+
+        const pageId = this.curPageId;// sourceEl.dataset.pageid;
+        const componentId = sourceEl.dataset.componentid;
+        Emitter.trigger(Actions.components.library.component.active, {
+          pageId,
+          componentId,
+        });
       },
     });
   }
 
+  /**
+   * initResizeable
+   */
   initResizeable() {
     this.resizeable = ResizeableFactory.create(this.subEl, {
       onStart: () => {
@@ -214,25 +264,135 @@ class App extends React.Component {
     });
   }
 
-  onAddTab() {
+
+  /**
+   * getResizeByPageAndShape
+   * @param {String} - pageId
+   * @param {Shape} - shape
+   * @return {Resize}
+   */
+  getResizeByPageIdAndShape({ pageId, shape }) {
+    let resize;
+    const groupEl = document.getElementById(pageId);
+    if (groupEl) {
+      const resizeGroup = this.resizeable.getGroup(groupEl);
+      if (resizeGroup) {
+        resize = resizeGroup.getResize(shape.getEl());
+      }
+    }
+
+    return resize;
+  }
+
+  /**
+   * shapeUnActive
+   * @param {String} - pageId
+   */
+  acitveShapeUnActive(pageId) {
+    const preActiveShape = this.pageActiveShapeMap.get(pageId);
+    if (preActiveShape) {
+      // 取消样式
+      preActiveShape.unActive();
+      // preActiveShape不能resize
+      const resize = this.getResizeByPageIdAndShape({ pageId, shape: preActiveShape });
+      if (resize) {
+        resize.setDisable(true);
+      }
+    }
+  }
+
+  /**
+   * activeShapeEnable
+   * @param {String} - pageId
+   */
+  activeShapeEnable() {
+    const pageId = this.curPageId;
+    const preActiveShape = this.pageActiveShapeMap.get(pageId);
+    if (preActiveShape) {
+      const groupEl = document.getElementById(pageId);
+      const resizeGroup = this.resizeable.getGroup(groupEl);
+      resizeGroup.setDisable(false, false);
+
+      const resize = this.getResizeByPageIdAndShape({ pageId, shape: preActiveShape });
+      if (resize) {
+        resize.setDisable(false);
+      }
+    }
+  }
+
+  /**
+   * onAddTab
+   * 新增一个页面
+   * @param {String} - pageId
+   */
+  onAddTab(pageId) {
+    this.curPageId = pageId;
     this.droppable.refresh();
     this.drag.refresh();
     this.resizeable.refresh();
   }
 
-  onChangeTab() {
+  /**
+   * onChangeTab
+   * 切换一个页面
+   */
+  onChangeTab(pageId) {
+    this.curPageId = pageId;
     this.droppable.refresh();
     this.drag.refresh();
     this.resizeable.refresh();
   }
 
+  /**
+   * onRemoveTab
+   * 删除一个页面
+   * @param {String} - removeKey
+   * @param {String} - activeKey
+   */
   onRemoveTab({ removeKey, activeKey }) {
-    Modal.removePage(removeKey);
+    this.curPageId = activeKey;
+    this.pageActiveShapeMap.delete(removeKey);
+    Model.removePage(removeKey);
     this.droppable.refresh();
     this.drag.refresh();
     this.resizeable.refresh();
   }
 
+  /**
+   * onLibraryComponentActive
+   * @param {String} - pageId
+   * @param {String} - componentId
+   */
+  onLibraryComponentActive({ pageId, componentId }) {
+    const Shape = Model.getShape({ pageId, componentId });
+
+    // preShape进行unActive的操作
+    this.acitveShapeUnActive(pageId);
+
+    // 一下三个调用Shape的active方法实现
+    // .元素边框的变化
+    // .属性面板初始化
+    // .概要面板初始化
+    if (Shape) {
+      Shape.active();
+      this.pageActiveShapeMap.set(pageId, Shape);
+    }
+
+    // .当前resize的group也可以resize
+    const groupEl = document.getElementById(pageId);
+    const resizeGroup = this.resizeable.getGroup(groupEl);
+    resizeGroup.setDisable(false, false);
+    // .可以当前激活的Shape的el可以resize
+    const resize = this.getResizeByPageIdAndShape({ pageId, shape: Shape });
+    if (resize) {
+      resize.setDisable(false);
+    }
+  }
+
+  /**
+   * render
+   * @return {*}
+   */
   render() {
     return (
       <div

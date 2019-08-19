@@ -523,9 +523,11 @@ function goBack(sourceEl, targetEls) {
       self.isdown = false;
 
       function onTransitionend() {
-        self.cloneEl.removeEventListener('transitionend', onTransitionend);
-        reset.call(self, targetEls);
-        sourceEl.style.visibility = 'visible';
+        if (self.cloneEl) {
+          self.cloneEl.removeEventListener('transitionend', onTransitionend);
+          reset.call(self, targetEls);
+          sourceEl.style.visibility = 'visible';
+        }
       }
 
       self.cloneEl.addEventListener('transitionend', onTransitionend);

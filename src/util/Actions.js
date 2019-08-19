@@ -10,5 +10,11 @@ export default {
         removetab: 'components-business-canvaspanel-removetab',
       },
     },
+    library: {
+      component: {
+        // Shape处于激活状态
+        active: 'components-library-component-active',
+      },
+    },
   },
 };

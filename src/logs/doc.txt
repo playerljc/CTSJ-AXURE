@@ -1,0 +1,15 @@
+.Shape处于激活状态
+  .谁能让他处于激活状态
+   .ToolBox拖动上去
+   .点击Shape
+   .概要面板点击
+  .通信方式
+   .Events.trigger(,{pageId,componentId})
+   .App注册on
+   .trigger到App上
+  .激活后的操作
+   .上一个激活的元素不激活
+   .元素边框的变化
+   .属性面板初始化
+   .概要面板初始化
+   .可以resize

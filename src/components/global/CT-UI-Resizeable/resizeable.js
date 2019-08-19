@@ -8,6 +8,15 @@
  {
    onStart: Function
    onEnd: Function
+
+   onCanResizeTop: Function
+   onCanResizeBottom: Function
+   onCanResizeLeft: Function
+   onCanResizeRight: Function
+   onCanResizeLeftTop: Function
+   onCanResizeLeftBottom: Function
+   onCanResizeRightTop: Function
+   onCanResizeRightBottom: Function
 }
 
  布局:
@@ -27,6 +36,7 @@
 
  demo:
  */
+import uuidv1 from 'uuid/v1';
 import { Dom6 } from '../../../util/CTMobile-UI-Util';
 import './resizeable.less';
 
@@ -54,6 +64,7 @@ class Resizeable {
    */
   constructor(el, config, parent, index) {
     this.el = el;
+    this.id = uuidv1();
     this.config = Object.assign({}, config);
     this.index = index;
     this.parent = parent;
@@ -66,11 +77,16 @@ class Resizeable {
     this.initEvents();
   }
 
+  /**
+   * onMouseDown
+   * @param {HTMLElement} - e
+   * @return {boolean}
+   */
   onMouseDown(e) {
     const self = this;
     const { disable = false } = self;
 
-    if (self.parent.disable || disable) return false;
+    if (/* self.parent.disable || */disable) return false;
 
     if (!self.isCanResize) {
       return false;
@@ -104,11 +120,22 @@ class Resizeable {
     self.baseY = e.clientY;
   }
 
+  /**
+   * onMouseMove
+   * @param {HTMLElement} - e
+   * @return {boolean}
+   */
   onMouseMove(e) {
     const self = this;
     const { disable } = self;
 
-    if (self.parent.disable || disable) return false;
+    self.parent.capture = true;
+
+    console.log('resizemove', disable);
+
+    if (/* self.parent.disable || */disable) {
+      return false;
+    }
 
     if (self.parent.cur && self.parent.cur !== self) {
       return false;
@@ -120,8 +147,6 @@ class Resizeable {
       return false;
     }
 
-    console.log('resize', 'mousemove', disable, self.el.innerText, self);
-
     e.preventDefault();
     e.stopPropagation();
 
@@ -132,51 +157,33 @@ class Resizeable {
     if (clientX - edgeStep <= self.rect.left &&
       clientY - edgeStep > self.rect.top &&
       clientY + edgeStep < self.rect.bottom) {
-      self.direction = 'left';
-      self.isCanResize = true;
-      document.body.style.cursor = 'w-resize';
+      this.triggerResizeOption('left');
     } else if (clientX + edgeStep >= self.rect.right &&
       clientY - edgeStep > self.rect.top &&
       clientY + edgeStep < self.rect.bottom) {
-      self.direction = 'right';
-      self.isCanResize = true;
-      document.body.style.cursor = 'e-resize';
+      this.triggerResizeOption('right');
     } else if (clientX - edgeStep <= self.rect.left &&
       clientY - edgeStep <= self.rect.top) {
-      self.direction = 'lefttop';
-      self.isCanResize = true;
-      document.body.style.cursor = 'nw-resize';
+      this.triggerResizeOption('lefttop');
     } else if (clientX - edgeStep <= self.rect.left &&
       clientY + edgeStep >= self.rect.bottom) {
-      self.direction = 'leftbottom';
-      self.isCanResize = true;
-      document.body.style.cursor = 'sw-resize';
+      this.triggerResizeOption('leftbottom');
     } else if (clientX + edgeStep >= self.rect.right &&
       clientY - edgeStep <= self.rect.top) {
-      self.direction = 'righttop';
-      self.isCanResize = true;
-      document.body.style.cursor = 'ne-resize';
+      this.triggerResizeOption('righttop');
     } else if (clientX + edgeStep >= self.rect.right &&
       clientY + edgeStep >= self.rect.bottom) {
-      self.direction = 'rightbottom';
-      self.isCanResize = true;
-      document.body.style.cursor = 'se-resize';
+      this.triggerResizeOption('rightbottom');
     } else if (clientY - edgeStep <= self.rect.top &&
       clientX - edgeStep > self.rect.left &&
       clientX + edgeStep < self.rect.right) {
-      self.direction = 'top';
-      self.isCanResize = true;
-      document.body.style.cursor = 'n-resize';
+      this.triggerResizeOption('top');
     } else if (clientY + edgeStep >= self.rect.bottom &&
       clientX - edgeStep > self.rect.left &&
       clientX + edgeStep < self.rect.right) {
-      self.direction = 'bottom';
-      self.isCanResize = true;
-      document.body.style.cursor = 's-resize';
+      this.triggerResizeOption('bottom');
     } else {
-      self.isCanResize = false;
-      self.parent.cur = null;
-      document.body.style.cursor = 'move';
+      this.triggerResizeOption();
     }
   }
 
@@ -225,7 +232,146 @@ class Resizeable {
    */
   setDisable(disable) {
     this.disable = disable;
-    console.log('resize', 'setDisable', this.disable, this.el.innerText, this);
+  }
+
+  /**
+   * triggerResizeOption
+   * @param {String} - direction
+   */
+  triggerResizeOption(direction) {
+    const self = this;
+    const { el } = self;
+    const {
+      onCanResizeTop,
+      onCanResizeBottom,
+      onCanResizeLeft,
+      onCanResizeRight,
+      onCanResizeLeftTop,
+      onCanResizeLeftBottom,
+      onCanResizeRightTop,
+      onCanResizeRightBottom,
+    } = self.config;
+
+    let can = true;
+    switch (direction) {
+      case 'left':
+        if (onCanResizeLeft) {
+          can = onCanResizeLeft(el);
+        }
+        if (can) {
+          self.direction = 'left';
+          self.isCanResize = true;
+          document.body.style.cursor = 'w-resize';
+        } else {
+          self.isCanResize = false;
+          self.parent.cur = null;
+          document.body.style.cursor = 'move';
+        }
+        break;
+      case 'right':
+        if (onCanResizeRight) {
+          can = onCanResizeRight(el);
+        }
+        if (can) {
+          self.direction = 'right';
+          self.isCanResize = true;
+          document.body.style.cursor = 'e-resize';
+        } else {
+          self.isCanResize = false;
+          self.parent.cur = null;
+          document.body.style.cursor = 'move';
+        }
+        break;
+      case 'top':
+        if (onCanResizeTop) {
+          can = onCanResizeTop(el);
+        }
+        if (can) {
+          self.direction = 'top';
+          self.isCanResize = true;
+          document.body.style.cursor = 'n-resize';
+        } else {
+          self.isCanResize = false;
+          self.parent.cur = null;
+          document.body.style.cursor = 'move';
+        }
+        break;
+      case 'bottom':
+        if (onCanResizeBottom) {
+          can = onCanResizeBottom(el);
+        }
+        if (can) {
+          self.direction = 'bottom';
+          self.isCanResize = true;
+          document.body.style.cursor = 's-resize';
+        } else {
+          self.isCanResize = false;
+          self.parent.cur = null;
+          document.body.style.cursor = 'move';
+        }
+        break;
+      case 'lefttop':
+        if (onCanResizeLeftTop) {
+          can = onCanResizeLeftTop(el);
+        }
+        if (can) {
+          self.direction = 'lefttop';
+          self.isCanResize = true;
+          document.body.style.cursor = 'nw-resize';
+        } else {
+          self.isCanResize = false;
+          self.parent.cur = null;
+          document.body.style.cursor = 'move';
+        }
+        break;
+      case 'leftbottom':
+        if (onCanResizeLeftBottom) {
+          can = onCanResizeLeftBottom(el);
+        }
+        if (can) {
+          self.direction = 'leftbottom';
+          self.isCanResize = true;
+          document.body.style.cursor = 'sw-resize';
+        } else {
+          self.isCanResize = false;
+          self.parent.cur = null;
+          document.body.style.cursor = 'move';
+        }
+        break;
+      case 'righttop':
+        if (onCanResizeRightTop) {
+          can = onCanResizeRightTop(el);
+        }
+        if (can) {
+          self.direction = 'righttop';
+          self.isCanResize = true;
+          document.body.style.cursor = 'ne-resize';
+        } else {
+          self.isCanResize = false;
+          self.parent.cur = null;
+          document.body.style.cursor = 'move';
+        }
+        break;
+      case 'rightbottom':
+        if (onCanResizeRightBottom) {
+          can = onCanResizeRightBottom(el);
+        }
+        if (can) {
+          self.direction = 'rightbottom';
+          self.isCanResize = true;
+          document.body.style.cursor = 'se-resize';
+        } else {
+          self.isCanResize = false;
+          self.parent.cur = null;
+          document.body.style.cursor = 'move';
+        }
+        break;
+      default:
+        self.isCanResize = false;
+        self.parent.cur = null;
+        document.body.style.cursor = 'move';
+        break;
+    }
   }
 }
 
@@ -257,10 +403,17 @@ class ResizeableGroup {
     this.init();
   }
 
+  /**
+   * onMouseMove
+   * @param {HTMLElement} - e
+   * @return {boolean}
+   */
   onMouseMove(e) {
     const self = this;
 
     const { disable = false } = self;
+
+    console.log('resizegroupmove', disable);
 
     if (disable) {
       document.body.style.cursor = 'move';
@@ -271,11 +424,17 @@ class ResizeableGroup {
       if (self.cur) {
         self.reset();
       }
-      document.body.style.cursor = 'default';
+
+      if (self.capture) {
+        document.body.style.cursor = 'move';
+      } else {
+        document.body.style.cursor = 'default';
+      }
+
+      self.capture = false;
+
       return false;
     }
-
-    console.log('resizeGroup', 'mousemove', disable);
 
     const { clientX, clientY } = e;
 
@@ -322,6 +481,10 @@ class ResizeableGroup {
     }
   }
 
+  /**
+   * onMouseUp
+   * @return {boolean}
+   */
   onMouseUp() {
     const self = this;
     const { disable = false } = self;
@@ -355,6 +518,7 @@ class ResizeableGroup {
    * reset
    */
   reset() {
+    this.capture = false;
     if (this.cur) {
       this.cur.reset();
     }
@@ -391,12 +555,15 @@ class ResizeableGroup {
   /**
    * setDisable
    * @param {Boolean} - disable
+   * @param {Boolean} - cascade 是否级联操作
    */
-  setDisable(disable) {
+  setDisable(disable, cascade = true) {
     this.disable = disable;
-    this.ins.forEach((t) => {
-      t.setDisable(disable);
-    });
+    if (cascade) {
+      this.ins.forEach((t) => {
+        t.setDisable(disable);
+      });
+    }
   }
 }
 
@@ -450,10 +617,11 @@ class ResizeableGroupManager {
   /**
    * setDisable
    * @param {Boolean} - disable
+   * @param {Boolean} - cascade 是否是级联操作
    */
-  setDisable(disable) {
+  setDisable(disable, cascade = true) {
     this.resizeManager.forEach((t) => {
-      t.setDisable(disable);
+      t.setDisable(disable, cascade);
     });
   }
 }

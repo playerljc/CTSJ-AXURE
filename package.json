@@ -6,18 +6,18 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "startapp": "ctbuild --type startapp",
     "buildapp": "ctbuild --type buildapp",
-    "link": "npm link @ctsj/build && npm link @ctmobile/ui-util"
+    "link": "npm link @ctsj/build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/playerljc/CTUI.git"
+    "url": "git+https://github.com/playerljc/CTSJ-AXURE.git"
   },
   "author": "playerljc <playerljc@163.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/playerljc/CTUI/issues"
+    "url": "https://github.com/playerljc/CTSJ-AXURE/issues"
   },
-  "homepage": "https://github.com/playerljc/CTUI#readme",
+  "homepage": "https://github.com/playerljc/CTSJ-AXURE#readme",
   "devDependencies": {
     "babel-eslint": "^8.1.2",
     "eslint": "^4.14.0",
@@ -33,6 +33,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "@ctsj/build": "^1.0.5"
   }
 }

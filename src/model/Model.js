@@ -1,28 +1,68 @@
+/**
+ * Model
+ * @type {Map<PageId, Map<ComponentId,Shape>>}
+ */
 const Model = new Map();
 
 /**
  * 所有页面的Shape模型
  */
 export default {
-  add(pageId, Shape) {
-    let Shapes = Model.get(pageId);
-    if (!Shapes) {
-      Shapes = [];
-      Model.set(pageId, Shapes);
+  /**
+   * Shape
+   * @param {Shape} - shape
+   */
+  add(shape) {
+    const pageId = shape.getPageId();
+    const componentId = shape.getComponentId();
+    let ShapeMap = Model.get(pageId);
+    if (!ShapeMap) {
+      ShapeMap = new Map();
+      Model.set(pageId, ShapeMap);
     }
 
-    Shapes.push(Shape);
+    ShapeMap.set(componentId, shape);
   },
-  removeShape(pageId, Shape) {
-    const Shapes = Model.get(pageId);
-    if (Shapes) {
-      Shapes.splice(Shapes.indexOf(Shape), 1);
+  /**
+   * removeShapeByPage
+   * @param {Shape} - shape
+   */
+  removeShapeByPage(shape) {
+    const pageId = shape.getPageId();
+    const componentId = shape.getComponentId();
+    const ShapeMap = Model.get(pageId);
+    if (ShapeMap) {
+      ShapeMap.delete(componentId);
     }
   },
+  /**
+   * removePage
+   * @param {String} - pageId
+   */
   removePage(pageId) {
     Model.delete(pageId);
   },
-  get(pageId) {
-    return Model.get(pageId) || [];
+  /**
+   * getShapesByPage
+   * @param {String} - pageId
+   * @return {Array}
+   */
+  getShapesByPage(pageId) {
+    const ShapeMap = Model.get(pageId);
+    return ShapeMap ? Array.from(ShapeMap.values()) : [];
+  },
+  /**
+   * getShape
+   * @param {String} - pageId
+   * @param {String} - componentId
+   * @return {Shape}
+   */
+  getShape({ pageId, componentId }) {
+    let Shape;
+    const ShapeMap = Model.get(pageId);
+    if (ShapeMap) {
+      Shape = ShapeMap.get(componentId);
+    }
+    return Shape;
   },
 };
