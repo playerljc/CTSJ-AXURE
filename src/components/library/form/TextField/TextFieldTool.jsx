@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Droppable from '../../DroppableHOC';
+import Droppable from '../../ComponentToolBaseHOC';
 import './TextFieldTool.less';
 
 /**

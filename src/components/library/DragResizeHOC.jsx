@@ -87,7 +87,7 @@ export default (Component, { groupKey, componentKey }) => {
     }
 
     render() {
-      const { number = 1, pageId, componentId } = this.props;
+      const { number = 1, pageId = '', componentId = '' } = this.props;
       const { active = false } = this.state;
       return (
         <div
@@ -100,7 +100,13 @@ export default (Component, { groupKey, componentKey }) => {
           data-componentid={componentId}
         >
           {active ? this.renderActiveIndicatorPointer() : null}
-          <Component {...this.props} ref={(ins) => { this.ins = ins; }} />
+          <Component
+            {...this.props}
+            selectorPrefix={selectorPrefix}
+            groupKey={groupKey}
+            componentKey={componentKey}
+            ref={(ins) => { this.ins = ins; }}
+          />
         </div>
       );
     }

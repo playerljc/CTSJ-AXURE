@@ -11,13 +11,15 @@ import './Rect1Component.less';
  */
 class Rect1Component extends React.Component {
   render() {
+    const { selectorPrefix, groupKey, componentKey } = this.props;
     return (
-      <div>Rect1Component</div>
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} />
     );
   }
 }
 
 Rect1Component.defaultProps = {
+  selectorPrefix: '',
   groupKey: '',
   componentKey: '',
 };
@@ -25,6 +27,7 @@ Rect1Component.defaultProps = {
 Rect1Component.propTypes = {
   groupKey: PropTypes.string,
   componentKey: PropTypes.string,
+  selectorPrefix: PropTypes.string,
 };
 
 export default ComponentBase(Drag(Rect1Component, {

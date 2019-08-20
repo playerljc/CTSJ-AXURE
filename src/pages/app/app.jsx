@@ -17,6 +17,7 @@ import Emitter from '../../util/Emitter';
 import { Dom6 } from '../../util/CTMobile-UI-Util';
 import Model from '../../model/Model';
 import Register from '../../components/library/Register';
+import ComponentToolDragBaseHOC from '../../components/library/ComponentToolDragBaseHOC';
 
 import './app.less';
 
@@ -121,11 +122,19 @@ class App extends React.Component {
     this.droppable = DroppableFactory.create(this.subEl, {
       /**
        * 放置在可滚动的元素内
-       * @param params
+       * @param {Object} - params
        * @return {boolean}
        */
       onPutSuccess: (params) => {
         return this.onDroppablePutSuccess(params);
+      },
+      /**
+       * onDragClone
+       * @param {HTMLElement} - sourceEl
+       * @return {HTMLElement}
+       */
+      onDragClone: (sourceEl) => {
+        return this.onDroppableDragClone(sourceEl);
       },
       /**
        * 触碰边缘的时候触发,并且滚动
@@ -176,7 +185,6 @@ class App extends React.Component {
       onStart: (el, sourceEl) => {
         if (!el || !sourceEl) return false;
         // drag点击
-        console.log('drag', 'onStart');
         this.splitV.setDisable(true);
         this.splitH.setDisable(true);
         this.droppable.setDisable(true);
@@ -361,6 +369,22 @@ class App extends React.Component {
     });
 
     return true;
+  }
+
+  /**
+   * onDroppableDragClone
+   * @param {HTMLElement} - sourceEl
+   * @return {HTMLElement}
+   */
+  onDroppableDragClone(sourceEl) {
+    const groupKey = sourceEl.dataset.groupkey;
+    const componentKey = sourceEl.dataset.componentkey;
+    const el = Dom6.createElement('<div></div>');
+    const Component = ComponentToolDragBaseHOC({ groupKey, componentKey });
+    ReactDOM.render(
+      <Component />, el
+    );
+    return el.firstElementChild;
   }
 
   /**

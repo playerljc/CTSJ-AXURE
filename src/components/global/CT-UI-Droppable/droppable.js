@@ -263,7 +263,7 @@ function initDragSourceEvent() {
           self.cloneEl = createCloneEl();
         }
 
-        self.cloneEl.setAttribute('id', '');
+        // self.cloneEl.setAttribute('id', '');
         self.cloneEl.style.minWidth = `${sourceEl.offsetWidth}px`;
         self.cloneEl.style.minHeight = `${sourceEl.offsetHeight}px`;
         self.cloneEl.style.position = 'fixed';

@@ -1,6 +1,7 @@
 import Rect1Tool from './base/Rect1/Rect1Tool';
 import Rect2Tool from './base/Rect2/Rect2Tool';
 import Rect3Tool from './base/Rect3/Rect3Tool';
+
 import Rect1Component from './base/Rect1/Rect1Component';
 import Rect2Component from './base/Rect2/Rect2Component';
 import Rect3Component from './base/Rect3/Rect3Component';

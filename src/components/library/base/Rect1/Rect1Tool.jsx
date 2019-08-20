@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Droppable from '../../DroppableHOC';
+import ComponentToolBaseHOC from '../../ComponentToolBaseHOC';
 import './Rect1Tool.less';
 
 /**
@@ -10,22 +10,24 @@ import './Rect1Tool.less';
  */
 class Rect1Tool extends React.Component {
   render() {
-    const { name = '' } = this.props;
+    const { selectorPrefix } = this.props;
     return (
-      <div style={{ backgroundColor: 'red' }}>{name}</div>
+      <React.Fragment>
+        <div className={`${selectorPrefix}-base-rect1`} />
+      </React.Fragment>
     );
   }
 }
 
 Rect1Tool.defaultProps = {
-  name: '',
+  selectorPrefix: '',
 };
 
 Rect1Tool.propTypes = {
-  name: PropTypes.string,
+  selectorPrefix: PropTypes.string,
 };
 
-export default Droppable(Rect1Tool, {
+export default ComponentToolBaseHOC(Rect1Tool, {
   groupKey: 'base',
   componentKey: 'Rect1',
 });
