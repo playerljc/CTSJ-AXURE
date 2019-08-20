@@ -68,6 +68,24 @@ export default (Component, { groupKey, componentKey }) => {
       return this.el;
     }
 
+    /**
+     * renderActiveIndicatorPointer
+     */
+    renderActiveIndicatorPointer() {
+      return (
+        <React.Fragment>
+          <span className={`${selectorPrefix}-indicator-pointer top`} />
+          <span className={`${selectorPrefix}-indicator-pointer bottom`} />
+          <span className={`${selectorPrefix}-indicator-pointer left`} />
+          <span className={`${selectorPrefix}-indicator-pointer right`} />
+          <span className={`${selectorPrefix}-indicator-pointer lefttop`} />
+          <span className={`${selectorPrefix}-indicator-pointer leftbottom`} />
+          <span className={`${selectorPrefix}-indicator-pointer righttop`} />
+          <span className={`${selectorPrefix}-indicator-pointer rightbottom`} />
+        </React.Fragment>
+      );
+    }
+
     render() {
       const { number = 1, pageId, componentId } = this.props;
       const { active = false } = this.state;
@@ -81,6 +99,7 @@ export default (Component, { groupKey, componentKey }) => {
           data-pageid={pageId}
           data-componentid={componentId}
         >
+          {active ? this.renderActiveIndicatorPointer() : null}
           <Component {...this.props} ref={(ins) => { this.ins = ins; }} />
         </div>
       );

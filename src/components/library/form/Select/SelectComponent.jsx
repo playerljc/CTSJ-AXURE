@@ -28,6 +28,6 @@ SelectComponent.propTypes = {
 };
 
 export default ComponentBase(Drag(SelectComponent, {
-  groupKey: 'base',
+  groupKey: 'form',
   componentKey: 'Select',
 }));

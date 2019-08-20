@@ -11,6 +11,7 @@
   showStaff: [Boolean] 是否显示标尺 (没实现)
   onStart: Function
   onEnd: Function
+  onClick: Function
  }
 
  布局:
@@ -294,23 +295,41 @@ class Drag {
   /**
    * onMouseup
    */
-  onMouseup() {
+  onMouseup(e) {
     const self = this;
     const { disable = false } = self;
 
     if (disable) return false;
+
+    console.log('drag', 'up');
+
+    const { mode = 'normal' } = self.config;
+
+    let sourceEl;
+    if (mode === 'normal') {
+      sourceEl = self.sourceEl;
+    } else {
+      sourceEl = self.srcEl;
+    }
+
+    // 点击的是整个页面
+    if (!self.isdown) {
+      const { onClick } = self.config;
+      e.preventDefault();
+      e.stopPropagation();
+      if (onClick) {
+        onClick(sourceEl);
+      }
+      return false;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
     mouseupDetail.call(self);
 
-    const { onEnd, mode = 'normal' } = self.config;
-
+    const { onEnd } = self.config;
     if (onEnd) {
-      let sourceEl;
-      if (mode === 'normal') {
-        sourceEl = self.sourceEl;
-      } else {
-        sourceEl = self.srcEl;
-      }
-
       onEnd(self.el, sourceEl);
     }
 
@@ -325,18 +344,21 @@ class Drag {
     const { disable = false } = self;
 
     if (disable) {
-      document.body.style.cursor = 'default';
       return false;
     }
+
+    console.log('drag', 'mouse');
 
     e.preventDefault();
     e.stopPropagation();
 
+    // 没有按下的时候
     if (!self.isdown) {
+      // 在目标上移动
       const sourceEl = getDragTarget(e.target);
       if (sourceEl) {
         self.mouseenterEl = sourceEl;
-        document.body.style.move = 'move';
+        document.body.style.cursor = 'move';
       } else if (self.mouseenterEl) {
         document.body.style.cursor = 'default';
         self.mouseenterEl = null;
@@ -345,6 +367,7 @@ class Drag {
       return false;
     }
 
+    // 按下之后
     document.body.style.cursor = 'move';
 
     const curPoint = stepDetail.call(self, { pageX: e.pageX, pageY: e.pageY });
@@ -419,13 +442,13 @@ class DragManager {
   }
 
   /**
-   * getGroup
-   * @param {HTMLElement} - groupEl
+   * getDrag
+   * @param {HTMLElement} - el
    * @return {Drag}
    * TODO change
    */
-  getGroup(groupEl) {
-    return this.managers.get(groupEl);
+  getDrag(el) {
+    return this.managers.get(el);
   }
 
   /**

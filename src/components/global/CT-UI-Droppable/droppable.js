@@ -54,6 +54,7 @@
 
  demo:
 */
+import { getMaxLevelNumber } from '../../library/ComponentBaseHOC';
 import './droppable.less';
 
 const selectorPrefix = 'ct-droppable-';
@@ -104,9 +105,11 @@ function initEvents() {
       if (moveInTargetEls.complete.length > 0) {
         // 可以放置
         self.cloneEl.style.cursor = 'pointer';
+        // document.body.style.cursor = 'pointer';
       } else {
         // 不可以放
         self.cloneEl.style.cursor = 'not-allowed';
+        // document.body.style.cursor = 'not-allowed';
       }
 
       self.cloneEl.style.left = `${self.baseX + incrementX}px`;
@@ -178,9 +181,11 @@ function initEvents() {
         // 可以放置
         self.ismovecanput = true;
         self.cloneEl.style.cursor = 'pointer';
+        // document.body.style.cursor = 'pointer';
       } else {
         // 不可以放
         self.cloneEl.style.cursor = 'not-allowed';
+        // document.body.style.cursor = 'not-allowed';
       }
 
       self.cloneEl.style.left = `${self.baseX + incrementX}px`;
@@ -262,7 +267,7 @@ function initDragSourceEvent() {
         self.cloneEl.style.minWidth = `${sourceEl.offsetWidth}px`;
         self.cloneEl.style.minHeight = `${sourceEl.offsetHeight}px`;
         self.cloneEl.style.position = 'fixed';
-        self.cloneEl.style.zIndex = '9999';
+        self.cloneEl.style.zIndex = `${window.parseInt(getMaxLevelNumber()) + 1}`;
         self.cloneEl.style.left = `${self.baseX}px`;
         self.cloneEl.style.top = `${self.baseY}px`;
         self.cloneEl.style.margin = '0';
@@ -530,6 +535,7 @@ function goBack(sourceEl, targetEls) {
         }
       }
 
+      if (!self.cloneEl) return false;
       self.cloneEl.addEventListener('transitionend', onTransitionend);
       self.cloneEl.style.transition = 'all .25s ease-out';
       self.cloneEl.style.transform = 'translateZ(0)';

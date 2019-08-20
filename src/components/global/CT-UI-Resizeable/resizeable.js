@@ -68,7 +68,7 @@ class Resizeable {
     this.config = Object.assign({}, config);
     this.index = index;
     this.parent = parent;
-    this.disable = false;
+    this.disable = true;
 
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
@@ -131,7 +131,7 @@ class Resizeable {
 
     self.parent.capture = true;
 
-    console.log('resizemove', disable);
+    // console.log('resizemove', disable);
 
     if (/* self.parent.disable || */disable) {
       return false;
@@ -253,6 +253,7 @@ class Resizeable {
     } = self.config;
 
     let can = true;
+    console.log(4);
     switch (direction) {
       case 'left':
         if (onCanResizeLeft) {
@@ -413,12 +414,11 @@ class ResizeableGroup {
 
     const { disable = false } = self;
 
-    console.log('resizegroupmove', disable);
-
     if (disable) {
-      document.body.style.cursor = 'move';
       return false;
     }
+
+    console.log('resizegroup', 'mouse');
 
     if (!(self.cur && self.cur.isCanResize && self.cur.isDown)) {
       if (self.cur) {
@@ -487,12 +487,17 @@ class ResizeableGroup {
    */
   onMouseUp() {
     const self = this;
+
     const { disable = false } = self;
 
     if (disable) return false;
+
     if (!(self.cur && self.cur.isCanResize && self.cur.isDown)) {
       return false;
     }
+
+    console.log('resizegroup', 'up');
+
     self.reset();
 
     const { onEnd } = self.config;

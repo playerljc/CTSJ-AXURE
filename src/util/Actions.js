@@ -18,8 +18,6 @@ export default {
         addtab: 'components-business-canvaspanel-addtab',
         // 页面的删除
         removetab: 'components-business-canvaspanel-removetab',
-        // 页面的点击
-        tabclick: 'components-business-canvaspabel-tabclick',
       },
     },
     library: {

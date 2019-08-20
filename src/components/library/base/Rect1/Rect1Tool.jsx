@@ -12,7 +12,7 @@ class Rect1Tool extends React.Component {
   render() {
     const { name = '' } = this.props;
     return (
-      <div>{name}</div>
+      <div style={{ backgroundColor: 'red' }}>{name}</div>
     );
   }
 }

@@ -28,6 +28,6 @@ TextFieldComponent.propTypes = {
 };
 
 export default ComponentBase(Drag(TextFieldComponent, {
-  groupKey: 'base',
+  groupKey: 'form',
   componentKey: 'TextField',
 }));

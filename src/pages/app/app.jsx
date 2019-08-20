@@ -33,8 +33,6 @@ class App extends React.Component {
     this.onAddTab = this.onAddTab.bind(this);
     this.onChangeTab = this.onChangeTab.bind(this);
     this.onRemoveTab = this.onRemoveTab.bind(this);
-    this.onTabClick = this.onTabClick.bind(this);
-    this.onLibraryComponentActive = this.onLibraryComponentActive.bind(this);
 
     // 存储每一个页面active的Shape实例
     this.pageActiveShapeMap = new Map();
@@ -60,8 +58,6 @@ class App extends React.Component {
     Emitter.remove(Actions.components.business.canvaspanel.addtab, this.onAddTab);
     Emitter.remove(Actions.components.business.canvaspanel.tabchange, this.onChangeTab);
     Emitter.remove(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
-    Emitter.remove(Actions.components.business.canvaspanel.tabclick, this.onTabClick);
-    Emitter.remove(Actions.components.library.component.active, this.onLibraryComponentActive);
   }
 
   /**
@@ -71,8 +67,6 @@ class App extends React.Component {
     Emitter.on(Actions.components.business.canvaspanel.addtab, this.onAddTab);
     Emitter.on(Actions.components.business.canvaspanel.tabchange, this.onChangeTab);
     Emitter.on(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
-    Emitter.on(Actions.components.business.canvaspanel.tabclick, this.onTabClick);
-    Emitter.on(Actions.components.library.component.active, this.onLibraryComponentActive);
   }
 
   /**
@@ -198,10 +192,14 @@ class App extends React.Component {
 
         const pageId = this.curPageId;// sourceEl.dataset.pageid;
         const componentId = sourceEl.dataset.componentid;
+        this.componentActive({ pageId, componentId });
         Emitter.trigger(Actions.components.library.component.active, {
           pageId,
           componentId,
         });
+      },
+      onClick: () => {
+        this.acitveShapeUnActive(this.curPageId);
       },
     });
   }
@@ -282,6 +280,37 @@ class App extends React.Component {
   }
 
   /**
+   * componentActive
+   * @param {String} - pageId
+   * @param {String} - componentId
+   */
+  componentActive({ pageId, componentId }) {
+    const Shape = Model.getShape({ pageId, componentId });
+
+    // preShape进行unActive的操作
+    this.acitveShapeUnActive(pageId);
+
+    // 一下三个调用Shape的active方法实现
+    // .元素边框的变化
+    // .属性面板初始化
+    // .概要面板初始化
+    if (Shape) {
+      Shape.active();
+      this.pageActiveShapeMap.set(pageId, Shape);
+    }
+
+    // .当前resize的group也可以resize
+    const groupEl = document.getElementById(pageId);
+    const resizeGroup = this.resizeable.getGroup(groupEl);
+    resizeGroup.setDisable(false, false);
+    // .可以当前激活的Shape的el可以resize
+    const resize = this.getResizeByPageIdAndShape({ pageId, shape: Shape });
+    if (resize) {
+      resize.setDisable(false);
+    }
+  }
+
+  /**
    * onDroppablePutSuccess
    * @param {HTMLElement} - cloneSourceEl
    * @param {Function} - naturalRelease
@@ -305,8 +334,6 @@ class App extends React.Component {
     const Component = Register.get(groupKey).get(componentKey);
     ReactDOM.render(
       <Component.Component
-        // groupKKey={groupKey}
-        // componentKey={componentKey}
         pageId={pageId}
         componentId={componentId}
         number={Model.getShapesByPage(pageId).length + 1}
@@ -327,6 +354,7 @@ class App extends React.Component {
     const resizeGroup = this.resizeable.getGroup(targetEl);
     resizeGroup.refresh();
 
+    this.componentActive({ pageId, componentId });
     Emitter.trigger(Actions.components.library.component.active, {
       pageId,
       componentId,
@@ -374,45 +402,6 @@ class App extends React.Component {
   }
 
   /**
-   * onTabClick
-   * @param {String} - pageId
-   */
-  onTabClick(pageId) {
-    this.acitveShapeUnActive(pageId);
-  }
-
-  /**
-   * onLibraryComponentActive
-   * @param {String} - pageId
-   * @param {String} - componentId
-   */
-  onLibraryComponentActive({ pageId, componentId }) {
-    const Shape = Model.getShape({ pageId, componentId });
-
-    // preShape进行unActive的操作
-    this.acitveShapeUnActive(pageId);
-
-    // 一下三个调用Shape的active方法实现
-    // .元素边框的变化
-    // .属性面板初始化
-    // .概要面板初始化
-    if (Shape) {
-      Shape.active();
-      this.pageActiveShapeMap.set(pageId, Shape);
-    }
-
-    // .当前resize的group也可以resize
-    const groupEl = document.getElementById(pageId);
-    const resizeGroup = this.resizeable.getGroup(groupEl);
-    resizeGroup.setDisable(false, false);
-    // .可以当前激活的Shape的el可以resize
-    const resize = this.getResizeByPageIdAndShape({ pageId, shape: Shape });
-    if (resize) {
-      resize.setDisable(false);
-    }
-  }
-
-  /**
    * render
    * @return {*}
    */
@@ -432,8 +421,8 @@ class App extends React.Component {
         <div
           className="ct-split ct-split-main g-flex-auto g-flex horizontal"
           ref={(el) => {
-          this.subEl = el;
-        }}
+            this.subEl = el;
+          }}
         >
           <div className="g-flex-fixed ct-split-left">
             <FunctionalPanel />

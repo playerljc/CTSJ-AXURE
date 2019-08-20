@@ -28,6 +28,6 @@ TextAreaComponent.propTypes = {
 };
 
 export default ComponentBase(Drag(TextAreaComponent, {
-  groupKey: 'base',
+  groupKey: 'form',
   componentKey: 'TextArea',
 }));

@@ -102,14 +102,6 @@ class CanvasPanel extends Component {
     });
   };
 
-  /**
-   * onTabClick
-   * @param {String} - pageId
-   */
-  onTabClick(pageId) {
-    Emitter.trigger(Actions.components.business.canvaspanel.tabclick, pageId);
-  }
-
   render() {
     const { data = [], activeKey } = this.state;
     return (
@@ -132,9 +124,6 @@ class CanvasPanel extends Component {
                       className={`${selectorPrefix}-TabScroll ${activeKey === pageId ? 'ct-drag ct-resizeable' : ''}`}
                       data-pageid={pageId}
                       id={pageId}
-                      onClick={() => {
-                        this.onTabClick(pageId);
-                      }}
                     />
                   </div>
                 </TabPanel>
