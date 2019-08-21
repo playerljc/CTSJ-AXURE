@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ComponentBase from '../../ComponentBaseHOC';
-import Drag from '../../DragResizeHOC';
+import ComponentBaseHOC from '../../ComponentBaseHOC';
+import ComponentFocusHOC from '../../ComponentFocusHOC';
+import DragResizeHOC from '../../DragResizeHOC';
 import './TextAreaComponent.less';
 
 /**
@@ -10,15 +11,14 @@ import './TextAreaComponent.less';
  * @classdesc TextAreaComponent
  */
 class TextAreaComponent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { selectorPrefix, groupKey, componentKey } = this.props;
     return (
       <div className={`${selectorPrefix}-${groupKey}-${componentKey}`}>
         <textarea
+          ref={(el) => {
+            this.el = el;
+          }}
           className={`${selectorPrefix}-${groupKey}-${componentKey}-textarea`}
         />
       </div>
@@ -38,7 +38,7 @@ TextAreaComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBase(Drag(TextAreaComponent, {
+export default ComponentBaseHOC(DragResizeHOC(ComponentFocusHOC(TextAreaComponent), {
   groupKey: 'form',
   componentKey: 'TextArea',
 }));

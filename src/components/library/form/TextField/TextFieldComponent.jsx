@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ComponentBase from '../../ComponentBaseHOC';
-import Drag from '../../DragResizeHOC';
+import ComponentBaseHOC from '../../ComponentBaseHOC';
+import ComponentFocusHOC from '../../ComponentFocusHOC';
+import DragResizeHOC from '../../DragResizeHOC';
 import './TextFieldComponent.less';
 
 /**
@@ -10,15 +11,14 @@ import './TextFieldComponent.less';
  * @classdesc TextFieldComponent
  */
 class TextFieldComponent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { selectorPrefix, groupKey, componentKey } = this.props;
     return (
       <div className={`${selectorPrefix}-${groupKey}-${componentKey}`}>
         <input
+          ref={(el) => {
+            this.el = el;
+          }}
           type="text"
           className={`${selectorPrefix}-${groupKey}-${componentKey}-input`}
         />
@@ -39,7 +39,7 @@ TextFieldComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBase(Drag(TextFieldComponent, {
+export default ComponentBaseHOC(DragResizeHOC(ComponentFocusHOC(TextFieldComponent), {
   groupKey: 'form',
   componentKey: 'TextField',
 }));

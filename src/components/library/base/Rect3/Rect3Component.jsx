@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ComponentBase from '../../ComponentBaseHOC';
-import Drag from '../../DragResizeHOC';
+import ComponentBaseHOC from '../../ComponentBaseHOC';
+import DragResizeHOC from '../../DragResizeHOC';
 import './Rect3Component.less';
 
 /**
@@ -30,7 +30,7 @@ Rect3Component.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBase(Drag(Rect3Component, {
+export default ComponentBaseHOC(DragResizeHOC(Rect3Component, {
   groupKey: 'base',
   componentKey: 'Rect3',
 }));

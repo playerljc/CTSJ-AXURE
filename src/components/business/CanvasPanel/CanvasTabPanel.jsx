@@ -53,9 +53,7 @@ class CanvasTabPanel extends React.Component {
           className={`${selectorPrefix}-Scroll ${activePageId === pageId ? 'ct-drag ct-resizeable' : ''}`}
           data-pageid={pageId}
           id={pageId}
-        >
-          <input type="text" />
-        </div>
+        />
       </div>
     );
   }

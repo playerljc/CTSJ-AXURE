@@ -18,6 +18,7 @@
 .所有Component和Page建立Property.json的属性初始化文件
 .各个组件的width和height通过Property.json文件读入
 .TextField,TextArea,Select实现
+.input和textarea不能输入
 .Property面板的实现
 .实现Src-Property Property-Src之间的数据同步
 
