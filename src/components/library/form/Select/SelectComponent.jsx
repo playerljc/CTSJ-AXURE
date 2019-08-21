@@ -10,14 +10,24 @@ import './SelectComponent.less';
  * @classdesc SelectComponent
  */
 class SelectComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
+    const { selectorPrefix, groupKey, componentKey } = this.props;
     return (
-      <div>SelectComponent</div>
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`}>
+        <select
+          className={`${selectorPrefix}-${groupKey}-${componentKey}-select`}
+        />
+      </div>
     );
   }
 }
 
 SelectComponent.defaultProps = {
+  selectorPrefix: '',
   groupKey: '',
   componentKey: '',
 };
@@ -25,6 +35,7 @@ SelectComponent.defaultProps = {
 SelectComponent.propTypes = {
   groupKey: PropTypes.string,
   componentKey: PropTypes.string,
+  selectorPrefix: PropTypes.string,
 };
 
 export default ComponentBase(Drag(SelectComponent, {

@@ -1,0 +1,35 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<!--
+2013-9-30: Created.
+-->
+<svg>
+<metadata>
+Created by iconfont
+</metadata>
+<defs>
+
+<font id="FontAwesome" horiz-adv-x="1024" >
+  <font-face
+    font-family="FontAwesome"
+    font-weight="500"
+    font-stretch="normal"
+    units-per-em="1024"
+    ascent="896"
+    descent="-128"
+  />
+    <missing-glyph />
+    
+    <glyph glyph-name="input" unicode="&#58905;" d="M118.784 168.96h778.24V599.04h-778.24v-430.08zM77.824 640h860.16v-512H77.824V640zM194.56 486.4v-204.8c0-12.288 8.192-20.48 20.48-20.48s20.48 8.192 20.48 20.48V486.4c0 12.288-8.192 20.48-20.48 20.48s-20.48-8.192-20.48-20.48z"  horiz-adv-x="1024" />
+
+    
+    <glyph glyph-name="textarea" unicode="&#58927;" d="M118.784 117.76h778.24V650.24h-778.24v-532.48zM77.824 691.2h860.16v-614.4H77.824V691.2z m778.24-409.6l-122.88-122.88h122.88V281.6z m-661.504 256v-204.8c0-12.288 8.192-20.48 20.48-20.48s20.48 8.192 20.48 20.48V537.6c0 12.288-8.192 20.48-20.48 20.48s-20.48-8.192-20.48-20.48z"  horiz-adv-x="1024" />
+
+    
+    <glyph glyph-name="metroselect_back" unicode="&#59055;" d="M938.6 652H85.4C38.3 652 0 613.7 0 566.6v-365.1C0 154.3 38.3 116 85.4 116h853.1c47.2 0 85.4 38.3 85.4 85.4V566.6c0.1 47.1-38.2 85.4-85.3 85.4zM703.8 201.5c0-8.5-4.9-15.4-11-15.4H81.1c-6.1 0-11 6.9-11 15.4V566.6c0 8.5 4.9 15.4 11 15.4h611.7c6.1 0 11-6.9 11-15.4v-365.1z m222.9 213.9l-46.1-79.8c-6.5-11.3-22.8-11.3-29.3 0l-46.1 79.8c-6.5 11.3 1.6 25.4 14.6 25.4h92.1c13.2 0 21.3-14.1 14.8-25.4z"  horiz-adv-x="1024" />
+
+    
+
+
+  </font>
+</defs></svg>

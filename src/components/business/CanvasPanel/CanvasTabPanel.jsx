@@ -43,30 +43,34 @@ class CanvasTabPanel extends React.Component {
   }
 
   render() {
-    const { activeKey, pageId } = this.props;
+    const { activePageId, pageId } = this.props;
     return (
       <div
-        className={`${selectorPrefix} ${activeKey === pageId ? 'ct-droppable-target' : ''}`}
+        className={`${selectorPrefix} ${activePageId === pageId ? 'ct-droppable-target' : ''}`}
         data-pageid={pageId}
       >
         <div
-          className={`${selectorPrefix}-Scroll ${activeKey === pageId ? 'ct-drag ct-resizeable' : ''}`}
+          className={`${selectorPrefix}-Scroll ${activePageId === pageId ? 'ct-drag ct-resizeable' : ''}`}
           data-pageid={pageId}
           id={pageId}
-        />
+        >
+          <input type="text" />
+        </div>
       </div>
     );
   }
 }
 
 CanvasTabPanel.defaultProps = {
-  activeKey: '',
+  activePageId: '',
   pageId: '',
+  property: {},
 };
 
 CanvasTabPanel.propTypes = {
-  activeKey: PropTypes.string,
+  activePageId: PropTypes.string,
   pageId: PropTypes.string,
+  property: PropTypes.object,
   getInstance: PropTypes.func,
 };
 

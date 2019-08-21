@@ -144,8 +144,10 @@ class InteractivePanel extends Component {
         if (page) {
           const shape = page.getActiveShape();
           if (!shape) {
+            // unActiveShape
             Component = (<CanvasTabPanelProperty page={page} />);
           } else {
+            // activeShape
             Component = this.getShapeComponent(shape);
           }
         }

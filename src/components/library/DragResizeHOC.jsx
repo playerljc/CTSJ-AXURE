@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { getMaxLevelNumber } from './ComponentBaseHOC';
 import './DragResizeHOC.less';
 
@@ -12,7 +13,7 @@ const selectorPrefix = 'ct-axure-shape';
  * @return {React.Component}
  */
 export default (Component, { groupKey, componentKey }) => {
-  return class extends React.Component {
+  class DragResizeHOC extends React.Component {
     /**
      * constructor
      * @param {Object} - props
@@ -87,13 +88,13 @@ export default (Component, { groupKey, componentKey }) => {
     }
 
     render() {
-      const { number = 1, pageId = '', componentId = '' } = this.props;
+      const { number = 1, pageId = '', componentId = '', property: { width, height } } = this.props;
       const { active = false } = this.state;
       return (
         <div
           ref={(el) => { this.el = el; }}
           className={`${selectorPrefix} ct-drag-item ct-resizeable-item ${active ? 'active' : ''}`}
-          style={{ zIndex: active ? getMaxLevelNumber() : number }}
+          style={{ zIndex: active ? getMaxLevelNumber() : number, width: `${width}px`, height: `${height}px` }}
           data-groupkey={groupKey}
           data-componentkey={componentKey}
           data-pageid={pageId}
@@ -110,5 +111,21 @@ export default (Component, { groupKey, componentKey }) => {
         </div>
       );
     }
+  }
+
+  DragResizeHOC.defaultProps = {
+    number: 1,
+    pageId: '',
+    componentId: '',
+    property: {},
   };
+
+  DragResizeHOC.propTypes = {
+    number: PropTypes.number,
+    pageId: PropTypes.string,
+    componentId: PropTypes.string,
+    property: PropTypes.object,
+  };
+
+  return DragResizeHOC;
 };

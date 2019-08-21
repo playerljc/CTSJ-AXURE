@@ -352,12 +352,14 @@ class App extends React.Component {
     const componentId = uuidv1();
     const pageId = this.curPageId;// targetEls[0].dataset.pageid;
     const el = Dom6.createElement('<div></div>');
+    const ShapePropertyDefaultConfig = Register.get(groupKey).get(componentKey).propertyDefaultConfig();
     const Component = Register.get(groupKey).get(componentKey);
     ReactDOM.render(
       <Component.Component
         pageId={pageId}
         componentId={componentId}
         number={ShapeModel.getShapesByPage(pageId).length + 1}
+        property={ShapePropertyDefaultConfig}
         getInstance={(ins) => {
           ShapeModel.add(ins);
         }}
@@ -389,9 +391,10 @@ class App extends React.Component {
     const groupKey = sourceEl.dataset.groupkey;
     const componentKey = sourceEl.dataset.componentkey;
     const el = Dom6.createElement('<div></div>');
+    const ShapePropertyDefaultConfig = Register.get(groupKey).get(componentKey).propertyDefaultConfig();
     const Component = ComponentToolDragBaseHOC({ groupKey, componentKey });
     ReactDOM.render(
-      <Component />, el
+      <Component property={ShapePropertyDefaultConfig} />, el
     );
     return el.firstElementChild;
   }

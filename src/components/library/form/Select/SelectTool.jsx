@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Droppable from '../../ComponentToolBaseHOC';
+import ComponentToolBaseHOC from '../../ComponentToolBaseHOC';
 import './SelectTool.less';
 
 /**
@@ -10,22 +10,24 @@ import './SelectTool.less';
  */
 class SelectTool extends React.Component {
   render() {
-    const { name = '' } = this.props;
+    const { selectorPrefix } = this.props;
     return (
-      <div>{name}</div>
+      <React.Fragment>
+        <div className={`${selectorPrefix}-form-select fa fa-select`} />
+      </React.Fragment>
     );
   }
 }
 
 SelectTool.defaultProps = {
-  name: '',
+  selectorPrefix: '',
 };
 
 SelectTool.propTypes = {
-  name: PropTypes.string,
+  selectorPrefix: PropTypes.string,
 };
 
-export default Droppable(SelectTool, {
+export default ComponentToolBaseHOC(SelectTool, {
   groupKey: 'form',
   componentKey: 'Select',
 });

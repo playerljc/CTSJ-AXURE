@@ -10,14 +10,25 @@ import './TextFieldComponent.less';
  * @classdesc TextFieldComponent
  */
 class TextFieldComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
+    const { selectorPrefix, groupKey, componentKey } = this.props;
     return (
-      <div>TextFieldComponent</div>
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`}>
+        <input
+          type="text"
+          className={`${selectorPrefix}-${groupKey}-${componentKey}-input`}
+        />
+      </div>
     );
   }
 }
 
 TextFieldComponent.defaultProps = {
+  selectorPrefix: '',
   groupKey: '',
   componentKey: '',
 };
@@ -25,6 +36,7 @@ TextFieldComponent.defaultProps = {
 TextFieldComponent.propTypes = {
   groupKey: PropTypes.string,
   componentKey: PropTypes.string,
+  selectorPrefix: PropTypes.string,
 };
 
 export default ComponentBase(Drag(TextFieldComponent, {

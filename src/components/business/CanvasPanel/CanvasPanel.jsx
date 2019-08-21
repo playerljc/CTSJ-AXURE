@@ -5,6 +5,7 @@ import CanvasTabPanel from './CanvasTabPanel';
 import Actions from '../../../util/Actions';
 import Emitter from '../../../util/Emitter';
 import PageModel from '../../../model/PageModel';
+import CanvasTabPanelPropertyDefaultConfig from './Property';
 
 import './CanvasPanel.less';
 
@@ -21,7 +22,11 @@ class CanvasPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: [/* {
+        name,
+        id,
+        property
+      } */],
       activeKey: '',
     };
 
@@ -117,13 +122,14 @@ class CanvasPanel extends Component {
         >
           {
             data.map((t) => {
-              const { name, id: pageId } = t;
+              const { name, id: pageId, property } = t;
               return (
                 <TabPanel name={name} key={pageId}>
                   {/* 一个页面 start */}
                   <CanvasTabPanel
-                    activeKey={activeKey}
+                    activePageId={activeKey}
                     pageId={pageId}
+                    property={property || CanvasTabPanelPropertyDefaultConfig()}
                     getInstance={(ins) => {
                       PageModel.add(ins);
                     }}

@@ -10,8 +10,10 @@ export default ({ groupKey, componentKey }) => {
     render() {
       const Component = Register.get(groupKey).get(componentKey);
       return (
-        <div className={`${selectorPrefix}`} >
-          <Component.Component />
+        <div
+          className={`${selectorPrefix}`}
+        >
+          <Component.Component {...this.props} />
         </div>
       );
     }

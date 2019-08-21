@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Droppable from '../../ComponentToolBaseHOC';
+import ComponentToolBaseHOC from '../../ComponentToolBaseHOC';
 import './TextFieldTool.less';
 
 /**
@@ -10,22 +10,24 @@ import './TextFieldTool.less';
  */
 class TextFieldTool extends React.Component {
   render() {
-    const { name = '' } = this.props;
+    const { selectorPrefix } = this.props;
     return (
-      <div>{name}</div>
+      <React.Fragment>
+        <div className={`${selectorPrefix}-form-textfield fa fa-input`} />
+      </React.Fragment>
     );
   }
 }
 
 TextFieldTool.defaultProps = {
-  name: '',
+  selectorPrefix: '',
 };
 
 TextFieldTool.propTypes = {
-  name: PropTypes.string,
+  selectorPrefix: PropTypes.string,
 };
 
-export default Droppable(TextFieldTool, {
+export default ComponentToolBaseHOC(TextFieldTool, {
   groupKey: 'form',
   componentKey: 'TextField',
 });

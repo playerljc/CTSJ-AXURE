@@ -10,14 +10,24 @@ import './TextAreaComponent.less';
  * @classdesc TextAreaComponent
  */
 class TextAreaComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
+    const { selectorPrefix, groupKey, componentKey } = this.props;
     return (
-      <div>TextAreaComponent</div>
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`}>
+        <textarea
+          className={`${selectorPrefix}-${groupKey}-${componentKey}-textarea`}
+        />
+      </div>
     );
   }
 }
 
 TextAreaComponent.defaultProps = {
+  selectorPrefix: '',
   groupKey: '',
   componentKey: '',
 };
@@ -25,6 +35,7 @@ TextAreaComponent.defaultProps = {
 TextAreaComponent.propTypes = {
   groupKey: PropTypes.string,
   componentKey: PropTypes.string,
+  selectorPrefix: PropTypes.string,
 };
 
 export default ComponentBase(Drag(TextAreaComponent, {
