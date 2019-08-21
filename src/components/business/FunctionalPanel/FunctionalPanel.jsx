@@ -27,10 +27,10 @@ class FunctionalPanel extends Component {
         className={`ct-split ${selectorPrefix}`}
         id="FunctionalPanel"
       >
-        <CardAccordionItem className={`ct-split-top ${selectorPrefix}-Item`} name="page" open>
+        <CardAccordionItem className={`ct-split-top ${selectorPrefix}-Item PagePanelGroup`} name="page" open>
           <PagePanel />
         </CardAccordionItem>
-        <CardAccordionItem className={`ct-split-main ${selectorPrefix}-Item`} name="component" open>
+        <CardAccordionItem className={`ct-split-main ${selectorPrefix}-Item ComponentGroup`} name="component" open>
           <ComponentPanel />
         </CardAccordionItem>
       </Accordion>

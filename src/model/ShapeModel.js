@@ -1,5 +1,5 @@
 /**
- * Model
+ * ShapeModel
  * @type {Map<PageId, Map<ComponentId,Shape>>}
  */
 const Model = new Map();

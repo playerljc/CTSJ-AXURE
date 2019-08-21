@@ -14,3 +14,11 @@
    .概要面板初始化
    .激活元素的z-index为最大层级数
    .可以resize
+
+
+.两大中心
+ .Register
+  .Register.get(groupKey).get(componentKey) [Component | Tool | Property ]
+ ShapeModel
+  .ShapeModel.getShape({pageId,componentId})
+  .ShapeModel.getShapesByPage(pageId)

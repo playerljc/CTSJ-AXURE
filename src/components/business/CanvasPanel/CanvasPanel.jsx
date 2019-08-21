@@ -1,10 +1,12 @@
 import React from 'react';
 import Tab from '../../global/Tab/Tab';
 import TabPanel from '../../global/Tab/TabPanel';
+import CanvasTabPanel from './CanvasTabPanel';
+import Actions from '../../../util/Actions';
 import Emitter from '../../../util/Emitter';
+import PageModel from '../../../model/PageModel';
 
 import './CanvasPanel.less';
-import Actions from '../../../util/Actions';
 
 const { Component } = React;
 
@@ -68,7 +70,7 @@ class CanvasPanel extends Component {
     this.setState({
       activeKey: pageId,
     }, () => {
-      Emitter.trigger(Actions.components.business.canvaspanel.tabchange, pageId);
+      Emitter.trigger(Actions.components.business.canvaspanel.changetab, pageId);
     });
   };
 
@@ -82,7 +84,7 @@ class CanvasPanel extends Component {
     data.splice(index, 1);
 
     let isChangeTab = false;
-    let activeKey = this.state.activeKey;
+    let { activeKey } = this.state;
     if (data.length !== 0 && pageId === activeKey) {
       activeKey = data[0].id;
       isChangeTab = true;
@@ -97,8 +99,10 @@ class CanvasPanel extends Component {
         activeKey,
       });
       if (isChangeTab) {
-        Emitter.trigger(Actions.components.business.canvaspanel.tabchange, activeKey);
+        Emitter.trigger(Actions.components.business.canvaspanel.changetab, activeKey);
       }
+
+      PageModel.remove(pageId);
     });
   };
 
@@ -116,16 +120,15 @@ class CanvasPanel extends Component {
               const { name, id: pageId } = t;
               return (
                 <TabPanel name={name} key={pageId}>
-                  <div
-                    className={`${selectorPrefix}-TabDroppable ${activeKey === pageId ? 'ct-droppable-target' : ''}`}
-                    data-pageid={pageId}
-                  >
-                    <div
-                      className={`${selectorPrefix}-TabScroll ${activeKey === pageId ? 'ct-drag ct-resizeable' : ''}`}
-                      data-pageid={pageId}
-                      id={pageId}
-                    />
-                  </div>
+                  {/* 一个页面 start */}
+                  <CanvasTabPanel
+                    activeKey={activeKey}
+                    pageId={pageId}
+                    getInstance={(ins) => {
+                      PageModel.add(ins);
+                    }}
+                  />
+                  {/* 一个页面 end */}
                 </TabPanel>
               );
             })

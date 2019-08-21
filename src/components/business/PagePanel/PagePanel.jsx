@@ -61,12 +61,12 @@ class PagePanel extends Component {
   }
 
   componentDidMount() {
-    Emitter.on(Actions.components.business.canvaspanel.tabchange, this.onTabChange);
+    Emitter.on(Actions.components.business.canvaspanel.changetab, this.onTabChange);
     Emitter.on(Actions.components.business.canvaspanel.removetab, this.onTabRemove);
   }
 
   componentWillUnMount() {
-    Emitter.remove(Actions.components.business.canvaspanel.tabchange, this.onTabChange);
+    Emitter.remove(Actions.components.business.canvaspanel.changetab, this.onTabChange);
     Emitter.remove(Actions.components.business.canvaspanel.removetab, this.onTabRemove);
   }
 

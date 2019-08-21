@@ -15,12 +15,18 @@ import ResizeableFactory from '../../components/global/CT-UI-Resizeable/resizeab
 import Actions from '../../util/Actions';
 import Emitter from '../../util/Emitter';
 import { Dom6 } from '../../util/CTMobile-UI-Util';
-import Model from '../../model/Model';
+import ShapeModel from '../../model/ShapeModel';
+import PageModel from '../../model/PageModel';
 import Register from '../../components/library/Register';
 import ComponentToolDragBaseHOC from '../../components/library/ComponentToolDragBaseHOC';
 
+import { selectorPrefix as CanvasTabPanelScrollClassName } from '../../components/business/CanvasPanel/CanvasTabPanel';
+
 import './app.less';
 
+/**
+ * App
+ */
 class App extends React.Component {
   /**
    * App
@@ -57,7 +63,7 @@ class App extends React.Component {
    */
   componentWillUnMount() {
     Emitter.remove(Actions.components.business.canvaspanel.addtab, this.onAddTab);
-    Emitter.remove(Actions.components.business.canvaspanel.tabchange, this.onChangeTab);
+    Emitter.remove(Actions.components.business.canvaspanel.changetab, this.onChangeTab);
     Emitter.remove(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
   }
 
@@ -66,7 +72,7 @@ class App extends React.Component {
    */
   initEvents() {
     Emitter.on(Actions.components.business.canvaspanel.addtab, this.onAddTab);
-    Emitter.on(Actions.components.business.canvaspanel.tabchange, this.onChangeTab);
+    Emitter.on(Actions.components.business.canvaspanel.changetab, this.onChangeTab);
     Emitter.on(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
   }
 
@@ -201,13 +207,14 @@ class App extends React.Component {
         const pageId = this.curPageId;// sourceEl.dataset.pageid;
         const componentId = sourceEl.dataset.componentid;
         this.componentActive({ pageId, componentId });
-        Emitter.trigger(Actions.components.library.component.active, {
-          pageId,
-          componentId,
-        });
       },
+      /**
+       * 页面的点击
+       */
       onClick: () => {
         this.acitveShapeUnActive(this.curPageId);
+        PageModel.get(this.curPageId).setActiveShape(null);
+        Emitter.trigger(Actions.components.business.canvaspanel.activetab, this.curPageId);
       },
     });
   }
@@ -293,7 +300,9 @@ class App extends React.Component {
    * @param {String} - componentId
    */
   componentActive({ pageId, componentId }) {
-    const Shape = Model.getShape({ pageId, componentId });
+    const shape = ShapeModel.getShape({ pageId, componentId });
+
+    if (!shape) return false;
 
     // preShape进行unActive的操作
     this.acitveShapeUnActive(pageId);
@@ -302,20 +311,24 @@ class App extends React.Component {
     // .元素边框的变化
     // .属性面板初始化
     // .概要面板初始化
-    if (Shape) {
-      Shape.active();
-      this.pageActiveShapeMap.set(pageId, Shape);
-    }
+    shape.active();
+    this.pageActiveShapeMap.set(pageId, shape);
+    PageModel.get(pageId).setActiveShape(shape);
 
     // .当前resize的group也可以resize
     const groupEl = document.getElementById(pageId);
     const resizeGroup = this.resizeable.getGroup(groupEl);
     resizeGroup.setDisable(false, false);
     // .可以当前激活的Shape的el可以resize
-    const resize = this.getResizeByPageIdAndShape({ pageId, shape: Shape });
+    const resize = this.getResizeByPageIdAndShape({ pageId, shape });
     if (resize) {
       resize.setDisable(false);
     }
+
+    Emitter.trigger(Actions.components.library.component.active, {
+      pageId,
+      componentId,
+    });
   }
 
   /**
@@ -344,14 +357,14 @@ class App extends React.Component {
       <Component.Component
         pageId={pageId}
         componentId={componentId}
-        number={Model.getShapesByPage(pageId).length + 1}
+        number={ShapeModel.getShapesByPage(pageId).length + 1}
         getInstance={(ins) => {
-          Model.add(ins);
+          ShapeModel.add(ins);
         }}
       />, el
     );
 
-    const targetEl = targetEls[0].querySelector('.CanvasPanel-TabScroll');
+    const targetEl = targetEls[0].querySelector(`.${CanvasTabPanelScrollClassName}-Scroll`);
     const sourceEl = el.firstElementChild;
     naturalRelease.fn.call(
       naturalRelease.context,
@@ -363,10 +376,6 @@ class App extends React.Component {
     resizeGroup.refresh();
 
     this.componentActive({ pageId, componentId });
-    Emitter.trigger(Actions.components.library.component.active, {
-      pageId,
-      componentId,
-    });
 
     return true;
   }
@@ -402,6 +411,7 @@ class App extends React.Component {
   /**
    * onChangeTab
    * 切换一个页面
+   * @param {String} - pageId
    */
   onChangeTab(pageId) {
     this.curPageId = pageId;
@@ -419,7 +429,7 @@ class App extends React.Component {
   onRemoveTab({ removeKey, activeKey }) {
     this.curPageId = activeKey;
     this.pageActiveShapeMap.delete(removeKey);
-    Model.removePage(removeKey);
+    ShapeModel.removePage(removeKey);
     this.droppable.refresh();
     this.drag.refresh();
     this.resizeable.refresh();
@@ -427,7 +437,7 @@ class App extends React.Component {
 
   /**
    * render
-   * @return {*}
+   * @return {ReactElement}
    */
   render() {
     return (

@@ -12,7 +12,20 @@
 .从左边拖拽到已有的元素上,mouseup事件不执行
 .从左边拖拽到已有的元素上,鼠标指针不对
 
+.Tab页面的Property面板没有
+.切换选项卡,删除选项卡,添加选项卡的时候，Property面板的初始化
+
+.所有Component和Page建立Property.json的属性初始化文件
+.各个组件的width和height通过Property.json文件读入
+.TextField,TextArea,Select实现
+.Property面板的实现
+.实现Src-Property Property-Src之间的数据同步
+
 .概要面板
+.resize显示map
+
+.画布的背景网格
+.画布的标尺
 
 .框选
 .拖动辅助线

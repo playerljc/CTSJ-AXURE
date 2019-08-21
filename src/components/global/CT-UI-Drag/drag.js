@@ -35,6 +35,7 @@
 
  */
 import { Dom6 } from '../../../util/CTMobile-UI-Util';
+import { getMaxLevelNumber } from '../../library/ComponentBaseHOC';
 import './drag.less';
 
 const selectorPrefix = 'ct-drag';
@@ -68,6 +69,7 @@ function createCloneEl(sourceEl) {
   const computedStyle = window.getComputedStyle(sourceEl);
   self.sourceEl.style.left = computedStyle.left;
   self.sourceEl.style.top = computedStyle.top;
+  self.sourceEl.style.zIndex = `${window.parseInt(getMaxLevelNumber()) + 1}`
   self.el.appendChild(self.sourceEl);
 }
 
@@ -346,8 +348,6 @@ class Drag {
     if (disable) {
       return false;
     }
-
-    console.log('drag', 'mouse');
 
     e.preventDefault();
     e.stopPropagation();
