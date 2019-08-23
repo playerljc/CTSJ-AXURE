@@ -58,7 +58,7 @@ class Tab extends React.Component {
   }
 
   renderBar() {
-    const { children = [] } = this.props;
+    const { children = [], canRemove = true } = this.props;
     const { activeKey } = this.state;
     return children.map((t) => {
       const { key, props: { name } } = t;
@@ -71,13 +71,15 @@ class Tab extends React.Component {
           }}
         >
           <div className={`${selectorPrefix}-Bar-Item-Inner`}>{name}</div>
-          <span
-            className={`${selectorPrefix}-Bar-Item-Trigger fa fa-close`}
-            onClick={(e) => {
-              e.stopPropagation();
-              this.onTabRemove(key);
-            }}
-          />
+          {canRemove ? (
+            <span
+              className={`${selectorPrefix}-Bar-Item-Trigger fa fa-close`}
+              onClick={(e) => {
+                e.stopPropagation();
+                this.onTabRemove(key);
+              }}
+            />
+          ) : null }
         </div>
       );
     });
@@ -113,6 +115,7 @@ Tab.defaultProps = {
   className: '',
   defaultActiveKey: '',
   activeKey: '',
+  canRemove: true,
   onChange: () => {},
   onRemove: () => {},
 };
@@ -123,6 +126,7 @@ Tab.propTypes = {
   defaultActiveKey: PropTypes.string,
   onChange: PropTypes.func,
   onRemove: PropTypes.func,
+  canRemove: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.array,

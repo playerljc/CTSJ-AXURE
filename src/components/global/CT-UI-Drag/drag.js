@@ -35,7 +35,7 @@
 
  */
 import { Dom6 } from '../../../util/CTMobile-UI-Util';
-import { getMaxLevelNumber } from '../../library/ComponentBaseHOC';
+import { getMaxLevelNumber } from '../../library/component/ComponentBaseHOC';
 import './drag.less';
 
 const selectorPrefix = 'ct-drag';

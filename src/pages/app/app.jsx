@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import uuidv1 from 'uuid/v1';
-import SystemMenuBar from '../../components/business/SystemMenuBar/SystemMenuBar';
-import SystemToolBar from '../../components/business/SystemToolBar/SystemToolBar';
-import FunctionalPanel from '../../components/business/FunctionalPanel/FunctionalPanel';
-import PropertyPanel from '../../components/business/PropertyPanel/PropertyPanel';
-import CanvasPanel from '../../components/business/CanvasPanel/CanvasPanel';
+import SystemMenuBar from '../../components/business/layout/SystemMenuBar/SystemMenuBar';
+import SystemToolBar from '../../components/business/layout/SystemToolBar/SystemToolBar';
+import FunctionalPanel from '../../components/business/layout/FunctionalPanel/FunctionalPanel';
+import PropertyPanel from '../../components/business/layout/PropertyPanel/PropertyPanel';
+import CanvasPanel from '../../components/business/layout/CanvasPanel/CanvasPanel';
 
 import SplitFactory from '../../components/global/CT-UI-Split/split';
 import DroppableFactory from '../../components/global/CT-UI-Droppable/droppable';
@@ -18,9 +18,9 @@ import { Dom6 } from '../../util/CTMobile-UI-Util';
 import ShapeModel from '../../model/ShapeModel';
 import PageModel from '../../model/PageModel';
 import Register from '../../components/library/Register';
-import ComponentToolDragBaseHOC from '../../components/library/ComponentToolDragBaseHOC';
+import ComponentToolDragBaseHOC from '../../components/library/toolbox/ComponentToolDragBaseHOC';
 
-import { selectorPrefix as CanvasTabPanelScrollClassName } from '../../components/business/CanvasPanel/CanvasTabPanel';
+import { selectorPrefix as CanvasTabPanelScrollClassName } from '../../components/business/layout/CanvasPanel/CanvasTabPanel';
 
 import './app.less';
 
@@ -92,6 +92,9 @@ class App extends React.Component {
         this.activeShapeEnable();
       },
       onSuccess: () => {
+
+      },
+      onEnd: () => {
         this.splitH.setDisable(false);
         this.droppable.setDisable(false);
         this.drag.setDisable(false);
@@ -111,6 +114,9 @@ class App extends React.Component {
         this.resizeable.setDisable(true);
       },
       onSuccess: () => {
+
+      },
+      onEnd: () => {
         this.splitV.setDisable(false);
         this.droppable.setDisable(false);
         this.drag.setDisable(false);

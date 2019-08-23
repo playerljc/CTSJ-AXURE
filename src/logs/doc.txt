@@ -20,5 +20,35 @@
  .Register
   .Register.get(groupKey).get(componentKey) [Component | Tool | Property ]
  ShapeModel
+  .ShapeModel.add(ins); 这个ins是DragResizeHOC的对象
   .ShapeModel.getShape({pageId,componentId})
   .ShapeModel.getShapesByPage(pageId)
+
+
+.Component放入Page的原则
+ .从左侧拖入
+  .ReactDOM.render(
+     <Component.Component
+       pageId={pageId}
+       componentId={componentId}
+       number={ShapeModel.getShapesByPage(pageId).length + 1}
+       property={ShapePropertyDefaultConfig}
+       getInstance={(ins) => {
+         ShapeModel.add(ins);
+       }}
+     />, el
+   ) 放入
+ .有数据载入
+   .ReactDOM.render(
+      <Component.Component
+        pageId={pageId}
+        componentId={componentId}
+        number={ShapeModel.getShapesByPage(pageId).length + 1}
+        property={ShapePropertyDefaultConfig}
+        getInstance={(ins) => {
+          ShapeModel.add(ins);
+        }}
+      />, el
+    ) 放入
+  所以Component的初始化Props是不会再被外部改变的
+  这时还需要和Property进行双向的数据同步，通过trigger或者调用函数的方式进行数据同步，建议用state，所有数据都放入state中

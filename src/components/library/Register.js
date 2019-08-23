@@ -1,38 +1,38 @@
 /* Tool */
-import Rect1Tool from './base/Rect1/Rect1Tool';
-import Rect2Tool from './base/Rect2/Rect2Tool';
-import Rect3Tool from './base/Rect3/Rect3Tool';
+import Rect1Tool from './toolbox/base/Rect1/Rect1Tool';
+import Rect2Tool from './toolbox/base/Rect2/Rect2Tool';
+import Rect3Tool from './toolbox/base/Rect3/Rect3Tool';
 
-import TextFieldTool from './form/TextField/TextFieldTool';
-import TextAreaTool from './form/TextArea/TextAreaTool';
-import SelectTool from './form/Select/SelectTool';
+import TextFieldTool from './toolbox/form/TextField/TextFieldTool';
+import TextAreaTool from './toolbox/form/TextArea/TextAreaTool';
+import SelectTool from './toolbox/form/Select/SelectTool';
 
 /* Component */
-import Rect1Component from './base/Rect1/Rect1Component';
-import Rect2Component from './base/Rect2/Rect2Component';
-import Rect3Component from './base/Rect3/Rect3Component';
+import Rect1Component from './component/base/Rect1/Rect1Component';
+import Rect2Component from './component/base/Rect2/Rect2Component';
+import Rect3Component from './component/base/Rect3/Rect3Component';
 
-import TextFieldComponent from './form/TextField/TextFieldComponent';
-import TextAreaComponent from './form/TextArea/TextAreaComponent';
-import SelectComponent from './form/Select/SelectComponent';
+import TextFieldComponent from './component/form/TextField/TextFieldComponent';
+import TextAreaComponent from './component/form/TextArea/TextAreaComponent';
+import SelectComponent from './component/form/Select/SelectComponent';
 
 /* Property */
-import Rect1Property from './base/Rect1/Rect1Property';
-import Rect2Property from './base/Rect2/Rect2Property';
-import Rect3Property from './base/Rect3/Rect3Property';
+import Rect1Property from './property/base/Rect1/Rect1Property';
+import Rect2Property from './property/base/Rect2/Rect2Property';
+import Rect3Property from './property/base/Rect3/Rect3Property';
 
-import TextFieldProperty from './form/TextField/TextFieldProperty';
-import TextAreaProperty from './form/TextArea/TextAreaProperty';
-import SelectProperty from './form/Select/SelectProperty';
+import TextFieldProperty from './property/form/TextField/TextFieldProperty';
+import TextAreaProperty from './property/form/TextArea/TextAreaProperty';
+import SelectProperty from './property/form/Select/SelectProperty';
 
 /* propertyDefaultConfig */
-import Rect1PropertyDefaultConfig from './base/Rect1/Property.json';
-import Rect2PropertyDefaultConfig from './base/Rect2/Property.json';
-import Rect3PropertyDefaultConfig from './base/Rect3/Property.json';
+import Rect1PropertyDefaultConfig from './property/base/Rect1/Property';
+import Rect2PropertyDefaultConfig from './property/base/Rect2/Property';
+import Rect3PropertyDefaultConfig from './property/base/Rect3/Property';
 
-import TextFieldPropertyDefaultConfig from './form/TextField/Property.json';
-import TextAreaPropertyDefaultConfig from './form/TextArea/Property.json';
-import SelectPropertyDefaultConfig from './form/Select/Property.json';
+import TextFieldPropertyDefaultConfig from './property/form/TextField/Property';
+import TextAreaPropertyDefaultConfig from './property/form/TextArea/Property';
+import SelectPropertyDefaultConfig from './property/form/Select/Property';
 
 export default new Map([
   ['base', new Map([
@@ -40,19 +40,19 @@ export default new Map([
       Tool: Rect1Tool,
       Component: Rect1Component,
       Property: Rect1Property,
-      propertyDefaultConfig: () => Object.assign({}, Rect1PropertyDefaultConfig),
+      propertyDefaultConfig: Rect1PropertyDefaultConfig,
     }],
     ['Rect2', {
       Tool: Rect2Tool,
       Component: Rect2Component,
       Property: Rect2Property,
-      propertyDefaultConfig: () => Object.assign({}, Rect2PropertyDefaultConfig),
+      propertyDefaultConfig: Rect2PropertyDefaultConfig,
     }],
     ['Rect3', {
       Tool: Rect3Tool,
       Component: Rect3Component,
       Property: Rect3Property,
-      propertyDefaultConfig: () => Object.assign({}, Rect3PropertyDefaultConfig),
+      propertyDefaultConfig: Rect3PropertyDefaultConfig,
     }],
   ])],
   ['form', new Map([
@@ -60,19 +60,19 @@ export default new Map([
       Tool: TextFieldTool,
       Component: TextFieldComponent,
       Property: TextFieldProperty,
-      propertyDefaultConfig: () => Object.assign({}, TextFieldPropertyDefaultConfig),
+      propertyDefaultConfig: TextFieldPropertyDefaultConfig,
     }],
     ['TextArea', {
       Tool: TextAreaTool,
       Component: TextAreaComponent,
       Property: TextAreaProperty,
-      propertyDefaultConfig: () => Object.assign({}, TextAreaPropertyDefaultConfig),
+      propertyDefaultConfig: TextAreaPropertyDefaultConfig,
     }],
     ['Select', {
       Tool: SelectTool,
       Component: SelectComponent,
       Property: SelectProperty,
-      propertyDefaultConfig: () => Object.assign({}, SelectPropertyDefaultConfig),
+      propertyDefaultConfig: SelectPropertyDefaultConfig,
     }],
   ])],
 ]);

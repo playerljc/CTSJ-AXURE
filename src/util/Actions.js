@@ -26,6 +26,8 @@ export default {
       component: {
         // Shape处于激活状态
         active: 'components-library-component-active',
+        // Shape的属性变化
+        propertychange: 'components-library-component-propertychange',
       },
     },
   },

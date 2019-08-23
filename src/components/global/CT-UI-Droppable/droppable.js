@@ -54,7 +54,7 @@
 
  demo:
 */
-import { getMaxLevelNumber } from '../../library/ComponentBaseHOC';
+import { getMaxLevelNumber } from '../../library/component/ComponentBaseHOC';
 import './droppable.less';
 
 const selectorPrefix = 'ct-droppable-';

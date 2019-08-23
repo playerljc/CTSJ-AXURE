@@ -10,6 +10,7 @@
    onMove: Function  拖动中
    onSuccess: Function 拖动结束
    onStart Function
+   onEnd: Function
  }
 
  布局:
@@ -567,9 +568,13 @@ class Split {
 
     if (disable) return false;
 
+    const { onEnd } = self.config;
 
     if (!(self.isCanResize && self.isDown && self.isMove)) {
       reset.call(self);
+      if (onEnd) {
+        onEnd();
+      }
       return false;
     }
 
@@ -611,6 +616,10 @@ class Split {
     reset.call(self);
 
     if (onSuccess) onSuccess();
+
+    if (onEnd) {
+      onEnd();
+    }
   }
 
   /**

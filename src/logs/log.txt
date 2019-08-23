@@ -20,6 +20,19 @@
 .TextField,TextArea,Select实现
 .input和textarea不能输入
 .Property面板的实现
+ 分为三个选项卡
+  .属性
+  .说明 所有都一样
+  .样式 大致都一样
+
+
+
+
+.属性的select数据没有
+.点击Page事件不好使，应为Input e.stopProgation
+.spilt没有success的时候也要解绑setDisable(false)
+
+
 .实现Src-Property Property-Src之间的数据同步
 
 .概要面板
