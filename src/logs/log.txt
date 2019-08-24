@@ -25,13 +25,12 @@
   .说明 所有都一样
   .样式 大致都一样
 
-
-
-
 .属性的select数据没有
 .点击Page事件不好使，应为Input e.stopProgation
 .spilt没有success的时候也要解绑setDisable(false)
-
+.Focus组件设置为disable
+.ToolBox拖动应为鼠标中心点
+.PropertyREADME中field数据如果是select加入value字段，group中的field如果是select，options删除，数据从field的value里取值
 
 .实现Src-Property Property-Src之间的数据同步
 

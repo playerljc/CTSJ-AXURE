@@ -25,11 +25,6 @@ export default {
           }, {
             fieldId: 'id4',
             value: '123',
-            options: [
-              '123',
-              '456',
-              '789',
-            ],
           }],
       },
       {
@@ -48,11 +43,6 @@ export default {
           }, {
             fieldId: 'id4',
             value: '456',
-            options: [
-              '123',
-              '456',
-              '789',
-            ],
           }],
       },
     ],
@@ -76,6 +66,11 @@ export default {
         id: 'id4',
         name: '说明4',
         type: 'select',
+        options: [
+          '111',
+          '222',
+          '333',
+        ],
       },
     ],
   },

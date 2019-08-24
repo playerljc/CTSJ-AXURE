@@ -5,6 +5,10 @@ import TabPanel from '../../global/Tab/TabPanel';
 import ComponentPropertyDescriptionTab from './ComponentPropertyDescriptionTab';
 import ComponentPropertyStyleTab from './ComponentPropertyStyleTab';
 
+import './ComponentPropertyHOC.less';
+
+const selectorPrefix = 'ComponentPropertyHOC';
+
 /**
  * ComponentPropertyHOC
  * @param PropertyTabComponent
@@ -47,6 +51,7 @@ export default (PropertyTabComponent) => {
 
       return (
         <Tab
+          className={`${selectorPrefix}`}
           activeKey={activeKey}
           onChange={this.onChange}
           canRemove={false}

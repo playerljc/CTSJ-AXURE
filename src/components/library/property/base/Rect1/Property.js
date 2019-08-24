@@ -11,16 +11,16 @@ export default () => ({
     group: [
       {
         id: 'g1',
-        name: '111',
+        name: 'Rect1Group1',
         fields: [
           {
             id: 'i1',
             fieldId: 'id1',
-            value: '111',
+            value: 'Rect1Group1Text',
           }, {
             id: 'i2',
             fieldId: 'id2',
-            value: 222,
+            value: 1999,
           }, {
             id: 'i3',
             fieldId: 'id3',
@@ -28,26 +28,21 @@ export default () => ({
           }, {
             id: 'i4',
             fieldId: 'id4',
-            value: '111',
-            options: [
-              '111',
-              '222',
-              '333',
-            ],
+            value: 'Rect1Group1Select1',
           }],
       },
       {
         id: 'g2',
-        name: '222',
+        name: 'Rect1Group2',
         fields: [
           {
             id: 'i5',
             fieldId: 'id1',
-            value: '222',
+            value: 'Rect1Group2Text',
           }, {
             id: 'i6',
             fieldId: 'id2',
-            value: 333,
+            value: 2000,
           }, {
             id: 'i7',
             fieldId: 'id3',
@@ -55,35 +50,35 @@ export default () => ({
           }, {
             id: 'i8',
             fieldId: 'id4',
-            value: '555',
-            options: [
-              '444',
-              '555',
-              '666',
-            ],
+            value: 'Rect1Group2Select1',
           }],
       },
     ],
     field: [
       {
         id: 'id1',
-        name: '说明1',
+        name: 'Rect1说明1',
         type: 'text',
       },
       {
         id: 'id2',
-        name: '说明2',
+        name: 'Rect说明2',
         type: 'number',
       },
       {
         id: 'id3',
-        name: '说明3',
+        name: 'Rect1说明3',
         type: 'date',
       },
       {
         id: 'id4',
-        name: '说明4',
+        name: 'Rect1说明4',
         type: 'select',
+        options: [
+          '111',
+          '222',
+          '333',
+        ],
       },
     ],
   },

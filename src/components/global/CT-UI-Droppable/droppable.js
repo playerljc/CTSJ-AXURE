@@ -91,11 +91,8 @@ function initEvents() {
       }
     }
 
-    const curX = ev.pageX;
-    const curY = ev.pageY;
-
-    const incrementX = curX - self.firstX;
-    const incrementY = curY - self.firstY;
+    const left = ev.pageX - Math.floor(self.cloneElWidth / 2);
+    const top = ev.pageY - Math.floor(self.cloneElHeight / 2);
 
     // 不是看curX和curY的值在不在targetEl里，而是看
     const moveInTargetEls = getMoveInTargetEls.call(self);
@@ -105,15 +102,13 @@ function initEvents() {
       if (moveInTargetEls.complete.length > 0) {
         // 可以放置
         self.cloneEl.style.cursor = 'pointer';
-        // document.body.style.cursor = 'pointer';
       } else {
         // 不可以放
         self.cloneEl.style.cursor = 'not-allowed';
-        // document.body.style.cursor = 'not-allowed';
       }
 
-      self.cloneEl.style.left = `${self.baseX + incrementX}px`;
-      self.cloneEl.style.top = `${self.baseY + incrementY}px`;
+      self.cloneEl.style.left = `${left}px`;
+      self.cloneEl.style.top = `${top}px`;
     } else if (self.ismovecanput) {
       // 是无限画布
       const { boundaryDetection } = moveInTargetEls;
@@ -126,37 +121,37 @@ function initEvents() {
         bottom: false,
       };
 
-      if (self.baseX + incrementX < rect.left ||
-        self.baseX + incrementX + self.cloneEl.offsetWidth > rect.right
+      if (left < rect.left ||
+        left + self.cloneElWidth > rect.right
       ) {
-        if (self.baseX + incrementX < rect.left) {
+        if (left < rect.left) {
           self.cloneEl.style.left = `${rect.left}px`;
           condition.left = true;
         }
 
-        if (self.baseX + incrementX + self.cloneEl.offsetWidth > rect.right) {
-          self.cloneEl.style.top = `${rect.right - self.cloneEl.offsetWidth}px`;
+        if (left + self.cloneElWidth > rect.right) {
+          self.cloneEl.style.top = `${rect.right - self.cloneElWidth}px`;
           condition.right = true;
         }
       } else {
-        self.cloneEl.style.left = `${self.baseX + incrementX}px`;
+        self.cloneEl.style.left = `${left}px`;
       }
 
 
-      if (self.baseY + incrementY < rect.top ||
-        self.baseY + incrementY + self.cloneEl.offsetHeight > rect.bottom
+      if (top < rect.top ||
+        top + self.cloneElHeight > rect.bottom
       ) {
-        if (self.baseY + incrementY < rect.top) {
+        if (top < rect.top) {
           self.cloneEl.style.top = `${rect.top}px`;
           condition.top = true;
         }
 
-        if (self.baseY + incrementY + self.cloneEl.offsetHeight > rect.bottom) {
-          self.cloneEl.style.top = `${rect.bottom - self.cloneEl.offsetHeight}px`;
+        if (top + self.cloneElHeight > rect.bottom) {
+          self.cloneEl.style.top = `${rect.bottom - self.cloneElHeight}px`;
           condition.bottom = true;
         }
       } else {
-        self.cloneEl.style.top = `${self.baseY + incrementY}px`;
+        self.cloneEl.style.top = `${top}px`;
       }
 
       if (condition.left || condition.right || condition.top || condition.bottom) {
@@ -181,15 +176,13 @@ function initEvents() {
         // 可以放置
         self.ismovecanput = true;
         self.cloneEl.style.cursor = 'pointer';
-        // document.body.style.cursor = 'pointer';
       } else {
         // 不可以放
         self.cloneEl.style.cursor = 'not-allowed';
-        // document.body.style.cursor = 'not-allowed';
       }
 
-      self.cloneEl.style.left = `${self.baseX + incrementX}px`;
-      self.cloneEl.style.top = `${self.baseY + incrementY}px`;
+      self.cloneEl.style.left = `${left}px`;
+      self.cloneEl.style.top = `${top}px`;
     }
   });
 
@@ -246,12 +239,6 @@ function initDragSourceEvent() {
 
         self.isdown = true;
         self.sourceEl = sourceEl;
-        const rect = sourceEl.getBoundingClientRect();
-        self.baseX = rect.left;
-        self.baseY = rect.top;
-
-        self.firstX = ev.pageX;
-        self.firstY = ev.pageY;
 
         // create CloneNode
         if (onDragClone) {
@@ -263,13 +250,8 @@ function initDragSourceEvent() {
           self.cloneEl = createCloneEl();
         }
 
-        // self.cloneEl.setAttribute('id', '');
-        // self.cloneEl.style.minWidth = `${sourceEl.offsetWidth}px`;
-        // self.cloneEl.style.minHeight = `${sourceEl.offsetHeight}px`;
         self.cloneEl.style.position = 'fixed';
         self.cloneEl.style.zIndex = `${window.parseInt(getMaxLevelNumber()) + 1}`;
-        self.cloneEl.style.left = `${self.baseX}px`;
-        self.cloneEl.style.top = `${self.baseY}px`;
         self.cloneEl.style.margin = '0';
         self.cloneEl.addEventListener('mouseup', () => {
           if (!self.ismove) {
@@ -316,6 +298,11 @@ function initDragSourceEvent() {
 
         // append CloneNode
         self.el.appendChild(self.cloneEl);
+
+        self.cloneElWidth = self.cloneEl.offsetWidth;
+        self.cloneElHeight = self.cloneEl.offsetHeight;
+        self.cloneEl.style.left = `${ev.pageX - Math.floor(self.cloneElWidth / 2)}px`;
+        self.cloneEl.style.top = `${ev.pageY - Math.floor(self.cloneElHeight / 2)}px`;
       };
       handlerEntry.mousedown = handler;
       return handler;
@@ -577,15 +564,11 @@ function reset(targetEls) {
   }
   self.isdown = false;
   self.ismove = false;
-  self.baseX = null;
-  self.baseY = null;
-  self.preX = null;
-  self.preY = null;
-  self.firstX = null;
-  self.firstY = null;
   self.cloneEl = null;
   self.sourceEl = null;
   self.ismovecanput = false;
+  self.cloneElWidth = null;
+  self.cloneElHeight = null;
   if (self.boundaryDetectionHandler) {
     cancelAnimationFrame(self.boundaryDetectionHandler);
     self.boundaryDetectionHandler = null;
@@ -698,14 +681,10 @@ class Droppable {
     this.targetEls = this.el.querySelectorAll(`.${selectorPrefix}target`);
     this.isdown = false; // 是否按下了
     this.ismove = false; // 是否move了
-    this.baseX = null;
-    this.baseY = null; // 节点原始距离page的坐标
-    this.preX = null;
-    this.preY = null;
-    this.firstX = null;
-    this.firstY = null; // 第一次点击时page的坐标
     this.cloneEl = null;
     this.sourceEl = null;
+    this.cloneElWidth = null;
+    this.cloneElHeight = null;
     this.ismovecanput = false; // 是否成功移动到target内部
     this.boundaryDetectionHandler = null;
 

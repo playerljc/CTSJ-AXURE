@@ -10,10 +10,6 @@ import './SelectComponent.less';
  * @classdesc SelectComponent
  */
 class SelectComponent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { selectorPrefix, groupKey, componentKey } = this.props;
     return (

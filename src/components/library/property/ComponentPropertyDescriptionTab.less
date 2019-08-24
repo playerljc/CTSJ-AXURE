@@ -1,6 +1,11 @@
 .ComponentPropertyDescriptionTab {
   box-sizing: border-box;
   padding: 10px;
+
+  select, input {
+    height: 30px;
+  }
+
   .ComponentPropertyDescriptionTab-GroupSelect {
 
   }
@@ -9,9 +14,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 15px 0;
+    color: #007aff;
   }
 
   .ComponentPropertyDescriptionTab-Fields {
+    .ComponentPropertyDescriptionTab-Fields-FieldWrap {
+      .ComponentPropertyDescriptionTab-Fields-Field-Name {
+        margin-bottom: 5px;
+      }
 
+      &:not(:last-of-type) {
+        padding-bottom: 10px;
+      }
+    }
   }
 }

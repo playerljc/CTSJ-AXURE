@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextArea, Input, Select } from '../../global/CT-UI-Form';
+import { Input, Select } from '../../global/CT-UI-Form';
+import Modal from '../../global/CT-UI-Modal/modal';
 import { create } from '../../global/CT-UI-Form/form';
+import { getMaxLevelNumber } from '../component/ComponentBaseHOC';
 import Actions from '../../../util/Actions';
 import Emitter from '../../../util/Emitter';
 
@@ -93,22 +95,29 @@ class ComponentPropertyDescriptionTab extends React.Component {
     let fieldElement = null;
     switch (type) {
       case 'text':
-        fieldElement = this.renderTextField(groupId, fieldConfig, fieldEntry);
+        fieldElement = this.renderTextField(groupId, fieldConfig);
         break;
       case 'number':
-        fieldElement = this.renderNumberField(groupId, fieldConfig, fieldEntry);
+        fieldElement = this.renderNumberField(groupId, fieldConfig);
         break;
       case 'date':
-        fieldElement = this.renderDateField(groupId, fieldConfig, fieldEntry);
+        fieldElement = this.renderDateField(groupId, fieldConfig);
         break;
       case 'select':
-        fieldElement = this.renderSelectField(groupId, fieldConfig, fieldEntry);
+        fieldElement = this.renderSelectField(groupId, fieldConfig);
         break;
       default:
         break;
     }
 
-    return fieldElement;
+    const { id = '' } = fieldConfig;
+    const { name = '' } = fieldEntry;
+    return (
+      <div key={id} className={`${selectorPrefix}-Fields-FieldWrap`}>
+        <div className={`${selectorPrefix}-Fields-Field-Name`}>{name}</div>
+        {fieldElement}
+      </div>
+    );
   }
 
   /**
@@ -116,23 +125,19 @@ class ComponentPropertyDescriptionTab extends React.Component {
    * @param groupId
    * @param id
    * @param value
-   * @param name
    * @return {ReactElement}
    */
-  renderTextField(groupId, { id, value }, { name = '' }) {
+  renderTextField(groupId, { id, value }) {
     const { form } = this.props;
     const FiledComponent = form.createField(Input, id);
     return (
-      <div key={id}>
-        <div>{name}</div>
-        <FiledComponent
-          type="text"
-          value={value}
-          onChange={(e) => {
-            this.propertyChange({ groupId, fieldId: id, value: { value: e.target.value } });
-          }}
-        />
-      </div>
+      <FiledComponent
+        type="text"
+        value={value}
+        onChange={(e) => {
+          this.propertyChange({ groupId, fieldId: id, value: { value: e.target.value } });
+        }}
+      />
     );
   }
 
@@ -141,23 +146,19 @@ class ComponentPropertyDescriptionTab extends React.Component {
    * @param groupId
    * @param id
    * @param value
-   * @param name
    * @return {ReactElement}
    */
-  renderNumberField(groupId, { id, value }, { name = '' }) {
+  renderNumberField(groupId, { id, value }) {
     const { form } = this.props;
     const FiledComponent = form.createField(Input, id);
     return (
-      <div key={id}>
-        <div>{name}</div>
-        <FiledComponent
-          type="number"
-          value={value}
-          onChange={(e) => {
-            this.propertyChange({ groupId, fieldId: id, value: { value: e.target.value } });
-          }}
-        />
-      </div>
+      <FiledComponent
+        type="number"
+        value={value}
+        onChange={(e) => {
+          this.propertyChange({ groupId, fieldId: id, value: { value: e.target.value } });
+        }}
+      />
     );
   }
 
@@ -166,23 +167,19 @@ class ComponentPropertyDescriptionTab extends React.Component {
    * @param groupId
    * @param id
    * @param value
-   * @param name
    * @return {ReactElement}
    */
-  renderDateField(groupId, { id, value }, { name = '' }) {
+  renderDateField(groupId, { id, value }) {
     const { form } = this.props;
     const FiledComponent = form.createField(Input, id);
     return (
-      <div key={id}>
-        <div>{name}</div>
-        <FiledComponent
-          type="date"
-          value={value}
-          onChange={(e) => {
-            this.propertyChange({ groupId, fieldId: id, value: { value: e.target.value } });
-          }}
-        />
-      </div>
+      <FiledComponent
+        type="date"
+        value={value}
+        onChange={(e) => {
+          this.propertyChange({ groupId, fieldId: id, value: { value: e.target.value } });
+        }}
+      />
     );
   }
 
@@ -192,26 +189,28 @@ class ComponentPropertyDescriptionTab extends React.Component {
    * @param id
    * @param value
    * @param options
-   * @param name
    * @return {ReactElement}
    */
-  renderSelectField(groupId, { id, value = '', options = [] }, { name = '' }) {
-    const { form } = this.props;
+  renderSelectField(groupId, { id, fieldId, value = '' }) {
+    const { form, property: { field = [] } } = this.props;
     const FiledComponent = form.createField(Select, id);
 
+    let options = [];
+    const fieldEntry = field.find(t => t.id === fieldId);
+    if (fieldEntry) {
+      options = fieldEntry.options || [];
+    }
+
     return (
-      <div key={id}>
-        <div>{name}</div>
-        <FiledComponent
-          multiple={false}
-          defaultValue={value}
-          onChange={(e) => {
-            this.propertyChange({ groupId, fieldId: id, value: { value: e.target.value } });
-          }}
-        >
-          {options.map((t, index) => (<option key={index + 1} value={t}>{t}</option>))}
-        </FiledComponent>
-      </div>
+      <FiledComponent
+        multiple={false}
+        value={value}
+        onChange={(e) => {
+          this.propertyChange({ groupId, fieldId: id, value: { value: e.target.value } });
+        }}
+      >
+        {options.map((t, index) => (<option key={index + 1} value={t}>{t}</option>))}
+      </FiledComponent>
     );
   }
 
@@ -257,8 +256,24 @@ class ComponentPropertyDescriptionTab extends React.Component {
         </div>
 
         <div className={`${selectorPrefix}-Tool`}>
-          <a>customProperty</a>
-          <a>clearAll</a>
+          <span onClick={() => {
+            Modal.open({
+              title: '11111',
+              zIndex: window.parseInt(getMaxLevelNumber()) + 1,
+              component: (
+                <div>1121212121212</div>
+              ),
+              buttons: [{
+                text: '确定',
+                handler: () => {
+
+                },
+              }],
+            });
+          }}
+          >customProperty
+          </span>
+          <span>clearAll</span>
         </div>
 
         <div className={`${selectorPrefix}-Fields`}>

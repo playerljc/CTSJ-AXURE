@@ -19,6 +19,7 @@ class TextAreaComponent extends React.Component {
           ref={(el) => {
             this.el = el;
           }}
+          disabled
           className={`${selectorPrefix}-${groupKey}-${componentKey}-textarea`}
         />
       </div>

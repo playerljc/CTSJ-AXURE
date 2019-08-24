@@ -1,0 +1,63 @@
+.CT-UI-Modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, .3);
+
+  .CT-UI-Modal-Inner {
+    max-width: 80%;
+    max-height: 80%;
+    min-width: 60%;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+
+    .CT-UI-Modal-Title {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 10px;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      height: 30px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .CT-UI-Modal-Content {
+      flex-grow: 1;
+      min-height: 0;
+      overflow-y: auto;
+      margin: 20px 10px;
+    }
+
+    .CT-UI-Modal-Buttons {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 20px 10px;
+      overflow: auto;
+      border-top: 1px solid #ccc;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+
+      .CT-UI-Modal-Buttons-Btn {
+        flex-grow: 1;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}

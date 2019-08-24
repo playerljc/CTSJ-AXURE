@@ -20,6 +20,7 @@ class TextFieldComponent extends React.Component {
             this.el = el;
           }}
           type="text"
+          disabled
           className={`${selectorPrefix}-${groupKey}-${componentKey}-input`}
         />
       </div>

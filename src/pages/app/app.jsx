@@ -111,7 +111,7 @@ class App extends React.Component {
         this.splitV.setDisable(true);
         this.droppable.setDisable(true);
         this.drag.setDisable(true);
-        this.resizeable.setDisable(true);
+        this.activeShapeEnable();
       },
       onSuccess: () => {
 
@@ -120,7 +120,7 @@ class App extends React.Component {
         this.splitV.setDisable(false);
         this.droppable.setDisable(false);
         this.drag.setDisable(false);
-        this.resizeable.setDisable(false);
+        this.activeShapeEnable();
       },
     });
   }
@@ -157,14 +157,14 @@ class App extends React.Component {
         scroll(condition, targetEls[0]);
       },
       onStart: () => {
-        console.log('Droppable Start');
+        // console.log('Droppable Start');
         this.splitH.setDisable(true);
         this.splitV.setDisable(true);
         this.drag.setDisable(true);
         this.resizeable.setDisable(true);
       },
       onEnd: () => {
-        console.log('Droppable End');
+        // console.log('Droppable End');
         this.splitH.setDisable(false);
         this.splitV.setDisable(false);
         this.drag.setDisable(false);
@@ -193,7 +193,7 @@ class App extends React.Component {
       showMap: true,
       moveStep: 1,
       onStart: (el, sourceEl) => {
-        console.log('Drag Start');
+        // console.log('Drag Start');
         if (!el || !sourceEl) return false;
         // drag点击
         this.splitV.setDisable(true);
@@ -202,7 +202,7 @@ class App extends React.Component {
         this.resizeable.setDisable(true);
       },
       onEnd: (el, sourceEl) => {
-        console.log('Drag End');
+        // console.log('Drag End');
 
         if (!el || !sourceEl) return false;
         this.splitV.setDisable(false);
@@ -217,7 +217,7 @@ class App extends React.Component {
        * 页面的点击
        */
       onClick: () => {
-        console.log('Tab Start');
+        // console.log('Tab Start');
         this.acitveShapeUnActive(this.curPageId);
         PageModel.get(this.curPageId).setActiveShape(null);
         Emitter.trigger(Actions.components.business.canvaspanel.activetab, this.curPageId);
@@ -231,14 +231,14 @@ class App extends React.Component {
   initResizeable() {
     this.resizeable = ResizeableFactory.create(this.subEl, {
       onStart: () => {
-        console.log('Resize Start');
+        // console.log('Resize Start');
         this.splitV.setDisable(true);
         this.splitH.setDisable(true);
         this.droppable.setDisable(true);
         this.drag.setDisable(true);
       },
       onEnd: () => {
-        console.log('Resize End');
+        // console.log('Resize End');
         this.splitV.setDisable(false);
         this.splitH.setDisable(false);
         this.droppable.setDisable(false);
