@@ -11,15 +11,7 @@
     }
   }
 
-  // PagePanel
-  .FunctionalPanel-Item.PagePanelGroup {
-    > .AX-AccordionItem-Content {
-      max-height: 250px;
-    }
-  }
-
-  // ComponentPanel
-  .FunctionalPanel-Item.ComponentGroup {
+  .FunctionalPanel-Item {
     > .AX-AccordionItem-Content {
       position: absolute;
       left: 0;
@@ -28,4 +20,24 @@
       bottom: 0;
     }
   }
+
+  // PagePanel
+  .FunctionalPanel-Item.PagePanelGroup {
+    min-height: 150px;
+  }
+  //.FunctionalPanel-Item.PagePanelGroup {
+  //  > .AX-AccordionItem-Content {
+  //    max-height: 250px;
+  //    top: 30px;
+  //    bottom: 0;
+  //  }
+  //}
+
+  // ComponentPanel
+  //.FunctionalPanel-Item.ComponentGroup {
+  //  > .AX-AccordionItem-Content {
+  //    top: 30px;
+  //    bottom: 0;
+  //  }
+  //}
 }

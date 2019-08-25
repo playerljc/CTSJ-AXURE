@@ -192,6 +192,7 @@ class App extends React.Component {
       mode: 'clone',
       showMap: true,
       moveStep: 1,
+      infinite: true,
       onStart: (el, sourceEl) => {
         // console.log('Drag Start');
         if (!el || !sourceEl) return false;

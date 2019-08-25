@@ -53,7 +53,7 @@
  现在可以实现，但是不是自动的需要鼠标移动才能更新滚动条的位置
 
  demo:
-*/
+ */
 import { getMaxLevelNumber } from '../../library/component/ComponentBaseHOC';
 import './droppable.less';
 
@@ -69,128 +69,11 @@ function initEvents() {
 
   initDragSourceEvent.call(self);
 
-  const {
-    isDragSourceDisplay = true,
-    isDragSourceExist = true,
-    onBoundaryDetection,
-    infinite = false,
-  } = self.config;
+  // el mousemove
+  self.el.addEventListener('mousemove', self.onContainerMousemove);
 
-  // document.body mousemove
-  self.el.addEventListener('mousemove', (ev) => {
-    const { disable = false } = self;
-
-    if (disable) return false;
-
-    if (!self.isdown) return false;
-
-    if (!self.ismove) {
-      self.ismove = true;
-      if (!isDragSourceDisplay || !isDragSourceExist) {
-        self.sourceEl.style.visibility = 'hidden';
-      }
-    }
-
-    const left = ev.pageX - Math.floor(self.cloneElWidth / 2);
-    const top = ev.pageY - Math.floor(self.cloneElHeight / 2);
-
-    // 不是看curX和curY的值在不在targetEl里，而是看
-    const moveInTargetEls = getMoveInTargetEls.call(self);
-
-    // 不是无限画布
-    if (!infinite) {
-      if (moveInTargetEls.complete.length > 0) {
-        // 可以放置
-        self.cloneEl.style.cursor = 'pointer';
-      } else {
-        // 不可以放
-        self.cloneEl.style.cursor = 'not-allowed';
-      }
-
-      self.cloneEl.style.left = `${left}px`;
-      self.cloneEl.style.top = `${top}px`;
-    } else if (self.ismovecanput) {
-      // 是无限画布
-      const { boundaryDetection } = moveInTargetEls;
-      const { rect } = boundaryDetection[0];
-
-      const condition = {
-        left: false,
-        right: false,
-        top: false,
-        bottom: false,
-      };
-
-      if (left < rect.left ||
-        left + self.cloneElWidth > rect.right
-      ) {
-        if (left < rect.left) {
-          self.cloneEl.style.left = `${rect.left}px`;
-          condition.left = true;
-        }
-
-        if (left + self.cloneElWidth > rect.right) {
-          self.cloneEl.style.top = `${rect.right - self.cloneElWidth}px`;
-          condition.right = true;
-        }
-      } else {
-        self.cloneEl.style.left = `${left}px`;
-      }
-
-
-      if (top < rect.top ||
-        top + self.cloneElHeight > rect.bottom
-      ) {
-        if (top < rect.top) {
-          self.cloneEl.style.top = `${rect.top}px`;
-          condition.top = true;
-        }
-
-        if (top + self.cloneElHeight > rect.bottom) {
-          self.cloneEl.style.top = `${rect.bottom - self.cloneElHeight}px`;
-          condition.bottom = true;
-        }
-      } else {
-        self.cloneEl.style.top = `${top}px`;
-      }
-
-      if (condition.left || condition.right || condition.top || condition.bottom) {
-        if (onBoundaryDetection) {
-          /**
-           * TODO change
-           * 传入对象
-           * 加入targetEls参数
-           */
-          onBoundaryDetection({
-            condition,
-            scroll: boundaryDetectionScroll.bind(self),
-            targetEls: self.targetEls,
-          });
-        }
-      } else if (self.boundaryDetectionHandler) {
-        cancelAnimationFrame(self.boundaryDetectionHandler);
-        self.boundaryDetectionHandler = null;
-      }
-    } else {
-      if (moveInTargetEls.complete.length > 0) {
-        // 可以放置
-        self.ismovecanput = true;
-        self.cloneEl.style.cursor = 'pointer';
-      } else {
-        // 不可以放
-        self.cloneEl.style.cursor = 'not-allowed';
-      }
-
-      self.cloneEl.style.left = `${left}px`;
-      self.cloneEl.style.top = `${top}px`;
-    }
-  });
-
-  // document.body mouseleave
-  self.el.addEventListener('mouseleave', () => {
-    if (!self.isdown) return false;
-    goBack.call(self, this.sourceEl, this.targetEls);
-  });
+  // el mouseleave
+  self.el.addEventListener('mouseleave', self.onContainerMouseleave);
 }
 
 /**
@@ -465,7 +348,7 @@ function getMoveInTargetEls() {
     }
 
 
-    // 不管进步进入target都去走边缘检查
+    // 不管进不进入target都去走边缘检查
     // 只有完全进入的才进行边缘检测
     // (上 | 下 | 左 | 右) 看那些条件符合
     const condition = {
@@ -544,6 +427,12 @@ function goBack(sourceEl, targetEls) {
 function reset(targetEls) {
   const self = this;
   const { dragTargetExtendClasses = [] } = this.config;
+
+  if (self.boundaryDetectionHandler) {
+    cancelAnimationFrame(self.boundaryDetectionHandler);
+    self.boundaryDetectionHandler = null;
+  }
+
   if (self.cloneEl) {
     self.el.removeChild(self.cloneEl);
   }
@@ -569,10 +458,7 @@ function reset(targetEls) {
   self.ismovecanput = false;
   self.cloneElWidth = null;
   self.cloneElHeight = null;
-  if (self.boundaryDetectionHandler) {
-    cancelAnimationFrame(self.boundaryDetectionHandler);
-    self.boundaryDetectionHandler = null;
-  }
+
 
   const { onEnd } = self.config;
   if (onEnd) {
@@ -619,7 +505,11 @@ function naturalRelease(targetEl, sourceEl) {
  * @param {HTMLElement} - targetEl
  * @access private
  */
-function boundaryDetectionScroll({ top, bottom, left, right }, targetEl) {
+function boundaryDetectionScroll(rect, targetEl) {
+  const self = this;
+
+  const { top, bottom, left, right } = rect;
+
   if (top) {
     if (targetEl.scrollTop !== 0) {
       if (targetEl.scrollTop - scrollStep < 0) {
@@ -633,7 +523,7 @@ function boundaryDetectionScroll({ top, bottom, left, right }, targetEl) {
   if (bottom) {
     if (targetEl.scrollTop !== targetEl.scrollHeight) {
       if (targetEl.scrollTop + scrollStep > targetEl.scrollHeight) {
-        targetEl.scrollTop = targetEl.scrollerHeight;
+        targetEl.scrollTop = targetEl.scrollHeight;
       } else {
         targetEl.scrollTop += scrollStep;
       }
@@ -659,6 +549,10 @@ function boundaryDetectionScroll({ top, bottom, left, right }, targetEl) {
       }
     }
   }
+
+  self.boundaryDetectionHandler = requestAnimationFrame(() => {
+    boundaryDetectionScroll.call(self, rect, targetEl);
+  });
 }
 
 /**
@@ -676,6 +570,10 @@ class Droppable {
   constructor(el, config) {
     this.el = el;
     this.config = Object.assign({}, config);
+
+    this.onContainerMousemove = this.onContainerMousemove.bind(this);
+    this.onContainerMouseleave = this.onContainerMouseleave.bind(this);
+
     this.disable = false;
     this.sourceEls = this.el.querySelectorAll(`.${selectorPrefix}source`);
     this.targetEls = this.el.querySelectorAll(`.${selectorPrefix}target`);
@@ -689,6 +587,139 @@ class Droppable {
     this.boundaryDetectionHandler = null;
 
     initEvents.call(this);
+  }
+
+  /**
+   * onContainerMousemove
+   * @param {MouseEvent} - ev
+   * @return {boolean}
+   */
+  onContainerMousemove(ev) {
+    const self = this;
+
+    const { disable = false } = self;
+
+    if (disable) return false;
+
+    if (!self.isdown) return false;
+
+    const {
+      isDragSourceDisplay = true,
+      isDragSourceExist = true,
+      onBoundaryDetection,
+      infinite = false,
+    } = self.config;
+
+    if (!self.ismove) {
+      self.ismove = true;
+      if (!isDragSourceDisplay || !isDragSourceExist) {
+        self.sourceEl.style.visibility = 'hidden';
+      }
+    }
+
+    const left = ev.pageX - Math.floor(self.cloneElWidth / 2);
+    const top = ev.pageY - Math.floor(self.cloneElHeight / 2);
+
+    // 不是看curX和curY的值在不在targetEl里，而是看
+    const moveInTargetEls = getMoveInTargetEls.call(self);
+
+    // 不是无限画布
+    if (!infinite) {
+      if (moveInTargetEls.complete.length > 0) {
+        // 可以放置
+        self.cloneEl.style.cursor = 'pointer';
+      } else {
+        // 不可以放
+        self.cloneEl.style.cursor = 'not-allowed';
+      }
+
+      self.cloneEl.style.left = `${left}px`;
+      self.cloneEl.style.top = `${top}px`;
+    } else {
+      if (self.boundaryDetectionHandler) {
+        cancelAnimationFrame(self.boundaryDetectionHandler);
+        self.boundaryDetectionHandler = null;
+      }
+
+      if (self.ismovecanput) {
+        // 是无限画布
+        const { boundaryDetection } = moveInTargetEls;
+        const { rect } = boundaryDetection[0];
+
+        const condition = {
+          left: false,
+          right: false,
+          top: false,
+          bottom: false,
+        };
+
+        if (left < rect.left ||
+          left + self.cloneElWidth > rect.right
+        ) {
+          if (left < rect.left) {
+            self.cloneEl.style.left = `${rect.left}px`;
+            condition.left = true;
+          }
+
+          if (left + self.cloneElWidth > rect.right) {
+            self.cloneEl.style.left = `${rect.right - self.cloneElWidth}px`;
+            condition.right = true;
+          }
+        } else {
+          self.cloneEl.style.left = `${left}px`;
+        }
+
+
+        if (top < rect.top ||
+          top + self.cloneElHeight > rect.bottom
+        ) {
+          if (top < rect.top) {
+            self.cloneEl.style.top = `${rect.top}px`;
+            condition.top = true;
+          }
+
+          if (top + self.cloneElHeight > rect.bottom) {
+            self.cloneEl.style.top = `${rect.bottom - self.cloneElHeight}px`;
+            condition.bottom = true;
+          }
+        } else {
+          self.cloneEl.style.top = `${top}px`;
+        }
+
+        if (condition.left || condition.right || condition.top || condition.bottom) {
+          if (onBoundaryDetection) {
+            /**
+             * TODO change
+             * 传入对象
+             * 加入targetEls参数
+             */
+            onBoundaryDetection({
+              condition,
+              scroll: boundaryDetectionScroll.bind(self),
+              targetEls: self.targetEls,
+            });
+          }
+        }
+      } else {
+        if (moveInTargetEls.complete.length > 0) {
+          // 可以放置
+          self.ismovecanput = true;
+          self.cloneEl.style.cursor = 'pointer';
+        } else {
+          // 不可以放
+          self.cloneEl.style.cursor = 'not-allowed';
+        }
+
+        self.cloneEl.style.left = `${left}px`;
+        self.cloneEl.style.top = `${top}px`;
+      }
+    }
+  }
+
+  onContainerMouseleave() {
+    const self = this;
+    if (!self.isdown) return false;
+    goBack.call(self, self.sourceEl, self.targetEls);
   }
 
   /**

@@ -65,8 +65,8 @@ class ModalComponent extends React.Component {
 ModalComponent.propTypes = {
   title: PropTypes.string,
   component: PropTypes.object,
-  width:PropTypes.string,
-  height:PropTypes.string,
+  width: PropTypes.string,
+  height: PropTypes.string,
   zIndex: PropTypes.number,
   mask: PropTypes.bool,
   buttons: PropTypes.array,
