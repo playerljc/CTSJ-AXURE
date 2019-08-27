@@ -488,17 +488,13 @@ class ResizeableGroup {
     } else if (self.cur.direction === 'bottom') {
       self.resizeBottomDetail(incrementHeight);
     } else if (self.cur.direction === 'lefttop') {
-      self.resizeLeftDetail({ incrementWidth, left });
-      self.resizeTopDetail({ incrementHeight, top });
+      self.resizeLeftTopDetail({ incrementWidth, left, incrementHeight, top });
     } else if (self.cur.direction === 'leftbottom') {
-      self.resizeLeftDetail({ incrementWidth, left });
-      self.resizeBottomDetail(incrementHeight);
+      self.resizeLeftBottomDetail({ incrementWidth, left, incrementHeight });
     } else if (self.cur.direction === 'righttop') {
-      self.resizeRightDetail(incrementWidth);
-      self.resizeTopDetail({ incrementHeight, top });
+      self.resizeRightTopDetail({ incrementWidth, incrementHeight, top });
     } else if (self.cur.direction === 'rightbottom') {
-      self.resizeRightDetail(incrementWidth);
-      self.resizeBottomDetail(incrementHeight);
+      self.resizeRightBottomDetail({ incrementWidth, incrementHeight });
     }
 
     if (condition.left || condition.right || condition.top || condition.bottom) {
@@ -664,8 +660,9 @@ class ResizeableGroup {
    * resizeLeftDetail
    * @param {Number} - incrementWidth
    * @param {Number} - left
+   * @param {Boolean} - isUpdateCursor
    */
-  resizeLeftDetail({ incrementWidth, left }) {
+  resizeLeftDetail({ incrementWidth, left }, isUpdateCursor = true) {
     const self = this;
     const computeWidth = incrementWidth < self.cur.rightCritical ?
       self.cur.baseWidth - incrementWidth :
@@ -673,7 +670,10 @@ class ResizeableGroup {
     const computeLeft = incrementWidth < self.cur.rightCritical ?
       left + incrementWidth :
       left + self.cur.rightCritical;
-    document.body.style.cursor = 'w-resize';
+    if (isUpdateCursor) {
+      document.body.style.cursor = 'w-resize';
+    }
+
     if (computeLeft >= 0) {
       self.cur.el.style.width = `${computeWidth}px`;
       self.cur.el.style.left = `${computeLeft}px`;
@@ -683,13 +683,16 @@ class ResizeableGroup {
   /**
    * resizeRightDetail
    * @param {Number} - incrementWidth
+   * @param {Boolean} - isUpdateCursor
    */
-  resizeRightDetail(incrementWidth) {
+  resizeRightDetail(incrementWidth, isUpdateCursor = true) {
     const self = this;
     const computeWidth = incrementWidth > self.cur.leftCritical ?
       self.cur.baseWidth + incrementWidth :
       minWidth;
-    document.body.style.cursor = 'e-resize';
+    if (isUpdateCursor) {
+      document.body.style.cursor = 'e-resize';
+    }
     self.cur.el.style.width = `${computeWidth}px`;
   }
 
@@ -697,8 +700,9 @@ class ResizeableGroup {
    * resizeTopDetail
    * @param {Number} - incrementHeight
    * @param {Number} - top
+   * @param {Boolean} - isUpdateCursor
    */
-  resizeTopDetail({ incrementHeight, top }) {
+  resizeTopDetail({ incrementHeight, top }, isUpdateCursor = true) {
     const self = this;
     const computeHeight = incrementHeight < self.cur.bottomCritical ?
       self.cur.baseHeight - incrementHeight :
@@ -706,7 +710,9 @@ class ResizeableGroup {
     const computeTop = incrementHeight < self.cur.bottomCritical ?
       top + incrementHeight :
       top + self.cur.bottomCritical;
-    document.body.style.cursor = 'n-resize';
+    if (isUpdateCursor) {
+      document.body.style.cursor = 'n-resize';
+    }
     if (computeTop >= 0) {
       self.cur.el.style.height = `${computeHeight}px`;
       self.cur.el.style.top = `${computeTop}px`;
@@ -716,14 +722,65 @@ class ResizeableGroup {
   /**
    * resizeBottomDetail
    * @param {Number} - incrementHeight
+   * @param {Boolean} - isUpdateCursor
    */
-  resizeBottomDetail(incrementHeight) {
+  resizeBottomDetail(incrementHeight, isUpdateCursor = true) {
     const self = this;
     const computeHeight = incrementHeight > self.cur.topCritical ?
       self.cur.baseHeight + incrementHeight :
       minHeight;
-    document.body.style.cursor = 's-resize';
+    if (isUpdateCursor) {
+      document.body.style.cursor = 's-resize';
+    }
     self.cur.el.style.height = `${computeHeight}px`;
+  }
+
+  /**
+   * resizeLeftTopDetail
+   * @param incrementWidth
+   * @param left
+   * @param incrementHeight
+   * @param top
+   */
+  resizeLeftTopDetail({ incrementWidth, left, incrementHeight, top }) {
+    this.resizeLeftDetail({ incrementWidth, left }, false);
+    this.resizeTopDetail({ incrementHeight, top }, false);
+    document.body.style.cursor = 'nw-resize';
+  }
+
+  /**
+   * resizeLeftBottomDetail
+   * @param incrementWidth
+   * @param left
+   * @param incrementHeight
+   */
+  resizeLeftBottomDetail({incrementWidth, left, incrementHeight}) {
+    this.resizeLeftDetail({ incrementWidth, left }, false);
+    this.resizeBottomDetail(incrementHeight, false);
+    document.body.style.cursor = 'sw-resize';
+  }
+
+  /**
+   * resizeRightTopDetail
+   * @param incrementWidth
+   * @param incrementHeight
+   * @param top
+   */
+  resizeRightTopDetail({incrementWidth, incrementHeight, top}) {
+    this.resizeRightDetail(incrementWidth, false);
+    this.resizeTopDetail({ incrementHeight, top }, false);
+    document.body.style.cursor = 'ne-resize';
+  }
+
+  /**
+   * resizeRightBottomDetail
+   * @param incrementWidth
+   * @param incrementHeight
+   */
+  resizeRightBottomDetail({incrementWidth, incrementHeight}) {
+    this.resizeRightDetail(incrementWidth, false);
+    this.resizeBottomDetail(incrementHeight, false);
+    document.body.style.cursor = 'se-resize';
   }
 
   /**
