@@ -113,8 +113,6 @@ function setMapPosition(/* { left, top, width, height } */config, isRightEdge = 
   `;
   }
 
-  console.log(isRightEdge);
-
   if ('left' in config && 'width' in config) {
     if (isRightEdge) {
       this.mapEl.style.left = `${left - this.mapEl.offsetWidth - 10}px`;
@@ -189,8 +187,10 @@ function mouseupDetail() {
   const { mode = 'normal', showMap = false } = self.config;
   // 如果model是clone时
   if (mode === 'clone' && self.srcEl && self.sourceEl) {
-    self.srcEl.style.left = self.sourceEl.style.left;
-    self.srcEl.style.top = self.sourceEl.style.top;
+    if (self.ismove && (self.endTime - self.startTime >= 200)) {
+      self.srcEl.style.left = self.sourceEl.style.left;
+      self.srcEl.style.top = self.sourceEl.style.top;
+    }
     self.sourceEl.parentElement.removeChild(self.sourceEl);
   }
 
@@ -397,6 +397,7 @@ class Drag {
       onStart(self.el, sourceEl);
     }
 
+    self.startTime = new Date().getTime();
     self.isdown = true;
 
     const { mode = 'normal' } = self.config;
@@ -463,6 +464,7 @@ class Drag {
     e.preventDefault();
     e.stopPropagation();
 
+    self.endTime = new Date().getTime();
     mouseupDetail.call(self);
 
     const { onEnd } = self.config;

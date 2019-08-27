@@ -2,6 +2,7 @@ import React from 'react';
 import Tab from '../../../global/Tab/Tab';
 import TabPanel from '../../../global/Tab/TabPanel';
 import CanvasTabPanel from './CanvasTabPanel';
+import CanvasEmptyPanel from './CanvasEmptyPanel';
 import Actions from '../../../../util/Actions';
 import Emitter from '../../../../util/Emitter';
 import PageModel from '../../../../model/PageModel';
@@ -115,31 +116,35 @@ class CanvasPanel extends Component {
     const { data = [], activeKey } = this.state;
     return (
       <div className={selectorPrefix}>
-        <Tab
-          activeKey={activeKey}
-          onChange={this.onChange}
-          onRemove={this.onRemove}
-        >
-          {
-            data.map((t) => {
-              const { name, id: pageId, property } = t;
-              return (
-                <TabPanel name={name} key={pageId}>
-                  {/* 一个页面 start */}
-                  <CanvasTabPanel
-                    activePageId={activeKey}
-                    pageId={pageId}
-                    property={property || CanvasTabPanelPropertyDefaultConfig()}
-                    getInstance={(ins) => {
-                      PageModel.add(ins);
-                    }}
-                  />
-                  {/* 一个页面 end */}
-                </TabPanel>
-              );
-            })
-          }
-        </Tab>
+        {
+          data.length === 0 ?
+          (<CanvasEmptyPanel />) :
+          <Tab
+            activeKey={activeKey}
+            onChange={this.onChange}
+            onRemove={this.onRemove}
+          >
+            {
+              data.map((t) => {
+                const { name, id: pageId, property } = t;
+                  return (
+                    <TabPanel name={name} key={pageId}>
+                      {/* 一个页面 start */}
+                      <CanvasTabPanel
+                        activePageId={activeKey}
+                        pageId={pageId}
+                        property={property || CanvasTabPanelPropertyDefaultConfig()}
+                        getInstance={(ins) => {
+                          PageModel.add(ins);
+                        }}
+                      />
+                      {/* 一个页面 end */}
+                    </TabPanel>
+                  );
+              })
+            }
+          </Tab>
+        }
       </div>
     );
   }

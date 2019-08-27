@@ -33,6 +33,7 @@
 .PropertyREADME中field数据如果是select加入value字段，group中的field如果是select，options删除，数据从field的value里取值
 .增加droppable的无限滚动
 .增加drag的无限滚动
+.drag的时候map的适配显示
 
 .实现Src-Property Property-Src之间的数据同步
 
