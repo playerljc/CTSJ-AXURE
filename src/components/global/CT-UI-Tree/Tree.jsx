@@ -5,7 +5,7 @@ import TreeNode from './TreeNode';
 import { TreeContext } from './Context';
 import './Tree.less';
 
-const selectorPrefix = 'AX-Tree';
+const selectorPrefix = 'CT-UI-Tree';
 
 /**
  * Tree

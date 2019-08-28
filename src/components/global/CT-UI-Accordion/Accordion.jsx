@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Accordion.less';
 
-const selectorPrefix = 'AX-Accordion';
+const selectorPrefix = 'CT-UI-Accordion';
 
 /**
  * Accordion

@@ -1,6 +1,6 @@
-.AX-TreeNode {
+.CT-UI-TreeNode {
   overflow: auto;
-  .AX-TreeNode-Summary {
+  .CT-UI-TreeNode-Summary {
     display: flex;
     align-items: center;
     outline:0;
@@ -8,43 +8,43 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    .AX-TreeNode-Summary-Inner {
+    .CT-UI-TreeNode-Summary-Inner {
       width: 100%;
-      .AX-TreeNode-Icon {
+      .CT-UI-TreeNode-Icon {
         margin:0 10px 0 5px;
         font-size: 14px;
       }
     }
   }
-  .AX-TreeNode-Children {
+  .CT-UI-TreeNode-Children {
     box-sizing: border-box;
     padding-left: 20px;
   }
 }
 
-.AX-TreeNode.Active {
-  > .AX-TreeNode-Summary {
-    > .AX-TreeNode-Summary-Inner {
-      > .AX-TreeNode-Name {
+.CT-UI-TreeNode.Active {
+  > .CT-UI-TreeNode-Summary {
+    > .CT-UI-TreeNode-Summary-Inner {
+      > .CT-UI-TreeNode-Name {
         font-weight: bold;
       }
     }
   }
 }
 
-.AX-TreeNode.Leaf {
+.CT-UI-TreeNode.Leaf {
   & ::-webkit-details-marker {
     display: none;
   }
 
-  .AX-TreeNode-Summary {
-    .AX-TreeNode-Icon {
+  .CT-UI-TreeNode-Summary {
+    .CT-UI-TreeNode-Icon {
       margin-left: 6px;
     }
   }
 }
 
-.AX-TreeNode.Leaf {
+.CT-UI-TreeNode.Leaf {
   & ::-moz-list-bullet {
     font-size: 0;
     float: left;

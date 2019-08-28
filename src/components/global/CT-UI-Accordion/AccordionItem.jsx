@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './AccordionItem.less';
 
-const selectorPrefix = 'AX-AccordionItem';
+const selectorPrefix = 'CT-UI-AccordionItem';
 
 /**
  * AccordionItem

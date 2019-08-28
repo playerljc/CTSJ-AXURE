@@ -1,0 +1,102 @@
+.CT-UI-Table {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+
+  // 列头
+  > .CT-UI-Table-Header {
+    display: flex;
+    align-items: center;
+    // 列头项
+    > .CT-UI-Table-Header-Item {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      background: #fafafa;
+      border-bottom: 1px solid #e8e8e8;
+      padding: 15px 10px;
+      font-weight: 500;
+    }
+
+    // 列头Cell的对其方式
+    > .CT-UI-Table-Header-Item.align-left {
+      justify-content: flex-start;
+    }
+
+    > .CT-UI-Table-Header-Item.align-center {
+      justify-content: center;
+    }
+
+    > .CT-UI-Table-Header-Item.align-right {
+      justify-content: flex-end;
+    }
+
+    // 列头Cell自适应
+    > .CT-UI-Table-Header-Item.auto {
+      flex-grow: 1;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+
+  }
+
+  // 表格体
+  > .CT-UI-Table-Body {
+    // 行
+    > .CT-UI-Table-Body-Row {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #e8e8e8;
+      transition: background-color .2s linear;
+      // 单元格
+      > .CT-UI-Table-Cell {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        padding: 10px;
+      }
+
+      // 单元格的对其方式
+      > .CT-UI-Table-Cell.align-left {
+        justify-content: flex-start;
+      }
+
+      > .CT-UI-Table-Cell.align-center {
+        justify-content: center;
+      }
+
+      > .CT-UI-Table-Cell.align-right {
+        justify-content: flex-end;
+      }
+
+      // 单元格自适应
+      > .CT-UI-Table-Cell.auto {
+        flex-grow: 1;
+        flex-shrink: 1;
+        min-width: 0;
+      }
+
+      // hover
+      &:hover {
+        background-color: rgba(0, 122, 255, .5);
+      }
+    }
+  }
+}
+
+// 列锁定
+.CT-UI-Table.columnLock {
+  display: flex;
+  flex-direction: column;
+
+  > .CT-UI-Table-Header {
+    flex-shrink: 0;
+  }
+
+  > .CT-UI-Table-Body {
+    flex-grow: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+}

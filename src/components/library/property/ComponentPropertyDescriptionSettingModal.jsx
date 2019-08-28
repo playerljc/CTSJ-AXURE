@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Tab from '../../global/Tab/Tab';
-import TabPanel from '../../global/Tab/TabPanel';
+import Tab from '../../global/CT-UI-Tab/Tab';
+import TabPanel from '../../global/CT-UI-Tab/TabPanel';
+import Table from '../../global/CT-UI-Table/Table';
 import { Select } from '../../global/CT-UI-Form';
 import DescriptionField from './DescriptionField.json';
 import './ComponentPropertyDescriptionSettingModal.less';
@@ -27,19 +28,43 @@ class FieldTab extends React.Component {
     const { fieldSelectValue } = this.state;
     return (
       <div className={`${selectPrefix}-FieldTab`}>
-        <fieldset>
+        <fieldset className={`${selectPrefix}-FieldTab-FieldSet`}>
           <legend>Custom Field</legend>
-          <div>
-            <Select value={fieldSelectValue} >
-              {DescriptionField.map(({ name, type }) => {
-                return (<option value={type}>{name}</option>);
-              })}
-            </Select>
-          </div>
-          <div />
+          <Select value={fieldSelectValue} >
+            {DescriptionField.map(({ name, type }) => {
+              return (<option value={type}>{name}</option>);
+            })}
+          </Select>
+          <Table
+            columns={[{
+              title: 'Field',
+              key: 'Field',
+              align: 'center',
+              dataIndex: 'field',
+            }, {
+              title: 'Type',
+              key: 'Type',
+              align: 'center',
+              dataIndex: 'type',
+            }]}
+            data={[{
+              field: '111',
+              type: '222',
+              id: '1',
+            }, {
+              field: '222',
+              type: '222',
+              id: '2',
+            }, {
+              field: '33',
+              type: '222',
+              id: '3',
+            }]}
+            rowKey="id"
+          />
         </fieldset>
 
-        <fieldset>
+        <fieldset className={`${selectPrefix}-FieldTab-FieldSet`}>
           <legend>editor:list</legend>
         </fieldset>
       </div>
@@ -118,7 +143,7 @@ class ComponentPropertyDescriptionSettingModal extends React.Component {
 }
 
 ComponentPropertyDescriptionSettingModal.propTypes = {
-  property: PropsType.object,
+  property: PropTypes.object,
 };
 
 export default ComponentPropertyDescriptionSettingModal;

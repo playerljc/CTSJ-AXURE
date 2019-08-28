@@ -1,5 +1,5 @@
 import React from 'react';
-import Tree from '../../../global/Tree/Tree';
+import Tree from '../../../global/CT-UI-Tree/Tree';
 import Actions from '../../../../util/Actions';
 import Emitter from '../../../../util/Emitter';
 import './PagePanel.less';

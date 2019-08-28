@@ -4,7 +4,7 @@ import uuidv1 from 'uuid/v1';
 import { TabContext } from './Context';
 import './Tab.less';
 
-const selectorPrefix = 'AX-Tab';
+const selectorPrefix = 'CT-UI-Tab';
 
 /**
  * Tab

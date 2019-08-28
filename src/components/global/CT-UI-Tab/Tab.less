@@ -1,20 +1,20 @@
-.AX-Tab {
+.CT-UI-Tab {
   display: flex;
   flex-direction: column;
 
-  .AX-Tab-Bar {
+  .CT-UI-Tab-Bar {
     display: flex;
     height: 30px;
     flex-shrink: 0;
 
-    .AX-Tab-Bar-Inner {
+    .CT-UI-Tab-Bar-Inner {
       flex-grow: 1;
       min-width: 0;
       overflow-x: auto;
       overflow-y: hidden;
       white-space: nowrap;
 
-      .AX-Tab-Bar-Item {
+      .CT-UI-Tab-Bar-Item {
         display: inline-flex;
         justify-content: space-between;
         align-items: center;
@@ -28,7 +28,7 @@
         border-bottom: 1px solid rgba(0, 0, 0, .1);
         font-size: 14px;
 
-        .AX-Tab-Bar-Item-Inner {
+        .CT-UI-Tab-Bar-Item-Inner {
           flex-grow: 1;
           min-width: 0;
           //white-space: nowrap;
@@ -36,14 +36,14 @@
           //text-overflow: ellipsis;
         }
 
-        .AX-Tab-Bar-Item-Trigger {
+        .CT-UI-Tab-Bar-Item-Trigger {
           margin-left: 5px;
           font-size: 16px;
           color: #ccc;
         }
       }
 
-      .AX-Tab-Bar-Item.Active {
+      .CT-UI-Tab-Bar-Item.Active {
         background-color: #fff;
         font-size: 16px;
         font-weight: bold;
@@ -52,7 +52,7 @@
       }
     }
 
-    .AX-Tab-Bar-Trigger {
+    .CT-UI-Tab-Bar-Trigger {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -64,7 +64,7 @@
     }
   }
 
-  .AX-Tab-Content {
+  .CT-UI-Tab-Content {
     flex-grow: 1;
     min-height: 0;
   }

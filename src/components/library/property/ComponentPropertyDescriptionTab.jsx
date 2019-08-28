@@ -4,6 +4,7 @@ import { Input, Select } from '../../global/CT-UI-Form';
 import Modal from '../../global/CT-UI-Modal/modal';
 import { create } from '../../global/CT-UI-Form/form';
 import { getMaxLevelNumber } from '../component/ComponentBaseHOC';
+import ComponentPropertyDescriptionSettingModal from './ComponentPropertyDescriptionSettingModal';
 import Actions from '../../../util/Actions';
 import Emitter from '../../../util/Emitter';
 
@@ -20,6 +21,8 @@ const selectorPrefix = 'ComponentPropertyDescriptionTab';
 class ComponentPropertyDescriptionTab extends React.Component {
   constructor(props) {
     super(props);
+
+    this.onOpenCustomProperty = this.onOpenCustomProperty.bind(this);
 
     const { property: { group = [] } } = this.props;
 
@@ -245,6 +248,24 @@ class ComponentPropertyDescriptionTab extends React.Component {
     });
   };
 
+  /**
+   * onOpenCustomProperty
+   * */
+  onOpenCustomProperty() {
+    const { property } = this.props;
+    Modal.open({
+      title: '11111',
+      zIndex: window.parseInt(getMaxLevelNumber()) + 1,
+      component: (<ComponentPropertyDescriptionSettingModal property={Object.assign({}, property)} />),
+      buttons: [{
+        text: '确定',
+        handler: () => {
+
+        },
+      }],
+    });
+  }
+
   render() {
     this.props.form.clear();
     return (
@@ -256,22 +277,7 @@ class ComponentPropertyDescriptionTab extends React.Component {
         </div>
 
         <div className={`${selectorPrefix}-Tool`}>
-          <span onClick={() => {
-            Modal.open({
-              title: '11111',
-              zIndex: window.parseInt(getMaxLevelNumber()) + 1,
-              component: (
-                <div>1121212121212</div>
-              ),
-              buttons: [{
-                text: '确定',
-                handler: () => {
-
-                },
-              }],
-            });
-          }}
-          >customProperty
+          <span onClick={this.onOpenCustomProperty}>customProperty
           </span>
           <span>clearAll</span>
         </div>

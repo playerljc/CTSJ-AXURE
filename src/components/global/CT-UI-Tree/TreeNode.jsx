@@ -5,7 +5,7 @@ import { TreeContext } from './Context';
 import Click from '../../../util/Click';
 import './TreeNode.less';
 
-const selectorPrefix = 'AX-TreeNode';
+const selectorPrefix = 'CT-UI-TreeNode';
 
 /**
  * TreeNode

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { TabContext } from './Context';
 import './TabPanel.less';
 
-const selectorPrefix = 'AX-Tab-Panel';
+const selectorPrefix = 'CT-UI-Tab-Panel';
 
 /**
  * TabPanel

@@ -1,7 +1,7 @@
 import React from 'react';
 import SplitFactory from '../../../global/CT-UI-Split/split';
-import Accordion from '../../../global/Accordion/Accordion';
-import CardAccordionItem from '../../../global/Accordion/CardAccordionItem';
+import Accordion from '../../../global/CT-UI-Accordion/Accordion';
+import CardAccordionItem from '../../../global/CT-UI-Accordion/CardAccordionItem';
 import PagePanel from '../PagePanel/PagePanel';
 import ComponentPanel from '../ComponentPanel/ComponentPanel';
 import './FunctionalPanel.less';

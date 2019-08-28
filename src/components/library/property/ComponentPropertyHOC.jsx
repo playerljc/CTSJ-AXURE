@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Tab from '../../global/Tab/Tab';
-import TabPanel from '../../global/Tab/TabPanel';
+import Tab from '../../global/CT-UI-Tab/Tab';
+import TabPanel from '../../global/CT-UI-Tab/TabPanel';
 import ComponentPropertyDescriptionTab from './ComponentPropertyDescriptionTab';
 import ComponentPropertyStyleTab from './ComponentPropertyStyleTab';
 
@@ -32,7 +32,7 @@ export default (PropertyTabComponent) => {
       };
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {
+    componentWillReceiveProps(nextProps) {
       this.setState({
         property: nextProps.shape.getProperty(),
       });

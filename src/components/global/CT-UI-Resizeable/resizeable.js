@@ -36,7 +36,6 @@
 
  demo:
  */
-import uuidv1 from 'uuid/v1';
 import { Dom6 } from '../../../util/CTMobile-UI-Util';
 import './resizeable.less';
 
@@ -47,6 +46,7 @@ const edgeStep = 5;
 const minWidth = 2;
 // 最小高度
 const minHeight = 2;
+const scrollStep = 5;
 
 /**
  * Resizeable
@@ -86,7 +86,7 @@ class Resizeable {
     const self = this;
     const { disable = false } = self;
 
-    if (/* self.parent.disable || */disable) return false;
+    if (disable) return false;
 
     if (!self.isCanResize) {
       return false;
@@ -131,9 +131,7 @@ class Resizeable {
 
     self.parent.capture = true;
 
-    // console.log(self.id, 'resizemove', disable);
-
-    if (/* self.parent.disable || */disable) {
+    if (disable) {
       return false;
     }
 
@@ -396,6 +394,11 @@ class ResizeableGroup {
     this.ins = new Map();
     this.disable = false;
 
+    this.scrollEl = this.el.parentElement;
+    this.scrollElRect = this.scrollEl.getBoundingClientRect();
+    this.scrollElWidth = this.scrollEl.offsetWidth;
+    this.scrollElHeight = this.scrollEl.offsetHeight;
+
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
 
@@ -419,8 +422,6 @@ class ResizeableGroup {
       return false;
     }
 
-    // console.log('resizegroup', 'mouse');
-
     if (!(self.cur && self.cur.isCanResize && self.cur.isDown)) {
       if (self.cur) {
         self.reset();
@@ -439,46 +440,79 @@ class ResizeableGroup {
 
     const { clientX, clientY } = e;
 
-    const width = clientX - self.cur.baseX;
-    const height = clientY - self.cur.baseY;
+    if (self.boundaryDetectionHandler) {
+      cancelAnimationFrame(self.boundaryDetectionHandler);
+      self.boundaryDetectionHandler = null;
+    }
 
-    const left = self.cur.clientX; // self.cur.rect.left - self.rect.left;
-    const top = self.cur.clientY; // self.cur.rect.top - self.rect.top;
+    const condition = {
+      left: false,
+      right: false,
+      top: false,
+      bottom: false,
+    };
+
+    if (clientX <= self.scrollElRect.left) {
+      condition.left = true;
+    }
+
+    if (clientX >= self.scrollElRect.right - 20) {
+      condition.right = true;
+    }
+
+    if (clientY <= self.scrollElRect.top) {
+      condition.top = true;
+    }
+
+    if (clientY >= self.scrollElRect.bottom - 20) {
+      condition.bottom = true;
+    }
+
+
+    const incrementWidth = clientX - self.cur.baseX;
+    const incrementHeight = clientY - self.cur.baseY;
+
+    const left = self.cur.clientX;
+    const top = self.cur.clientY;
 
     if (self.cur.direction === 'right') {
-      document.body.style.cursor = 'e-resize';
-      self.cur.el.style.width = width > self.cur.leftCritical ? `${self.cur.baseWidth + width}px` : `${minWidth}px`;
+      self.resizeRightDetail(incrementWidth);
     } else if (self.cur.direction === 'left') {
-      document.body.style.cursor = 'w-resize';
-      self.cur.el.style.width = width < self.cur.rightCritical ? `${self.cur.baseWidth - width}px` : `${minWidth}px`;
-      self.cur.el.style.left = width < self.cur.rightCritical ? `${left + width}px` : `${left + self.cur.rightCritical}px`;
+      self.resizeLeftDetail({ incrementWidth, left });
     } else if (self.cur.direction === 'top') {
-      document.body.style.cursor = 'n-resize';
-      self.cur.el.style.height = height < self.cur.bottomCritical ? `${self.cur.baseHeight - height}px` : `${minHeight}px`;
-      self.cur.el.style.top = height < self.cur.bottomCritical ? `${top + height}px` : `${top + self.cur.bottomCritical}px`;
+      self.resizeTopDetail({ incrementHeight, top });
     } else if (self.cur.direction === 'bottom') {
-      document.body.style.cursor = 's-resize';
-      self.cur.el.style.height = height > self.cur.topCritical ? `${self.cur.baseHeight + height}px` : `${minHeight}px`;
+      self.resizeBottomDetail(incrementHeight);
     } else if (self.cur.direction === 'lefttop') {
-      document.body.style.cursor = 'nw-resize';
-      self.cur.el.style.width = width < self.cur.rightCritical ? `${self.cur.baseWidth - width}px` : `${minWidth}px`;
-      self.cur.el.style.left = width < self.cur.rightCritical ? `${left + width}px` : `${left + self.cur.rightCritical}px`;
-      self.cur.el.style.height = height < self.cur.bottomCritical ? `${self.cur.baseHeight - height}px` : `${minHeight}px`;
-      self.cur.el.style.top = height < self.cur.bottomCritical ? `${top + height}px` : `${top + self.cur.bottomCritical}px`;
+      self.resizeLeftTopDetail({ incrementWidth, left, incrementHeight, top });
     } else if (self.cur.direction === 'leftbottom') {
-      document.body.style.cursor = 'sw-resize';
-      self.cur.el.style.width = width < self.cur.rightCritical ? `${self.cur.baseWidth - width}px` : `${minWidth}px`;
-      self.cur.el.style.left = width < self.cur.rightCritical ? `${left + width}px` : `${left + self.cur.rightCritical}px`;
-      self.cur.el.style.height = height > self.cur.topCritical ? `${self.cur.baseHeight + height}px` : `${minHeight}px`;
+      self.resizeLeftBottomDetail({ incrementWidth, left, incrementHeight });
     } else if (self.cur.direction === 'righttop') {
-      document.body.style.cursor = 'ne-resize';
-      self.cur.el.style.width = width > self.cur.leftCritical ? `${self.cur.baseWidth + width}px` : `${minWidth}px`;
-      self.cur.el.style.height = height < self.cur.bottomCritical ? `${self.cur.baseHeight - height}px` : `${minHeight}px`;
-      self.cur.el.style.top = height < self.cur.bottomCritical ? `${top + height}px` : `${top + self.cur.bottomCritical}px`;
+      self.resizeRightTopDetail({ incrementWidth, incrementHeight, top });
     } else if (self.cur.direction === 'rightbottom') {
-      document.body.style.cursor = 'se-resize';
-      self.cur.el.style.width = width > self.cur.leftCritical ? `${self.cur.baseWidth + width}px` : `${minWidth}px`;
-      self.cur.el.style.height = height > self.cur.topCritical ? `${self.cur.baseHeight + height}px` : `${minHeight}px`;
+      self.resizeRightBottomDetail({ incrementWidth, incrementHeight });
+    }
+
+    if (condition.left || condition.right || condition.top || condition.bottom) {
+      if (condition.left || condition.right) {
+        self.cur.baseWidth = self.cur.el.offsetWidth;
+        self.cur.clientX = self.cur.el.offsetLeft;
+        // 左侧的临界值
+        self.cur.leftCritical = -self.cur.baseWidth + minWidth;
+        // 右侧的临界值
+        self.cur.rightCritical = self.cur.baseWidth - minWidth;
+      }
+
+      if (condition.top || condition.bottom) {
+        self.cur.baseHeight = self.cur.el.offsetHeight;
+        self.cur.clientY = self.cur.el.offsetTop;
+        // 上方的临界值
+        self.cur.topCritical = -self.cur.baseHeight + minHeight;
+        // 下方的临界值
+        self.cur.bottomCritical = self.cur.baseHeight - minHeight;
+      }
+
+      self.boundaryDetectionScroll(condition);
     }
   }
 
@@ -508,6 +542,243 @@ class ResizeableGroup {
   }
 
   /**
+   * boundaryDetectionScroll
+   * @param {Object} - condition
+   */
+  boundaryDetectionScroll(condition) {
+    const self = this;
+
+    const { top, bottom, left, right } = condition;
+
+    const curElRect = self.cur.el.getBoundingClientRect();
+
+    if (top) {
+      if (self.scrollEl.scrollTop !== 0) {
+        if (self.scrollEl.scrollTop - scrollStep < 0) {
+          self.scrollEl.scrollTop = 0;
+        } else {
+          self.scrollEl.scrollTop -= scrollStep;
+        }
+        if (self.cur.direction === 'top') {
+          self.cur.baseY = curElRect.top;
+        } else if (self.cur.direction === 'lefttop') {
+          self.cur.baseY = curElRect.top;
+        } else if (self.cur.direction === 'righttop') {
+          self.cur.baseY = curElRect.top;
+        } else if (self.cur.direction === 'bottom') {
+          self.cur.baseY = curElRect.bottom;
+        } else if (self.cur.direction === 'leftbottom') {
+          self.cur.baseY = curElRect.bottom;
+        } else if (self.cur.direction === 'rightbottom') {
+          self.cur.baseY = curElRect.bottom;
+        }
+      }
+    }
+
+    if (bottom) {
+      if (self.scrollEl.scrollTop !== self.scrollEl.scrollHeight) {
+        if (self.scrollEl.scrollTop + scrollStep > self.scrollEl.scrollHeight) {
+          self.scrollEl.scrollTop = self.scrollEl.scrollHeight;
+        } else {
+          self.scrollEl.scrollTop += scrollStep;
+        }
+        if (self.cur.direction === 'top') {
+          self.cur.baseY = curElRect.top;
+        } else if (self.cur.direction === 'lefttop') {
+          self.cur.baseY = curElRect.top;
+        } else if (self.cur.direction === 'righttop') {
+          self.cur.baseY = curElRect.top;
+        } else if (self.cur.direction === 'bottom') {
+          self.cur.baseY = curElRect.bottom;
+        } else if (self.cur.direction === 'leftbottom') {
+          self.cur.baseY = curElRect.bottom;
+        } else if (self.cur.direction === 'rightbottom') {
+          self.cur.baseY = curElRect.bottom;
+        }
+      }
+    }
+
+    if (left) {
+      if (self.scrollEl.scrollLeft !== 0) {
+        if (self.scrollEl.scrollLeft - scrollStep < 0) {
+          self.scrollEl.scrollLeft = 0;
+        } else {
+          self.scrollEl.scrollLeft -= scrollStep;
+        }
+
+        if (self.cur.direction === 'left') {
+          self.cur.baseX = curElRect.left;
+        } else if (self.cur.direction === 'lefttop') {
+          self.cur.baseX = curElRect.left;
+        } else if (self.cur.direction === 'leftbottom') {
+          self.cur.baseX = curElRect.left;
+        } else if (self.cur.direction === 'right') {
+          self.cur.baseX = curElRect.right;
+        } else if (self.cur.direction === 'righttop') {
+          self.cur.baseX = curElRect.right;
+        } else if (self.cur.direction === 'rightbottom') {
+          self.cur.baseX = curElRect.right;
+        }
+      }
+    }
+
+    if (right) {
+      if (self.scrollEl.scrollLeft !== self.scrollEl.scrollWidth) {
+        if (self.scrollEl.scrollLeft + scrollStep > self.scrollEl.scrollWidth) {
+          self.scrollEl.scrollLeft = self.scrollEl.scrollWidth;
+        } else {
+          self.scrollEl.scrollLeft += scrollStep;
+        }
+
+        if (self.cur.direction === 'left') {
+          self.cur.baseX = curElRect.left;
+        } else if (self.cur.direction === 'lefttop') {
+          self.cur.baseX = curElRect.left;
+        } else if (self.cur.direction === 'leftbottom') {
+          self.cur.baseX = curElRect.left;
+        } else if (self.cur.direction === 'right') {
+          self.cur.baseX = curElRect.right;
+        } else if (self.cur.direction === 'righttop') {
+          self.cur.baseX = curElRect.right;
+        } else if (self.cur.direction === 'rightbottom') {
+          self.cur.baseX = curElRect.right;
+        }
+      }
+    }
+
+    self.boundaryDetectionHandler = requestAnimationFrame(() => {
+      self.boundaryDetectionScroll(condition);
+    });
+  }
+
+  /**
+   * resizeLeftDetail
+   * @param {Number} - incrementWidth
+   * @param {Number} - left
+   * @param {Boolean} - isUpdateCursor
+   */
+  resizeLeftDetail({ incrementWidth, left }, isUpdateCursor = true) {
+    const self = this;
+    const computeWidth = incrementWidth < self.cur.rightCritical ?
+      self.cur.baseWidth - incrementWidth :
+      minWidth;
+    const computeLeft = incrementWidth < self.cur.rightCritical ?
+      left + incrementWidth :
+      left + self.cur.rightCritical;
+    if (isUpdateCursor) {
+      document.body.style.cursor = 'w-resize';
+    }
+
+    if (computeLeft >= 0) {
+      self.cur.el.style.width = `${computeWidth}px`;
+      self.cur.el.style.left = `${computeLeft}px`;
+    }
+  }
+
+  /**
+   * resizeRightDetail
+   * @param {Number} - incrementWidth
+   * @param {Boolean} - isUpdateCursor
+   */
+  resizeRightDetail(incrementWidth, isUpdateCursor = true) {
+    const self = this;
+    const computeWidth = incrementWidth > self.cur.leftCritical ?
+      self.cur.baseWidth + incrementWidth :
+      minWidth;
+    if (isUpdateCursor) {
+      document.body.style.cursor = 'e-resize';
+    }
+    self.cur.el.style.width = `${computeWidth}px`;
+  }
+
+  /**
+   * resizeTopDetail
+   * @param {Number} - incrementHeight
+   * @param {Number} - top
+   * @param {Boolean} - isUpdateCursor
+   */
+  resizeTopDetail({ incrementHeight, top }, isUpdateCursor = true) {
+    const self = this;
+    const computeHeight = incrementHeight < self.cur.bottomCritical ?
+      self.cur.baseHeight - incrementHeight :
+      minHeight;
+    const computeTop = incrementHeight < self.cur.bottomCritical ?
+      top + incrementHeight :
+      top + self.cur.bottomCritical;
+    if (isUpdateCursor) {
+      document.body.style.cursor = 'n-resize';
+    }
+    if (computeTop >= 0) {
+      self.cur.el.style.height = `${computeHeight}px`;
+      self.cur.el.style.top = `${computeTop}px`;
+    }
+  }
+
+  /**
+   * resizeBottomDetail
+   * @param {Number} - incrementHeight
+   * @param {Boolean} - isUpdateCursor
+   */
+  resizeBottomDetail(incrementHeight, isUpdateCursor = true) {
+    const self = this;
+    const computeHeight = incrementHeight > self.cur.topCritical ?
+      self.cur.baseHeight + incrementHeight :
+      minHeight;
+    if (isUpdateCursor) {
+      document.body.style.cursor = 's-resize';
+    }
+    self.cur.el.style.height = `${computeHeight}px`;
+  }
+
+  /**
+   * resizeLeftTopDetail
+   * @param incrementWidth
+   * @param left
+   * @param incrementHeight
+   * @param top
+   */
+  resizeLeftTopDetail({ incrementWidth, left, incrementHeight, top }) {
+    this.resizeLeftDetail({ incrementWidth, left }, false);
+    this.resizeTopDetail({ incrementHeight, top }, false);
+    document.body.style.cursor = 'nw-resize';
+  }
+
+  /**
+   * resizeLeftBottomDetail
+   * @param incrementWidth
+   * @param left
+   * @param incrementHeight
+   */
+  resizeLeftBottomDetail({ incrementWidth, left, incrementHeight }) {
+    this.resizeLeftDetail({ incrementWidth, left }, false);
+    this.resizeBottomDetail(incrementHeight, false);
+    document.body.style.cursor = 'sw-resize';
+  }
+
+  /**
+   * resizeRightTopDetail
+   * @param incrementWidth
+   * @param incrementHeight
+   * @param top
+   */
+  resizeRightTopDetail({ incrementWidth, incrementHeight, top }) {
+    this.resizeRightDetail(incrementWidth, false);
+    this.resizeTopDetail({ incrementHeight, top }, false);
+    document.body.style.cursor = 'ne-resize';
+  }
+
+  /**
+   * resizeRightBottomDetail
+   * @param incrementWidth
+   * @param incrementHeight
+   */
+  resizeRightBottomDetail({ incrementWidth, incrementHeight }) {
+    this.resizeRightDetail(incrementWidth, false);
+    this.resizeBottomDetail(incrementHeight, false);
+    document.body.style.cursor = 'se-resize';
+  }
+
+  /**
    * initEvents
    */
   initEvents() {
@@ -524,6 +795,11 @@ class ResizeableGroup {
    * reset
    */
   reset() {
+    if (self.boundaryDetectionHandler) {
+      cancelAnimationFrame(self.boundaryDetectionHandler);
+      self.boundaryDetectionHandler = null;
+    }
+
     this.capture = false;
     if (this.cur) {
       this.cur.reset();

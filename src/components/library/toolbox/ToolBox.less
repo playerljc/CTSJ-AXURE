@@ -1,6 +1,6 @@
 .ToolBox {
-  .AX-Accordion {
-    .AX-AccordionItem {
+  .CT-UI-Accordion {
+    .CT-UI-AccordionItem {
       & ::-webkit-details-marker {
         display: none;
       }
@@ -9,7 +9,7 @@
         display: none;
       }
 
-      .AX-AccordionItem-Trigger {
+      .CT-UI-AccordionItem-Trigger {
         // close
         &:before {
           font-family: FontAwesome;
@@ -22,21 +22,21 @@
 
         border-bottom: 1px solid rgba(0, 0, 0, .1);
 
-        .AX-AccordionItem-Trigger-Name {
+        .CT-UI-AccordionItem-Trigger-Name {
           font-size: 14px;
           height: auto;
         }
       }
 
-      .AX-AccordionItem-Content {
+      .CT-UI-AccordionItem-Content {
         > .g-grid-list {
           padding: 2px;
         }
       }
     }
 
-    .AX-AccordionItem[open] {
-      .AX-AccordionItem-Trigger {
+    .CT-UI-AccordionItem[open] {
+      .CT-UI-AccordionItem-Trigger {
         // open
         &:before {
           font-family: FontAwesome;
