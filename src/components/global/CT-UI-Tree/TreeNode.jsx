@@ -14,7 +14,6 @@ const selectorPrefix = 'CT-UI-TreeNode';
  */
 class TreeNode extends React.Component {
   onClick() {
-    console.log('onClick');
     const { id, onActive } = this.props;
     if (onActive) {
       onActive(id);
@@ -22,7 +21,6 @@ class TreeNode extends React.Component {
   }
 
   onDoubleClick() {
-    console.log('onDoubleClick');
     const { name = '', leaf = false, id, attributes, onActive, onDBClick } = this.props;
     if (onActive) {
       onActive(id);

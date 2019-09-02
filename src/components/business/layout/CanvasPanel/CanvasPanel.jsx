@@ -133,6 +133,7 @@ class CanvasPanel extends Component {
                       <CanvasTabPanel
                         activePageId={activeKey}
                         pageId={pageId}
+                        name={name}
                         property={property || CanvasTabPanelPropertyDefaultConfig()}
                         getInstance={(ins) => {
                           PageModel.add(ins);

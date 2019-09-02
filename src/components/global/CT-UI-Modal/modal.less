@@ -34,8 +34,17 @@
     .CT-UI-Modal-Content {
       flex-grow: 1;
       min-height: 0;
-      overflow-y: auto;
       margin: 20px 10px;
+      overflow-x: hidden;
+      overflow-y: hidden;
+    }
+
+    .CT-UI-Modal-Content.XScroll {
+      overflow-x: auto;
+    }
+
+    .CT-UI-Modal-Content.YScroll {
+      overflow-y: auto;
     }
 
     .CT-UI-Modal-Buttons {

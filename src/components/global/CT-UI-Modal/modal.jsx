@@ -36,7 +36,15 @@ class ModalComponent extends React.Component {
   }
 
   render() {
-    const { title = '', zIndex = 9999, mask = true, component } = this.props;
+    const {
+      title = '',
+      zIndex = 9999,
+      mask = true,
+      component,
+      xscroll = true,
+      yscroll = true,
+    } = this.props;
+
     return (
       <div
         ref={(el) => {
@@ -52,7 +60,7 @@ class ModalComponent extends React.Component {
       >
         <div className={`${selectorPrefix}-Inner`}>
           <div className={`${selectorPrefix}-Title`}>{title}</div>
-          <div className={`${selectorPrefix}-Content`}>
+          <div className={`${selectorPrefix}-Content ${xscroll ? 'XScroll' : ''} ${yscroll ? 'YScroll' : ''}`}>
             {component}
           </div>
           <div className={`${selectorPrefix}-Buttons`}>{this.renderButtons()}</div>
@@ -70,6 +78,8 @@ ModalComponent.propTypes = {
   zIndex: PropTypes.number,
   mask: PropTypes.bool,
   buttons: PropTypes.array,
+  xscroll: PropTypes.bool,
+  yscroll: PropTypes.bool,
 };
 
 const Modal = {

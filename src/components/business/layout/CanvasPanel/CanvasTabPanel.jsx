@@ -67,8 +67,14 @@ CanvasTabPanel.defaultProps = {
 
 CanvasTabPanel.propTypes = {
   activePageId: PropTypes.string,
+
+  // page的name
+  name: PropTypes.string,
+  // page的id
   pageId: PropTypes.string,
+  // page的属性
   property: PropTypes.object,
+
   getInstance: PropTypes.func,
 };
 

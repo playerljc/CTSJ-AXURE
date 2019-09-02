@@ -4,6 +4,7 @@ import Tab from '../../global/CT-UI-Tab/Tab';
 import TabPanel from '../../global/CT-UI-Tab/TabPanel';
 import ComponentPropertyDescriptionTab from './ComponentPropertyDescriptionTab';
 import ComponentPropertyStyleTab from './ComponentPropertyStyleTab';
+import { Immutable } from '../../../util/CTMobile-UI-Util';
 
 import './ComponentPropertyHOC.less';
 
@@ -24,17 +25,14 @@ export default (PropertyTabComponent) => {
     constructor(props) {
       super(props);
 
-      const { shape } = props;
-
       this.state = {
         activeKey: 'Property',
-        property: shape.getProperty(),
       };
     }
 
     componentWillReceiveProps(nextProps) {
       this.setState({
-        property: nextProps.shape.getProperty(),
+        property: Immutable.cloneDeep(nextProps.shape.getProperty()),
       });
     }
 
@@ -46,8 +44,7 @@ export default (PropertyTabComponent) => {
 
     render() {
       const { shape } = this.props;
-      const { activeKey, property } = this.state;
-      const { prop, description, style } = property;
+      const { activeKey } = this.state;
 
       return (
         <Tab
@@ -58,15 +55,15 @@ export default (PropertyTabComponent) => {
         >
           <TabPanel name="Property" key="Property">
             {/* 属性面板 */}
-            <PropertyTabComponent property={prop} shape={shape} />
+            <PropertyTabComponent shape={shape} />
           </TabPanel>
           <TabPanel name="Description" key="Description">
             {/* 说明面板 */}
-            <ComponentPropertyDescriptionTab property={description} shape={shape} />
+            <ComponentPropertyDescriptionTab shape={shape} />
           </TabPanel>
           <TabPanel name="Style" key="Style">
             {/* 样式面板 */}
-            <ComponentPropertyStyleTab property={style} shape={shape} />
+            <ComponentPropertyStyleTab shape={shape} />
           </TabPanel>
         </Tab>
       );

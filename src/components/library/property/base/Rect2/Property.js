@@ -39,7 +39,7 @@ export default () => ({
             id: 'i5',
             fieldId: 'id1',
             value: 'Rect2Group2Text',
-          }, {
+          }, /* , {
             id: 'i6',
             fieldId: 'id2',
             value: 2000,
@@ -51,7 +51,7 @@ export default () => ({
             id: 'i8',
             fieldId: 'id4',
             value: 'Rect2Group2Select1',
-          }],
+          } */],
       },
     ],
     field: [

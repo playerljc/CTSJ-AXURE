@@ -7,6 +7,7 @@ import { getMaxLevelNumber } from '../component/ComponentBaseHOC';
 import ComponentPropertyDescriptionSettingModal from './ComponentPropertyDescriptionSettingModal';
 import Actions from '../../../util/Actions';
 import Emitter from '../../../util/Emitter';
+import { Immutable } from '../../../util/CTMobile-UI-Util';
 
 import './ComponentPropertyDescriptionTab.less';
 
@@ -24,18 +25,15 @@ class ComponentPropertyDescriptionTab extends React.Component {
 
     this.onOpenCustomProperty = this.onOpenCustomProperty.bind(this);
 
-    const { property: { group = [] } } = this.props;
+    const { shape } = this.props;
+
+    const property = Immutable.cloneDeep(shape.getProperty().description);
+    const { group = [] } = property;
 
     this.state = {
+      property,
       groupSelectValue: group.length !== 0 ? group[0].id : '',
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { property: { group = [] } } = nextProps;
-    this.setState({
-      groupSelectValue: group.length !== 0 ? group[0].id : '',
-    });
   }
 
   /**
@@ -43,8 +41,7 @@ class ComponentPropertyDescriptionTab extends React.Component {
    * @return {<Select>}
    */
   renderGroupSelect() {
-    const { property: { group = [] } } = this.props;
-    const { groupSelectValue } = this.state;
+    const { property: { group = [] }, groupSelectValue } = this.state;
     return (
       <Select
         onChange={this.onGroupSelectChange}
@@ -67,7 +64,7 @@ class ComponentPropertyDescriptionTab extends React.Component {
 
     if (!groupSelectValue) return null;
 
-    const { property: { group = [] } } = this.props;
+    const { property: { group = [] } } = this.state;
 
     if (group.length === 0) return null;
 
@@ -89,7 +86,7 @@ class ComponentPropertyDescriptionTab extends React.Component {
    */
   renderField(groupId, fieldConfig) {
     const { fieldId } = fieldConfig;
-    const { property: { field = [] } } = this.props;
+    const { property: { field = [] } } = this.state;
     const fieldEntry = field.find(t => t.id === fieldId);
     if (!fieldEntry) return null;
 
@@ -195,7 +192,8 @@ class ComponentPropertyDescriptionTab extends React.Component {
    * @return {ReactElement}
    */
   renderSelectField(groupId, { id, fieldId, value = '' }) {
-    const { form, property: { field = [] } } = this.props;
+    const { form } = this.props;
+    const { property: { field = [] } } = this.state;
     const FiledComponent = form.createField(Select, id);
 
     let options = [];
@@ -225,7 +223,7 @@ class ComponentPropertyDescriptionTab extends React.Component {
    */
   propertyChange({ groupId, fieldId, value }) {
     const { shape } = this.props;
-    const property = { ...this.props.property };
+    const property = Immutable.cloneDeep(this.state.property);
     const { group = [] } = property;
     const groupEntry = group.find(t => t.id === groupId);
     if (groupEntry) {
@@ -252,15 +250,37 @@ class ComponentPropertyDescriptionTab extends React.Component {
    * onOpenCustomProperty
    * */
   onOpenCustomProperty() {
-    const { property } = this.props;
-    Modal.open({
-      title: '11111',
+    const { property } = this.state;
+    const modal = Modal.open({
+      title: 'Component Description Fields and Configuration',
       zIndex: window.parseInt(getMaxLevelNumber()) + 1,
-      component: (<ComponentPropertyDescriptionSettingModal property={Object.assign({}, property)} />),
+      component: (
+        <ComponentPropertyDescriptionSettingModal
+          property={Immutable.cloneDeep(property)}
+          ref={(ins) => {
+            this.propertyDescriptionSettingIns = ins;
+          }}
+        />
+      ),
+      yscroll: false,
       buttons: [{
-        text: '确定',
+        text: 'ok',
         handler: () => {
-
+          // 获取改变的数据
+          const data = this.propertyDescriptionSettingIns.getData();
+          // 更新shape数据
+          const { shape } = this.props;
+          shape.setPropertyByProps('description', data);
+          this.setState({
+            property: data,
+          }, () => {
+            Modal.close(modal);
+          });
+        },
+      }, {
+        text: 'cancel',
+        handler: () => {
+          Modal.close(modal);
         },
       }],
     });
@@ -292,7 +312,7 @@ class ComponentPropertyDescriptionTab extends React.Component {
 }
 
 ComponentPropertyDescriptionTab.propTypes = {
-  property: PropTypes.object,
+  form: PropTypes.object,
   shape: PropTypes.object,
 };
 
