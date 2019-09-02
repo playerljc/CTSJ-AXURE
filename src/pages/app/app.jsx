@@ -11,6 +11,7 @@ import SplitFactory from '../../components/global/CT-UI-Split/split';
 import DroppableFactory from '../../components/global/CT-UI-Droppable/droppable';
 import DragFactory from '../../components/global/CT-UI-Drag/drag';
 import ResizeableFactory from '../../components/global/CT-UI-Resizeable/resizeable';
+import SelectableFactory from '../../components/global/CT-UI-Selectable/selectable';
 
 import Actions from '../../util/Actions';
 import Emitter from '../../util/Emitter';
@@ -56,6 +57,7 @@ class App extends React.Component {
     this.initDroppable();
     this.initResizeable();
     this.initDrag();
+    this.initSelectable();
   }
 
   /**
@@ -89,6 +91,7 @@ class App extends React.Component {
         this.splitH.setDisable(true);
         this.droppable.setDisable(true);
         this.drag.setDisable(true);
+        this.selectable.setDisable(true);
         this.activeShapeEnable();
       },
       onSuccess: () => {
@@ -98,6 +101,7 @@ class App extends React.Component {
         this.splitH.setDisable(false);
         this.droppable.setDisable(false);
         this.drag.setDisable(false);
+        this.selectable.setDisable(false);
         this.activeShapeEnable();
       },
     });
@@ -111,6 +115,7 @@ class App extends React.Component {
         this.splitV.setDisable(true);
         this.droppable.setDisable(true);
         this.drag.setDisable(true);
+        this.selectable.setDisable(true);
         this.activeShapeEnable();
       },
       onSuccess: () => {
@@ -120,6 +125,7 @@ class App extends React.Component {
         this.splitV.setDisable(false);
         this.droppable.setDisable(false);
         this.drag.setDisable(false);
+        this.selectable.setDisable(false);
         this.activeShapeEnable();
       },
     });
@@ -162,12 +168,14 @@ class App extends React.Component {
         this.splitV.setDisable(true);
         this.drag.setDisable(true);
         this.resizeable.setDisable(true);
+        this.selectable.setDisable(true);
       },
       onEnd: () => {
         // console.log('Droppable End');
         this.splitH.setDisable(false);
         this.splitV.setDisable(false);
         this.drag.setDisable(false);
+        this.selectable.setDisable(false);
       },
       // 拖动对象的附加样式，拖动移动起来后触发
       dragSourceExtendClasses: ['sourceActive'],
@@ -201,27 +209,18 @@ class App extends React.Component {
         this.splitH.setDisable(true);
         this.droppable.setDisable(true);
         this.resizeable.setDisable(true);
+        this.selectable.setDisable(true);
       },
       onEnd: (el, sourceEl) => {
-        // console.log('Drag End');
-
         if (!el || !sourceEl) return false;
         this.splitV.setDisable(false);
         this.splitH.setDisable(false);
         this.droppable.setDisable(false);
+        this.selectable.setDisable(false);
 
         const pageId = this.curPageId;// sourceEl.dataset.pageid;
         const componentId = sourceEl.dataset.componentid;
         this.componentActive({ pageId, componentId });
-      },
-      /**
-       * 页面的点击
-       */
-      onClick: () => {
-        // console.log('Tab Start');
-        this.acitveShapeUnActive(this.curPageId);
-        PageModel.get(this.curPageId).setActiveShape(null);
-        Emitter.trigger(Actions.components.business.canvaspanel.activetab, this.curPageId);
       },
     });
   }
@@ -236,6 +235,7 @@ class App extends React.Component {
         this.splitV.setDisable(true);
         this.splitH.setDisable(true);
         this.droppable.setDisable(true);
+        this.selectable.setDisable(true);
         this.drag.setDisable(true);
       },
       onEnd: () => {
@@ -244,7 +244,49 @@ class App extends React.Component {
         this.splitH.setDisable(false);
         this.droppable.setDisable(false);
         this.drag.setDisable(false);
+        this.selectable.setDisable(false);
       },
+    });
+  }
+
+  /**
+   * initSelectable
+   */
+  initSelectable() {
+    this.selectable = SelectableFactory.create(this.canvasEl, {
+      moveInclude: (els) => {
+
+      },
+      moveExclude: (els) => {
+
+      },
+      upInclude: (els) => {
+
+      },
+      onStart: () => {
+        console.log('select');
+        this.splitV.setDisable(true);
+        this.splitH.setDisable(true);
+        this.droppable.setDisable(true);
+        this.resizeable.setDisable(true);
+        this.drag.setDisable(true);
+      },
+      onEnd: () => {
+        this.splitV.setDisable(false);
+        this.splitH.setDisable(false);
+        this.droppable.setDisable(false);
+        this.drag.setDisable(false);
+      },
+      /**
+       * 页面的点击
+       */
+      onClick: () => {
+        console.log('Tab Start');
+        this.acitveShapeUnActive(this.curPageId);
+        PageModel.get(this.curPageId).setActiveShape(null);
+        Emitter.trigger(Actions.components.business.canvaspanel.activetab, this.curPageId);
+      },
+      rangeClasses: ['SelectableRange'],
     });
   }
 

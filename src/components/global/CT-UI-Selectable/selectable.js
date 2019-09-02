@@ -9,6 +9,9 @@
    moveExclude: Function(Array<HtmlElement>) 未选取的元素
    upInclude: Function(Array<HtmlElement>) 选取结束后选取的元素
    rangeClasses: Array<String> 选取框的样式
+   onStart: Function
+   onEnd: Function
+   onClick: Function
 }
 
  布局:
@@ -51,7 +54,11 @@ function initEvents() {
     if (disable) return false;
 
     self.isdown = true;
-    console.log('mousedown');
+
+    const { onStart } = self.config;
+    if (onStart) {
+      onStart();
+    }
 
     if (self.cloneEl) {
       self.ismove = false;
@@ -76,23 +83,23 @@ function initEvents() {
     self.cloneEl.style.left = `${self.baseX}px`;
     self.cloneEl.style.top = `${self.baseY}px`;
 
-    self.cloneEl.addEventListener('mouseup', () => {
-      self.ismove = false;
-      self.isdown = false;
-      self.baseX = null;
-      self.baseY = null;
-      if (self.cloneEl) {
-        self.cloneEl.parentElement.removeChild(self.cloneEl);
-        self.cloneEl = null;
-      }
-      if (self.config.upInclude) {
-        self.config.upInclude([].concat(self.includeEls));
-      }
-    });
+    // self.cloneEl.addEventListener('mouseup', () => {
+    //   self.ismove = false;
+    //   self.isdown = false;
+    //   self.baseX = null;
+    //   self.baseY = null;
+    //   if (self.cloneEl) {
+    //     self.cloneEl.parentElement.removeChild(self.cloneEl);
+    //     self.cloneEl = null;
+    //   }
+    //   if (self.config.upInclude) {
+    //     self.config.upInclude([].concat(self.includeEls));
+    //   }
+    // });
 
-    self.cloneEl.addEventListener('mouseleave', () => {
-      // console.log('鼠标离开了cloneEl');
-    });
+    // self.cloneEl.addEventListener('mouseleave', () => {
+    //   // console.log('鼠标离开了cloneEl');
+    // });
 
     self.el.appendChild(self.cloneEl);
   });
@@ -278,8 +285,8 @@ function initEvents() {
 
     if (disable) return false;
 
-    self.ismove = false;
-    self.isdown = false;
+    debugger
+
     self.baseX = null;
     self.baseY = null;
     if (self.cloneEl) {
@@ -289,35 +296,49 @@ function initEvents() {
     if (self.config.upInclude) {
       self.config.upInclude([].concat(self.includeEls));
     }
-  });
 
-  /**
-   * mouseleave
-   */
-  self.el.addEventListener('mouseleave', () => {
-    // console.log('鼠标离开了el');
-  });
+    const { onEnd, onClick } = self.config;
+    if (onEnd) {
+      onEnd();
+    }
 
-  /**
-   * mouseup
-   */
-  document.body.addEventListener('mouseup', () => {
-    const { disable = false } = self;
+    if (self.isdown && !self.ismove) {
+      if (onClick) {
+        onClick();
+      }
+    }
 
-    if (disable) return false;
-
-    self.ismove = false;
     self.isdown = false;
-    self.baseX = null;
-    self.baseY = null;
-    if (self.cloneEl) {
-      self.cloneEl.parentElement.removeChild(self.cloneEl);
-      self.cloneEl = null;
-    }
-    if (self.config.upInclude) {
-      self.config.upInclude([].concat(self.includeEls));
-    }
+    self.ismove = false;
   });
+
+  // /**
+  //  * mouseleave
+  //  */
+  // self.el.addEventListener('mouseleave', () => {
+  //   // console.log('鼠标离开了el');
+  // });
+
+  // /**
+  //  * mouseup
+  //  */
+  // document.body.addEventListener('mouseup', () => {
+  //   const { disable = false } = self;
+  //
+  //   if (disable) return false;
+  //
+  //   self.ismove = false;
+  //   self.isdown = false;
+  //   self.baseX = null;
+  //   self.baseY = null;
+  //   if (self.cloneEl) {
+  //     self.cloneEl.parentElement.removeChild(self.cloneEl);
+  //     self.cloneEl = null;
+  //   }
+  //   if (self.config.upInclude) {
+  //     self.config.upInclude([].concat(self.includeEls));
+  //   }
+  // });
 }
 
 /**
