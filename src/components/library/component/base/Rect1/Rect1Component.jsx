@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ComponentBaseHOC from '../../ComponentBaseHOC';
-import DragResizeHOC from '../../DragResizeHOC';
+import DRSHOC from '../../DRSHOC';
 import './Rect1Component.less';
 
 /**
@@ -30,7 +30,7 @@ Rect1Component.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DragResizeHOC(Rect1Component, {
+export default ComponentBaseHOC(DRSHOC(Rect1Component, {
   groupKey: 'base',
   componentKey: 'Rect1',
 }));

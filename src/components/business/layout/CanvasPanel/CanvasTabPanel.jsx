@@ -6,6 +6,15 @@ const selectorPrefix = 'CanvasTabPanel';
 
 export { selectorPrefix };
 
+const dragSelectorPrefix = 'ct-drag';
+const resizeableSelectorPrefix = 'ct-resizeable';
+const selectableSelectorPrefix = 'ct-selectable';
+const droppableSelectorPrefix = 'ct-droppable';
+
+const drsSelectorPrefix = [
+  dragSelectorPrefix, resizeableSelectorPrefix, selectableSelectorPrefix,
+];
+
 /**
  * CanvasTabPanel
  */
@@ -42,15 +51,23 @@ class CanvasTabPanel extends React.Component {
     return this.activeShape;
   }
 
+  /**
+   * getDRSClassName
+   * @return {string}
+   */
+  getDRSClassName() {
+    return drsSelectorPrefix.join(' ');
+  }
+
   render() {
     const { activePageId, pageId } = this.props;
     return (
       <div
-        className={`${selectorPrefix} ${activePageId === pageId ? 'ct-droppable-target' : ''}`}
+        className={`${selectorPrefix} ${activePageId === pageId ? `${droppableSelectorPrefix}-target` : ''}`}
         data-pageid={pageId}
       >
         <div
-          className={`${selectorPrefix}-Scroll ${activePageId === pageId ? 'ct-drag ct-resizeable' : ''}`}
+          className={`${selectorPrefix}-Scroll ${activePageId === pageId ? this.getDRSClassName() : ''}`}
           data-pageid={pageId}
           id={pageId}
         />

@@ -20,7 +20,7 @@
  .Register
   .Register.get(groupKey).get(componentKey) [Component | Tool | Property ]
  ShapeModel
-  .ShapeModel.add(ins); 这个ins是DragResizeHOC的对象
+  .ShapeModel.add(ins); 这个ins是DRSHOC的对象
   .ShapeModel.getShape({pageId,componentId})
   .ShapeModel.getShapesByPage(pageId)
 

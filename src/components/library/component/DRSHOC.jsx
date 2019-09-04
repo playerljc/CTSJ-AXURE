@@ -1,21 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getMaxLevelNumber } from './ComponentBaseHOC';
-import './DragResizeHOC.less';
+import './DRSHOC.less';
 
 const selectorPrefix = 'ct-axure-shape';
+
+
 const dragItemSelectorPrefix = 'ct-drag-item';
 const resizeItemSelectorPrefix = 'ct-resizeable-item';
+const selectableItemSelectorPrefix = 'ct-selectable-item';
+
+const drsSelectorPrefix = [
+  dragItemSelectorPrefix, resizeItemSelectorPrefix, selectableItemSelectorPrefix,
+];
+
 
 /**
- * DragResizeHOC
+ * DRSHOC
  * @param {React.Component} Component
  * @param {String} - groupKey
  * @param {String} - componentKey
  * @return {React.Component}
  */
 export default (Component, { groupKey, componentKey }) => {
-  class DragResizeHOC extends React.Component {
+  class DRSHOC extends React.Component {
     /**
      * constructor
      * @param {Object} - props
@@ -111,6 +119,10 @@ export default (Component, { groupKey, componentKey }) => {
       });
     }
 
+    getDRSClassName() {
+      return drsSelectorPrefix.join(' ');
+    }
+
     /**
      * render
      * @return {ReactElement}
@@ -122,7 +134,7 @@ export default (Component, { groupKey, componentKey }) => {
       return (
         <div
           ref={(el) => { this.el = el; }}
-          className={`${selectorPrefix} ${dragItemSelectorPrefix} ${resizeItemSelectorPrefix} ${active ? 'active' : ''}`}
+          className={`${selectorPrefix} ${this.getDRSClassName()} ${active ? 'active' : ''}`}
           style={{ zIndex: active ? getMaxLevelNumber() : number, width: `${width}px`, height: `${height}px` }}
           data-groupkey={groupKey}
           data-componentkey={componentKey}
@@ -142,14 +154,14 @@ export default (Component, { groupKey, componentKey }) => {
     }
   }
 
-  DragResizeHOC.defaultProps = {
+  DRSHOC.defaultProps = {
     number: 1,
     pageId: '',
     componentId: '',
     property: {},
   };
 
-  DragResizeHOC.propTypes = {
+  DRSHOC.propTypes = {
     // z-index的层级
     number: PropTypes.number,
     // 页面的id
@@ -160,5 +172,5 @@ export default (Component, { groupKey, componentKey }) => {
     property: PropTypes.object,
   };
 
-  return DragResizeHOC;
+  return DRSHOC;
 };

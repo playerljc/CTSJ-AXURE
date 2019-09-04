@@ -11,8 +11,22 @@
     }
   }
 
+  // 选取的区域
   .SelectableRange {
-    border: 2px dotted #99CCFF;
-    background-color: rgba(153, 204, 255, .3);
+    //border: 2px dotted #99CCFF;
+    //background-color: rgba(153, 204, 255, .3);
+    border: 2px dotted #FF0000;
+    background-color: rgba(255, 0, 0, .3);
   }
+}
+
+// 滚动条
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background-color: #dcdcdc;
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ComponentBaseHOC from '../../ComponentBaseHOC';
 import ComponentFocusHOC from '../../ComponentFocusHOC';
-import DragResizeHOC from '../../DragResizeHOC';
+import DRSHOC from '../../DRSHOC';
 import './TextFieldComponent.less';
 
 /**
@@ -40,7 +40,7 @@ TextFieldComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DragResizeHOC(ComponentFocusHOC(TextFieldComponent), {
+export default ComponentBaseHOC(DRSHOC(ComponentFocusHOC(TextFieldComponent), {
   groupKey: 'form',
   componentKey: 'TextField',
 }));

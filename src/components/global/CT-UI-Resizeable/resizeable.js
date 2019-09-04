@@ -42,11 +42,16 @@ import './resizeable.less';
 const selectorPrefix = 'ct-resizeable';
 // 边缘的步进
 const edgeStep = 5;
+
 // 最小宽度
-const minWidth = 2;
+const minWidth = 20;
 // 最小高度
-const minHeight = 2;
+const minHeight = 20;
+
 const scrollStep = 5;
+
+const edgeWidth = 10;
+const scrollWidth = 20;
 
 /**
  * Resizeable
@@ -152,33 +157,49 @@ class Resizeable {
 
     const { clientX, clientY } = e;
 
-    if (clientX - edgeStep <= self.rect.left &&
+    if (
+      clientX - edgeStep <= self.rect.left &&
       clientY - edgeStep > self.rect.top &&
-      clientY + edgeStep < self.rect.bottom) {
+      clientY + edgeStep < self.rect.bottom
+    ) {
       this.triggerResizeOption('left');
-    } else if (clientX + edgeStep >= self.rect.right &&
+    } else if (
+      clientX + edgeStep >= self.rect.right &&
       clientY - edgeStep > self.rect.top &&
-      clientY + edgeStep < self.rect.bottom) {
+      clientY + edgeStep < self.rect.bottom
+    ) {
       this.triggerResizeOption('right');
-    } else if (clientX - edgeStep <= self.rect.left &&
-      clientY - edgeStep <= self.rect.top) {
+    } else if (
+      clientX - edgeStep <= self.rect.left &&
+      clientY - edgeStep <= self.rect.top
+    ) {
       this.triggerResizeOption('lefttop');
-    } else if (clientX - edgeStep <= self.rect.left &&
-      clientY + edgeStep >= self.rect.bottom) {
+    } else if (
+      clientX - edgeStep <= self.rect.left &&
+      clientY + edgeStep >= self.rect.bottom
+    ) {
       this.triggerResizeOption('leftbottom');
-    } else if (clientX + edgeStep >= self.rect.right &&
-      clientY - edgeStep <= self.rect.top) {
+    } else if (
+      clientX + edgeStep >= self.rect.right &&
+      clientY - edgeStep <= self.rect.top
+    ) {
       this.triggerResizeOption('righttop');
-    } else if (clientX + edgeStep >= self.rect.right &&
-      clientY + edgeStep >= self.rect.bottom) {
+    } else if (
+      clientX + edgeStep >= self.rect.right &&
+      clientY + edgeStep >= self.rect.bottom
+    ) {
       this.triggerResizeOption('rightbottom');
-    } else if (clientY - edgeStep <= self.rect.top &&
+    } else if (
+      clientY - edgeStep <= self.rect.top &&
       clientX - edgeStep > self.rect.left &&
-      clientX + edgeStep < self.rect.right) {
+      clientX + edgeStep < self.rect.right
+    ) {
       this.triggerResizeOption('top');
-    } else if (clientY + edgeStep >= self.rect.bottom &&
+    } else if (
+      clientY + edgeStep >= self.rect.bottom &&
       clientX - edgeStep > self.rect.left &&
-      clientX + edgeStep < self.rect.right) {
+      clientX + edgeStep < self.rect.right
+    ) {
       this.triggerResizeOption('bottom');
     } else {
       this.triggerResizeOption();
@@ -230,7 +251,6 @@ class Resizeable {
    */
   setDisable(disable) {
     this.disable = disable;
-    // console.log(this.id, this.disable);
   }
 
   /**
@@ -452,22 +472,21 @@ class ResizeableGroup {
       bottom: false,
     };
 
-    if (clientX <= self.scrollElRect.left) {
+    if (clientX <= self.scrollElRect.left + edgeWidth) {
       condition.left = true;
     }
 
-    if (clientX >= self.scrollElRect.right - 20) {
+    if (clientX >= self.scrollElRect.right - (edgeWidth + scrollWidth)) {
       condition.right = true;
     }
 
-    if (clientY <= self.scrollElRect.top) {
+    if (clientY <= self.scrollElRect.top + edgeWidth) {
       condition.top = true;
     }
 
-    if (clientY >= self.scrollElRect.bottom - 20) {
+    if (clientY >= self.scrollElRect.bottom - (edgeWidth + scrollWidth)) {
       condition.bottom = true;
     }
-
 
     const incrementWidth = clientX - self.cur.baseX;
     const incrementHeight = clientY - self.cur.baseY;
@@ -520,7 +539,7 @@ class ResizeableGroup {
    * onMouseUp
    * @return {boolean}
    */
-  onMouseUp() {
+  onMouseUp(e) {
     const self = this;
 
     const { disable = false } = self;
@@ -531,6 +550,7 @@ class ResizeableGroup {
       return false;
     }
 
+    this.onMouseMove(e);
     // console.log('resizegroup', 'up');
 
     self.reset();
@@ -549,6 +569,8 @@ class ResizeableGroup {
     const self = this;
 
     const { top, bottom, left, right } = condition;
+
+    if (!self.cur || !self.cur.el) return false;
 
     const curElRect = self.cur.el.getBoundingClientRect();
 

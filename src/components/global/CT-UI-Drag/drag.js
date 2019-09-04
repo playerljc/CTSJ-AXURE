@@ -43,6 +43,10 @@ const selectorPrefix = 'ct-drag';
 
 const scrollStep = 5;
 
+const edgeWidth = 10;
+
+const scrollWidth = 20;
+
 /**
  * getDragTarget
  * @param {HTMLElement} - el
@@ -357,6 +361,7 @@ class Drag {
       this.scrollEl = this.el.parentElement;
       this.scrollElWidth = this.scrollEl.offsetWidth;
       this.scrollElHeight = this.scrollEl.offsetHeight;
+      this.scrollElRect = this.scrollEl.getBoundingClientRect();
     }
 
     this.isdown = false; // 是否按下了
@@ -549,15 +554,17 @@ class Drag {
         bottom: false,
       };
 
-      if (left < 0 ||
-        left + self.sourceElWidth > self.scrollElWidth
+      const { clientX, clientY } = e;
+
+      if (clientX <= self.scrollElRect.left + edgeWidth ||
+        clientX >= self.scrollElRect.right - (edgeWidth + scrollWidth)
       ) {
-        if (left < 0) {
+        if (clientX <= self.scrollElRect.left + edgeWidth) {
           computeLeft = self.scrollEl.scrollLeft;
           condition.left = true;
         }
 
-        if (left + self.sourceElWidth > self.scrollElWidth) {
+        if (clientX >= self.scrollElRect.right - (edgeWidth + scrollWidth)) {
           computeLeft = self.scrollEl.scrollLeft + self.scrollElWidth - self.sourceElWidth;
           condition.right = true;
         }
@@ -565,21 +572,57 @@ class Drag {
         computeLeft = self.scrollEl.scrollLeft + left;
       }
 
-      if (top < 0 ||
-        top + self.sourceElHeight > self.scrollElHeight
+      if (clientY <= self.scrollElRect.top + edgeWidth ||
+        clientY >= self.scrollElRect.bottom - (edgeWidth + scrollWidth)
       ) {
-        if (top < 0) {
+        if (clientY <= self.scrollElRect.top + edgeWidth) {
           computeTop = self.scrollEl.scrollTop;
           condition.top = true;
         }
 
-        if (top + self.sourceElHeight > self.scrollElHeight) {
+        if (clientY >= self.scrollElRect.bottom - (edgeWidth + scrollWidth)) {
           computeTop = self.scrollEl.scrollTop + self.scrollElHeight - self.sourceElHeight;
           condition.bottom = true;
         }
       } else {
         computeTop = self.scrollEl.scrollTop + top;
       }
+
+      // if (left < 0 ||
+      //   left + self.sourceElWidth > self.scrollElWidth
+      // ) {
+      //   // left
+      //   if (left < 0) {
+      //     computeLeft = self.scrollEl.scrollLeft;
+      //     condition.left = true;
+      //   }
+      //
+      //   // right
+      //   if (left + self.sourceElWidth > self.scrollElWidth) {
+      //     computeLeft = self.scrollEl.scrollLeft + self.scrollElWidth - self.sourceElWidth;
+      //     condition.right = true;
+      //   }
+      // } else {
+      //   computeLeft = self.scrollEl.scrollLeft + left;
+      // }
+      //
+      // if (top < 0 ||
+      //   top + self.sourceElHeight > self.scrollElHeight
+      // ) {
+      //   // top
+      //   if (top < 0) {
+      //     computeTop = self.scrollEl.scrollTop;
+      //     condition.top = true;
+      //   }
+      //
+      //   // bottom
+      //   if (top + self.sourceElHeight > self.scrollElHeight) {
+      //     computeTop = self.scrollEl.scrollTop + self.scrollElHeight - self.sourceElHeight;
+      //     condition.bottom = true;
+      //   }
+      // } else {
+      //   computeTop = self.scrollEl.scrollTop + top;
+      // }
 
       self.sourceEl.style.left = `${computeLeft}px`;
       self.sourceEl.style.top = `${computeTop}px`;

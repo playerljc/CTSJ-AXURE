@@ -1,5 +1,6 @@
 /**
- * # CTSJ-UI-Selectable
+ *
+ # CTSJ-UI-Selectable
  支持PC的UI组件-Selectable
 
  配置:
@@ -9,6 +10,7 @@
    moveExclude: Function(Array<HtmlElement>) 未选取的元素
    upInclude: Function(Array<HtmlElement>) 选取结束后选取的元素
    rangeClasses: Array<String> 选取框的样式
+   infinite: [Boolean] 是否是无限拖动
    onStart: Function
    onEnd: Function
    onClick: Function
@@ -34,9 +36,17 @@
  .二个互补影响的选区
 
  */
+import { Dom6 } from '../../../util/CTMobile-UI-Util';
+
 import './selectable.less';
 
-const selectorPrefix = 'ct-selectable-';
+const selectorPrefix = 'ct-selectable';
+
+const edgeWidth = 10;
+
+const scrollStep = 5;
+
+const scrollWidth = 20;
 
 /**
  * initEvents
@@ -45,10 +55,67 @@ const selectorPrefix = 'ct-selectable-';
 function initEvents() {
   const self = this;
 
+  Dom6.off(self.el, 'selectable', 'mousedown');
+  Dom6.on(self.el, 'selectable', 'mousedown', self.onMouseDown);
+
+  Dom6.off(self.el, 'selectable', 'mouseup');
+  Dom6.on(self.el, 'selectable', 'mouseup', self.onMouseUp);
+
+  Dom6.off(self.el, 'selectable', 'mousemove');
+  Dom6.on(self.el, 'selectable', 'mousemove', self.onMouseMove);
+}
+
+/**
+ * Selectable
+ * @class Selectable
+ * @classdesc Selectable
+ */
+class Selectable {
   /**
-   * mousedown
+   * constructor
+   * @constructor
+   * @param {HTMLElement} - el
+   * @param {Object} - config
    */
-  self.el.addEventListener('mousedown', (ev) => {
+  constructor(el, config) {
+    this.el = el;
+    this.config = Object.assign({}, config);
+
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
+
+    this.disable = false;
+
+    // if (this.config.infinite) {
+    this.scrollEl = this.el.parentElement;
+    this.scrollElWidth = this.scrollEl.offsetWidth;
+    this.scrollElHeight = this.scrollEl.offsetHeight;
+    this.scrollElRect = this.scrollEl.getBoundingClientRect();
+    // }
+    this.elRect = this.el.getBoundingClientRect();
+
+    this.isdown = false;
+    // 是移动
+    this.ismove = false;
+    this.baseX = null;
+    this.baseY = null;
+    // 选取节点
+    this.cloneEl = null;
+    this.includeEls = [];
+    this.excludeEls = [];
+
+    initEvents.call(this);
+  }
+
+  /**
+   * onMouseDown
+   * @param {MouseEvent} - ev
+   * @return {boolean}
+   */
+  onMouseDown(ev) {
+    const self = this;
+
     const { disable = false } = self;
 
     if (disable) return false;
@@ -66,12 +133,13 @@ function initEvents() {
       self.cloneEl = null;
     }
 
-    self.baseX = ev.clientX;
-    self.baseY = ev.clientY;
+    // 转换为position:absolute的坐标
+    self.baseX = ev.clientX - (self.elRect.left - self.scrollEl.scrollLeft);
+    self.baseY = ev.clientY - (self.elRect.top - self.scrollEl.scrollTop);
 
     // 创建区域dom
     const tel = document.createElement('div');
-    tel.innerHTML = `<div class="${selectorPrefix}select"></div>`;
+    tel.innerHTML = `<div class="${selectorPrefix}-select"></div>`;
     self.cloneEl = tel.firstElementChild;
     if (self.config.rangeClasses && self.config.rangeClasses.length !== 0) {
       self.config.rangeClasses.map((className) => {
@@ -83,31 +151,17 @@ function initEvents() {
     self.cloneEl.style.left = `${self.baseX}px`;
     self.cloneEl.style.top = `${self.baseY}px`;
 
-    // self.cloneEl.addEventListener('mouseup', () => {
-    //   self.ismove = false;
-    //   self.isdown = false;
-    //   self.baseX = null;
-    //   self.baseY = null;
-    //   if (self.cloneEl) {
-    //     self.cloneEl.parentElement.removeChild(self.cloneEl);
-    //     self.cloneEl = null;
-    //   }
-    //   if (self.config.upInclude) {
-    //     self.config.upInclude([].concat(self.includeEls));
-    //   }
-    // });
-
-    // self.cloneEl.addEventListener('mouseleave', () => {
-    //   // console.log('鼠标离开了cloneEl');
-    // });
-
     self.el.appendChild(self.cloneEl);
-  });
+  }
 
   /**
-   * mousemove
+   * onMouseMove
+   * @param {MouseEvent} - ev
+   * @return {boolean}
    */
-  self.el.addEventListener('mousemove', (ev) => {
+  onMouseMove(ev) {
+    const self = this;
+
     const { disable = false } = self;
 
     if (disable) return false;
@@ -118,21 +172,109 @@ function initEvents() {
 
     ev.preventDefault();
 
+    if (self.boundaryDetectionHandler) {
+      cancelAnimationFrame(self.boundaryDetectionHandler);
+      self.boundaryDetectionHandler = null;
+    }
+
     const curX = ev.clientX;
     const curY = ev.clientY;
 
-    // 不能拖动出el这个rect
-    const elRect = self.el.getBoundingClientRect();
-    if (!(curX >= elRect.left && curX <= elRect.right && curY >= elRect.top && curY <= elRect.bottom)) {
-      return false;
+    const condition = {
+      left: false,
+      right: false,
+      top: false,
+      bottom: false,
+    };
+
+    if (curX <= self.scrollElRect.left + edgeWidth) {
+      condition.left = true;
     }
 
-    // console.log(curX, curY);
+    if (curX >= self.scrollElRect.right - (edgeWidth + scrollWidth)) {
+      condition.right = true;
+    }
 
-    // 水平
+    if (curY <= self.scrollElRect.top + edgeWidth) {
+      condition.top = true;
+    }
+
+    if (curY >= self.scrollElRect.bottom - (edgeWidth + scrollWidth)) {
+      condition.bottom = true;
+    }
+
+    // 不能拖动出el这个rect
+    // const elRect = self.el.getBoundingClientRect();
+    // if (!(
+    //   curX >= elRect.left &&
+    //   curX <= elRect.right &&
+    //   curY >= elRect.top &&
+    //   curY <= elRect.bottom)) {
+    //   return false;
+    // }
+
+    self.updateRange(ev);
+
+    if (condition.left || condition.right || condition.top || condition.bottom) {
+      self.boundaryDetectionScroll(condition, ev);
+    }
+  }
+
+  /**
+   * onMouseUp
+   * @return {boolean}
+   */
+  onMouseUp() {
+    const self = this;
+
+    const { disable = false } = self;
+
+    if (disable) return false;
+
+    if (self.boundaryDetectionHandler) {
+      cancelAnimationFrame(self.boundaryDetectionHandler);
+      self.boundaryDetectionHandler = null;
+    }
+
+    self.baseX = null;
+    self.baseY = null;
+    if (self.cloneEl) {
+      self.cloneEl.parentElement.removeChild(self.cloneEl);
+      self.cloneEl = null;
+    }
+    if (self.config.upInclude) {
+      self.config.upInclude([].concat(self.includeEls));
+    }
+
+    const { onEnd, onClick } = self.config;
+    if (onEnd) {
+      onEnd();
+    }
+
+    if (self.isdown && !self.ismove) {
+      if (onClick) {
+        onClick();
+      }
+    }
+
+    self.isdown = false;
+    self.ismove = false;
+  }
+
+  /**
+   * updateRange
+   */
+  updateRange(ev) {
+    const self = this;
+
+    const curX = ev.clientX - (self.elRect.left - self.scrollEl.scrollLeft);
+    const curY = ev.clientY - (self.elRect.top - self.scrollEl.scrollTop);
+
+    // console.log(Math.floor(self.baseX), Math.floor(curX));
+
     if (self.baseY === curY) {
+      // 水平
       self.cloneEl.style.height = '0';
-
       if (self.baseX > curX) {
         // console.log('水平左');
         self.cloneEl.style.left = `${curX}px`;
@@ -151,9 +293,8 @@ function initEvents() {
         self.cloneEl.style.right = `${self.baseX}px`;
         self.cloneEl.style.top = `${self.baseY}px`;
       }
-    }
-    // 垂直
-    else if (self.baseX === curX) {
+    } else if (self.baseX === curX) {
+      // 垂直
       self.cloneEl.style.width = '0';
       if (curY < self.baseY) {
         // console.log('垂直上');
@@ -173,9 +314,8 @@ function initEvents() {
         self.cloneEl.style.right = `${self.baseX}px`;
         self.cloneEl.style.top = `${self.baseY}px`;
       }
-    }
-    // 带有角度
-    else {
+    } else {
+      // 带有角度
       const width = Math.abs(self.baseX - curX);
       const height = Math.abs(self.baseY - curY);
 
@@ -239,28 +379,29 @@ function initEvents() {
 
     self.includeEls = [];
     self.excludeEls = [];
-    const rangeRect = self.cloneEl.getBoundingClientRect();
-    const itemEls = self.el.querySelectorAll(`.${selectorPrefix}item`);
+    // const rangeRect = self.cloneEl.getBoundingClientRect();
+
+    const xb1 = self.cloneEl.offsetLeft;
+    const xb2 = self.cloneEl.offsetLeft + self.cloneEl.offsetWidth;
+    const yb1 = self.cloneEl.offsetTop;
+    const yb2 = self.cloneEl.offsetTop + self.cloneEl.offsetHeight;
+
+    const itemEls = self.el.querySelectorAll(`.${selectorPrefix}-item`);
     for (let i = 0; i < itemEls.length; i++) {
       const itemEl = itemEls[i];
-      const rect = itemEl.getBoundingClientRect();
-      // console.log(rangeRect,rect)
-      const xa1 = rect.left;
-      const xa2 = rect.right;
-      const ya1 = rect.top;
-      const ya2 = rect.bottom;
+      // const rect = itemEl.getBoundingClientRect();
+      // const xa1 = rect.left;
+      // const xa2 = rect.right;
+      // const ya1 = rect.top;
+      // const ya2 = rect.bottom;
+      const xa1 = itemEl.offsetLeft;
+      const xa2 = itemEl.offsetLeft + itemEl.offsetWidth;
+      const ya1 = itemEl.offsetTop;
+      const ya2 = itemEl.offsetTop + itemEl.offsetHeight;
 
-      const xb1 = rangeRect.left;
-      const xb2 = rangeRect.right;
-      const yb1 = rangeRect.top;
-      const yb2 = rangeRect.bottom;
       if (
         (Math.abs(xb2 + xb1 - xa2 - xa1) <= (xa2 - xa1 + xb2 - xb1)) &&
         (Math.abs(yb2 + yb1 - ya2 - ya1) <= (ya2 - ya1 + yb2 - yb1))
-      // (rect.left >= rangeRect.left && rect.left <= rangeRect.right && rect.top >= rangeRect.top && rect.top <= rangeRect.bottom) ||
-      // (rect.right >= rangeRect.left && rect.right <= rangeRect.right && rect.top >= rangeRect.top && rect.top <= rangeRect.bottom) ||
-      // (rect.left >= rangeRect.left && rect.left <= rangeRect.right && rect.bottom >= rangeRect.top && rect.bottom <= rangeRect.bottom) ||
-      // (rect.right >= rangeRect.left && rect.right <= rangeRect.right && rect.bottom >= rangeRect.top && rect.bottom <= rangeRect.bottom)
       ) {
         self.includeEls.push(itemEl);
       } else {
@@ -275,101 +416,63 @@ function initEvents() {
     if (self.config.moveExclude) {
       self.config.moveExclude([].concat(self.excludeEls));
     }
-  });
+  }
 
   /**
-   * mouseup
+   * boundaryDetectionScroll
+   * @param {Object} - condition
+   * @param {MouseEvent} - ev
    */
-  self.el.addEventListener('mouseup', () => {
-    const { disable = false } = self;
+  boundaryDetectionScroll(condition, ev) {
+    const self = this;
 
-    if (disable) return false;
+    const { top, bottom, left, right } = condition;
 
-    debugger
-
-    self.baseX = null;
-    self.baseY = null;
-    if (self.cloneEl) {
-      self.cloneEl.parentElement.removeChild(self.cloneEl);
-      self.cloneEl = null;
-    }
-    if (self.config.upInclude) {
-      self.config.upInclude([].concat(self.includeEls));
-    }
-
-    const { onEnd, onClick } = self.config;
-    if (onEnd) {
-      onEnd();
-    }
-
-    if (self.isdown && !self.ismove) {
-      if (onClick) {
-        onClick();
+    if (top) {
+      if (self.scrollEl.scrollTop !== 0) {
+        if (self.scrollEl.scrollTop - scrollStep < 0) {
+          self.scrollEl.scrollTop = 0;
+        } else {
+          self.scrollEl.scrollTop -= scrollStep;
+        }
       }
     }
 
-    self.isdown = false;
-    self.ismove = false;
-  });
+    if (bottom) {
+      if (self.scrollEl.scrollTop !== self.scrollEl.scrollHeight) {
+        if (self.scrollEl.scrollTop + scrollStep > self.scrollEl.scrollHeight) {
+          self.scrollEl.scrollTop = self.scrollEl.scrollHeight;
+        } else {
+          self.scrollEl.scrollTop += scrollStep;
+        }
+      }
+    }
 
-  // /**
-  //  * mouseleave
-  //  */
-  // self.el.addEventListener('mouseleave', () => {
-  //   // console.log('鼠标离开了el');
-  // });
+    if (left) {
+      if (self.scrollEl.scrollLeft !== 0) {
+        if (self.scrollEl.scrollLeft - scrollStep < 0) {
+          self.scrollEl.scrollLeft = 0;
+        } else {
+          self.scrollEl.scrollLeft -= scrollStep;
+        }
+      }
+    }
 
-  // /**
-  //  * mouseup
-  //  */
-  // document.body.addEventListener('mouseup', () => {
-  //   const { disable = false } = self;
-  //
-  //   if (disable) return false;
-  //
-  //   self.ismove = false;
-  //   self.isdown = false;
-  //   self.baseX = null;
-  //   self.baseY = null;
-  //   if (self.cloneEl) {
-  //     self.cloneEl.parentElement.removeChild(self.cloneEl);
-  //     self.cloneEl = null;
-  //   }
-  //   if (self.config.upInclude) {
-  //     self.config.upInclude([].concat(self.includeEls));
-  //   }
-  // });
-}
+    if (right) {
+      if (self.scrollEl.scrollLeft !== self.scrollEl.scrollWidth) {
+        if (self.scrollEl.scrollLeft + scrollStep > self.scrollEl.scrollWidth) {
+          self.scrollEl.scrollLeft = self.scrollEl.scrollWidth;
+        } else {
+          self.scrollEl.scrollLeft += scrollStep;
+        }
+      }
+    }
 
-/**
- * Selectable
- * @class Selectable
- * @classdesc Selectable
- */
-class Selectable {
-  /**
-   * constructor
-   * @constructor
-   * @param {HTMLElement} - el
-   * @param {Object} - config
-   */
-  constructor(el, config) {
-    this.el = el;
-    this.config = Object.assign({}, config);
+    self.updateRange(ev);
 
-    this.disable = false;
-
-    this.isdown = false;
-    // 是移动
-    this.ismove = false;
-    this.baseX = null;
-    this.baseY = null;
-    // 选取节点
-    this.cloneEl = null;
-    this.includeEls = [];
-    this.excludeEls = [];
-
-    initEvents.call(this);
+    self.boundaryDetectionHandler = requestAnimationFrame(() => {
+      self.boundaryDetectionScroll(condition, ev);
+    });
   }
 
   /**
@@ -381,19 +484,76 @@ class Selectable {
   }
 }
 
+
 /**
- * SelectableFactory
+ * SelectableManager
+ * @class SelectableManager
+ * @classdesc SelectableManager
  */
-const SelectableFactory = {
+class SelectableManager {
   /**
-   * 创建一个Selectable
+   * constructor
+   */
+  constructor(el, config) {
+    this.el = el;
+    this.config = Object.assign({}, config);
+    this.managers = new Map();
+    this.init();
+  }
+
+  /**
+   * init
+   */
+  init() {
+    // TODO change
+    this.managers.clear();
+    const els = this.el.querySelectorAll(`.${selectorPrefix}`);
+    for (let i = 0; i < els.length; i++) {
+      this.managers.set(els[i], new Selectable(els[i], this.config));
+    }
+  }
+
+  /**
+   * getSelectable
+   * @param {HTMLElement} - el
+   * @return {Selectable}
+   * TODO change
+   */
+  getSelectable(el) {
+    return this.managers.get(el);
+  }
+
+  /**
+   * refresh
+   */
+  refresh() {
+    this.init();
+  }
+
+  /**
+   * setDisable
+   * @param {Boolean} - disable
+   */
+  setDisable(disable) {
+    this.managers.forEach((t) => {
+      t.setDisable(disable);
+    });
+  }
+}
+
+/**
+ * SelectableManagerFactory
+ */
+const SelectableManagerFactory = {
+  /**
+   * 创建一个SelectableManager
    * @param {HtmlElement} - el
    * @param {Object} - config
-   * @return {Selectable} - Selectable
+   * @return {SelectableManager} - SelectableManager
    */
   create(el, config) {
-    return new Selectable(el, config);
+    return new SelectableManager(el, config);
   },
 };
 
-export default SelectableFactory;
+export default SelectableManagerFactory;

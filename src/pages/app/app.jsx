@@ -196,7 +196,7 @@ class App extends React.Component {
    * initDrag
    */
   initDrag() {
-    this.drag = DragFactory.create(this.subEl, {
+    this.drag = DragFactory.create(this.canvasEl, {
       mode: 'clone',
       showMap: true,
       moveStep: 1,
@@ -229,7 +229,7 @@ class App extends React.Component {
    * initResizeable
    */
   initResizeable() {
-    this.resizeable = ResizeableFactory.create(this.subEl, {
+    this.resizeable = ResizeableFactory.create(this.canvasEl, {
       onStart: () => {
         // console.log('Resize Start');
         this.splitV.setDisable(true);
@@ -261,10 +261,10 @@ class App extends React.Component {
 
       },
       upInclude: (els) => {
-
+        console.log(els.length);
       },
       onStart: () => {
-        console.log('select');
+        // console.log('select');
         this.splitV.setDisable(true);
         this.splitH.setDisable(true);
         this.droppable.setDisable(true);
@@ -281,7 +281,7 @@ class App extends React.Component {
        * 页面的点击
        */
       onClick: () => {
-        console.log('Tab Start');
+        // console.log('Tab Start');
         this.acitveShapeUnActive(this.curPageId);
         PageModel.get(this.curPageId).setActiveShape(null);
         Emitter.trigger(Actions.components.business.canvaspanel.activetab, this.curPageId);
@@ -460,6 +460,7 @@ class App extends React.Component {
     this.droppable.refresh();
     this.drag.refresh();
     this.resizeable.refresh();
+    this.selectable.refresh();
   }
 
   /**
@@ -472,6 +473,7 @@ class App extends React.Component {
     this.droppable.refresh();
     this.drag.refresh();
     this.resizeable.refresh();
+    this.selectable.refresh();
   }
 
   /**
@@ -487,6 +489,7 @@ class App extends React.Component {
     this.droppable.refresh();
     this.drag.refresh();
     this.resizeable.refresh();
+    this.selectable.refresh();
   }
 
   /**

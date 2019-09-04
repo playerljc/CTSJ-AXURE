@@ -128,7 +128,10 @@ class CanvasPanel extends Component {
               data.map((t) => {
                 const { name, id: pageId, property } = t;
                   return (
-                    <TabPanel name={name} key={pageId}>
+                    <TabPanel
+                      name={name}
+                      key={pageId}
+                    >
                       {/* 一个页面 start */}
                       <CanvasTabPanel
                         activePageId={activeKey}

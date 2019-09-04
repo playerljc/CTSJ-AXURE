@@ -66,19 +66,19 @@ class Tab extends React.Component {
         <div
           key={uuidv1()}
           className={`${selectorPrefix}-Bar-Item ${key === activeKey ? 'Active' : ''}`}
-          onClick={() => {
-            this.onTabItemClick(key);
+          onMouseDownCapture={(e) => {
+            const { target } = e;
+            e.stopPropagation();
+            if (target.classList.contains(`${selectorPrefix}-Bar-Item-Trigger`)) {
+              this.onTabRemove(key);
+            } else {
+              this.onTabItemClick(key);
+            }
           }}
         >
           <div className={`${selectorPrefix}-Bar-Item-Inner`}>{name}</div>
           {canRemove ? (
-            <span
-              className={`${selectorPrefix}-Bar-Item-Trigger fa fa-close`}
-              onClick={(e) => {
-                e.stopPropagation();
-                this.onTabRemove(key);
-              }}
-            />
+            <span className={`${selectorPrefix}-Bar-Item-Trigger fa fa-close`} />
           ) : null }
         </div>
       );

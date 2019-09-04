@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ComponentBaseHOC from '../../ComponentBaseHOC';
-import DragResizeHOC from '../../DragResizeHOC';
+import DRSHOC from '../../DRSHOC';
 import './SelectComponent.less';
 
 /**
@@ -34,7 +34,7 @@ SelectComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DragResizeHOC(SelectComponent, {
+export default ComponentBaseHOC(DRSHOC(SelectComponent, {
   groupKey: 'form',
   componentKey: 'Select',
 }));
