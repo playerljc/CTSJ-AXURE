@@ -1,8 +1,9 @@
-.ct-axure-shape.active {
-  // 用border会被Inner覆盖掉一些border
-  outline: 1px dashed limegreen;
+.ct-axure-range-select-shape {
+  position: absolute;
+  box-sizing: border-box;
+  outline: 1px solid #ccc;
 
-  .ct-axure-shape-indicator-pointer {
+  &-indicator-pointer {
     position: absolute;
     width: 8px;
     height: 8px;
@@ -11,45 +12,45 @@
     background-color: #fff;
   }
 
-  .ct-axure-shape-indicator-pointer.lefttop {
+  &-indicator-pointer.lefttop {
     top: -4px;
     left: -4px;
   }
 
-  .ct-axure-shape-indicator-pointer.righttop {
+  &-indicator-pointer.righttop {
     top: -4px;
     right: -4px;
   }
 
-  .ct-axure-shape-indicator-pointer.leftbottom {
+  &-indicator-pointer.leftbottom {
     bottom: -4px;
     left: -4px;
   }
 
-  .ct-axure-shape-indicator-pointer.rightbottom {
+  &-indicator-pointer.rightbottom {
     right: -4px;
     bottom: -4px;
   }
 
-  .ct-axure-shape-indicator-pointer.left {
+  &-indicator-pointer.left {
     left: -4px;
     top: 50%;
     margin-top: -4px;
   }
 
-  .ct-axure-shape-indicator-pointer.right {
+  &-indicator-pointer.right {
     right: -4px;
     top: 50%;
     margin-top: -4px;
   }
 
-  .ct-axure-shape-indicator-pointer.top {
+  &-indicator-pointer.top {
     top: -4px;
     left: 50%;
     margin-left: -4px;
   }
 
-  .ct-axure-shape-indicator-pointer.bottom {
+  &-indicator-pointer.bottom {
     bottom: -4px;
     left: 50%;
     margin-left: -4px;

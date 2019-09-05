@@ -5,13 +5,14 @@ import './DRSHOC.less';
 
 const selectorPrefix = 'ct-axure-shape';
 
-
 const dragItemSelectorPrefix = 'ct-drag-item';
 const resizeItemSelectorPrefix = 'ct-resizeable-item';
 const selectableItemSelectorPrefix = 'ct-selectable-item';
 
 const drsSelectorPrefix = [
-  dragItemSelectorPrefix, resizeItemSelectorPrefix, selectableItemSelectorPrefix,
+  dragItemSelectorPrefix,
+  resizeItemSelectorPrefix,
+  selectableItemSelectorPrefix,
 ];
 
 
@@ -32,12 +33,14 @@ export default (Component, { groupKey, componentKey }) => {
       super(props);
       this.state = {
         active: false,
+        rangeSelectActive: false,
         property: Object.assign({}, props.property),
       };
     }
 
     /**
      * active
+     * 这个Active是带有可以Resizeable的操作
      */
     active() {
       this.setState({
@@ -51,6 +54,25 @@ export default (Component, { groupKey, componentKey }) => {
     unActive() {
       this.setState({
         active: false,
+      });
+    }
+
+    /**
+     * rangeSelectActive
+     * 这个reangeSelectActive不带有Resizeable操作
+     */
+    rangeSelectActive() {
+      this.setState({
+        rangeSelectActive: true,
+      });
+    }
+
+    /**
+     * unRangeSelectActive
+     */
+    unRangeSelectActive() {
+      this.setState({
+        rangeSelectActive: false,
       });
     }
 
@@ -119,8 +141,21 @@ export default (Component, { groupKey, componentKey }) => {
       });
     }
 
+    /**
+     * getDRSClassName
+     * @return {String}
+     */
     getDRSClassName() {
       return drsSelectorPrefix.join(' ');
+    }
+
+    /**
+     * getActiveClassName
+     * @return {String}
+     */
+    getActiveClassName() {
+      const { rangeSelectActive = false, active = false } = this.state;
+      return active || rangeSelectActive ? 'active' : '';
     }
 
     /**
@@ -134,8 +169,12 @@ export default (Component, { groupKey, componentKey }) => {
       return (
         <div
           ref={(el) => { this.el = el; }}
-          className={`${selectorPrefix} ${this.getDRSClassName()} ${active ? 'active' : ''}`}
-          style={{ zIndex: active ? getMaxLevelNumber() : number, width: `${width}px`, height: `${height}px` }}
+          className={`${selectorPrefix} ${this.getDRSClassName()} ${this.getActiveClassName()}`}
+          style={{
+            zIndex: active ? getMaxLevelNumber() : number,
+            width: `${width}px`,
+            height: `${height}px`,
+          }}
           data-groupkey={groupKey}
           data-componentkey={componentKey}
           data-pageid={pageId}

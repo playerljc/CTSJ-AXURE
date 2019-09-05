@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import uuidv1 from 'uuid/v1';
+
 import SystemMenuBar from '../../components/business/layout/SystemMenuBar/SystemMenuBar';
 import SystemToolBar from '../../components/business/layout/SystemToolBar/SystemToolBar';
 import FunctionalPanel from '../../components/business/layout/FunctionalPanel/FunctionalPanel';
 import PropertyPanel from '../../components/business/layout/PropertyPanel/PropertyPanel';
 import CanvasPanel from '../../components/business/layout/CanvasPanel/CanvasPanel';
+
+import ActiveShapManager from '../../components/business/interactions/ActiveShapManager/ActiveShapManager';
 
 import SplitFactory from '../../components/global/CT-UI-Split/split';
 import DroppableFactory from '../../components/global/CT-UI-Droppable/droppable';
@@ -20,6 +23,8 @@ import ShapeModel from '../../model/ShapeModel';
 import PageModel from '../../model/PageModel';
 import Register from '../../components/library/Register';
 import ComponentToolDragBaseHOC from '../../components/library/toolbox/ComponentToolDragBaseHOC';
+
+import { CreateRangeSelectEl, getRect } from '../../components/library/component/RangeSelect';
 
 import { selectorPrefix as CanvasTabPanelScrollClassName } from '../../components/business/layout/CanvasPanel/CanvasTabPanel';
 
@@ -43,7 +48,7 @@ class App extends React.Component {
     this.onRemoveTab = this.onRemoveTab.bind(this);
 
     // 存储每一个页面active的Shape实例
-    this.pageActiveShapeMap = new Map();
+    this.pageActiveShapeMap = new ActiveShapManager();
 
     this.curPageId = '';
   }
@@ -202,7 +207,7 @@ class App extends React.Component {
       moveStep: 1,
       infinite: true,
       onStart: (el, sourceEl) => {
-        // console.log('Drag Start');
+        console.log('Drag Start');
         if (!el || !sourceEl) return false;
         // drag点击
         this.splitV.setDisable(true);
@@ -220,7 +225,27 @@ class App extends React.Component {
 
         const pageId = this.curPageId;// sourceEl.dataset.pageid;
         const componentId = sourceEl.dataset.componentid;
-        this.componentActive({ pageId, componentId });
+        // 如果拖动的是一个节点
+        if (componentId) {
+          if (this.rangeSelect) {
+            this.rangeSelect.clear();
+            this.rangeSelect = null;
+          }
+
+          this.componentActive({ pageId, componentId });
+        } else {
+          // 如果拖动的是RangeSelect
+          if (this.rangeSelect) {
+            // 刷新当前页面ResizeGroup
+            const resizeGroup = this.resizeable.getGroup(document.getElementById(this.curPageId));
+            resizeGroup.refresh();
+            resizeGroup.setDisable(false, false);
+            const resize = resizeGroup.getResize(this.rangeSelect.el);
+            if (resize) {
+              resize.setDisable(false);
+            }
+          }
+        }
       },
     });
   }
@@ -254,24 +279,108 @@ class App extends React.Component {
    */
   initSelectable() {
     this.selectable = SelectableFactory.create(this.canvasEl, {
+      /**
+       * 选取中包含的节点
+       * @param {Array<HTMLElement>} - els
+       */
       moveInclude: (els) => {
-
+        console.log('选取包含的节点:', els.length);
+        Array.from(els).forEach((el) => {
+          const { pageid: pageId, componentid: componentId } = el.dataset;
+          const shape = ShapeModel.getShape({ pageId, componentId });
+          if (shape) {
+            shape.rangeSelectActive();
+          }
+        });
       },
+      /**
+       * 选取中不包含的节点
+       * @param {Array<HTMLElement>} - els
+       */
       moveExclude: (els) => {
-
+        console.log('选取不包含的节点:', els.length);
+        Array.from(els).forEach((el) => {
+          const { pageid: pageId, componentid: componentId } = el.dataset;
+          const shape = ShapeModel.getShape({ pageId, componentId });
+          if (shape) {
+            shape.unRangeSelectActive();
+          }
+        });
       },
+      /**
+       * 选取结束后包含的节点
+       * @param {Array<HTMLElement>} - els
+       */
       upInclude: (els) => {
-        console.log(els.length);
+        console.log('upInclude');
+        if (!els || els.length === 0) return false;
+
+        if (els.length === 1) {
+          const { pageid: pageId, componentid: componentId } = els[0].dataset;
+          this.componentActive({ pageId, componentId });
+          return false;
+        }
+
+        const elsArr = Array.from(els);
+        elsArr.forEach((el) => {
+          const { pageid: pageId, componentid: componentId } = el.dataset;
+          const shape = ShapeModel.getShape({ pageId, componentId });
+          this.pageActiveShapeMap.setShape({ pageId, shape });
+        });
+        console.log('选取结束包含的节点:', els.length);
+
+
+        // 1.根据els计算出一个Rect
+        // 2.赋值Rect的4个值,left,top,width,height
+
+        // Drag的操作
+        // 4.放入把克隆的els放入Rect中，并计算位置,隐藏els对象
+        // 5.拖动结束删除Rect并更新隐藏的els的位置
+
+        const targetEl = document.getElementById(this.curPageId);
+        // 创建RangeSelecl
+        this.rangeSelect = CreateRangeSelectEl(getRect(els), els);
+        targetEl.appendChild(this.rangeSelect.el);
+
+        // 刷新当前页面ResizeGroup
+        const resizeGroup = this.resizeable.getGroup(targetEl);
+        resizeGroup.refresh();
+        resizeGroup.setDisable(false, false);
+        // .可以当前激活的Shape的el可以resize
+        const resize = resizeGroup.getResize(this.rangeSelect.el);
+        if (resize) {
+          resize.setDisable(false);
+        }
       },
+      /**
+       * onStart
+       * 开始进行选取
+       */
       onStart: () => {
-        // console.log('select');
+        console.log('selectStart');
+
+        if (this.rangeSelect) {
+          this.rangeSelect.clear();
+          this.rangeSelect = null;
+        }
+
+        // 开始进行选取之前清除掉激活的Shape
+        this.acitveShapeUnActive(this.curPageId);
+        PageModel.get(this.curPageId).setActiveShape(null);
+        Emitter.trigger(Actions.components.business.canvaspanel.activetab, this.curPageId);
+
         this.splitV.setDisable(true);
         this.splitH.setDisable(true);
         this.droppable.setDisable(true);
         this.resizeable.setDisable(true);
         this.drag.setDisable(true);
       },
+      /**
+       * onEnd
+       * 选取的结束
+       */
       onEnd: () => {
+        console.log('selectEnd');
         this.splitV.setDisable(false);
         this.splitH.setDisable(false);
         this.droppable.setDisable(false);
@@ -281,7 +390,12 @@ class App extends React.Component {
        * 页面的点击
        */
       onClick: () => {
-        // console.log('Tab Start');
+        console.log('selectClick');
+        if (this.rangeSelect) {
+          this.rangeSelect.clear();
+          this.rangeSelect = null;
+        }
+
         this.acitveShapeUnActive(this.curPageId);
         PageModel.get(this.curPageId).setActiveShape(null);
         Emitter.trigger(Actions.components.business.canvaspanel.activetab, this.curPageId);
@@ -314,15 +428,20 @@ class App extends React.Component {
    * @param {String} - pageId
    */
   acitveShapeUnActive(pageId) {
-    const preActiveShape = this.pageActiveShapeMap.get(pageId);
-    if (preActiveShape) {
-      // 取消样式
-      preActiveShape.unActive();
-      // preActiveShape不能resize
-      const resize = this.getResizeByPageIdAndShape({ pageId, shape: preActiveShape });
-      if (resize) {
-        resize.setDisable(true);
-      }
+    const preActiveShapes = this.pageActiveShapeMap.getShape(pageId);
+    if (preActiveShapes && preActiveShapes.length !== 0) {
+      preActiveShapes.forEach((preActiveShape) => {
+        // 取消样式Active
+        preActiveShape.unActive();
+        // 取消rangeSelectActive
+        preActiveShape.unRangeSelectActive();
+        // preActiveShape不能resize
+        const resize = this.getResizeByPageIdAndShape({ pageId, shape: preActiveShape });
+        if (resize) {
+          resize.setDisable(true);
+        }
+      });
+      this.pageActiveShapeMap.removeShape(pageId);
     }
   }
 
@@ -332,18 +451,21 @@ class App extends React.Component {
    */
   activeShapeEnable() {
     const pageId = this.curPageId;
-    const preActiveShape = this.pageActiveShapeMap.get(pageId);
-    if (preActiveShape) {
+    const preActiveShapes = this.pageActiveShapeMap.getShape(pageId);
+    if (preActiveShapes && preActiveShapes.length !== 0) {
       const groupEl = document.getElementById(pageId);
       const resizeGroup = this.resizeable.getGroup(groupEl);
       resizeGroup.setDisable(false, false);
 
-      const resize = this.getResizeByPageIdAndShape({ pageId, shape: preActiveShape });
-      if (resize) {
-        resize.setDisable(false);
-      }
+      preActiveShapes.forEach((preActiveShape) => {
+        const resize = this.getResizeByPageIdAndShape({ pageId, shape: preActiveShape });
+        if (resize) {
+          resize.setDisable(false);
+        }
+      });
     }
   }
+
 
   /**
    * componentActive
@@ -363,7 +485,7 @@ class App extends React.Component {
     // .属性面板初始化
     // .概要面板初始化
     shape.active();
-    this.pageActiveShapeMap.set(pageId, shape);
+    this.pageActiveShapeMap.setShape({ pageId, shape });
     PageModel.get(pageId).setActiveShape(shape);
 
     // .当前resize的group也可以resize
@@ -398,10 +520,9 @@ class App extends React.Component {
     // sourceEl,
     targetEls,
   }) {
-    const groupKey = cloneSourceEl.dataset.groupkey;
-    const componentKey = cloneSourceEl.dataset.componentkey;
+    const { groupkey: groupKey, componentkey: componentKey } = cloneSourceEl.dataset;
     const componentId = uuidv1();
-    const pageId = this.curPageId;// targetEls[0].dataset.pageid;
+    const { curPageId: pageId } = this;
     const el = Dom6.createElement('<div></div>');
     const ShapePropertyDefaultConfig = Register.get(groupKey).get(componentKey).propertyDefaultConfig();
     const Component = Register.get(groupKey).get(componentKey);
@@ -428,7 +549,14 @@ class App extends React.Component {
     const resizeGroup = this.resizeable.getGroup(targetEl);
     resizeGroup.refresh();
 
+    // 激活当前当前
     this.componentActive({ pageId, componentId });
+
+    // 清除rangeSelect
+    if (this.rangeSelect) {
+      this.rangeSelect.clear();
+      this.rangeSelect = null;
+    }
 
     return true;
   }
@@ -484,7 +612,7 @@ class App extends React.Component {
    */
   onRemoveTab({ removeKey, activeKey }) {
     this.curPageId = activeKey;
-    this.pageActiveShapeMap.delete(removeKey);
+    this.pageActiveShapeMap.removeShape(removeKey);
     ShapeModel.removePage(removeKey);
     this.droppable.refresh();
     this.drag.refresh();

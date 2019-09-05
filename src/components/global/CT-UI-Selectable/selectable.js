@@ -242,7 +242,9 @@ class Selectable {
       self.cloneEl.parentElement.removeChild(self.cloneEl);
       self.cloneEl = null;
     }
-    if (self.config.upInclude) {
+
+
+    if (self.isdown && self.ismove && self.config.upInclude) {
       self.config.upInclude([].concat(self.includeEls));
     }
 

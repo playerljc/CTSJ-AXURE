@@ -501,8 +501,10 @@ class Drag {
       if (sourceEl) {
         self.mouseenterEl = sourceEl;
         document.body.style.cursor = 'move';
+        console.log(2);
       } else if (self.mouseenterEl) {
         document.body.style.cursor = 'default';
+        console.log(3);
         self.mouseenterEl = null;
       }
 

@@ -64,11 +64,11 @@
 
 .CT-UI-Selectable
  无限选取
- 选择后的操作
+ 选取后的操作
   选了一个或者多个
    属性面板
    Drag
-   Resize
+   Resize (很难)
  选中之后的右键菜单
     删除
     复制

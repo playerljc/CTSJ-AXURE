@@ -12,7 +12,9 @@ const selectableSelectorPrefix = 'ct-selectable';
 const droppableSelectorPrefix = 'ct-droppable';
 
 const drsSelectorPrefix = [
-  dragSelectorPrefix, resizeableSelectorPrefix, selectableSelectorPrefix,
+  dragSelectorPrefix,
+  resizeableSelectorPrefix,
+  selectableSelectorPrefix,
 ];
 
 /**

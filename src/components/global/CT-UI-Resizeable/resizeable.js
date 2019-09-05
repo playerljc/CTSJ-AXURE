@@ -448,8 +448,10 @@ class ResizeableGroup {
       }
 
       if (self.capture) {
+        console.log(1);
         document.body.style.cursor = 'move';
       } else {
+        console.log(4);
         document.body.style.cursor = 'default';
       }
 
