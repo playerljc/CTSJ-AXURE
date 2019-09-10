@@ -354,8 +354,8 @@ class Drag {
     this.disable = false;
 
     this.onMousedown = this.onMousedown.bind(this);
-    this.onMouseup = this.onMouseup.bind(this);
     this.onMousemove = this.onMousemove.bind(this);
+    this.onMouseup = this.onMouseup.bind(this);
 
     if (this.config.infinite) {
       this.scrollEl = this.el.parentElement;
@@ -433,54 +433,6 @@ class Drag {
   }
 
   /**
-   * onMouseup
-   */
-  onMouseup(e) {
-    const self = this;
-    const { disable = false } = self;
-
-    if (disable) return false;
-
-    const { mode = 'normal' } = self.config;
-
-    if (self.boundaryDetectionHandler) {
-      cancelAnimationFrame(self.boundaryDetectionHandler);
-      self.boundaryDetectionHandler = null;
-    }
-
-    let sourceEl;
-    if (mode === 'normal') {
-      sourceEl = self.sourceEl;
-    } else {
-      sourceEl = self.srcEl;
-    }
-
-    // 点击的是整个页面
-    if (!self.isdown) {
-      const { onClick } = self.config;
-      e.preventDefault();
-      e.stopPropagation();
-      if (onClick) {
-        onClick(sourceEl);
-      }
-      return false;
-    }
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    self.endTime = new Date().getTime();
-    mouseupDetail.call(self);
-
-    const { onEnd } = self.config;
-    if (onEnd) {
-      onEnd(self.el, sourceEl);
-    }
-
-    reset.call(self);
-  }
-
-  /**
    * onMousemove
    */
   onMousemove(e) {
@@ -501,10 +453,8 @@ class Drag {
       if (sourceEl) {
         self.mouseenterEl = sourceEl;
         document.body.style.cursor = 'move';
-        console.log(2);
       } else if (self.mouseenterEl) {
         document.body.style.cursor = 'default';
-        console.log(3);
         self.mouseenterEl = null;
       }
 
@@ -642,6 +592,54 @@ class Drag {
         height: self.sourceEl.offsetHeight,
       });
     }
+  }
+
+  /**
+   * onMouseup
+   */
+  onMouseup(e) {
+    const self = this;
+    const { disable = false } = self;
+
+    if (disable) return false;
+
+    const { mode = 'normal' } = self.config;
+
+    if (self.boundaryDetectionHandler) {
+      cancelAnimationFrame(self.boundaryDetectionHandler);
+      self.boundaryDetectionHandler = null;
+    }
+
+    let sourceEl;
+    if (mode === 'normal') {
+      sourceEl = self.sourceEl;
+    } else {
+      sourceEl = self.srcEl;
+    }
+
+    // 点击的是整个页面
+    if (!self.isdown) {
+      const { onClick } = self.config;
+      e.preventDefault();
+      e.stopPropagation();
+      if (onClick) {
+        onClick(sourceEl);
+      }
+      return false;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    self.endTime = new Date().getTime();
+    mouseupDetail.call(self);
+
+    const { onEnd } = self.config;
+    if (onEnd) {
+      onEnd(self.el, sourceEl);
+    }
+
+    reset.call(self);
   }
 
   /**

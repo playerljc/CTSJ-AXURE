@@ -134,7 +134,7 @@ function initDragSourceEvent() {
         }
 
         self.cloneEl.style.position = 'fixed';
-        self.cloneEl.style.zIndex = `${window.parseInt(getMaxLevelNumber()) + 1}`;
+        self.cloneEl.style.zIndex = `${window.parseInt(getMaxLevelNumber()) + 2}`;
         self.cloneEl.style.margin = '0';
         self.cloneEl.addEventListener('mouseup', () => {
           if (!self.ismove) {

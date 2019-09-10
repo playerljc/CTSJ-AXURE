@@ -7,6 +7,7 @@ import SystemToolBar from '../../components/business/layout/SystemToolBar/System
 import FunctionalPanel from '../../components/business/layout/FunctionalPanel/FunctionalPanel';
 import PropertyPanel from '../../components/business/layout/PropertyPanel/PropertyPanel';
 import CanvasPanel from '../../components/business/layout/CanvasPanel/CanvasPanel';
+import { selectorPrefix as CanvasTabPanelScrollClassName } from '../../components/business/layout/CanvasPanel/CanvasTabPanel';
 
 import ActiveShapManager from '../../components/business/interactions/ActiveShapManager/ActiveShapManager';
 
@@ -16,17 +17,17 @@ import DragFactory from '../../components/global/CT-UI-Drag/drag';
 import ResizeableFactory from '../../components/global/CT-UI-Resizeable/resizeable';
 import SelectableFactory from '../../components/global/CT-UI-Selectable/selectable';
 
+import Register from '../../components/library/Register';
+import ComponentToolDragBaseHOC from '../../components/library/toolbox/ComponentToolDragBaseHOC';
+import { CreateRangeSelectEl, getRect } from '../../components/library/component/RangeSelect';
+
 import Actions from '../../util/Actions';
 import Emitter from '../../util/Emitter';
 import { Dom6 } from '../../util/CTMobile-UI-Util';
+
 import ShapeModel from '../../model/ShapeModel';
 import PageModel from '../../model/PageModel';
-import Register from '../../components/library/Register';
-import ComponentToolDragBaseHOC from '../../components/library/toolbox/ComponentToolDragBaseHOC';
 
-import { CreateRangeSelectEl, getRect } from '../../components/library/component/RangeSelect';
-
-import { selectorPrefix as CanvasTabPanelScrollClassName } from '../../components/business/layout/CanvasPanel/CanvasTabPanel';
 
 import './app.less';
 
@@ -520,7 +521,6 @@ class App extends React.Component {
     }
   }
 
-
   /**
    * componentActive
    * @param {String} - pageId
@@ -603,7 +603,7 @@ class App extends React.Component {
     const resizeGroup = this.resizeable.getGroup(targetEl);
     resizeGroup.refresh();
 
-    // 激活当前当前
+    // 激活当前Shape
     this.componentActive({ pageId, componentId });
 
     // 清除rangeSelect
