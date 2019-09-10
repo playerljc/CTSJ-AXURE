@@ -270,6 +270,60 @@ class App extends React.Component {
         this.droppable.setDisable(false);
         this.drag.setDisable(false);
         this.selectable.setDisable(false);
+
+        if (this.rangeSelect) {
+          const { children = [] } = this.rangeSelect;
+          this.rangeSelect.children = children.map((t) => {
+            const { el } = t;
+            return Object.assign(t, {
+              baseWidth: el.offsetWidth,
+              baseHeight: el.offsetHeight,
+              clientX: el.offsetLeft,
+              clientY: el.offsetTop,
+            });
+          });
+        }
+      },
+      /**
+       * 当resizeable有变化的时候
+       * @param {number} - incrementWidth
+       * @param {number} - incrementHeight
+       * @param {Object} - condition
+       * @param {Function} - callback
+       * @return {boolean}
+       */
+      onChange: ({ incrementWidth, incrementHeight, condition }, { handler, context }) => {
+        if (!this.rangeSelect) return false;
+
+        const { children = [] } = this.rangeSelect;
+        children.forEach((entry) => {
+          const { el, baseWidth, baseHeight, clientX, clientY } = entry;
+
+          handler.call(
+            context,
+            el,
+            {
+              baseWidth,
+              baseHeight,
+              clientX,
+              clientY,
+              incrementWidth,
+              incrementHeight,
+            }
+          );
+
+          if (condition.left || condition.right || condition.top || condition.bottom) {
+            if (condition.left || condition.right) {
+              entry.baseWidth = el.offsetWidth;
+              entry.clientX = el.offsetLeft;
+            }
+
+            if (condition.top || condition.bottom) {
+              entry.baseHeight = el.offsetHeight;
+              entry.clientY = el.offsetTop;
+            }
+          }
+        });
       },
     });
   }

@@ -16,7 +16,8 @@
    onCanResizeLeftTop: Function
    onCanResizeLeftBottom: Function
    onCanResizeRightTop: Function
-   onCanResizeRightBottom: Function
+   onCanResizeRightBottom: Function,
+   onChange: Function,
 }
 
  布局:
@@ -448,10 +449,8 @@ class ResizeableGroup {
       }
 
       if (self.capture) {
-        console.log(1);
         document.body.style.cursor = 'move';
       } else {
-        console.log(4);
         document.body.style.cursor = 'default';
       }
 
@@ -475,7 +474,7 @@ class ResizeableGroup {
     };
 
     if (clientX <= self.scrollElRect.left + edgeWidth) {
-      condition.left = true;
+      condition.left = self.scrollEl.scrollLeft !== 0;
     }
 
     if (clientX >= self.scrollElRect.right - (edgeWidth + scrollWidth)) {
@@ -483,7 +482,7 @@ class ResizeableGroup {
     }
 
     if (clientY <= self.scrollElRect.top + edgeWidth) {
-      condition.top = true;
+      condition.top = self.scrollEl.scrollTop !== 0;
     }
 
     if (clientY >= self.scrollElRect.bottom - (edgeWidth + scrollWidth)) {
@@ -496,10 +495,12 @@ class ResizeableGroup {
     const left = self.cur.clientX;
     const top = self.cur.clientY;
 
-    if (self.cur.direction === 'right') {
-      self.resizeRightDetail(incrementWidth);
-    } else if (self.cur.direction === 'left') {
+    const { onChange } = self.config;
+
+    if (self.cur.direction === 'left') {
       self.resizeLeftDetail({ incrementWidth, left });
+    } else if (self.cur.direction === 'right') {
+      self.resizeRightDetail(incrementWidth);
     } else if (self.cur.direction === 'top') {
       self.resizeTopDetail({ incrementHeight, top });
     } else if (self.cur.direction === 'bottom') {
@@ -513,6 +514,7 @@ class ResizeableGroup {
     } else if (self.cur.direction === 'rightbottom') {
       self.resizeRightBottomDetail({ incrementWidth, incrementHeight });
     }
+
 
     if (condition.left || condition.right || condition.top || condition.bottom) {
       if (condition.left || condition.right) {
@@ -533,7 +535,23 @@ class ResizeableGroup {
         self.cur.bottomCritical = self.cur.baseHeight - minHeight;
       }
 
+      if (onChange) {
+        onChange({ incrementWidth, incrementHeight, condition }, {
+          handler: (el, params) => {
+            return self.resizeCore(el, params);
+          },
+          context: self,
+        });
+      }
+
       self.boundaryDetectionScroll(condition);
+    } else if (onChange) {
+      onChange({ incrementWidth, incrementHeight, condition }, {
+        handler: (el, params) => {
+          return self.resizeCore(el, params);
+        },
+        context: self,
+      });
     }
   }
 
@@ -575,52 +593,6 @@ class ResizeableGroup {
     if (!self.cur || !self.cur.el) return false;
 
     const curElRect = self.cur.el.getBoundingClientRect();
-
-    if (top) {
-      if (self.scrollEl.scrollTop !== 0) {
-        if (self.scrollEl.scrollTop - scrollStep < 0) {
-          self.scrollEl.scrollTop = 0;
-        } else {
-          self.scrollEl.scrollTop -= scrollStep;
-        }
-        if (self.cur.direction === 'top') {
-          self.cur.baseY = curElRect.top;
-        } else if (self.cur.direction === 'lefttop') {
-          self.cur.baseY = curElRect.top;
-        } else if (self.cur.direction === 'righttop') {
-          self.cur.baseY = curElRect.top;
-        } else if (self.cur.direction === 'bottom') {
-          self.cur.baseY = curElRect.bottom;
-        } else if (self.cur.direction === 'leftbottom') {
-          self.cur.baseY = curElRect.bottom;
-        } else if (self.cur.direction === 'rightbottom') {
-          self.cur.baseY = curElRect.bottom;
-        }
-      }
-    }
-
-    if (bottom) {
-      if (self.scrollEl.scrollTop !== self.scrollEl.scrollHeight) {
-        if (self.scrollEl.scrollTop + scrollStep > self.scrollEl.scrollHeight) {
-          self.scrollEl.scrollTop = self.scrollEl.scrollHeight;
-        } else {
-          self.scrollEl.scrollTop += scrollStep;
-        }
-        if (self.cur.direction === 'top') {
-          self.cur.baseY = curElRect.top;
-        } else if (self.cur.direction === 'lefttop') {
-          self.cur.baseY = curElRect.top;
-        } else if (self.cur.direction === 'righttop') {
-          self.cur.baseY = curElRect.top;
-        } else if (self.cur.direction === 'bottom') {
-          self.cur.baseY = curElRect.bottom;
-        } else if (self.cur.direction === 'leftbottom') {
-          self.cur.baseY = curElRect.bottom;
-        } else if (self.cur.direction === 'rightbottom') {
-          self.cur.baseY = curElRect.bottom;
-        }
-      }
-    }
 
     if (left) {
       if (self.scrollEl.scrollLeft !== 0) {
@@ -670,10 +642,237 @@ class ResizeableGroup {
       }
     }
 
+    if (top) {
+      if (self.scrollEl.scrollTop !== 0) {
+        if (self.scrollEl.scrollTop - scrollStep < 0) {
+          self.scrollEl.scrollTop = 0;
+        } else {
+          self.scrollEl.scrollTop -= scrollStep;
+        }
+        if (self.cur.direction === 'top') {
+          self.cur.baseY = curElRect.top;
+        } else if (self.cur.direction === 'lefttop') {
+          self.cur.baseY = curElRect.top;
+        } else if (self.cur.direction === 'righttop') {
+          self.cur.baseY = curElRect.top;
+        } else if (self.cur.direction === 'bottom') {
+          self.cur.baseY = curElRect.bottom;
+        } else if (self.cur.direction === 'leftbottom') {
+          self.cur.baseY = curElRect.bottom;
+        } else if (self.cur.direction === 'rightbottom') {
+          self.cur.baseY = curElRect.bottom;
+        }
+      }
+    }
+
+    if (bottom) {
+      if (self.scrollEl.scrollTop !== self.scrollEl.scrollHeight) {
+        if (self.scrollEl.scrollTop + scrollStep > self.scrollEl.scrollHeight) {
+          self.scrollEl.scrollTop = self.scrollEl.scrollHeight;
+        } else {
+          self.scrollEl.scrollTop += scrollStep;
+        }
+        if (self.cur.direction === 'top') {
+          self.cur.baseY = curElRect.top;
+        } else if (self.cur.direction === 'lefttop') {
+          self.cur.baseY = curElRect.top;
+        } else if (self.cur.direction === 'righttop') {
+          self.cur.baseY = curElRect.top;
+        } else if (self.cur.direction === 'bottom') {
+          self.cur.baseY = curElRect.bottom;
+        } else if (self.cur.direction === 'leftbottom') {
+          self.cur.baseY = curElRect.bottom;
+        } else if (self.cur.direction === 'rightbottom') {
+          self.cur.baseY = curElRect.bottom;
+        }
+      }
+    }
+
     self.boundaryDetectionHandler = requestAnimationFrame(() => {
       self.boundaryDetectionScroll(condition);
     });
   }
+
+  /**
+   * resizeCore
+   * @param {HTMLElement} - el
+   * @param {Number} - baseWidth
+   * @param {Number} - baseHeight
+   * @param {Number} - incrementWidth
+   * @param {Number} - incrementHeight
+   */
+  resizeCore(el, {
+    baseWidth,
+    baseHeight,
+    clientX,
+    clientY,
+    incrementWidth,
+    incrementHeight,
+  }) {
+    const self = this;
+    if (self.cur.direction === 'left') {
+      self.resizeLeftDetailCore(el, { baseWidth, incrementWidth, clientX });
+    } else if (self.cur.direction === 'right') {
+      self.resizeRightDetailCore(el, { baseWidth, incrementWidth, clientX });
+    } else if (self.cur.direction === 'top') {
+      self.resizeTopDetailCore(el, { baseHeight, incrementHeight, clientY });
+    } else if (self.cur.direction === 'bottom') {
+      self.resizeBottomDetailCore(el, { baseHeight, incrementHeight, clientY });
+    } else if (self.cur.direction === 'lefttop') {
+      self.resizeLeftTopDetailCore(el, {
+        baseWidth,
+        baseHeight,
+        clientX,
+        clientY,
+        incrementWidth,
+        incrementHeight,
+      });
+    } else if (self.cur.direction === 'leftbottom') {
+      self.resizeLeftBottomDetailCore(el, {
+        baseWidth,
+        baseHeight,
+        clientX,
+        clientY,
+        incrementWidth,
+        incrementHeight,
+      });
+    } else if (self.cur.direction === 'righttop') {
+      self.resizeRightTopDetailCore(el, {
+        baseWidth,
+        baseHeight,
+        clientX,
+        clientY,
+        incrementWidth,
+        incrementHeight,
+      });
+    } else if (self.cur.direction === 'rightbottom') {
+      self.resizeRightBottomDetailCore(el, {
+        baseWidth,
+        baseHeight,
+        clientX,
+        clientY,
+        incrementWidth,
+        incrementHeight,
+      });
+    }
+  }
+
+  /**
+   * resizeLeftDetailCore
+   * @param {HTMLElement} - el
+   * @param {Number} - baseWidth
+   * @param {Number} - incrementWidth
+   */
+  resizeLeftDetailCore(el, { baseWidth, incrementWidth, clientX }) {
+    const computeWidth = baseWidth - incrementWidth;
+    el.style.width = `${computeWidth < 0 ? 0 : computeWidth}px`;
+    if (this.cur.el.offsetWidth < clientX) {
+      el.style.left = `${clientX - (clientX - this.cur.el.offsetWidth)}px`;
+    } else {
+      el.style.left = `${clientX}px`;
+    }
+  }
+
+  /**
+   * resizeRightDetailCore
+   * @param {HTMLElement} - el
+   * @param {Number} - baseWidth
+   * @param {Number} - incrementWidth
+   */
+  resizeRightDetailCore(el, { baseWidth, incrementWidth, clientX }) {
+    const computeWidth = baseWidth + incrementWidth;
+    el.style.width = `${computeWidth < 0 ? 0 : computeWidth}px`;
+    if (this.cur.el.offsetWidth < clientX) {
+      el.style.left = `${clientX - (clientX - this.cur.el.offsetWidth)}px`;
+    } else {
+      el.style.left = `${clientX}px`;
+    }
+  }
+
+  /**
+   * resizeTopDetailCore
+   * @param {HTMLElement} - el
+   * @param {Number} - baseHeight
+   * @param {Number} - incrementHeight
+   */
+  resizeTopDetailCore(el, { baseHeight, incrementHeight, clientY }) {
+    const computeHeight = baseHeight - incrementHeight;
+    el.style.height = `${computeHeight < 0 ? 0 : computeHeight}px`;
+    if (this.cur.el.offsetHeight < clientY) {
+      el.style.top = `${clientY - (clientY - this.cur.el.offsetHeight)}px`;
+    } else {
+      el.style.top = `${clientY}px`;
+    }
+  }
+
+  /**
+   * resizeBottomDetailCore
+   * @param {HTMLElement} - el
+   * @param {Number} - baseHeight
+   * @param {Number} - incrementHeight
+   */
+  resizeBottomDetailCore(el, { baseHeight, incrementHeight, clientY }) {
+    const computeHeight = baseHeight + incrementHeight;
+    el.style.height = `${computeHeight < 0 ? 0 : computeHeight}px`;
+    if (this.cur.el.offsetHeight < clientY) {
+      el.style.top = `${clientY - (clientY - this.cur.el.offsetHeight)}px`;
+    } else {
+      el.style.top = `${clientY}px`;
+    }
+  }
+
+  /**
+   * resizeLeftTopDetailCore
+   * @param {HTMLElement} - el
+   * @param {Number} - baseWidth
+   * @param {Number} - incrementWidth
+   * @param {Number} - baseHeight
+   * @param {Number} - incrementHeight
+   */
+  resizeLeftTopDetailCore(el, { baseWidth, incrementWidth, clientX, clientY, baseHeight, incrementHeight }) {
+    this.resizeLeftDetailCore(el, { baseWidth, incrementWidth, clientX });
+    this.resizeTopDetailCore(el, { baseHeight, incrementHeight, clientY });
+  }
+
+  /**
+   * resizeLeftBottomDetailCore
+   * @param {HTMLElement} - el
+   * @param {Number} - baseWidth
+   * @param {Number} - incrementWidth
+   * @param {Number} - baseHeight
+   * @param {Number} - incrementHeight
+   */
+  resizeLeftBottomDetailCore(el, { baseWidth, incrementWidth, clientX, clientY, baseHeight, incrementHeight }) {
+    this.resizeLeftDetailCore(el, { baseWidth, incrementWidth, clientX });
+    this.resizeBottomDetailCore(el, { baseHeight, incrementHeight, clientY });
+  }
+
+  /**
+   * resizeRightTopDetailCore
+   * @param {HTMLElement} - el
+   * @param {Number} - baseWidth
+   * @param {Number} - incrementWidth
+   * @param {Number} - baseHeight
+   * @param {Number} - incrementHeight
+   */
+  resizeRightTopDetailCore(el, { baseWidth, incrementWidth, clientX, clientY, baseHeight, incrementHeight }) {
+    this.resizeRightDetailCore(el, { baseWidth, incrementWidth, clientX });
+    this.resizeTopDetailCore(el, { baseHeight, incrementHeight, clientY });
+  }
+
+  /**
+   * resizeRightBottomDetailCore
+   * @param {HTMLElement} - el
+   * @param {Number} - baseWidth
+   * @param {Number} - incrementWidth
+   * @param {Number} - baseHeight
+   * @param {Number} - incrementHeight
+   */
+  resizeRightBottomDetailCore(el, { baseWidth, incrementWidth, clientX, clientY, baseHeight, incrementHeight }) {
+    this.resizeRightDetailCore(el, { baseWidth, incrementWidth, clientX });
+    this.resizeBottomDetailCore(el, { baseHeight, incrementHeight, clientY });
+  }
+
 
   /**
    * resizeLeftDetail
@@ -693,10 +892,8 @@ class ResizeableGroup {
       document.body.style.cursor = 'w-resize';
     }
 
-    if (computeLeft >= 0) {
-      self.cur.el.style.width = `${computeWidth}px`;
-      self.cur.el.style.left = `${computeLeft}px`;
-    }
+    self.cur.el.style.width = `${computeWidth}px`;
+    self.cur.el.style.left = `${computeLeft}px`;
   }
 
   /**
@@ -732,10 +929,9 @@ class ResizeableGroup {
     if (isUpdateCursor) {
       document.body.style.cursor = 'n-resize';
     }
-    if (computeTop >= 0) {
-      self.cur.el.style.height = `${computeHeight}px`;
-      self.cur.el.style.top = `${computeTop}px`;
-    }
+
+    self.cur.el.style.height = `${computeHeight}px`;
+    self.cur.el.style.top = `${computeTop}px`;
   }
 
   /**
@@ -802,6 +998,7 @@ class ResizeableGroup {
     document.body.style.cursor = 'se-resize';
   }
 
+
   /**
    * initEvents
    */
@@ -813,6 +1010,11 @@ class ResizeableGroup {
 
     Dom6.off(self.el, 'resize', 'mouseup');
     Dom6.on(self.el, 'resize', 'mouseup', this.onMouseUp);
+
+    Dom6.off(self.el, 'resize', 'mouseleave');
+    Dom6.on(self.el, 'resize', 'mouseleave', (e) => {
+      this.onMouseUp(e);
+    });
   }
 
   /**

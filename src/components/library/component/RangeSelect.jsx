@@ -56,8 +56,8 @@ export function getRect(els) {
       leftEl = el;
     }
 
-    if (el.offsetLeft > maxLeft) {
-      maxLeft = el.offsetLeft;
+    if (el.offsetLeft + el.offsetWidth > maxLeft) {
+      maxLeft = el.offsetLeft + el.offsetWidth;
       rightEl = el;
     }
 
@@ -66,8 +66,8 @@ export function getRect(els) {
       topEl = el;
     }
 
-    if (el.offsetTop > maxTop) {
-      maxTop = el.offsetTop;
+    if (el.offsetTop + el.offsetHeight > maxTop) {
+      maxTop = el.offsetTop + el.offsetHeight;
       bottomEl = el;
     }
   });
@@ -76,8 +76,6 @@ export function getRect(els) {
   const top = topEl.offsetTop;
   const width = rightEl.offsetLeft - leftEl.offsetLeft + rightEl.offsetWidth;
   const height = bottomEl.offsetTop - topEl.offsetTop + bottomEl.offsetHeight;
-
-  console.log(left, top, width, height);
 
   return {
     left,
@@ -118,27 +116,62 @@ export function CreateRangeSelectEl({ width, height, left, top }, children) {
   );
 
   // 把children放进
-
   const parentLeft = left;
   const parentTop = top;
   const df = document.createDocumentFragment();
+
+  const hocChildren = [];
+
   children.forEach((el) => {
     const cloneEl = el.cloneNode(true);
+
+    // 去掉元素中的drs样式
     cloneEl.className = cloneEl.className.replace(getDRSClassName(), '');
+
+    // 计算cloneEl在rangeSelectEl中的位置
     const cloneLeft = parseFloat(cloneEl.style.left.replace('px', ''));
     const cloneTop = parseFloat(cloneEl.style.top.replace('px', ''));
     cloneEl.style.left = `${cloneLeft - parentLeft}px`;
     cloneEl.style.top = `${cloneTop - parentTop}px`;
     df.appendChild(cloneEl);
+
+    hocChildren.push({
+      el: cloneEl,
+      baseWidth: Math.floor(el.offsetWidth),
+      baseHeight: Math.floor(el.offsetHeight),
+      clientX: Math.floor(cloneLeft - parentLeft),
+      clientY: Math.floor(cloneTop - parentTop),
+    });
+
+    // 隐藏元素元素
     el.style.display = 'none';
   });
+
   rangeSelectEl.appendChild(df);
 
   return {
     el: rangeSelectEl,
-    children,
+    children: hocChildren,
+    /**
+     * clear
+     * 进行选择的清理操作
+     */
     clear: () => {
+      // 改变的元素
+      const changeEls = Array.from(rangeSelectEl.querySelectorAll('.ct-axure-shape'));
+      const pLeft = rangeSelectEl.offsetLeft;
+      const pTop = rangeSelectEl.offsetTop;
       children.forEach((el) => {
+        // 同步现在数据的left, top , width, height的数据，并更新到Shape中
+        const { componentid } = el.dataset;
+        const changeEl = changeEls.find(targetEl => targetEl.dataset.componentid === componentid);
+        if (changeEl) {
+          el.style.left = `${pLeft + parseFloat(changeEl.style.left.replace('px', ''))}px`;
+          el.style.top = `${pTop + parseFloat(changeEl.style.top.replace('px', ''))}px`;
+          el.style.width = changeEl.style.width;
+          el.style.height = changeEl.style.height;
+        }
+        // 让之前的元素进行显示
         el.style.display = 'flex';
       });
 
