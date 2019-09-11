@@ -330,13 +330,14 @@ class RangeSelect {
 
   onCtrlC = () => {
     console.log('CtrlC');
+    const { config: { pageId } } = this;
 
     const changeEls = Array.from(this.el.querySelectorAll('.ct-axure-shape'));
     const pLeft = this.el.offsetLeft;
     const pTop = this.el.offsetTop;
 
-    ClipBoard.set(changeEls.map((el) => {
-      const { groupkey: groupKey, componentkey: componentKey, pageid: pageId, componentid: componentId } = el.dataset;
+    ClipBoard.set(pageId, changeEls.map((el) => {
+      const { groupkey: groupKey, componentkey: componentKey, componentid: componentId } = el.dataset;
       const property = Immutable.cloneDeep(ShapeModel.getShape({ pageId, componentId }).getProperty());
       const left = pLeft + parseFloat(el.style.left.replace('px', ''));
       const top = pTop + parseFloat(el.style.top.replace('px', ''));

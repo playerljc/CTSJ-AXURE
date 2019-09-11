@@ -367,7 +367,7 @@ export default (Component, { groupKey, componentKey }) => {
       const { pageId } = this.props;
       const { property } = this.state;
       const el = this.getEl();
-      ClipBoard.set([{
+      ClipBoard.set(pageId, [{
         groupKey,
         componentKey,
         pageId,

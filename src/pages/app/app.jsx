@@ -27,6 +27,7 @@ import { CreateRangeSelectEl } from '../../components/library/component/RangeSel
 import Actions from '../../util/Actions';
 import Emitter from '../../util/Emitter';
 import { Dom6 } from '../../util/CTMobile-UI-Util';
+import ClipBoard from '../../util/ClipBoard';
 import { PAST_XPOSITION_STEP, PAST_YPOSITION_STEP } from '../../util/Constant';
 
 import ShapeModel from '../../model/ShapeModel';
@@ -754,6 +755,7 @@ class App extends React.Component {
     this.activeShapeKeyBoardBind.unBindKeyBoard(removeKey);
     this.activePageKeyBoardBind.unBindKeyBoard(removeKey);
     this.activePageMap.removePage(removeKey);
+    ClipBoard.delete(removeKey);
 
     if (activeKey && this.curPageId !== activeKey) {
       this.activeShapeKeyBoardBind.bindKeyBoard(activeKey);

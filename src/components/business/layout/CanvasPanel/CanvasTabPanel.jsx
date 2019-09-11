@@ -91,8 +91,9 @@ class CanvasTabPanel extends React.Component {
   }
 
   onCtrlV = () => {
-    console.log('Ctrl + V:', this.props.pageId);
-    const clipBoardData = ClipBoard.get();
+    const { pageId } = this.props;
+    console.log('Ctrl + V:', pageId);
+    const clipBoardData = ClipBoard.get(pageId);
     if (!clipBoardData || clipBoardData.length === 0) return false;
 
     Emitter.trigger(
