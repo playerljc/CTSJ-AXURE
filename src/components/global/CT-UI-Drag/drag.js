@@ -307,6 +307,11 @@ function initEvents() {
 
   Dom6.off(self.el, 'drag', 'mousemove');
   Dom6.on(self.el, 'drag', 'mousemove', self.onMousemove);
+
+  Dom6.off(self.el, 'drag', 'mouseleave');
+  Dom6.on(self.el, 'drag', 'mouseleave', (e) => {
+    self.onMouseup(e);
+  });
 }
 
 /**
@@ -387,6 +392,7 @@ class Drag {
    */
   onMousedown(e) {
     const self = this;
+
     const { disable = false } = self;
 
     if (disable) return false;
@@ -673,10 +679,20 @@ class DragManager {
    */
   init() {
     // TODO change
-    this.managers.clear();
-    const els = this.el.querySelectorAll(`.${selectorPrefix}`);
+    // this.managers.clear();
+    const els = Array.from(this.el.querySelectorAll(`.${selectorPrefix}`));
     for (let i = 0; i < els.length; i++) {
-      this.managers.set(els[i], new Drag(els[i], this.config));
+      const el = els[i];
+      if (!this.managers.get(el)) {
+        this.managers.set(el, new Drag(el, this.config));
+      }
+    }
+
+    const keys = this.managers.keys();
+    for (const key in keys) {
+      if (els.indexOf(key) === -1) {
+        this.managers.delete(key);
+      }
     }
   }
 

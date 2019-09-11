@@ -1,7 +1,9 @@
 /**
- * ActiveShapManager
+ * ActiveShapeManager - 对页面中激活Shape进行管理
+ * @class ActiveShapeManager
+ * @classdesc ActiveShapeManager
  */
-class ActiveShapManager {
+class ActiveShapeManager {
   constructor() {
     this.pageActiveShapeMap = new Map();
   }
@@ -39,4 +41,4 @@ class ActiveShapManager {
   }
 }
 
-export default ActiveShapManager;
+export default ActiveShapeManager;

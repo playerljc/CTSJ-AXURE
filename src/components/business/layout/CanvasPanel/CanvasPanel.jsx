@@ -102,7 +102,7 @@ class CanvasPanel extends Component {
     }, () => {
       Emitter.trigger(Actions.components.business.canvaspanel.removetab, {
         removeKey: pageId,
-        activeKey,
+        activeKey: data.length !== 0 ? activeKey : '',
       });
       if (isChangeTab) {
         Emitter.trigger(Actions.components.business.canvaspanel.changetab, activeKey);

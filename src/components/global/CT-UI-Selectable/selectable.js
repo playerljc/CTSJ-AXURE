@@ -63,6 +63,11 @@ function initEvents() {
 
   Dom6.off(self.el, 'selectable', 'mousemove');
   Dom6.on(self.el, 'selectable', 'mousemove', self.onMouseMove);
+
+  Dom6.off(self.el, 'selectable', 'mouseleave');
+  Dom6.on(self.el, 'selectable', 'mouseleave', (e) => {
+    this.onMouseUp(e);
+  });
 }
 
 /**
@@ -265,14 +270,13 @@ class Selectable {
 
   /**
    * updateRange
+   * @param {MouseEvent} - ev
    */
   updateRange(ev) {
     const self = this;
 
     const curX = ev.clientX - (self.elRect.left - self.scrollEl.scrollLeft);
     const curY = ev.clientY - (self.elRect.top - self.scrollEl.scrollTop);
-
-    // console.log(Math.floor(self.baseX), Math.floor(curX));
 
     if (self.baseY === curY) {
       // 水平
@@ -377,11 +381,12 @@ class Selectable {
       self.cloneEl.style.right = `${right}px`;
       self.cloneEl.style.top = `${top}px`;
       self.cloneEl.style.bottom = `${bottom}px`;
+
+      // console.log('width:', width, 'height:', height, 'left:', left, 'right:', right, 'top:', top, 'bottom:', bottom);
     }
 
     self.includeEls = [];
     self.excludeEls = [];
-    // const rangeRect = self.cloneEl.getBoundingClientRect();
 
     const xb1 = self.cloneEl.offsetLeft;
     const xb2 = self.cloneEl.offsetLeft + self.cloneEl.offsetWidth;
@@ -391,11 +396,6 @@ class Selectable {
     const itemEls = self.el.querySelectorAll(`.${selectorPrefix}-item`);
     for (let i = 0; i < itemEls.length; i++) {
       const itemEl = itemEls[i];
-      // const rect = itemEl.getBoundingClientRect();
-      // const xa1 = rect.left;
-      // const xa2 = rect.right;
-      // const ya1 = rect.top;
-      // const ya2 = rect.bottom;
       const xa1 = itemEl.offsetLeft;
       const xa2 = itemEl.offsetLeft + itemEl.offsetWidth;
       const ya1 = itemEl.offsetTop;
@@ -508,10 +508,20 @@ class SelectableManager {
    */
   init() {
     // TODO change
-    this.managers.clear();
-    const els = this.el.querySelectorAll(`.${selectorPrefix}`);
+    // this.managers.clear();
+    const els = Array.from(this.el.querySelectorAll(`.${selectorPrefix}`));
     for (let i = 0; i < els.length; i++) {
-      this.managers.set(els[i], new Selectable(els[i], this.config));
+      const el = els[i];
+      if (!this.managers.get(el)) {
+        this.managers.set(el, new Selectable(el, this.config));
+      }
+    }
+
+    const keys = this.managers.keys();
+    for (const key in keys) {
+      if (els.indexOf(key) === -1) {
+        this.managers.delete(key);
+      }
     }
   }
 

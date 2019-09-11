@@ -1037,10 +1037,20 @@ class ResizeableGroup {
    * init
    */
   init() {
-    const els = this.el.querySelectorAll(`.${selectorPrefix}-item`);
-    this.ins.clear();
+    // this.ins.clear();
+    const els = Array.from(this.el.querySelectorAll(`.${selectorPrefix}-item`));
     for (let i = 0; i < els.length; i++) {
-      this.ins.set(els[i], new Resizeable(els[i], this.config, this, i));
+      const el = els[i];
+      if (!this.ins.get(el)) {
+        this.ins.set(el, new Resizeable(el, this.config, this, i));
+      }
+    }
+
+    const keys = this.ins.keys();
+    for (const key in keys) {
+      if (els.indexOf(key) === -1) {
+        this.ins.delete(key);
+      }
     }
   }
 
@@ -1098,10 +1108,20 @@ class ResizeableGroupManager {
    */
   init() {
     // TODO change
-    this.resizeManager.clear();
-    const resizeableEls = this.el.querySelectorAll(`.${selectorPrefix}`);
+    // this.resizeManager.clear();
+    const resizeableEls = Array.from(this.el.querySelectorAll(`.${selectorPrefix}`));
     for (let i = 0; i < resizeableEls.length; i++) {
-      this.resizeManager.set(resizeableEls[i], new ResizeableGroup(resizeableEls[i], this.config));
+      const el = resizeableEls[i];
+      if (!this.resizeManager.get(el)) {
+        this.resizeManager.set(el, new ResizeableGroup(el, this.config));
+      }
+    }
+
+    const keys = this.resizeManager.keys();
+    for (const key in keys) {
+      if (resizeableEls.indexOf(key) === -1) {
+        this.resizeManager.delete(key);
+      }
     }
   }
 
