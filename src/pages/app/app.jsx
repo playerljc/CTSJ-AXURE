@@ -7,11 +7,12 @@ import SystemToolBar from '../../components/business/layout/SystemToolBar/System
 import FunctionalPanel from '../../components/business/layout/FunctionalPanel/FunctionalPanel';
 import PropertyPanel from '../../components/business/layout/PropertyPanel/PropertyPanel';
 import CanvasPanel from '../../components/business/layout/CanvasPanel/CanvasPanel';
-import { selectorPrefix as CanvasTabPanelScrollClassName } from '../../components/business/layout/CanvasPanel/CanvasTabPanel';
 
 import ActiveShapeManager from '../../components/business/interactions/ActiveShapeManager';
+import ActivePageManaager from '../../components/business/interactions/ActivePageManager';
 import RangeSelectManager from '../../components/business/interactions/RangeSelectManager';
 import ActiveShapeKeyBoardBind from '../../components/business/interactions/ActiveShapeKeyBoardBind';
+import ActivePageKeyBoardBind from '../../components/business/interactions/ActivePageKeyBoardBind';
 
 import SplitFactory from '../../components/global/CT-UI-Split/split';
 import DroppableFactory from '../../components/global/CT-UI-Droppable/droppable';
@@ -26,10 +27,10 @@ import { CreateRangeSelectEl } from '../../components/library/component/RangeSel
 import Actions from '../../util/Actions';
 import Emitter from '../../util/Emitter';
 import { Dom6 } from '../../util/CTMobile-UI-Util';
+import { PAST_XPOSITION_STEP, PAST_YPOSITION_STEP } from '../../util/Constant';
 
 import ShapeModel from '../../model/ShapeModel';
 import PageModel from '../../model/PageModel';
-
 
 import './app.less';
 
@@ -49,9 +50,13 @@ class App extends React.Component {
     this.onAddTab = this.onAddTab.bind(this);
     this.onChangeTab = this.onChangeTab.bind(this);
     this.onRemoveTab = this.onRemoveTab.bind(this);
+    this.onPaste = this.onPaste.bind(this);
 
     // 存储每一个页面active的Shape实例,一个page里面有多个ActiveShape
     this.pageActiveShapeMap = new ActiveShapeManager();
+
+    // 存储active的CanvasTabPanel
+    this.activePageMap = new ActivePageManaager();
 
     // 存储每一个页面的rangeSelect，一个page里面只有一个rangeSelect
     this.rangeSelectMap = new RangeSelectManager();
@@ -61,6 +66,9 @@ class App extends React.Component {
       activeShapeManager: this.pageActiveShapeMap,
       rangeSelectManager: this.rangeSelectMap,
     });
+
+    // 管理激活Page的KeyBoard的bind和unBind
+    this.activePageKeyBoardBind = new ActivePageKeyBoardBind(this.activePageMap);
 
     // 当前激活页面的pageId
     this.curPageId = '';
@@ -85,6 +93,7 @@ class App extends React.Component {
     Emitter.remove(Actions.components.business.canvaspanel.addtab, this.onAddTab);
     Emitter.remove(Actions.components.business.canvaspanel.changetab, this.onChangeTab);
     Emitter.remove(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
+    Emitter.remove(Actions.components.business.canvaspanel.paste, this.onPaste);
   }
 
   /**
@@ -94,6 +103,7 @@ class App extends React.Component {
     Emitter.on(Actions.components.business.canvaspanel.addtab, this.onAddTab);
     Emitter.on(Actions.components.business.canvaspanel.changetab, this.onChangeTab);
     Emitter.on(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
+    Emitter.on(Actions.components.business.canvaspanel.paste, this.onPaste);
   }
 
   /**
@@ -576,6 +586,67 @@ class App extends React.Component {
   }
 
   /**
+   * createActiveShape
+   * @param {String} - groupKey
+   * @param {String} - componentKey
+   * @param {String} - pageId
+   * @param {String} - componentId
+   * @param {Object} - property
+   * @param {Function} - renderHandler
+   */
+  createShape({
+    groupKey,
+    componentKey,
+    pageId,
+    componentId,
+    property,
+    renderHandler,
+  }) {
+    // preShape进行unActive的操作
+    this.acitveShapeUnActive(pageId);
+
+    const el = Dom6.createElement('<div></div>');
+    const Component = Register.get(groupKey).get(componentKey);
+    ReactDOM.render(
+      <Component.Component
+        pageId={pageId}
+        componentId={componentId}
+        number={ShapeModel.getShapesByPage(pageId).length + 1}
+        property={property}
+        getInstance={(ins) => {
+          ShapeModel.add(ins);
+        }}
+      />, el
+    );
+
+    renderHandler(el.firstElementChild);
+
+    const resizeGroup = this.resizeable.getGroup(document.getElementById(pageId));
+    resizeGroup.refresh();
+
+    // // 激活当前Shape
+    // this.componentActive({ pageId, componentId });
+
+    // 清除rangeSelect
+    const rangeSelect = this.rangeSelectMap.get(this.curPageId);
+    if (rangeSelect) {
+      rangeSelect.clear();
+      this.rangeSelectMap.delete(this.curPageId);
+    }
+  }
+
+  /**
+   * createActiveShape
+   * @param {Object} - params
+   */
+  createActiveShape(params) {
+    this.createShape(params);
+    const { pageId, componentId } = params;
+    // 激活当前Shape
+    this.componentActive({ pageId, componentId });
+  }
+
+  /**
    * onDroppablePutSuccess
    * @param {HTMLElement} - cloneSourceEl
    * @param {Function} - naturalRelease
@@ -594,41 +665,22 @@ class App extends React.Component {
     const { groupkey: groupKey, componentkey: componentKey } = cloneSourceEl.dataset;
     const componentId = uuidv1();
     const { curPageId: pageId } = this;
-    const el = Dom6.createElement('<div></div>');
-    const ShapePropertyDefaultConfig = Register.get(groupKey).get(componentKey).propertyDefaultConfig();
-    const Component = Register.get(groupKey).get(componentKey);
-    ReactDOM.render(
-      <Component.Component
-        pageId={pageId}
-        componentId={componentId}
-        number={ShapeModel.getShapesByPage(pageId).length + 1}
-        property={ShapePropertyDefaultConfig}
-        getInstance={(ins) => {
-          ShapeModel.add(ins);
-        }}
-      />, el
-    );
+    const property = Register.get(groupKey).get(componentKey).propertyDefaultConfig();
 
-    const targetEl = targetEls[0].querySelector(`.${CanvasTabPanelScrollClassName}-Scroll`);
-    const sourceEl = el.firstElementChild;
-    naturalRelease.fn.call(
-      naturalRelease.context,
-      targetEl,
-      sourceEl
-    );
-
-    const resizeGroup = this.resizeable.getGroup(targetEl);
-    resizeGroup.refresh();
-
-    // 激活当前Shape
-    this.componentActive({ pageId, componentId });
-
-    // 清除rangeSelect
-    const rangeSelect = this.rangeSelectMap.get(this.curPageId);
-    if (rangeSelect) {
-      rangeSelect.clear();
-      this.rangeSelectMap.delete(this.curPageId);
-    }
+    this.createActiveShape({
+      groupKey,
+      componentKey,
+      pageId,
+      componentId,
+      property,
+      renderHandler: (el) => {
+        naturalRelease.fn.call(
+          naturalRelease.context,
+          document.getElementById(pageId),
+          el
+        );
+      },
+    });
 
     return true;
   }
@@ -657,8 +709,13 @@ class App extends React.Component {
    */
   onAddTab(pageId) {
     this.activeShapeKeyBoardBind.unBindKeyBoard(this.curPageId);
+    this.activePageKeyBoardBind.unBindKeyBoard(this.curPageId);
+    this.activePageMap.removePage(this.curPageId);
 
     this.curPageId = pageId;
+    this.activePageMap.setPage(this.curPageId, PageModel.get(this.curPageId));
+    this.activePageKeyBoardBind.bindKeyBoard(this.curPageId);
+
     this.droppable.refresh();
     this.drag.refresh();
     this.resizeable.refresh();
@@ -672,10 +729,15 @@ class App extends React.Component {
    */
   onChangeTab(pageId) {
     this.activeShapeKeyBoardBind.unBindKeyBoard(this.curPageId);
+    this.activePageKeyBoardBind.unBindKeyBoard(this.curPageId);
+    this.activePageMap.removePage(this.curPageId);
 
     this.activeShapeKeyBoardBind.bindKeyBoard(pageId);
 
     this.curPageId = pageId;
+    this.activePageMap.setPage(this.curPageId, PageModel.get(this.curPageId));
+    this.activePageKeyBoardBind.bindKeyBoard(pageId);
+
     this.droppable.refresh();
     this.drag.refresh();
     this.resizeable.refresh();
@@ -690,18 +752,64 @@ class App extends React.Component {
    */
   onRemoveTab({ removeKey, activeKey }) {
     this.activeShapeKeyBoardBind.unBindKeyBoard(removeKey);
+    this.activePageKeyBoardBind.unBindKeyBoard(removeKey);
+    this.activePageMap.removePage(removeKey);
 
     if (activeKey && this.curPageId !== activeKey) {
       this.activeShapeKeyBoardBind.bindKeyBoard(activeKey);
     }
 
     this.curPageId = activeKey;
+    this.activePageMap.setPage(this.curPageId, PageModel.get(this.curPageId));
+    if (activeKey && this.curPageId !== activeKey) {
+      this.activePageKeyBoardBind.bindKeyBoard(this.curPageId);
+    }
     this.pageActiveShapeMap.removeShape(removeKey);
     ShapeModel.removePage(removeKey);
+
     this.droppable.refresh();
     this.drag.refresh();
     this.resizeable.refresh();
     this.selectable.refresh();
+  }
+
+  /**
+   * onPaste
+   * @param {Object} - clipBoardData
+   */
+  onPaste(clipBoardData = []) {
+    clipBoardData.forEach((data) => {
+      const {
+        groupKey,
+        componentKey,
+        pageId,
+        componentId,
+        property,
+        left,
+        top,
+        width,
+        height,
+        active,
+      } = data;
+
+      const handler = active ? this.createActiveShape : this.createShape;
+
+      handler.call(this, {
+        groupKey,
+        componentKey,
+        pageId,
+        componentId,
+        property,
+        renderHandler: (el) => {
+          el.style.position = 'absolute';
+          el.style.left = `${left + PAST_XPOSITION_STEP}px`;
+          el.style.top = `${top + PAST_YPOSITION_STEP}px`;
+          el.style.width = `${width}px`;
+          el.style.height = `${height}px`;
+          document.getElementById(pageId).appendChild(el);
+        },
+      });
+    });
   }
 
   /**

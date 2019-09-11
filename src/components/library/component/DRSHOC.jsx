@@ -4,21 +4,17 @@ import PropTypes from 'prop-types';
 import { getMaxLevelNumber } from './ComponentBaseHOC';
 
 import KeyBoard from '../../../util/KeyBoard';
+import ClipBoard from '../../../util/ClipBoard';
+import { Immutable } from '../../../util/CTMobile-UI-Util';
+import {
+  DRSITEMSELECTORPREFIX,
+  KEYBOARD_NORMAL_STEP,
+  KEYBOARD_FAST_STEP,
+} from '../../../util/Constant';
 
 import './DRSHOC.less';
 
 const selectorPrefix = 'ct-axure-shape';
-
-const dragItemSelectorPrefix = 'ct-drag-item';
-const resizeItemSelectorPrefix = 'ct-resizeable-item';
-const selectableItemSelectorPrefix = 'ct-selectable-item';
-
-const drsSelectorPrefix = [
-  dragItemSelectorPrefix,
-  resizeItemSelectorPrefix,
-  selectableItemSelectorPrefix,
-];
-
 
 /**
  * DRSHOC
@@ -91,8 +87,6 @@ export default (Component, { groupKey, componentKey }) => {
 
 
         [['Ctrl', 'c'], this.onCtrlC],
-
-        [['Ctrl', 'v'], this.onCtrlV],
 
         [['Delete'], this.onDelete],
 
@@ -221,7 +215,7 @@ export default (Component, { groupKey, componentKey }) => {
      * @return {String}
      */
     getDRSClassName() {
-      return drsSelectorPrefix.join(' ');
+      return DRSITEMSELECTORPREFIX.join(' ');
     }
 
     /**
@@ -258,7 +252,7 @@ export default (Component, { groupKey, componentKey }) => {
      * @param {String} - direction [top,bottom,left,right]
      * @param {Number} - step
      */
-    arrowDetail(direction, step = 1) {
+    arrowDetail(direction, step = KEYBOARD_NORMAL_STEP) {
       const styleKey = (direction === 'top' || direction === 'bottom') ? 'top' : 'left';
       const styleUpperKey = styleKey.charAt(0).toUpperCase() + styleKey.substring(1);
 
@@ -290,91 +284,101 @@ export default (Component, { groupKey, componentKey }) => {
 
     onArrowUp = () => {
       console.log('arrowUp');
-      this.arrowDetail('top', 1);
+      this.arrowDetail('top');
     };
 
     onArrowDown = () => {
       console.log('arrowDown');
-      this.arrowDetail('bottom', 1);
+      this.arrowDetail('bottom');
     };
 
     onArrowLeft = () => {
       console.log('arrowLeft');
-      this.arrowDetail('left', 1);
+      this.arrowDetail('left');
     };
 
     onArrowRight = () => {
       console.log('arrowRight');
-      this.arrowDetail('right', 1);
+      this.arrowDetail('right');
     };
-
 
     onCtrlArrowUp = () => {
       console.log('ctrlArrowUp');
-      this.arrowDetail('top', 10);
+      this.arrowDetail('top', KEYBOARD_FAST_STEP);
     };
 
     onCtrlArrowDown = () => {
       console.log('ctrlArrowDown');
-      this.arrowDetail('bottom', 10);
+      this.arrowDetail('bottom', KEYBOARD_FAST_STEP);
     };
 
     onCtrlArrowLeft = () => {
       console.log('ctrlArrowLeft');
-      this.arrowDetail('left', 10);
+      this.arrowDetail('left', KEYBOARD_FAST_STEP);
     };
 
     onCtrlArrowRight = () => {
       console.log('ctrlArrowRight');
-      this.arrowDetail('right', 10);
+      this.arrowDetail('right', KEYBOARD_FAST_STEP);
     };
 
     onRepeatArrowUp = () => {
       console.log('repeatArrowUp');
-      this.arrowDetail('top', 1);
+      this.arrowDetail('top');
     };
 
     onRepeatArrowDown = () => {
       console.log('repeatArrowDown');
-      this.arrowDetail('bottom', 1);
+      this.arrowDetail('bottom');
     };
 
     onRepeatArrowLeft = () => {
       console.log('repeatArrowLeft');
-      this.arrowDetail('left', 1);
+      this.arrowDetail('left');
     };
 
     onRepeatArrowRight = () => {
       console.log('repeatArrowRight');
-      this.arrowDetail('right', 1);
+      this.arrowDetail('right');
     };
 
     onRepeatCtrlArrowUp = () => {
       console.log('repeatCtrlArrowUp');
-      this.arrowDetail('top', 10);
+      this.arrowDetail('top', KEYBOARD_FAST_STEP);
     };
 
     onRepeatCtrlArrowDown = () => {
       console.log('repeatCtrlArrowDown');
-      this.arrowDetail('bottom', 10);
+      this.arrowDetail('bottom', KEYBOARD_FAST_STEP);
     };
 
     onRepeatCtrlArrowLeft = () => {
       console.log('repeatCtrlArrowLeft');
-      this.arrowDetail('left', 10);
+      this.arrowDetail('left', KEYBOARD_FAST_STEP);
     };
 
     onRepeatCtrlArrowRight = () => {
       console.log('repeatCtrlArrowRight');
-      this.arrowDetail('right', 10);
+      this.arrowDetail('right', KEYBOARD_FAST_STEP);
     };
 
     onCtrlC = () => {
       console.log('CtrlC');
-    };
-
-    onCtrlV = () => {
-      console.log('CtrlV');
+      const { pageId } = this.props;
+      const { property } = this.state;
+      const el = this.getEl();
+      ClipBoard.set([{
+        groupKey,
+        componentKey,
+        pageId,
+        // componentId: uuid(),
+        property: Immutable.cloneDeep(property),
+        left: el.offsetLeft,
+        top: el.offsetTop,
+        width: el.offsetWidth,
+        height: el.offsetHeight,
+        active: true,
+      }]);
     };
 
     onDelete = () => {

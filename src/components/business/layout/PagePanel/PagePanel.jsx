@@ -8,6 +8,11 @@ const { Component } = React;
 
 const selectorPrefix = 'PagePanel';
 
+/**
+ * PagePanel
+ * @class PagePanel
+ * @classdesc PagePanel
+ */
 class PagePanel extends Component {
   constructor(pros) {
     super(pros);

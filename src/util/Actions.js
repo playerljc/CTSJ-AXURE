@@ -20,6 +20,8 @@ export default {
         removetab: 'components-business-canvaspanel-removetab',
         // 页面处于激活
         activetab: 'components-business-canvaspanel-activetab',
+        // 粘贴
+        paste: 'components-business-canvaspanel-paste',
       },
     },
     library: {

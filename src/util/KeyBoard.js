@@ -50,6 +50,7 @@ const map = new Map();
 function onKey(e) {
   const { key, shiftKey, ctrlKey, repeat } = e;
 
+  // 用repeat ctrlKey shiftKey key 来拼接真正的type
   const type = [];
   if (repeat) {
     type.push('Repeat');
@@ -65,16 +66,30 @@ function onKey(e) {
 
   type.push(key);
 
+  // 拼接好type
   const entryKey = type.join('+');
 
   // console.log(entryKey);
 
+  // 看有哪些handler命中
   const handlers = map.get(entryKey) || [];
   handlers.forEach((handler) => {
     handler();
   });
 }
 
+/**
+ * Form组件有keyboard事件
+ * document.body有keyboard事件
+ * window有keyboard事件
+ * 给window注册一次KeyBoard事件
+ *
+ * 用一个map来存储用户定义的键盘事件, type和handler
+ * type的规则,type是一个数组
+ * (Repeat - 是否一直按住) + ([Ctrl | Shift] - 是否按了Ctrl或Shift) + Key(键盘字符) 顺序不能换
+ *
+ * handler是一个Array
+ */
 window.addEventListener('keydown', (e) => {
   e.preventDefault();
   onKey(e);

@@ -5,6 +5,7 @@ import Modal from '../../global/CT-UI-Modal/modal';
 import { create } from '../../global/CT-UI-Form/form';
 import { getMaxLevelNumber } from '../component/ComponentBaseHOC';
 import ComponentPropertyDescriptionSettingModal from './ComponentPropertyDescriptionSettingModal';
+
 import Actions from '../../../util/Actions';
 import Emitter from '../../../util/Emitter';
 import { Immutable } from '../../../util/CTMobile-UI-Util';

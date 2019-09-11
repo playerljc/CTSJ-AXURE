@@ -4,6 +4,7 @@ import Tab from '../../global/CT-UI-Tab/Tab';
 import TabPanel from '../../global/CT-UI-Tab/TabPanel';
 import ComponentPropertyDescriptionTab from './ComponentPropertyDescriptionTab';
 import ComponentPropertyStyleTab from './ComponentPropertyStyleTab';
+
 import { Immutable } from '../../../util/CTMobile-UI-Util';
 
 import './ComponentPropertyHOC.less';

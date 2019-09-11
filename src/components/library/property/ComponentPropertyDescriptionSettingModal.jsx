@@ -8,8 +8,9 @@ import { Select, TextArea } from '../../global/CT-UI-Form';
 import DescriptionField from './DescriptionField.json';
 import TableTextFieldEditor from '../../global/CT-UI-Table/TableTextFieldEditor';
 
-import './ComponentPropertyDescriptionSettingModal.less';
 import { Immutable } from '../../../util/CTMobile-UI-Util';
+
+import './ComponentPropertyDescriptionSettingModal.less';
 
 const selectPrefix = 'ComponentPropertyDescriptionSettingModal';
 
