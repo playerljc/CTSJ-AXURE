@@ -38,19 +38,18 @@
  demo:
  */
 import { Dom6 } from '../../../util/CTMobile-UI-Util';
+
 import './resizeable.less';
 
 const selectorPrefix = 'ct-resizeable';
+
 // 边缘的步进
 const edgeStep = 5;
-
 // 最小宽度
 const minWidth = 20;
 // 最小高度
 const minHeight = 20;
-
 const scrollStep = 5;
-
 const edgeWidth = 10;
 const scrollWidth = 20;
 

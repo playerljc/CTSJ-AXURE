@@ -73,10 +73,13 @@
  键盘操作
    .移动
    .按住shift和ctrl的移动
-   .移动中按住ctrl的复制
    .ctrl+C的赋值
    .ctrl+V的粘贴
+
    .delete删除
+   .backspace删除
+   .ctrl+A 全选
+   .移动中按住ctrl的复制
 
  选中之后的右键菜单
    .删除

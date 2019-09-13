@@ -142,6 +142,19 @@ class Selectable {
     self.baseX = ev.clientX - (self.elRect.left - self.scrollEl.scrollLeft);
     self.baseY = ev.clientY - (self.elRect.top - self.scrollEl.scrollTop);
 
+    // 获取
+    self.itemEls = Array.from(self.el.querySelectorAll(`.${selectorPrefix}-item`)).map((itemEl) => {
+      const xa1 = itemEl.offsetLeft;
+      const ya1 = itemEl.offsetTop;
+      return {
+        xa1,
+        xa2: xa1 + itemEl.offsetWidth,
+        ya1,
+        ya2: ya1 + itemEl.offsetHeight,
+        itemEl,
+      };
+    });
+
     // 创建区域dom
     const tel = document.createElement('div');
     tel.innerHTML = `<div class="${selectorPrefix}-select"></div>`;
@@ -266,6 +279,7 @@ class Selectable {
 
     self.isdown = false;
     self.ismove = false;
+    self.itemEls = null;
   }
 
   /**
@@ -389,17 +403,36 @@ class Selectable {
     self.excludeEls = [];
 
     const xb1 = self.cloneEl.offsetLeft;
-    const xb2 = self.cloneEl.offsetLeft + self.cloneEl.offsetWidth;
+    const xb2 = xb1 + self.cloneEl.offsetWidth;
     const yb1 = self.cloneEl.offsetTop;
-    const yb2 = self.cloneEl.offsetTop + self.cloneEl.offsetHeight;
+    const yb2 = yb1 + self.cloneEl.offsetHeight;
 
-    const itemEls = self.el.querySelectorAll(`.${selectorPrefix}-item`);
-    for (let i = 0; i < itemEls.length; i++) {
-      const itemEl = itemEls[i];
-      const xa1 = itemEl.offsetLeft;
-      const xa2 = itemEl.offsetLeft + itemEl.offsetWidth;
-      const ya1 = itemEl.offsetTop;
-      const ya2 = itemEl.offsetTop + itemEl.offsetHeight;
+    // const itemEls = self.el.querySelectorAll(`.${selectorPrefix}-item`);
+    // for (let i = 0; i < itemEls.length; i++) {
+    //   const itemEl = itemEls[i];
+    //   const xa1 = itemEl.offsetLeft;
+    //   const xa2 = itemEl.offsetLeft + itemEl.offsetWidth;
+    //   const ya1 = itemEl.offsetTop;
+    //   const ya2 = itemEl.offsetTop + itemEl.offsetHeight;
+    //
+    //   if (
+    //     (Math.abs(xb2 + xb1 - xa2 - xa1) <= (xa2 - xa1 + xb2 - xb1)) &&
+    //     (Math.abs(yb2 + yb1 - ya2 - ya1) <= (ya2 - ya1 + yb2 - yb1))
+    //   ) {
+    //     self.includeEls.push(itemEl);
+    //   } else {
+    //     self.excludeEls.push(itemEl);
+    //   }
+    // }
+
+    for (let i = 0; i < self.itemEls.length; i++) {
+      const {
+        xa1,
+        xa2,
+        ya1,
+        ya2,
+        itemEl,
+      } = self.itemEls[i];
 
       if (
         (Math.abs(xb2 + xb1 - xa2 - xa1) <= (xa2 - xa1 + xb2 - xb1)) &&

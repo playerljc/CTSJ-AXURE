@@ -1,12 +1,11 @@
+const rangeSelectMap = new Map();
+
 /**
  * RangeSelectManager
  * @class RangeSelectManager
  * @classdesc RangeSelectManager
  */
-class RangeSelectManager {
-  constructor() {
-    this.rangeSelectMap = new Map();
-  }
+const RangeSelectManager = {
 
   /**
    * set
@@ -14,8 +13,8 @@ class RangeSelectManager {
    * @param {RangeSelect} - rangeSelect
    */
   set(pageId, rangeSelect) {
-    this.rangeSelectMap.set(pageId, rangeSelect);
-  }
+    rangeSelectMap.set(pageId, rangeSelect);
+  },
 
   /**
    * get
@@ -23,16 +22,16 @@ class RangeSelectManager {
    * @return {RangeSelect}
    */
   get(pageId) {
-    return this.rangeSelectMap.get(pageId);
-  }
+    return rangeSelectMap.get(pageId);
+  },
 
   /**
    * delete
    * @param {String} - pageId
    */
   delete(pageId) {
-    this.rangeSelectMap.delete(pageId);
-  }
-}
+    rangeSelectMap.delete(pageId);
+  },
+};
 
 export default RangeSelectManager;

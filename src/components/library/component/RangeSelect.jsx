@@ -1,8 +1,13 @@
-import { Dom6, Immutable } from '../../../util/CTMobile-UI-Util';
 import { getMaxLevelNumber } from './ComponentBaseHOC';
+
+import { Dom6, Immutable } from '../../../util/CTMobile-UI-Util';
 import KeyBoard from '../../../util/KeyBoard';
 import ClipBoard from '../../../util/ClipBoard';
+
 import ShapeModel from '../../../model/ShapeModel';
+
+import RangeSelectManager from '../../../components/business/interactions/RangeSelectManager';
+
 import {
   DRITEMSELECTORPREFIX,
   DRSITEMSELECTORPREFIX,
@@ -247,6 +252,26 @@ class RangeSelect {
     }
   }
 
+  deleteSelf() {
+    const { config: { children = [], pageId } } = this;
+
+    children.forEach((el) => {
+      const { componentid: componentId } = el.dataset;
+      const shape = ShapeModel.getShape({ pageId, componentId });
+      if (shape) {
+        shape.deleteSelf();
+      }
+    });
+
+    this.unBindKeyBoard();
+
+    const rangeSelect = RangeSelectManager.get(pageId);
+    if (rangeSelect) {
+      rangeSelect.clear();
+      RangeSelectManager.delete(pageId);
+    }
+  }
+
   onArrowUp = () => {
     console.log('arrowUp');
     this.arrowDetail('top');
@@ -361,10 +386,12 @@ class RangeSelect {
 
   onDelete = () => {
     console.log('Delete');
+    this.deleteSelf();
   };
 
   onBackapace = () => {
     console.log('Backapace');
+    this.deleteSelf();
   };
 
   onCtrl = () => {

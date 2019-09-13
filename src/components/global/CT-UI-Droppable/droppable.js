@@ -55,9 +55,11 @@
  demo:
  */
 import { getMaxLevelNumber } from '../../library/component/ComponentBaseHOC';
+
 import './droppable.less';
 
 const selectorPrefix = 'ct-droppable-';
+
 const scrollStep = 5;
 
 /**
@@ -488,11 +490,16 @@ function naturalRelease(targetEl, sourceEl) {
   const left = cleft - rect.left;
   const top = ctop - rect.top;
 
+  const innerEl = sourceEl.firstElementChild;
   // 落户的节点
   // left和top的赋值
-  sourceEl.style.position = 'absolute';
-  sourceEl.style.left = `${left}px`;
-  sourceEl.style.top = `${top}px`;
+  innerEl.style.position = 'absolute';
+  innerEl.style.left = `${left}px`;
+  innerEl.style.top = `${top}px`;
+
+  // sourceEl.style.position = 'absolute';
+  // sourceEl.style.left = `${left}px`;
+  // sourceEl.style.top = `${top}px`;
 
   // 放入很大的节点
   targetEl.appendChild(sourceEl);

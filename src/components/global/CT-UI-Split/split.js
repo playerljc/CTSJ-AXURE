@@ -35,12 +35,13 @@
  demo:
  * */
 import { Dom6 } from '../../../util/CTMobile-UI-Util';
+
 import './split.less';
 
 const selectorPrefix = 'ct-split';
+
 // 边缘的步进
 const edgeStep = 5;
-
 // 最小宽度
 const minWidth = 30;
 // 最小高度

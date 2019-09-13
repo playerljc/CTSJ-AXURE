@@ -28,7 +28,7 @@ import Actions from '../../util/Actions';
 import Emitter from '../../util/Emitter';
 import { Dom6 } from '../../util/CTMobile-UI-Util';
 import ClipBoard from '../../util/ClipBoard';
-import { PAST_XPOSITION_STEP, PAST_YPOSITION_STEP } from '../../util/Constant';
+import { PAST_XPOSITION_STEP, PAST_YPOSITION_STEP, DRSWRAPPREFIX } from '../../util/Constant';
 
 import ShapeModel from '../../model/ShapeModel';
 import PageModel from '../../model/PageModel';
@@ -54,22 +54,19 @@ class App extends React.Component {
     this.onPaste = this.onPaste.bind(this);
 
     // 存储每一个页面active的Shape实例,一个page里面有多个ActiveShape
-    this.pageActiveShapeMap = new ActiveShapeManager();
+    this.pageActiveShapeMap = ActiveShapeManager;
 
     // 存储active的CanvasTabPanel
-    this.activePageMap = new ActivePageManaager();
+    this.activePageMap = ActivePageManaager;
 
     // 存储每一个页面的rangeSelect，一个page里面只有一个rangeSelect
-    this.rangeSelectMap = new RangeSelectManager();
+    this.rangeSelectMap = RangeSelectManager;
 
     // 管理页面激活Shape的KeyBoard的bind和unBind
-    this.activeShapeKeyBoardBind = new ActiveShapeKeyBoardBind({
-      activeShapeManager: this.pageActiveShapeMap,
-      rangeSelectManager: this.rangeSelectMap,
-    });
+    this.activeShapeKeyBoardBind = ActiveShapeKeyBoardBind;
 
     // 管理激活Page的KeyBoard的bind和unBind
-    this.activePageKeyBoardBind = new ActivePageKeyBoardBind(this.activePageMap);
+    this.activePageKeyBoardBind = ActivePageKeyBoardBind;
 
     // 当前激活页面的pageId
     this.curPageId = '';
@@ -606,7 +603,7 @@ class App extends React.Component {
     // preShape进行unActive的操作
     this.acitveShapeUnActive(pageId);
 
-    const el = Dom6.createElement('<div></div>');
+    const el = Dom6.createElement(`<div class="${DRSWRAPPREFIX}"></div>`);
     const Component = Register.get(groupKey).get(componentKey);
     ReactDOM.render(
       <Component.Component
@@ -620,7 +617,7 @@ class App extends React.Component {
       />, el
     );
 
-    renderHandler(el.firstElementChild);
+    renderHandler(el/* el.firstElementChild */);
 
     const resizeGroup = this.resizeable.getGroup(document.getElementById(pageId));
     resizeGroup.refresh();
@@ -803,12 +800,20 @@ class App extends React.Component {
         componentId,
         property,
         renderHandler: (el) => {
-          el.style.position = 'absolute';
-          el.style.left = `${left + PAST_XPOSITION_STEP}px`;
-          el.style.top = `${top + PAST_YPOSITION_STEP}px`;
-          el.style.width = `${width}px`;
-          el.style.height = `${height}px`;
+          const innerEl = el.firstElementChild;
+          innerEl.style.position = 'absolute';
+          innerEl.style.left = `${left + PAST_XPOSITION_STEP}px`;
+          innerEl.style.top = `${top + PAST_YPOSITION_STEP}px`;
+          innerEl.style.width = `${width}px`;
+          innerEl.style.height = `${height}px`;
           document.getElementById(pageId).appendChild(el);
+
+          // el.style.position = 'absolute';
+          // el.style.left = `${left + PAST_XPOSITION_STEP}px`;
+          // el.style.top = `${top + PAST_YPOSITION_STEP}px`;
+          // el.style.width = `${width}px`;
+          // el.style.height = `${height}px`;
+          // document.getElementById(pageId).appendChild(el);
         },
       });
     });

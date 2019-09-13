@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import { getMaxLevelNumber } from './ComponentBaseHOC';
@@ -11,6 +12,8 @@ import {
   KEYBOARD_NORMAL_STEP,
   KEYBOARD_FAST_STEP,
 } from '../../../util/Constant';
+
+import ShapeModel from '../../../model/ShapeModel';
 
 import './DRSHOC.less';
 
@@ -100,6 +103,13 @@ export default (Component, { groupKey, componentKey }) => {
         rangeSelectActive: false,
         property: Object.assign({}, props.property),
       };
+    }
+
+    /**
+     * componentWillUnmount
+     */
+    componentWillUnmount() {
+      this.unBindKeyBoard();
     }
 
     /**
@@ -282,86 +292,148 @@ export default (Component, { groupKey, componentKey }) => {
       }
     }
 
+    /**
+     * deleteSelf
+     */
+    deleteSelf() {
+      const { pageId, componentId } = this.props;
+      const result = ReactDOM.unmountComponentAtNode(this.getEl().parentElement);
+      if (result) {
+        ShapeModel.removeShapeByPage(ShapeModel.getShape({ pageId, componentId }));
+      }
+    }
+
+    /**
+     * onArrowUp
+     */
     onArrowUp = () => {
       console.log('arrowUp');
       this.arrowDetail('top');
     };
 
+    /**
+     * onArrowDown
+     */
     onArrowDown = () => {
       console.log('arrowDown');
       this.arrowDetail('bottom');
     };
 
+    /**
+     * onArrowLeft
+     */
     onArrowLeft = () => {
       console.log('arrowLeft');
       this.arrowDetail('left');
     };
 
+    /**
+     * onArrowRight
+     */
     onArrowRight = () => {
       console.log('arrowRight');
       this.arrowDetail('right');
     };
 
+    /**
+     * onCtrlArrowUp
+     */
     onCtrlArrowUp = () => {
       console.log('ctrlArrowUp');
       this.arrowDetail('top', KEYBOARD_FAST_STEP);
     };
 
+    /**
+     * onCtrlArrowDown
+     */
     onCtrlArrowDown = () => {
       console.log('ctrlArrowDown');
       this.arrowDetail('bottom', KEYBOARD_FAST_STEP);
     };
 
+    /**
+     * onCtrlArrowLeft
+     */
     onCtrlArrowLeft = () => {
       console.log('ctrlArrowLeft');
       this.arrowDetail('left', KEYBOARD_FAST_STEP);
     };
 
+    /**
+     * onCtrlArrowRight
+     */
     onCtrlArrowRight = () => {
       console.log('ctrlArrowRight');
       this.arrowDetail('right', KEYBOARD_FAST_STEP);
     };
 
+    /**
+     * onRepeatArrowUp
+     */
     onRepeatArrowUp = () => {
       console.log('repeatArrowUp');
       this.arrowDetail('top');
     };
 
+    /**
+     * onRepeatArrowDown
+     */
     onRepeatArrowDown = () => {
       console.log('repeatArrowDown');
       this.arrowDetail('bottom');
     };
 
+    /**
+     * onRepeatArrowLeft
+     */
     onRepeatArrowLeft = () => {
       console.log('repeatArrowLeft');
       this.arrowDetail('left');
     };
 
+    /**
+     * onRepeatArrowRight
+     */
     onRepeatArrowRight = () => {
       console.log('repeatArrowRight');
       this.arrowDetail('right');
     };
 
+    /**
+     * onRepeatCtrlArrowUp
+     */
     onRepeatCtrlArrowUp = () => {
       console.log('repeatCtrlArrowUp');
       this.arrowDetail('top', KEYBOARD_FAST_STEP);
     };
 
+    /**
+     * onRepeatCtrlArrowDown
+     */
     onRepeatCtrlArrowDown = () => {
       console.log('repeatCtrlArrowDown');
       this.arrowDetail('bottom', KEYBOARD_FAST_STEP);
     };
 
+    /**
+     * onRepeatCtrlArrowLeft
+     */
     onRepeatCtrlArrowLeft = () => {
       console.log('repeatCtrlArrowLeft');
       this.arrowDetail('left', KEYBOARD_FAST_STEP);
     };
 
+    /**
+     * onRepeatCtrlArrowRight
+     */
     onRepeatCtrlArrowRight = () => {
       console.log('repeatCtrlArrowRight');
       this.arrowDetail('right', KEYBOARD_FAST_STEP);
     };
 
+    /**
+     * onCtrlC
+     */
     onCtrlC = () => {
       console.log('CtrlC');
       const { pageId } = this.props;
@@ -381,14 +453,25 @@ export default (Component, { groupKey, componentKey }) => {
       }]);
     };
 
+    /**
+     * onDelete
+     */
     onDelete = () => {
       console.log('Delete');
+      this.deleteSelf();
     };
 
+    /**
+     * onBackapace
+     */
     onBackapace = () => {
       console.log('Backapace');
+      this.deleteSelf();
     };
 
+    /**
+     * onCtrl
+     */
     onCtrl = () => {
       console.log('Ctrl');
     };

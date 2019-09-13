@@ -24,6 +24,8 @@ export const DRSSELECTORPREFIX = [
   SELECTABLESELECTORPREFIX,
 ];
 
+export const DRSWRAPPREFIX = 'ct-axure-shape';
+
 // 键盘默认移动的步进
 export const KEYBOARD_NORMAL_STEP = 1;
 

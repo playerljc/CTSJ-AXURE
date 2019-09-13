@@ -65,4 +65,11 @@ export default {
     }
     return Shape;
   },
+  /**
+   * getShapes
+   * @return {IterableIterator<[PageId, Map<ComponentId, Shape>]>}
+   */
+  getShapes() {
+    return Model.entries();
+  },
 };

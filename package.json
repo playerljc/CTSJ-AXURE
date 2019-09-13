@@ -4,8 +4,8 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "startapp": "ctbuild --type startapp",
-    "buildapp": "ctbuild --type buildapp",
+    "startapp": "ctbuild startapp",
+    "buildapp": "ctbuild buildapp",
     "link": "npm link @ctsj/build"
   },
   "repository": {

@@ -1,12 +1,10 @@
+const pageActiveMap = new Map();
+
 /**
  * ActivePageManager - 对页面中激活Page进行管理
- * @class ActivePageManager
- * @classdesc ActivePageManager
+ * @type {{getPage(*=): CanvasTabPanel, removePage(String): void, setPage(*=, *=): void}}
  */
-class ActivePageManager {
-  constructor() {
-    this.pageActiveMap = new Map();
-  }
+const ActivePageManager = {
 
   /**
    * setPage
@@ -14,8 +12,8 @@ class ActivePageManager {
    * @param {CanvasTabPanel} - page
    */
   setPage(pageId, page) {
-    this.pageActiveMap.set(pageId, page);
-  }
+    pageActiveMap.set(pageId, page);
+  },
 
   /**
    * getPage
@@ -23,16 +21,16 @@ class ActivePageManager {
    * @return {CanvasTabPanel}
    */
   getPage(pageId) {
-    return this.pageActiveMap.get(pageId);
-  }
+    return pageActiveMap.get(pageId);
+  },
 
   /**
    * removePage
    * @param {String} pageId
    */
   removePage(pageId) {
-    this.pageActiveMap.delete(pageId);
-  }
-}
+    pageActiveMap.delete(pageId);
+  },
+};
 
 export default ActivePageManager;
