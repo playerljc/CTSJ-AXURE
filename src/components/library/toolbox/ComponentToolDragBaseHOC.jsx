@@ -1,9 +1,10 @@
 import React from 'react';
 import Register from '../Register';
+import { DRSPREFIX } from '../../../util/Constant';
 
 import './ComponentToolDragBaseHOC.less';
 
-const selectorPrefix = 'ct-axure-shape-tool-drag';
+const selectorPrefix = `${DRSPREFIX}-tool-drag`;
 
 export default ({ groupKey, componentKey }) => {
   return class extends React.Component {

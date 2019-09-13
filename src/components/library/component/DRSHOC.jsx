@@ -11,13 +11,14 @@ import {
   DRSITEMSELECTORPREFIX,
   KEYBOARD_NORMAL_STEP,
   KEYBOARD_FAST_STEP,
+  DRSPREFIX,
 } from '../../../util/Constant';
 
 import ShapeModel from '../../../model/ShapeModel';
 
 import './DRSHOC.less';
 
-const selectorPrefix = 'ct-axure-shape';
+const selectorPrefix = DRSPREFIX;
 
 /**
  * DRSHOC

@@ -22,6 +22,8 @@ export default {
         activetab: 'components-business-canvaspanel-activetab',
         // 粘贴
         paste: 'components-business-canvaspanel-paste',
+        // 全选
+        selectall: 'components-business-canvaspanel-selectall',
       },
     },
     library: {

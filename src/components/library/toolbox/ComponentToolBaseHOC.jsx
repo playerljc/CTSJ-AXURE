@@ -1,7 +1,10 @@
 import React from 'react';
+
+import { DRSPREFIX } from '../../../util/Constant';
+
 import './ComponentToolBaseHOC.less';
 
-const selectorPrefix = 'ct-axure-shape-tool';
+const selectorPrefix = `${DRSPREFIX}-tool`;
 
 export default (Component, { groupKey, componentKey }) => {
   return class extends React.Component {

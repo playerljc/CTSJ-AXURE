@@ -10,7 +10,10 @@ import { Immutable } from '../../../../util/CTMobile-UI-Util';
 import {
   DRSSELECTORPREFIX,
   DROPPABLESELECTORPREFIX,
+  DRSPREFIX,
 } from '../../../../util/Constant';
+
+import ShapeModel from '../../../../model/ShapeModel';
 
 import './CanvasTabPanel.less';
 
@@ -27,6 +30,7 @@ class CanvasTabPanel extends React.Component {
 
     this.keyBoardMap = new Map([
       [['Ctrl', 'v'], this.onCtrlV],
+      [['Ctrl', 'a'], this.onCtrlA],
     ]);
   }
 
@@ -90,6 +94,10 @@ class CanvasTabPanel extends React.Component {
     }
   }
 
+  /**
+   * onCtrlV
+   * @return {boolean}
+   */
   onCtrlV = () => {
     const { pageId } = this.props;
     console.log('Ctrl + V:', pageId);
@@ -99,6 +107,20 @@ class CanvasTabPanel extends React.Component {
     Emitter.trigger(
       Actions.components.business.canvaspanel.paste,
       Immutable.cloneDeep(clipBoardData.map(t => Object.assign(t, { componentId: uuid() })))
+    );
+  };
+
+  /**
+   * onCtrlA
+   */
+  onCtrlA = () => {
+    console.log('Ctrl + a');
+    // const els = this.innerEl.querySelectorAll(`.${DRSPREFIX}`);
+    const { pageId } = this.props;
+    const els = ShapeModel.getShapesByPage(pageId).map(shape => shape.getEl());
+    Emitter.trigger(
+      Actions.components.business.canvaspanel.selectall,
+      els
     );
   };
 
@@ -113,6 +135,9 @@ class CanvasTabPanel extends React.Component {
           className={`${selectorPrefix}-Scroll ${activePageId === pageId ? this.getDRSClassName() : ''}`}
           data-pageid={pageId}
           id={pageId}
+          ref={(el) => {
+            this.innerEl = el;
+          }}
         />
       </div>
     );

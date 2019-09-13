@@ -1,3 +1,9 @@
+/**
+ * 注册Click和DBClick
+ * @param callback
+ * @param beforeClick
+ * @return {Function}
+ */
 export default (callback, beforeClick) => {
   let count = 0;
   let handler;

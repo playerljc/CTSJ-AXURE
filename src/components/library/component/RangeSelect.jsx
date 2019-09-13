@@ -13,6 +13,7 @@ import {
   DRSITEMSELECTORPREFIX,
   KEYBOARD_NORMAL_STEP,
   KEYBOARD_FAST_STEP,
+  DRSPREFIX,
 } from '../../../util/Constant';
 
 import './RangeSelect.less';
@@ -195,7 +196,7 @@ class RangeSelect {
     this.unBindKeyBoard();
 
     // 改变的元素
-    const changeEls = Array.from(this.el.querySelectorAll('.ct-axure-shape'));
+    const changeEls = Array.from(this.el.querySelectorAll(`.${DRSPREFIX}`));
     const pLeft = this.el.offsetLeft;
     const pTop = this.el.offsetTop;
     const { config: { children } } = this;
@@ -252,6 +253,9 @@ class RangeSelect {
     }
   }
 
+  /**
+   * deleteSelf
+   */
   deleteSelf() {
     const { config: { children = [], pageId } } = this;
 
@@ -357,7 +361,7 @@ class RangeSelect {
     console.log('CtrlC');
     const { config: { pageId } } = this;
 
-    const changeEls = Array.from(this.el.querySelectorAll('.ct-axure-shape'));
+    const changeEls = Array.from(this.el.querySelectorAll(`.${DRSPREFIX}`));
     const pLeft = this.el.offsetLeft;
     const pTop = this.el.offsetTop;
 
