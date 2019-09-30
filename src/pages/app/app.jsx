@@ -28,7 +28,12 @@ import Actions from '../../util/Actions';
 import Emitter from '../../util/Emitter';
 import { Dom6 } from '../../util/CTMobile-UI-Util';
 import ClipBoard from '../../util/ClipBoard';
-import { PAST_XPOSITION_STEP, PAST_YPOSITION_STEP, DRSWRAPPREFIX } from '../../util/Constant';
+import {
+  PAST_XPOSITION_STEP,
+  PAST_YPOSITION_STEP,
+  DRSWRAPPREFIX,
+  RANGESELECTPREFIX,
+} from '../../util/Constant';
 
 import ShapeModel from '../../model/ShapeModel';
 import PageModel from '../../model/PageModel';
@@ -230,6 +235,8 @@ class App extends React.Component {
       showMap: true,
       moveStep: 1,
       infinite: true,
+      showGuide: true,
+      scale: 0.5,
       onStart: (el, sourceEl) => {
         // console.log('Drag Start');
         if (!el || !sourceEl) return false;
@@ -240,28 +247,66 @@ class App extends React.Component {
         this.resizeable.setDisable(true);
         this.selectable.setDisable(true);
       },
-      onEnd: (el, sourceEl) => {
+      onEnd: (e, el, sourceEl) => {
         if (!el || !sourceEl) return false;
         this.splitV.setDisable(false);
         this.splitH.setDisable(false);
         this.droppable.setDisable(false);
         this.selectable.setDisable(false);
 
+        const { shiftKey = false, path = [] } = e;
         const pageId = this.curPageId;
-        const componentId = sourceEl.dataset.componentid;
-        // 如果拖动的是一个节点
-        const rangeSelect = this.rangeSelectMap.get(this.curPageId);
-        if (componentId) {
-          this.clearRangeSelect();
-          this.componentActive({ pageId, componentId });
-        } else {
-          // 如果拖动的是RangeSelect
-          if (rangeSelect) {
-            // 刷新当前页面ResizeGroup
-            this.resizeSelfEnable({
-              groupEl: this.getCurPageEl(),
-              resizeEl: rangeSelect.el,
+
+        let curEl = sourceEl;
+        let componentId = curEl.dataset.componentid;
+
+        if (shiftKey) {
+          const isRangeSelectShape = sourceEl.classList.contains(RANGESELECTPREFIX);
+          if (isRangeSelectShape) {
+            const index = path.findIndex(el => el === sourceEl);
+            if (index !== -1) {
+              curEl = path[index - 1];
+            }
+          }
+
+          if (!curEl) return false;
+
+          componentId = curEl.dataset.componentid;
+          const shapes = this.pageActiveShapeMap.getShape(pageId) || [];
+          let index = shapes.indexOf(ShapeModel.getShape({ pageId, componentId }));
+          let els;
+          if (index !== -1) {
+            // 当前节点是激活节点
+            els = shapes.map(shape => shape.getEl());
+            index = els.findIndex((el) => {
+              return el.dataset.pageid === curEl.dataset.pageid &&
+                el.dataset.componentid === curEl.dataset.componentid;
             });
+            if (index !== -1) {
+              els.splice(index, 1);
+            }
+          } else {
+            // 当前节点不是激活节点
+            els = shapes.map(shape => shape.getEl());
+            els.push(curEl);
+          }
+
+          this.onSelectAll(els);
+        } else {
+          const rangeSelect = this.rangeSelectMap.get(this.curPageId);
+          if (componentId) {
+            // 如果拖动的是一个节点
+            this.clearRangeSelect();
+            this.componentActive({ pageId, componentId });
+          } else {
+            // 如果拖动的是RangeSelect
+            if (rangeSelect) {
+              // 刷新当前页面ResizeGroup
+              this.resizeSelfEnable({
+                groupEl: this.getCurPageEl(),
+                resizeEl: rangeSelect.el,
+              });
+            }
           }
         }
       },
@@ -411,6 +456,7 @@ class App extends React.Component {
         this.clearCurPageActiveShape();
       },
       rangeClasses: ['SelectableRange'],
+      scale: 0.5,
     });
   }
 

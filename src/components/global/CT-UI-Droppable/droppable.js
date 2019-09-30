@@ -28,6 +28,7 @@
    inclusionRelation: boolean 加入如果source和target为包含关系，则不能放入
    isFree: boolean 是否是自由模式，自由模式只能拖动, 移动 (未实现)
    infinite : boolean 是否无限扩展(不能拖出target)
+   scale: [Number] 0.25 缩放比例
 }
 
  布局:
@@ -380,7 +381,9 @@ function getMoveInTargetEls() {
   }
 
   return {
+    // 完全进入
     complete: completeResult,
+    // 部分进入
     section: sectionResult,
     boundaryDetection,
   };
@@ -581,6 +584,8 @@ class Droppable {
     this.onContainerMousemove = this.onContainerMousemove.bind(this);
     this.onContainerMouseleave = this.onContainerMouseleave.bind(this);
 
+    this.setScale(this.config.scale || 0.25);
+
     this.disable = false;
     this.sourceEls = this.el.querySelectorAll(`.${selectorPrefix}source`);
     this.targetEls = this.el.querySelectorAll(`.${selectorPrefix}target`);
@@ -743,6 +748,14 @@ class Droppable {
     this.sourceEls = this.el.querySelectorAll(`.${selectorPrefix}source`);
     this.targetEls = this.el.querySelectorAll(`.${selectorPrefix}target`);
     initDragSourceEvent.call(this);
+  }
+
+  /**
+   * setScale
+   * @param {Number} - scale
+   */
+  setScale(scale) {
+    this.scale = scale / 0.25;
   }
 
   /**

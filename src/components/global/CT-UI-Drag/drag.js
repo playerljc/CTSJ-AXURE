@@ -10,9 +10,10 @@
   showGuide: [Boolean] 是否显示辅助线 (没实现)
   showStaff: [Boolean] 是否显示标尺 (没实现)
   infinite: [Boolean] 是否是无限拖动
-  onStart: Function
-  onEnd: Function
-  onClick: Function
+  scale: [Number] 0.25 缩放比例
+  onStart: [Function]
+  onEnd: [Function]
+  onClick: [Function]
  }
 
  布局:
@@ -221,10 +222,10 @@ function boundaryDetectionScroll(condition) {
       } else {
         self.scrollEl.scrollTop -= scrollStep;
         const scrollTop = self.scrollEl.scrollTop;
-        self.sourceEl.style.top = `${self.scrollEl.scrollTop}px`;
+        self.sourceEl.style.top = `${self.scrollEl.scrollTop * self.scale}px`;
         if (showMap) {
           setMapPosition.call(self, {
-            top: scrollTop,
+            top: scrollTop * self.scale,
             height: self.sourceElHeight,
           });
         }
@@ -239,10 +240,10 @@ function boundaryDetectionScroll(condition) {
       } else {
         self.scrollEl.scrollTop += scrollStep;
         const scrollElHeight = self.scrollEl.scrollTop + self.scrollElHeight;
-        self.sourceEl.style.top = `${scrollElHeight - self.sourceElHeight}px`;
+        self.sourceEl.style.top = `${scrollElHeight * self.scale - self.sourceElHeight}px`;
         if (showMap) {
           setMapPosition.call(self, {
-            top: scrollElHeight - self.sourceElHeight,
+            top: scrollElHeight * self.scale - self.sourceElHeight,
             height: self.sourceElHeight,
           });
         }
@@ -257,10 +258,10 @@ function boundaryDetectionScroll(condition) {
       } else {
         self.scrollEl.scrollLeft -= scrollStep;
         const scrollLeft = self.scrollEl.scrollLeft;
-        self.sourceEl.style.left = `${scrollLeft}px`;
+        self.sourceEl.style.left = `${scrollLeft * self.scale}px`;
         if (showMap) {
           setMapPosition.call(self, {
-            left: scrollLeft,
+            left: scrollLeft * self.scale,
             width: self.sourceElWidth,
           });
         }
@@ -275,10 +276,10 @@ function boundaryDetectionScroll(condition) {
       } else {
         self.scrollEl.scrollLeft += scrollStep;
         const scrollElWidth = self.scrollEl.scrollLeft + self.scrollElWidth;
-        self.sourceEl.style.left = `${scrollElWidth - self.sourceElWidth}px`;
+        self.sourceEl.style.left = `${scrollElWidth * self.scale - self.sourceElWidth}px`;
         if (showMap) {
           setMapPosition.call(self, {
-            left: scrollElWidth - self.sourceElWidth,
+            left: scrollElWidth * self.scale - self.sourceElWidth,
             width: self.sourceElWidth,
           }, true);
         }
@@ -336,6 +337,188 @@ function reset() {
   this.firstY = null;
   this.preX = null;
   this.preY = null;
+  this.elsPosition = null;
+  clearGuide.call(this);
+}
+
+/**
+ * clearGuide
+ */
+function clearGuide() {
+  if (!this.guideEl) return false;
+  this.guideEl.parentElement.removeChild(this.guideEl);
+  this.guideEl = null;
+}
+
+/**
+ * clearGuide
+ */
+function createGuide() {
+  const self = this;
+
+  const left = self.sourceEl.offsetLeft;
+  const top = self.sourceEl.offsetTop;
+  const width = self.sourceEl.offsetWidth;
+  const height = self.sourceEl.offsetHeight;
+
+  let alignLeftMinTop = top;
+  let alignLeftMaxBottom = top + height;
+  let alignLeft = false;
+
+  let alignRightMinTop = top;
+  let alignRightMaxBottom = top + height;
+  let alignRight = false;
+
+  let alignMiddleMinTop = top;
+  let alignMiddleMaxBottom = top + height;
+  let alignVMiddle = false;
+
+  let alignTopMinLeft = left;
+  let alignTopMaxRight = left + width;
+  let alignTop = false;
+
+  let alignBottomMinLeft = left;
+  let alignBottomMaxRight = left + width;
+  let alignBottom = false;
+
+  let alignMiddleMinLeft = left;
+  let alignMiddleMaxRight = left + width;
+  let alignHMiddle = false;
+
+  /**
+   * 左对齐
+   * 右对齐
+   * 上对齐
+   * 下对齐
+   * 中线对齐
+   */
+  this.elsPosition.forEach(({
+    left: curLeft,
+    right: curRight,
+    top: curTop,
+    bottom: curBottom,
+    width: curWidth,
+    height: curHeight,
+  }) => {
+    if (curLeft === left) {
+      alignLeft = true;
+
+      if (curTop < alignLeftMinTop) {
+        alignLeftMinTop = curTop;
+      }
+
+      if (curTop + curHeight > alignLeftMaxBottom) {
+        alignLeftMaxBottom = curTop + curHeight;
+      }
+    }
+
+    if (curRight === left + width) {
+      alignRight = true;
+      if (curTop < alignRightMinTop) {
+        alignRightMinTop = curTop;
+      }
+
+      if (curTop + curHeight > alignRightMaxBottom) {
+        alignRightMaxBottom = curTop + curHeight;
+      }
+    }
+
+    if (Math.floor(curLeft + curWidth / 2) === Math.floor(left + width / 2)) {
+      alignVMiddle = true;
+      if (curTop < alignMiddleMinTop) {
+        alignMiddleMinTop = curTop;
+      }
+
+      if (curTop + curHeight > alignMiddleMaxBottom) {
+        alignMiddleMaxBottom = curTop + curHeight;
+      }
+    }
+
+
+    if (curTop === top) {
+      alignTop = true;
+      if (curLeft < alignTopMinLeft) {
+        alignTopMinLeft = curLeft;
+      }
+
+      if (curLeft + curWidth > alignTopMaxRight) {
+        alignTopMaxRight = curLeft + curWidth;
+      }
+    }
+
+    if (curBottom === top + height) {
+      alignBottom = true;
+      if (curLeft < alignBottomMinLeft) {
+        alignBottomMinLeft = curLeft;
+      }
+
+      if (curLeft + curWidth > alignBottomMaxRight) {
+        alignBottomMaxRight = curLeft + curWidth;
+      }
+    }
+
+    if (Math.floor(curTop + curHeight / 2) === Math.floor(top + height / 2)) {
+      alignHMiddle = true;
+      if (curLeft < alignMiddleMinLeft) {
+        alignMiddleMinLeft = curLeft;
+      }
+
+      if (curLeft + curWidth > alignMiddleMaxRight) {
+        alignMiddleMaxRight = curLeft + curWidth;
+      }
+    }
+  });
+
+  if (
+    alignTop ||
+    alignBottom ||
+    alignLeft ||
+    alignRight ||
+    alignVMiddle ||
+    alignHMiddle
+  ) {
+    this.guideEl = Dom6.createElement('<div></div>');
+
+    const zIndex = getMaxLevelNumber() + 2;
+
+    if (alignLeft) {
+      this.guideEl.appendChild(
+        Dom6.createElement(`<div class="${selectorPrefix}-guide-v" style="left: ${left - 1}px;top:${alignLeftMinTop}px;height:${alignLeftMaxBottom - alignLeftMinTop}px;z-index:${zIndex}"></div>`)
+      );
+    }
+
+    if (alignRight) {
+      this.guideEl.appendChild(
+        Dom6.createElement(`<div class="${selectorPrefix}-guide-v" style="left: ${left + width}px;top:${alignRightMinTop}px;height:${alignRightMaxBottom - alignRightMinTop}px;z-index:${zIndex}"></div>`)
+      );
+    }
+
+    if (alignVMiddle) {
+      this.guideEl.appendChild(
+        Dom6.createElement(`<div class="${selectorPrefix}-guide-v" style="top:${alignMiddleMinTop}px;height:${alignMiddleMaxBottom - alignMiddleMinTop}px;left: ${Math.floor(left + width / 2)}px;z-index:${zIndex}"></div>`)
+      );
+    }
+
+    if (alignTop) {
+      this.guideEl.appendChild(
+        Dom6.createElement(`<div class="${selectorPrefix}-guide-h" style="left:${alignTopMinLeft}px;width:${alignTopMaxRight - alignTopMinLeft}px;top: ${top - 1}px;z-index:${zIndex}"></div>`)
+      );
+    }
+
+    if (alignBottom) {
+      this.guideEl.appendChild(
+        Dom6.createElement(`<div class="${selectorPrefix}-guide-h" style="left:${alignBottomMinLeft}px;width:${alignBottomMaxRight - alignBottomMinLeft}px;top: ${top + height}px;z-index:${zIndex}"></div>`)
+      );
+    }
+
+    if (alignHMiddle) {
+      this.guideEl.appendChild(
+        Dom6.createElement(`<div class="${selectorPrefix}-guide-h" style="left:${alignMiddleMinLeft}px;width:${alignMiddleMaxRight - alignMiddleMinLeft}px;top: ${Math.floor(top + height / 2)}px;z-index:${zIndex}"></div>`)
+      );
+    }
+
+    this.el.appendChild(this.guideEl);
+  }
 }
 
 /**
@@ -356,11 +539,14 @@ class Drag {
 
     this.disable = false;
 
+    this.setScale(this.config.scale || 0.25);
+
     this.onMousedown = this.onMousedown.bind(this);
     this.onMousemove = this.onMousemove.bind(this);
     this.onMouseup = this.onMouseup.bind(this);
 
-    if (this.config.infinite) {
+    const { infinite = true } = this.config;
+    if (infinite) {
       this.scrollEl = this.el.parentElement;
       this.scrollElWidth = this.scrollEl.offsetWidth;
       this.scrollElHeight = this.scrollEl.offsetHeight;
@@ -401,7 +587,32 @@ class Drag {
     e.preventDefault();
     e.stopPropagation();
 
-    const { onStart, infinite = false } = self.config;
+    const {
+      onStart,
+      infinite = false,
+      showGuide = true,
+    } = self.config;
+
+
+    if (showGuide) {
+      self.elsPosition = Array.from(self.el.querySelectorAll(`.${selectorPrefix}-item`)).filter(el => el !== sourceEl).map((el) => {
+        const left = el.offsetLeft;
+        const width = el.offsetWidth;
+        const top = el.offsetTop;
+        const height = el.offsetHeight;
+        const right = left + width;
+        const bottom = top + height;
+        return {
+          left,
+          right,
+          top,
+          bottom,
+          width,
+          height,
+        };
+      });
+    }
+
     if (onStart) {
       onStart(self.el, sourceEl);
     }
@@ -491,12 +702,17 @@ class Drag {
     let computeLeft;
     let computeTop;
 
-    const { infinite = false } = self.config;
+    const {
+      infinite = false,
+      showGuide = true,
+    } = self.config;
+
+
     if (!infinite) {
       computeLeft = left;
       computeTop = top;
-      self.sourceEl.style.left = `${computeLeft}px`;
-      self.sourceEl.style.top = `${computeTop}px`;
+      self.sourceEl.style.left = `${computeLeft * self.scale}px`;
+      self.sourceEl.style.top = `${computeTop * self.scale}px`;
     } else {
       if (self.boundaryDetectionHandler) {
         cancelAnimationFrame(self.boundaryDetectionHandler);
@@ -544,54 +760,23 @@ class Drag {
         computeTop = self.scrollEl.scrollTop + top;
       }
 
-      // if (left < 0 ||
-      //   left + self.sourceElWidth > self.scrollElWidth
-      // ) {
-      //   // left
-      //   if (left < 0) {
-      //     computeLeft = self.scrollEl.scrollLeft;
-      //     condition.left = true;
-      //   }
-      //
-      //   // right
-      //   if (left + self.sourceElWidth > self.scrollElWidth) {
-      //     computeLeft = self.scrollEl.scrollLeft + self.scrollElWidth - self.sourceElWidth;
-      //     condition.right = true;
-      //   }
-      // } else {
-      //   computeLeft = self.scrollEl.scrollLeft + left;
-      // }
-      //
-      // if (top < 0 ||
-      //   top + self.sourceElHeight > self.scrollElHeight
-      // ) {
-      //   // top
-      //   if (top < 0) {
-      //     computeTop = self.scrollEl.scrollTop;
-      //     condition.top = true;
-      //   }
-      //
-      //   // bottom
-      //   if (top + self.sourceElHeight > self.scrollElHeight) {
-      //     computeTop = self.scrollEl.scrollTop + self.scrollElHeight - self.sourceElHeight;
-      //     condition.bottom = true;
-      //   }
-      // } else {
-      //   computeTop = self.scrollEl.scrollTop + top;
-      // }
-
-      self.sourceEl.style.left = `${computeLeft}px`;
-      self.sourceEl.style.top = `${computeTop}px`;
+      self.sourceEl.style.left = `${computeLeft * self.scale}px`;
+      self.sourceEl.style.top = `${computeTop * self.scale}px`;
 
       if (condition.left || condition.right || condition.top || condition.bottom) {
         boundaryDetectionScroll.call(self, condition);
       }
     }
 
+    if (showGuide) {
+      clearGuide.call(self);
+      createGuide.call(self);
+    }
+
     if (showMap) {
       setMapPosition.call(self, {
-        left: computeLeft,
-        top: computeTop,
+        left: computeLeft * self.scale,
+        top: computeTop * self.scale,
         width: self.sourceEl.offsetWidth,
         height: self.sourceEl.offsetHeight,
       });
@@ -640,10 +825,18 @@ class Drag {
 
     const { onEnd } = self.config;
     if (onEnd) {
-      onEnd(self.el, sourceEl);
+      onEnd(e, self.el, sourceEl);
     }
 
     reset.call(self);
+  }
+
+  /**
+   * setScale
+   * @param {Number} - scale
+   */
+  setScale(scale) {
+    this.scale = scale / 0.25;
   }
 
   /**
@@ -709,6 +902,16 @@ class DragManager {
    */
   refresh() {
     this.init();
+  }
+
+  /**
+   * setScale
+   * @param {Number} - scale
+   */
+  setScale(scale) {
+    this.managers.forEach((t) => {
+      t.setScale(scale);
+    });
   }
 
   /**

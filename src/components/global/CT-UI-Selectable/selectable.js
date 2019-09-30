@@ -6,14 +6,15 @@
  配置:
  el
  {
-   moveInclude: Function(Array<HtmlElement>) 选取到的元素
-   moveExclude: Function(Array<HtmlElement>) 未选取的元素
-   upInclude: Function(Array<HtmlElement>) 选取结束后选取的元素
-   rangeClasses: Array<String> 选取框的样式
+   moveInclude: [Function(Array<HtmlElement>)] 选取到的元素
+   moveExclude: [Function(Array<HtmlElement>)] 未选取的元素
+   upInclude: [Function(Array<HtmlElement>)] 选取结束后选取的元素
+   rangeClasses: [Array<String>] 选取框的样式
+   scale: [Number] 0.25 缩放级别
    infinite: [Boolean] 是否是无限拖动
-   onStart: Function
-   onEnd: Function
-   onClick: Function
+   onStart: [Function]
+   onEnd: [Function]
+   onClick: [Function]
 }
 
  布局:
@@ -92,6 +93,8 @@ class Selectable {
 
     this.disable = false;
 
+    this.setScale(this.config.scale || 0.25);
+
     // if (this.config.infinite) {
     this.scrollEl = this.el.parentElement;
     this.scrollElWidth = this.scrollEl.offsetWidth;
@@ -166,8 +169,8 @@ class Selectable {
         }
       });
     }
-    self.cloneEl.style.left = `${self.baseX}px`;
-    self.cloneEl.style.top = `${self.baseY}px`;
+    self.cloneEl.style.left = `${self.baseX * self.scale}px`;
+    self.cloneEl.style.top = `${self.baseY * self.scale}px`;
 
     self.el.appendChild(self.cloneEl);
   }
@@ -293,47 +296,79 @@ class Selectable {
     const curY = ev.clientY - (self.elRect.top - self.scrollEl.scrollTop);
 
     if (self.baseY === curY) {
+      let left;
+      let right;
+      let top;
       // 水平
       self.cloneEl.style.height = '0';
       if (self.baseX > curX) {
         // console.log('水平左');
-        self.cloneEl.style.left = `${curX}px`;
-        self.cloneEl.style.right = `${self.baseX}px`;
-        self.cloneEl.style.top = `${curY}px`;
+        // self.cloneEl.style.left = `${curX}px`;
+        // self.cloneEl.style.right = `${self.baseX}px`;
+        // self.cloneEl.style.top = `${curY}px`;
+        left = curX;
+        right = self.baseX;
+        top = curY;
       } else if (self.baseX < curX) {
         // 水平右
         // console.log('水平右');
-        self.cloneEl.style.left = `${self.baseX}px`;
-        self.cloneEl.style.right = `${curX}px`;
-        self.cloneEl.style.top = `${self.baseY}px`;
+        // self.cloneEl.style.left = `${self.baseX}px`;
+        // self.cloneEl.style.right = `${curX}px`;
+        // self.cloneEl.style.top = `${self.baseY}px`;
+        left = self.baseX;
+        right = curX;
+        top = self.baseY;
       } else {
         // 重合了
         // console.log('重合了');
-        self.cloneEl.style.left = `${self.baseX}px`;
-        self.cloneEl.style.right = `${self.baseX}px`;
-        self.cloneEl.style.top = `${self.baseY}px`;
+        // self.cloneEl.style.left = `${self.baseX}px`;
+        // self.cloneEl.style.right = `${self.baseX}px`;
+        // self.cloneEl.style.top = `${self.baseY}px`;
+        left = self.baseX;
+        right = self.baseX;
+        top = self.baseY;
       }
+
+      self.cloneEl.style.left = `${left * self.scale}px`;
+      self.cloneEl.style.right = `${right * self.scale}px`;
+      self.cloneEl.style.top = `${top * self.scale}px`;
     } else if (self.baseX === curX) {
+      let left;
+      let top;
+      let bottom;
       // 垂直
       self.cloneEl.style.width = '0';
       if (curY < self.baseY) {
         // console.log('垂直上');
-        self.cloneEl.style.left = `${self.baseX}px`;
-        self.cloneEl.style.top = `${curY}px`;
-        self.cloneEl.style.bottom = `${self.baseY}px`;
+        // self.cloneEl.style.left = `${self.baseX}px`;
+        // self.cloneEl.style.top = `${curY}px`;
+        // self.cloneEl.style.bottom = `${self.baseY}px`;
+        left = self.baseX;
+        top = curY;
+        bottom = self.baseY;
       } else if (curY > self.baseY) {
         // 垂直下
         // console.log('垂直下');
-        self.cloneEl.style.left = `${self.baseX}px`;
-        self.cloneEl.style.top = `${self.baseY}px`;
-        self.cloneEl.style.bottom = `${curY}px`;
+        // self.cloneEl.style.left = `${self.baseX}px`;
+        // self.cloneEl.style.top = `${self.baseY}px`;
+        // self.cloneEl.style.bottom = `${curY}px`;
+        left = self.baseX;
+        top = self.baseY;
+        bottom = curY;
       } else {
         // 重合了
         // console.log('重合了');
-        self.cloneEl.style.left = `${self.baseX}px`;
-        self.cloneEl.style.right = `${self.baseX}px`;
-        self.cloneEl.style.top = `${self.baseY}px`;
+        // self.cloneEl.style.left = `${self.baseX}px`;
+        // self.cloneEl.style.right = `${self.baseX}px`;
+        // self.cloneEl.style.top = `${self.baseY}px`;
+        left = self.baseX;
+        top = self.baseX;
+        bottom = self.baseY;
       }
+
+      self.cloneEl.style.left = `${left * self.scale}px`;
+      self.cloneEl.style.top = `${top * self.scale}px`;
+      self.cloneEl.style.bottom = `${bottom * self.scale}px`;
     } else {
       // 带有角度
       const width = Math.abs(self.baseX - curX);
@@ -389,12 +424,12 @@ class Selectable {
         bottom = curY;
       }
 
-      self.cloneEl.style.width = `${width}px`;
-      self.cloneEl.style.height = `${height}px`;
-      self.cloneEl.style.left = `${left}px`;
-      self.cloneEl.style.right = `${right}px`;
-      self.cloneEl.style.top = `${top}px`;
-      self.cloneEl.style.bottom = `${bottom}px`;
+      self.cloneEl.style.width = `${width * self.scale}px`;
+      self.cloneEl.style.height = `${height * self.scale}px`;
+      self.cloneEl.style.left = `${left * self.scale}px`;
+      self.cloneEl.style.right = `${right * self.scale}px`;
+      self.cloneEl.style.top = `${top * self.scale}px`;
+      self.cloneEl.style.bottom = `${bottom * self.scale}px`;
 
       // console.log('width:', width, 'height:', height, 'left:', left, 'right:', right, 'top:', top, 'bottom:', bottom);
     }
@@ -511,6 +546,14 @@ class Selectable {
   }
 
   /**
+   * setScale
+   * @param {Number} - scale
+   */
+  setScale(scale) {
+    this.scale = scale / 0.25;
+  }
+
+  /**
    * setDisable
    * @param {Boolean} - disable
    */
@@ -573,6 +616,16 @@ class SelectableManager {
    */
   refresh() {
     this.init();
+  }
+
+  /**
+   * setScale
+   * @param {Number} - scale
+   */
+  setScale(scale) {
+    this.managers.forEach((t) => {
+      t.setScale(scale);
+    });
   }
 
   /**

@@ -6,12 +6,33 @@
       height: 30px;
     }
     .CT-UI-AccordionItem-Content {
-      overflow-x: hidden;
-      overflow-y: auto;
+      overflow: auto;
     }
   }
 
-  .FunctionalPanel-Item {
+  //.FunctionalPanel-Item {
+  //  > .CT-UI-AccordionItem-Content {
+  //    position: absolute;
+  //    left: 0;
+  //    right: 0;
+  //    top: 30px;
+  //    bottom: 0;
+  //  }
+  //}
+
+  // PagePanel
+  //.FunctionalPanel-Item.PagePanelGroup {
+  //  min-height: 150px;
+  //}
+
+  .FunctionalPanel-Item.PagePanelGroup {
+    > .CT-UI-AccordionItem-Content {
+      max-height: 150px;
+    }
+  }
+
+  // ComponentPanel
+  .FunctionalPanel-Item.ComponentGroup {
     > .CT-UI-AccordionItem-Content {
       position: absolute;
       left: 0;
@@ -20,24 +41,4 @@
       bottom: 0;
     }
   }
-
-  // PagePanel
-  .FunctionalPanel-Item.PagePanelGroup {
-    min-height: 150px;
-  }
-  //.FunctionalPanel-Item.PagePanelGroup {
-  //  > .CT-UI-AccordionItem-Content {
-  //    max-height: 250px;
-  //    top: 30px;
-  //    bottom: 0;
-  //  }
-  //}
-
-  // ComponentPanel
-  //.FunctionalPanel-Item.ComponentGroup {
-  //  > .CT-UI-AccordionItem-Content {
-  //    top: 30px;
-  //    bottom: 0;
-  //  }
-  //}
 }

@@ -16,6 +16,7 @@
   .ct-drag-clone {
     display: none;
     border: 1px dashed #007aff;
+    //border: 1px solid #007aff;
     background-color: #fff;
   }
 
@@ -26,6 +27,28 @@
     background-color: rgba(0, 0, 0, .2);
     font-size: 12px;
     z-index: 9999999;
+  }
+
+  .ct-drag-guide-v,
+  .ct-drag-guide-h {
+    position: absolute;
+    //border: 1px dashed #ccc;
+  }
+
+  .ct-drag-guide-v {
+    //width: 2px;
+    border-top: 0;
+    border-bottom: 0;
+    border-left: 1px dashed #007aff;
+    border-right: 0;
+  }
+
+  .ct-drag-guide-h {
+    //height: 2px;
+    border-left: 0;
+    border-right: 0;
+    border-top: 1px dashed #007aff;
+    border-bottom: 0;
   }
 }
 
