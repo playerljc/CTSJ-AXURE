@@ -16,8 +16,9 @@
    onCanResizeLeftTop: Function
    onCanResizeLeftBottom: Function
    onCanResizeRightTop: Function
-   onCanResizeRightBottom: Function,
-   onChange: Function,
+   onCanResizeRightBottom: Function
+   onChange: Function
+   scale: [Number] 0.25 缩放比例
 }
 
  布局:
@@ -395,7 +396,6 @@ class Resizeable {
   }
 }
 
-
 /**
  * ResizeableGroup
  * @class ResizeableGroup
@@ -413,6 +413,8 @@ class ResizeableGroup {
     this.config = Object.assign({}, config);
     this.ins = new Map();
     this.disable = false;
+
+    this.setScale(this.config.scale || 0.25);
 
     this.scrollEl = this.el.parentElement;
     this.scrollElRect = this.scrollEl.getBoundingClientRect();
@@ -488,11 +490,11 @@ class ResizeableGroup {
       condition.bottom = true;
     }
 
-    const incrementWidth = clientX - self.cur.baseX;
-    const incrementHeight = clientY - self.cur.baseY;
+    const incrementWidth = (clientX - self.cur.baseX) * self.scale;
+    const incrementHeight = (clientY - self.cur.baseY) * self.scale;
 
-    const left = self.cur.clientX;
-    const top = self.cur.clientY;
+    const left = (self.cur.clientX) * self.scale;
+    const top = (self.cur.clientY) * self.scale;
 
     const { onChange } = self.config;
 
@@ -872,7 +874,6 @@ class ResizeableGroup {
     this.resizeBottomDetailCore(el, { baseHeight, incrementHeight, clientY });
   }
 
-
   /**
    * resizeLeftDetail
    * @param {Number} - incrementWidth
@@ -997,7 +998,6 @@ class ResizeableGroup {
     document.body.style.cursor = 'se-resize';
   }
 
-
   /**
    * initEvents
    */
@@ -1070,6 +1070,14 @@ class ResizeableGroup {
   }
 
   /**
+   * setScale
+   * @param {Number} - scale
+   */
+  setScale(scale) {
+    this.scale = scale / 0.25;
+  }
+
+  /**
    * setDisable
    * @param {Boolean} - disable
    * @param {Boolean} - cascade 是否级联操作
@@ -1139,6 +1147,16 @@ class ResizeableGroupManager {
    */
   refresh() {
     this.init();
+  }
+
+  /**
+   * setScale
+   * @param {Number} - scale
+   */
+  setScale(scale) {
+    this.resizeManager.forEach((t) => {
+      t.setScale(scale);
+    });
   }
 
   /**

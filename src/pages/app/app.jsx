@@ -321,6 +321,7 @@ class App extends React.Component {
    */
   initResizeable() {
     this.resizeable = ResizeableFactory.create(this.canvasEl, {
+      scale: 0.5,
       onStart: () => {
         // console.log('Resize Start');
         this.splitV.setDisable(true);
