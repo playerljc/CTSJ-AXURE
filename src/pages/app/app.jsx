@@ -176,15 +176,17 @@ class App extends React.Component {
        * @return {boolean}
        */
       onPutSuccess: (params) => {
+        debugger
         return this.onDroppablePutSuccess(params);
       },
       /**
        * onDragClone
        * @param {HTMLElement} - sourceEl
+       * @param {Number} - scale
        * @return {HTMLElement}
        */
-      onDragClone: (sourceEl) => {
-        return this.onDroppableDragClone(sourceEl);
+      onDragClone: (sourceEl, scale) => {
+        return this.onDroppableDragClone(sourceEl, scale);
       },
       /**
        * 触碰边缘的时候触发,并且滚动
@@ -223,6 +225,7 @@ class App extends React.Component {
       noDragReturnAnimate: true,
       inclusionRelation: false,
       infinite: true,
+      scale: 0.5,
     });
   }
 
@@ -782,13 +785,17 @@ class App extends React.Component {
   /**
    * onDroppableDragClone
    * @param {HTMLElement} - sourceEl
+   * @param {Number} - scale
    * @return {HTMLElement}
    */
-  onDroppableDragClone(sourceEl) {
+  onDroppableDragClone(sourceEl, scale) {
     const groupKey = sourceEl.dataset.groupkey;
     const componentKey = sourceEl.dataset.componentkey;
     const el = Dom6.createElement('<div></div>');
     const ShapePropertyDefaultConfig = Register.get(groupKey).get(componentKey).propertyDefaultConfig();
+    const { style: { width, height } } = ShapePropertyDefaultConfig;
+    ShapePropertyDefaultConfig.style.width = width * scale;
+    ShapePropertyDefaultConfig.style.height = height * scale;
     const Component = ComponentToolDragBaseHOC({ groupKey, componentKey });
     ReactDOM.render(
       <Component property={ShapePropertyDefaultConfig} />, el

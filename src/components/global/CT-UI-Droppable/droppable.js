@@ -118,7 +118,7 @@ function initDragSourceEvent() {
 
         if (disable) return false;
 
-        const { onStart } = self.config;
+        const { onStart, scale } = self.config;
         if (onStart) {
           onStart();
         }
@@ -128,7 +128,7 @@ function initDragSourceEvent() {
 
         // create CloneNode
         if (onDragClone) {
-          self.cloneEl = onDragClone(sourceEl);
+          self.cloneEl = onDragClone(sourceEl, scale);
           if (!self.cloneEl) {
             self.cloneEl = createCloneEl();
           }
@@ -182,11 +182,13 @@ function initDragSourceEvent() {
           }
         });
 
+
         // append CloneNode
         self.el.appendChild(self.cloneEl);
 
         self.cloneElWidth = self.cloneEl.offsetWidth;
         self.cloneElHeight = self.cloneEl.offsetHeight;
+
         self.cloneEl.style.left = `${ev.pageX - Math.floor(self.cloneElWidth / 2)}px`;
         self.cloneEl.style.top = `${ev.pageY - Math.floor(self.cloneElHeight / 2)}px`;
       };
@@ -497,8 +499,8 @@ function naturalRelease(targetEl, sourceEl) {
   // 落户的节点
   // left和top的赋值
   innerEl.style.position = 'absolute';
-  innerEl.style.left = `${left}px`;
-  innerEl.style.top = `${top}px`;
+  innerEl.style.left = `${left * self.scale}px`;
+  innerEl.style.top = `${top * self.scale}px`;
 
   // sourceEl.style.position = 'absolute';
   // sourceEl.style.left = `${left}px`;
