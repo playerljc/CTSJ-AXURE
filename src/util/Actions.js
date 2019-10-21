@@ -24,6 +24,8 @@ export default {
         paste: 'components-business-canvaspanel-paste',
         // 全选
         selectall: 'components-business-canvaspanel-selectall',
+        // 鼠标滚轮滚动
+        mousewheel: 'components-business-canvaspanel-mousewheel',
       },
     },
     library: {

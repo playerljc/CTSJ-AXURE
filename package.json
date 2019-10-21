@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "startapp": "ctbuild startapp",
-    "buildapp": "ctbuild buildapp",
+    "buildapp": "ctbuild buildapp --define skin=k007,skin1=k008",
     "link": "npm link @ctsj/build"
   },
   "repository": {

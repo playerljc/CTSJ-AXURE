@@ -52,3 +52,8 @@
     ) 放入
   所以Component的初始化Props是不会再被外部改变的
   这时还需要和Property进行双向的数据同步，通过trigger或者调用函数的方式进行数据同步，建议用state，所有数据都放入state中
+
+
+.缩放
+ 要回到的位置 = x * scale
+ x = 要回到的位置 / scale

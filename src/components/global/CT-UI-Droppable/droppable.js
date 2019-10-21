@@ -118,7 +118,7 @@ function initDragSourceEvent() {
 
         if (disable) return false;
 
-        const { onStart, scale } = self.config;
+        const { onStart } = self.config;
         if (onStart) {
           onStart();
         }
@@ -128,7 +128,7 @@ function initDragSourceEvent() {
 
         // create CloneNode
         if (onDragClone) {
-          self.cloneEl = onDragClone(sourceEl, scale);
+          self.cloneEl = onDragClone(sourceEl, self.scale);
           if (!self.cloneEl) {
             self.cloneEl = createCloneEl();
           }
@@ -499,8 +499,8 @@ function naturalRelease(targetEl, sourceEl) {
   // 落户的节点
   // left和top的赋值
   innerEl.style.position = 'absolute';
-  innerEl.style.left = `${left * self.scale}px`;
-  innerEl.style.top = `${top * self.scale}px`;
+  innerEl.style.left = `${left / self.scale}px`;
+  innerEl.style.top = `${top / self.scale}px`;
 
   // sourceEl.style.position = 'absolute';
   // sourceEl.style.left = `${left}px`;
@@ -586,7 +586,7 @@ class Droppable {
     this.onContainerMousemove = this.onContainerMousemove.bind(this);
     this.onContainerMouseleave = this.onContainerMouseleave.bind(this);
 
-    this.setScale(this.config.scale || 0.25);
+    this.setScale(this.config.scale || 1);
 
     this.disable = false;
     this.sourceEls = this.el.querySelectorAll(`.${selectorPrefix}source`);
@@ -757,7 +757,7 @@ class Droppable {
    * @param {Number} - scale
    */
   setScale(scale) {
-    this.scale = scale / 0.25;
+    this.scale = scale;
   }
 
   /**

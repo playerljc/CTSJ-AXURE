@@ -414,7 +414,7 @@ class ResizeableGroup {
     this.ins = new Map();
     this.disable = false;
 
-    this.setScale(this.config.scale || 0.25);
+    this.setScale(this.config.scale || 1);
 
     this.scrollEl = this.el.parentElement;
     this.scrollElRect = this.scrollEl.getBoundingClientRect();
@@ -490,11 +490,11 @@ class ResizeableGroup {
       condition.bottom = true;
     }
 
-    const incrementWidth = (clientX - self.cur.baseX) * self.scale;
-    const incrementHeight = (clientY - self.cur.baseY) * self.scale;
+    const incrementWidth = (clientX - self.cur.baseX) / self.scale;
+    const incrementHeight = (clientY - self.cur.baseY) / self.scale;
 
-    const left = (self.cur.clientX) * self.scale;
-    const top = (self.cur.clientY) * self.scale;
+    const left = (self.cur.clientX) / self.scale;
+    const top = (self.cur.clientY) / self.scale;
 
     const { onChange } = self.config;
 
@@ -1074,7 +1074,7 @@ class ResizeableGroup {
    * @param {Number} - scale
    */
   setScale(scale) {
-    this.scale = scale / 0.25;
+    this.scale = scale;
   }
 
   /**

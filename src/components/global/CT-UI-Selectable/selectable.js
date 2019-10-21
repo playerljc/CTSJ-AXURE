@@ -93,7 +93,7 @@ class Selectable {
 
     this.disable = false;
 
-    this.setScale(this.config.scale || 0.25);
+    this.setScale(this.config.scale || 1);
 
     // if (this.config.infinite) {
     this.scrollEl = this.el.parentElement;
@@ -169,8 +169,8 @@ class Selectable {
         }
       });
     }
-    self.cloneEl.style.left = `${self.baseX * self.scale}px`;
-    self.cloneEl.style.top = `${self.baseY * self.scale}px`;
+    self.cloneEl.style.left = `${self.baseX / self.scale}px`;
+    self.cloneEl.style.top = `${self.baseY / self.scale}px`;
 
     self.el.appendChild(self.cloneEl);
   }
@@ -329,9 +329,9 @@ class Selectable {
         top = self.baseY;
       }
 
-      self.cloneEl.style.left = `${left * self.scale}px`;
-      self.cloneEl.style.right = `${right * self.scale}px`;
-      self.cloneEl.style.top = `${top * self.scale}px`;
+      self.cloneEl.style.left = `${left / self.scale}px`;
+      self.cloneEl.style.right = `${right / self.scale}px`;
+      self.cloneEl.style.top = `${top / self.scale}px`;
     } else if (self.baseX === curX) {
       let left;
       let top;
@@ -366,9 +366,9 @@ class Selectable {
         bottom = self.baseY;
       }
 
-      self.cloneEl.style.left = `${left * self.scale}px`;
-      self.cloneEl.style.top = `${top * self.scale}px`;
-      self.cloneEl.style.bottom = `${bottom * self.scale}px`;
+      self.cloneEl.style.left = `${left / self.scale}px`;
+      self.cloneEl.style.top = `${top / self.scale}px`;
+      self.cloneEl.style.bottom = `${bottom / self.scale}px`;
     } else {
       // 带有角度
       const width = Math.abs(self.baseX - curX);
@@ -424,12 +424,12 @@ class Selectable {
         bottom = curY;
       }
 
-      self.cloneEl.style.width = `${width * self.scale}px`;
-      self.cloneEl.style.height = `${height * self.scale}px`;
-      self.cloneEl.style.left = `${left * self.scale}px`;
-      self.cloneEl.style.right = `${right * self.scale}px`;
-      self.cloneEl.style.top = `${top * self.scale}px`;
-      self.cloneEl.style.bottom = `${bottom * self.scale}px`;
+      self.cloneEl.style.width = `${width / self.scale}px`;
+      self.cloneEl.style.height = `${height / self.scale}px`;
+      self.cloneEl.style.left = `${left / self.scale}px`;
+      self.cloneEl.style.right = `${right / self.scale}px`;
+      self.cloneEl.style.top = `${top / self.scale}px`;
+      self.cloneEl.style.bottom = `${bottom / self.scale}px`;
 
       // console.log('width:', width, 'height:', height, 'left:', left, 'right:', right, 'top:', top, 'bottom:', bottom);
     }
@@ -550,7 +550,7 @@ class Selectable {
    * @param {Number} - scale
    */
   setScale(scale) {
-    this.scale = scale / 0.25;
+    this.scale = scale;
   }
 
   /**

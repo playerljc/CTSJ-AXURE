@@ -13,6 +13,7 @@ import ActivePageManaager from '../../components/business/interactions/ActivePag
 import RangeSelectManager from '../../components/business/interactions/RangeSelectManager';
 import ActiveShapeKeyBoardBind from '../../components/business/interactions/ActiveShapeKeyBoardBind';
 import ActivePageKeyBoardBind from '../../components/business/interactions/ActivePageKeyBoardBind';
+import ActivePageMouseWheelBind from '../../components/business/interactions/ActivePageMouseWheelBind';
 
 import SplitFactory from '../../components/global/CT-UI-Split/split';
 import DroppableFactory from '../../components/global/CT-UI-Droppable/droppable';
@@ -58,6 +59,7 @@ class App extends React.Component {
     this.onRemoveTab = this.onRemoveTab.bind(this);
     this.onPaste = this.onPaste.bind(this);
     this.onSelectAll = this.onSelectAll.bind(this);
+    this.onMouseWheel = this.onMouseWheel.bind(this);
 
     // 存储每一个页面active的Shape实例,一个page里面有多个ActiveShape
     this.pageActiveShapeMap = ActiveShapeManager;
@@ -73,6 +75,9 @@ class App extends React.Component {
 
     // 管理激活Page的KeyBoard的bind和unBind
     this.activePageKeyBoardBind = ActivePageKeyBoardBind;
+
+    // 管理激活Page的MouseWheel的bind和unBind
+    this.activePageMouseWheelBind = ActivePageMouseWheelBind;
 
     // 当前激活页面的pageId
     this.curPageId = '';
@@ -99,6 +104,7 @@ class App extends React.Component {
     Emitter.remove(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
     Emitter.remove(Actions.components.business.canvaspanel.paste, this.onPaste);
     Emitter.remove(Actions.components.business.canvaspanel.selectall, this.onSelectAll);
+    Emitter.remove(Actions.components.business.canvaspanel.mousewheel, this.onMouseWheel);
   }
 
   /**
@@ -110,6 +116,7 @@ class App extends React.Component {
     Emitter.on(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
     Emitter.on(Actions.components.business.canvaspanel.paste, this.onPaste);
     Emitter.on(Actions.components.business.canvaspanel.selectall, this.onSelectAll);
+    Emitter.on(Actions.components.business.canvaspanel.mousewheel, this.onMouseWheel);
   }
 
   /**
@@ -176,7 +183,6 @@ class App extends React.Component {
        * @return {boolean}
        */
       onPutSuccess: (params) => {
-        debugger
         return this.onDroppablePutSuccess(params);
       },
       /**
@@ -225,7 +231,6 @@ class App extends React.Component {
       noDragReturnAnimate: true,
       inclusionRelation: false,
       infinite: true,
-      scale: 0.5,
     });
   }
 
@@ -239,7 +244,6 @@ class App extends React.Component {
       moveStep: 1,
       infinite: true,
       showGuide: true,
-      scale: 0.5,
       onStart: (el, sourceEl) => {
         // console.log('Drag Start');
         if (!el || !sourceEl) return false;
@@ -321,7 +325,6 @@ class App extends React.Component {
    */
   initResizeable() {
     this.resizeable = ResizeableFactory.create(this.canvasEl, {
-      scale: 0.5,
       onStart: () => {
         // console.log('Resize Start');
         this.splitV.setDisable(true);
@@ -460,7 +463,6 @@ class App extends React.Component {
         this.clearCurPageActiveShape();
       },
       rangeClasses: ['SelectableRange'],
-      scale: 0.5,
     });
   }
 
@@ -745,6 +747,27 @@ class App extends React.Component {
   }
 
   /**
+   * setDRDSScale
+   * @param {Number} - scale
+   */
+  setDRDSScale(scale) {
+    this.droppable.setScale(scale);
+    this.resizeable.setScale(scale);
+    this.drag.setScale(scale);
+    this.selectable.setScale(scale);
+  }
+
+  /**
+   * refreshDRDS
+   */
+  refreshDRDS() {
+    this.droppable.refresh();
+    this.drag.refresh();
+    this.resizeable.refresh();
+    this.selectable.refresh();
+  }
+
+  /**
    * onDroppablePutSuccess
    * @param {HTMLElement} - cloneSourceEl
    * @param {Function} - naturalRelease
@@ -812,16 +835,18 @@ class App extends React.Component {
   onAddTab(pageId) {
     this.activeShapeKeyBoardBind.unBindKeyBoard(this.curPageId);
     this.activePageKeyBoardBind.unBindKeyBoard(this.curPageId);
+    this.activePageMouseWheelBind.unBindMouseWheel(this.curPageId);
     this.activePageMap.removePage(this.curPageId);
 
     this.curPageId = pageId;
     this.activePageMap.setPage(this.curPageId, PageModel.get(this.curPageId));
     this.activePageKeyBoardBind.bindKeyBoard(this.curPageId);
+    this.activePageMouseWheelBind.bindMouseWheel(this.curPageId);
 
-    this.droppable.refresh();
-    this.drag.refresh();
-    this.resizeable.refresh();
-    this.selectable.refresh();
+    this.refreshDRDS();
+
+    const scale = this.activePageMap.getPage(this.curPageId).getScale();
+    this.setDRDSScale(scale);
   }
 
   /**
@@ -832,6 +857,7 @@ class App extends React.Component {
   onChangeTab(pageId) {
     this.activeShapeKeyBoardBind.unBindKeyBoard(this.curPageId);
     this.activePageKeyBoardBind.unBindKeyBoard(this.curPageId);
+    this.activePageMouseWheelBind.unBindMouseWheel(this.curPageId);
     this.activePageMap.removePage(this.curPageId);
 
     this.activeShapeKeyBoardBind.bindKeyBoard(pageId);
@@ -839,11 +865,12 @@ class App extends React.Component {
     this.curPageId = pageId;
     this.activePageMap.setPage(this.curPageId, PageModel.get(this.curPageId));
     this.activePageKeyBoardBind.bindKeyBoard(pageId);
+    this.activePageMouseWheelBind.bindMouseWheel(pageId);
 
-    this.droppable.refresh();
-    this.drag.refresh();
-    this.resizeable.refresh();
-    this.selectable.refresh();
+    this.refreshDRDS();
+
+    const scale = this.activePageMap.getPage(pageId).getScale();
+    this.setDRDSScale(scale);
   }
 
   /**
@@ -855,6 +882,7 @@ class App extends React.Component {
   onRemoveTab({ removeKey, activeKey }) {
     this.activeShapeKeyBoardBind.unBindKeyBoard(removeKey);
     this.activePageKeyBoardBind.unBindKeyBoard(removeKey);
+    this.activePageMouseWheelBind.unBindMouseWheel(removeKey);
     this.activePageMap.removePage(removeKey);
     ClipBoard.delete(removeKey);
 
@@ -866,14 +894,15 @@ class App extends React.Component {
     this.activePageMap.setPage(this.curPageId, PageModel.get(this.curPageId));
     if (activeKey && this.curPageId !== activeKey) {
       this.activePageKeyBoardBind.bindKeyBoard(this.curPageId);
+      this.activePageMouseWheelBind.bindMouseWheel(this.curPageId);
     }
     this.pageActiveShapeMap.removeShape(removeKey);
     ShapeModel.removePage(removeKey);
 
-    this.droppable.refresh();
-    this.drag.refresh();
-    this.resizeable.refresh();
-    this.selectable.refresh();
+    this.refreshDRDS();
+
+    const scale = this.activePageMap.getPage(this.curPageId).getScale();
+    this.setDRDSScale(scale);
   }
 
   /**
@@ -925,6 +954,13 @@ class App extends React.Component {
     this.clearCurPageActiveShape();
     this.rangeSelectActive(els);
     this.createRangeSelect(els);
+  }
+
+  /**
+   * onMouseWheel
+   */
+  onMouseWheel(scale) {
+    this.setDRDSScale(scale);
   }
 
   /**

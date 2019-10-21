@@ -222,10 +222,10 @@ function boundaryDetectionScroll(condition) {
       } else {
         self.scrollEl.scrollTop -= scrollStep;
         const scrollTop = self.scrollEl.scrollTop;
-        self.sourceEl.style.top = `${self.scrollEl.scrollTop * self.scale}px`;
+        self.sourceEl.style.top = `${self.scrollEl.scrollTop / self.scale}px`;
         if (showMap) {
           setMapPosition.call(self, {
-            top: scrollTop * self.scale,
+            top: scrollTop / self.scale,
             height: self.sourceElHeight,
           });
         }
@@ -240,10 +240,10 @@ function boundaryDetectionScroll(condition) {
       } else {
         self.scrollEl.scrollTop += scrollStep;
         const scrollElHeight = self.scrollEl.scrollTop + self.scrollElHeight;
-        self.sourceEl.style.top = `${scrollElHeight * self.scale - self.sourceElHeight}px`;
+        self.sourceEl.style.top = `${scrollElHeight / self.scale - self.sourceElHeight}px`;
         if (showMap) {
           setMapPosition.call(self, {
-            top: scrollElHeight * self.scale - self.sourceElHeight,
+            top: scrollElHeight / self.scale - self.sourceElHeight,
             height: self.sourceElHeight,
           });
         }
@@ -258,10 +258,10 @@ function boundaryDetectionScroll(condition) {
       } else {
         self.scrollEl.scrollLeft -= scrollStep;
         const scrollLeft = self.scrollEl.scrollLeft;
-        self.sourceEl.style.left = `${scrollLeft * self.scale}px`;
+        self.sourceEl.style.left = `${scrollLeft / self.scale}px`;
         if (showMap) {
           setMapPosition.call(self, {
-            left: scrollLeft * self.scale,
+            left: scrollLeft / self.scale,
             width: self.sourceElWidth,
           });
         }
@@ -276,10 +276,10 @@ function boundaryDetectionScroll(condition) {
       } else {
         self.scrollEl.scrollLeft += scrollStep;
         const scrollElWidth = self.scrollEl.scrollLeft + self.scrollElWidth;
-        self.sourceEl.style.left = `${scrollElWidth * self.scale - self.sourceElWidth}px`;
+        self.sourceEl.style.left = `${scrollElWidth / self.scale - self.sourceElWidth}px`;
         if (showMap) {
           setMapPosition.call(self, {
-            left: scrollElWidth * self.scale - self.sourceElWidth,
+            left: scrollElWidth / self.scale - self.sourceElWidth,
             width: self.sourceElWidth,
           }, true);
         }
@@ -539,7 +539,7 @@ class Drag {
 
     this.disable = false;
 
-    this.setScale(this.config.scale || 0.25);
+    this.setScale(this.config.scale || 1);
 
     this.onMousedown = this.onMousedown.bind(this);
     this.onMousemove = this.onMousemove.bind(this);
@@ -711,8 +711,8 @@ class Drag {
     if (!infinite) {
       computeLeft = left;
       computeTop = top;
-      self.sourceEl.style.left = `${computeLeft * self.scale}px`;
-      self.sourceEl.style.top = `${computeTop * self.scale}px`;
+      self.sourceEl.style.left = `${computeLeft / self.scale}px`;
+      self.sourceEl.style.top = `${computeTop / self.scale}px`;
     } else {
       if (self.boundaryDetectionHandler) {
         cancelAnimationFrame(self.boundaryDetectionHandler);
@@ -760,8 +760,8 @@ class Drag {
         computeTop = self.scrollEl.scrollTop + top;
       }
 
-      self.sourceEl.style.left = `${computeLeft * self.scale}px`;
-      self.sourceEl.style.top = `${computeTop * self.scale}px`;
+      self.sourceEl.style.left = `${computeLeft / self.scale}px`;
+      self.sourceEl.style.top = `${computeTop / self.scale}px`;
 
       if (condition.left || condition.right || condition.top || condition.bottom) {
         boundaryDetectionScroll.call(self, condition);
@@ -775,8 +775,8 @@ class Drag {
 
     if (showMap) {
       setMapPosition.call(self, {
-        left: computeLeft * self.scale,
-        top: computeTop * self.scale,
+        left: computeLeft / self.scale,
+        top: computeTop / self.scale,
         width: self.sourceEl.offsetWidth,
         height: self.sourceEl.offsetHeight,
       });
@@ -836,7 +836,7 @@ class Drag {
    * @param {Number} - scale
    */
   setScale(scale) {
-    this.scale = scale / 0.25;
+    this.scale = scale;
   }
 
   /**

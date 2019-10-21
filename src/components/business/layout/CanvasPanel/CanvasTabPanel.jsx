@@ -4,6 +4,7 @@ import uuid from 'uuid/v1';
 
 import KeyBoard from '../../../../util/KeyBoard';
 import ClipBoard from '../../../../util/ClipBoard';
+import MouseWheel from '../../../../util/MouseWheel';
 import Actions from '../../../../util/Actions';
 import Emitter from '../../../../util/Emitter';
 import { Immutable } from '../../../../util/CTMobile-UI-Util';
@@ -21,6 +22,24 @@ const selectorPrefix = 'CanvasTabPanel';
 
 export { selectorPrefix };
 
+// 缩放的数组
+const scaleCollection = [
+  4,
+  3.5,
+  3,
+  2.5,
+  2,
+  1.5,
+  1.25,
+  1,
+  0.8,
+  0.65,
+  0.5,
+  0.33,
+  0.25,
+  0.1,
+];
+
 /**
  * CanvasTabPanel
  */
@@ -32,6 +51,10 @@ class CanvasTabPanel extends React.Component {
       [['Ctrl', 'v'], this.onCtrlV],
       [['Ctrl', 'a'], this.onCtrlA],
     ]);
+
+    this.scaleIndex = 7;
+
+    this.onMouseWheel = this.onMouseWheel.bind(this);
   }
 
   componentDidMount() {
@@ -95,6 +118,20 @@ class CanvasTabPanel extends React.Component {
   }
 
   /**
+   * bindMouseWheel
+   */
+  bindMouseWheel() {
+    MouseWheel.on(this.onMouseWheel);
+  }
+
+  /**
+   * unBindMouseWheel
+   */
+  unBindMouseWheel() {
+    MouseWheel.off(this.onMouseWheel);
+  }
+
+  /**
    * onCtrlV
    * @return {boolean}
    */
@@ -123,6 +160,36 @@ class CanvasTabPanel extends React.Component {
       els
     );
   };
+
+  /**
+   * onMouseWheel
+   * @param {String} - direction [top | bottom]
+   */
+  onMouseWheel({
+    direction,
+  }) {
+    if (direction === 'top') {
+      if (this.scaleIndex !== 0) {
+        this.scaleIndex--;
+      }
+    } else if (direction === 'bottom') {
+      if (this.scaleIndex !== scaleCollection.length - 1) {
+        this.scaleIndex++;
+      }
+    }
+
+    const scale = this.getScale();
+    this.innerEl.style.transform = `scale(${scale})`;
+    Emitter.trigger(Actions.components.business.canvaspanel.mousewheel, scale);
+  }
+
+  /**
+   * getScale
+   * @return {number}
+   */
+  getScale() {
+    return scaleCollection[this.scaleIndex];
+  }
 
   render() {
     const { activePageId, pageId } = this.props;
