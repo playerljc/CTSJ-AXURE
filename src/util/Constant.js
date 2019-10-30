@@ -28,6 +28,8 @@ export const DRSWRAPPREFIX = 'ct-axure-shape-wrap';
 
 export const DRSPREFIX = 'ct-axure-shape';
 
+export const SUMMARYPREFIX = 'ct-axure-summary';
+
 export const RANGESELECTPREFIX = 'ct-axure-range-select-shape';
 
 // 键盘默认移动的步进

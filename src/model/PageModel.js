@@ -5,7 +5,7 @@
 const Model = new Map();
 
 /**
- * 所有页面的Shape模型
+ * 所有的页面模型
  */
 export default {
   /**

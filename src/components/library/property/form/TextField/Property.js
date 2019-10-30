@@ -83,5 +83,8 @@ export default () => ({
     ],
   },
   // 属性
-  prop: {},
+  prop: {
+    // 组件的名字
+    name: 'textField',
+  },
 });

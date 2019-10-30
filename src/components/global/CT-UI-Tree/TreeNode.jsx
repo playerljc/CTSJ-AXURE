@@ -69,7 +69,7 @@ class TreeNode extends React.Component {
                       e.preventDefault();
                     })}
                   >
-                    <span className={`${selectorPrefix}-Icon fa fa-${icon}`} />
+                    {icon ? (<span className={`${selectorPrefix}-Icon fa fa-${icon}`} />) : null}
                     <span className={`${selectorPrefix}-Name`}>{name}</span>
                   </div>
                 </summary>
@@ -88,7 +88,7 @@ class TreeNode extends React.Component {
 
 // 指定 props 的默认值：
 TreeNode.defaultProps = {
-  icon: 'file-o',
+  // icon: 'file-o',
   name: '',
   childrendata: [],
   leaf: true,

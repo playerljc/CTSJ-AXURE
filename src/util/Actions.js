@@ -7,6 +7,7 @@ export default {
    */
   components: {
     business: {
+      // 页面
       pagepanel: {
         dbclick: 'components-business-pagepanel-dbclick',
       },
@@ -26,6 +27,10 @@ export default {
         selectall: 'components-business-canvaspanel-selectall',
         // 鼠标滚轮滚动
         mousewheel: 'components-business-canvaspanel-mousewheel',
+        // 页面添加一个Shape
+        addshape: 'components-business-canvaspanel-addshape',
+        // 页面删除一个Shape
+        removeshape: 'components-business-canvaspanel-removeshape',
       },
     },
     library: {

@@ -23,6 +23,22 @@ const selectorPrefix = 'CanvasTabPanel';
 export { selectorPrefix };
 
 // 缩放的数组
+/**
+ * 400% 4
+ * 350% 3.5
+ * 300% 3
+ * 250% 2.5
+ * 200% 2
+ * 150% 1.5
+ * 125% 1.25
+ * 100% 1
+ * 80%  0.8
+ * 65%  0.65
+ * 50%  0.5
+ * 33%  0.33
+ * 25%  0.25
+ * 10%  0.1
+ */
 const scaleCollection = [
   4,
   3.5,
@@ -71,6 +87,24 @@ class CanvasTabPanel extends React.Component {
   getPageId() {
     const { pageId } = this.props;
     return pageId;
+  }
+
+  /**
+   * getPageName
+   * @return {String}
+   */
+  getPageName() {
+    const { name } = this.props;
+    return name;
+  }
+
+  /**
+   * getPageProperty
+   * @return {Object}
+   */
+  getPageProperty() {
+    const { property } = this.props;
+    return Immutable.cloneDeep(property);
   }
 
   /**
@@ -213,20 +247,19 @@ class CanvasTabPanel extends React.Component {
 
 CanvasTabPanel.defaultProps = {
   activePageId: '',
+  name: '',
   pageId: '',
   property: {},
 };
 
 CanvasTabPanel.propTypes = {
   activePageId: PropTypes.string,
-
   // page的name
   name: PropTypes.string,
   // page的id
   pageId: PropTypes.string,
   // page的属性
   property: PropTypes.object,
-
   getInstance: PropTypes.func,
 };
 

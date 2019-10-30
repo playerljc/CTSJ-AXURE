@@ -1,6 +1,6 @@
 import React from 'react';
 import InteractivePanel from '../InteractivePanel/InteractivePanel';
-import AbstractPanel from '../AbstractPanel/AbstractPanel';
+import SummaryPanel from '../SummaryPanel/SummaryPanel';
 import SplitFactory from '../../../global/CT-UI-Split/split';
 import './PropertyPanel.less';
 
@@ -29,10 +29,12 @@ class PropertyPanel extends Component {
       }}
       >
         <div className="ct-split-top">
+          {/* 监视 */}
           <InteractivePanel />
         </div>
         <div className="ct-split-main">
-          <AbstractPanel />
+          {/* 概要 */}
+          <SummaryPanel />
         </div>
       </div>
     );

@@ -1,29 +1,19 @@
 const map = new Map();
 
-document.body.addEventListener('mousewheel', onMouseWhell);
-document.body.addEventListener('DOMMouseScroll', onMouseWhell, false);
+document.body.addEventListener('mousewheel', onMouseWheel);
+document.body.addEventListener('DOMMouseScroll', onMouseWheel, false);
 
 const step = 50;
 
 /**
- * 400% 4
- * 350% 3.5
- * 300% 3
- * 250% 2.5
- * 200% 2
- * 150% 1.5
- * 125% 1.25
- * 100% 1
- * 80%  0.8
- * 65%  0.65
- * 50%  0.5
- * 33%  0.33
- * 25%  0.25
- * 10%  0.1
+ * onMouseWheel - 按住shift滚动的滚轮
+ * @param {MouseWheelEvent} - event
+ * @return {boolean}
  */
-function onMouseWhell(event) {
+function onMouseWheel(event) {
   const e = event || window.event;
   if (!e.shiftKey) return false;
+
   const whell = e.wheelDelta ? e.wheelDelta : e.detail;
   let direction;
   if (whell > step) {

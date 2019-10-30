@@ -7,6 +7,15 @@ import TextFieldTool from './toolbox/form/TextField/TextFieldTool';
 import TextAreaTool from './toolbox/form/TextArea/TextAreaTool';
 import SelectTool from './toolbox/form/Select/SelectTool';
 
+/* SummaryTool */
+import Rect1SummaryTool from './summarytoolbox/base/Rect1/Rect1Tool';
+import Rect2SummaryTool from './summarytoolbox/base/Rect2/Rect2Tool';
+import Rect3SummaryTool from './summarytoolbox/base/Rect3/Rect3Tool';
+
+import TextFieldSummaryTool from './summarytoolbox/form/TextField/TextFieldTool';
+import TextAreaSummaryTool from './summarytoolbox/form/TextArea/TextAreaTool';
+import SelectSummaryTool from './summarytoolbox/form/Select/SelectTool';
+
 /* Component */
 import Rect1Component from './component/base/Rect1/Rect1Component';
 import Rect2Component from './component/base/Rect2/Rect2Component';
@@ -35,44 +44,65 @@ import TextAreaPropertyDefaultConfig from './property/form/TextArea/Property';
 import SelectPropertyDefaultConfig from './property/form/Select/Property';
 
 export default new Map([
-  ['base', new Map([
-    ['Rect1', {
-      Tool: Rect1Tool,
-      Component: Rect1Component,
-      Property: Rect1Property,
-      propertyDefaultConfig: Rect1PropertyDefaultConfig,
-    }],
-    ['Rect2', {
-      Tool: Rect2Tool,
-      Component: Rect2Component,
-      Property: Rect2Property,
-      propertyDefaultConfig: Rect2PropertyDefaultConfig,
-    }],
-    ['Rect3', {
-      Tool: Rect3Tool,
-      Component: Rect3Component,
-      Property: Rect3Property,
-      propertyDefaultConfig: Rect3PropertyDefaultConfig,
-    }],
-  ])],
-  ['form', new Map([
-    ['TextField', {
-      Tool: TextFieldTool,
-      Component: TextFieldComponent,
-      Property: TextFieldProperty,
-      propertyDefaultConfig: TextFieldPropertyDefaultConfig,
-    }],
-    ['TextArea', {
-      Tool: TextAreaTool,
-      Component: TextAreaComponent,
-      Property: TextAreaProperty,
-      propertyDefaultConfig: TextAreaPropertyDefaultConfig,
-    }],
-    ['Select', {
-      Tool: SelectTool,
-      Component: SelectComponent,
-      Property: SelectProperty,
-      propertyDefaultConfig: SelectPropertyDefaultConfig,
-    }],
-  ])],
+  [
+    'base',
+    new Map([
+      [
+        'Rect1', {
+          Tool: Rect1Tool,
+          SummaryTool: Rect1SummaryTool,
+          Component: Rect1Component,
+          Property: Rect1Property,
+          propertyDefaultConfig: Rect1PropertyDefaultConfig,
+        }],
+      [
+        'Rect2',
+        {
+          Tool: Rect2Tool,
+          SummaryTool: Rect2SummaryTool,
+          Component: Rect2Component,
+          Property: Rect2Property,
+          propertyDefaultConfig: Rect2PropertyDefaultConfig,
+        }],
+      [
+        'Rect3',
+        {
+          Tool: Rect3Tool,
+          SummaryTool: Rect3SummaryTool,
+          Component: Rect3Component,
+          Property: Rect3Property,
+          propertyDefaultConfig: Rect3PropertyDefaultConfig,
+        }],
+    ])],
+  [
+    'form',
+    new Map([
+      [
+        'TextField',
+        {
+          Tool: TextFieldTool,
+          SummaryTool: TextFieldSummaryTool,
+          Component: TextFieldComponent,
+          Property: TextFieldProperty,
+          propertyDefaultConfig: TextFieldPropertyDefaultConfig,
+        }],
+      [
+        'TextArea',
+        {
+          Tool: TextAreaTool,
+          SummaryTool: TextAreaSummaryTool,
+          Component: TextAreaComponent,
+          Property: TextAreaProperty,
+          propertyDefaultConfig: TextAreaPropertyDefaultConfig,
+        }],
+      [
+        'Select',
+        {
+          Tool: SelectTool,
+          SummaryTool: SelectSummaryTool,
+          Component: SelectComponent,
+          Property: SelectProperty,
+          propertyDefaultConfig: SelectPropertyDefaultConfig,
+        }],
+    ])],
 ]);

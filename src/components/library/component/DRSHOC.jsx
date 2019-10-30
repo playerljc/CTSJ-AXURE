@@ -16,6 +16,9 @@ import {
 
 import ShapeModel from '../../../model/ShapeModel';
 
+import Emitter from '../../../util/Emitter';
+import Actions from '../../../util/Actions';
+
 import './DRSHOC.less';
 
 const selectorPrefix = DRSPREFIX;
@@ -183,6 +186,30 @@ export default (Component, { groupKey, componentKey }) => {
     }
 
     /**
+     * getComponentKey
+     * @return {String}
+     */
+    getComponentKey() {
+      const { el } = this;
+      if (!el) return '';
+
+      const { dataset: { componentkey } } = el;
+      return componentkey;
+    }
+
+    /**
+     * getGroupKey
+     * @return {String}
+     */
+    getGroupKey() {
+      const { el } = this;
+      if (!el) return '';
+
+      const { dataset: { groupkey } } = el;
+      return groupkey;
+    }
+
+    /**
      * renderActiveIndicatorPointer
      */
     renderActiveIndicatorPointer() {
@@ -302,6 +329,8 @@ export default (Component, { groupKey, componentKey }) => {
       if (result) {
         ShapeModel.removeShapeByPage(ShapeModel.getShape({ pageId, componentId }));
       }
+
+      Emitter.trigger(Actions.components.business.canvaspanel.addshape, { pageId, componentId });
     }
 
     /**

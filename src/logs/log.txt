@@ -89,6 +89,7 @@
  缩放
   .drop
   .resize
+
  undo,ando的操作
 
  监视面板

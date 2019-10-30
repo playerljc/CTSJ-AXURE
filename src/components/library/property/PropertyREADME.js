@@ -5,6 +5,8 @@ export default {
     width: 300,
     // 高度
     height: 120,
+    // 层级
+    zIndex: 9999,
   },
   // 说明
   description: {
@@ -75,5 +77,8 @@ export default {
     ],
   },
   // 属性
-  prop: {},
+  prop: {
+    // 组件的名字
+    name: '',
+  },
 };

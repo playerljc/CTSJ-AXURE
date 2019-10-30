@@ -647,7 +647,7 @@ class App extends React.Component {
   }
 
   /**
-   * createActiveShape
+   * createShape - 创建一个Shape
    * @param {String} - groupKey
    * @param {String} - componentKey
    * @param {String} - pageId
@@ -690,6 +690,8 @@ class App extends React.Component {
 
     // 清除rangeSelect
     this.clearRangeSelect();
+
+    Emitter.trigger(Actions.components.business.canvaspanel.addshape, { pageId, componentId });
   }
 
   /**
@@ -768,7 +770,7 @@ class App extends React.Component {
   }
 
   /**
-   * onDroppablePutSuccess
+   * onDroppablePutSuccess - 组件的添加
    * @param {HTMLElement} - cloneSourceEl
    * @param {Function} - naturalRelease
    * @param {Array<HTMLElement>} - targetEls
@@ -901,8 +903,11 @@ class App extends React.Component {
 
     this.refreshDRDS();
 
-    const scale = this.activePageMap.getPage(this.curPageId).getScale();
-    this.setDRDSScale(scale);
+    const curPage = this.activePageMap.getPage(this.curPageId);
+    if (curPage) {
+      const scale = curPage.getScale();
+      this.setDRDSScale(scale);
+    }
   }
 
   /**
@@ -976,7 +981,9 @@ class App extends React.Component {
         }}
       >
         <div className="ct-split-top g-flex-fixed">
+          {/* 菜单栏 */}
           <SystemMenuBar />
+          {/* 工具栏 */}
           <SystemToolBar />
         </div>
 
@@ -987,6 +994,7 @@ class App extends React.Component {
           }}
         >
           <div className="g-flex-fixed ct-split-left">
+            {/* 左侧 */}
             <FunctionalPanel />
           </div>
           <div
@@ -995,9 +1003,11 @@ class App extends React.Component {
               this.canvasEl = el;
             }}
           >
+            {/* Main */}
             <CanvasPanel />
           </div>
           <div className="g-flex-fixed ct-split-right">
+            {/* 右侧 */}
             <PropertyPanel />
           </div>
         </div>
