@@ -7,6 +7,7 @@ import SystemToolBar from '../../components/business/layout/SystemToolBar/System
 import FunctionalPanel from '../../components/business/layout/FunctionalPanel/FunctionalPanel';
 import PropertyPanel from '../../components/business/layout/PropertyPanel/PropertyPanel';
 import CanvasPanel from '../../components/business/layout/CanvasPanel/CanvasPanel';
+import { selectPrefix as SummaryPanelSelectPrefix } from '../../components/business/layout/SummaryPanel/SummaryPanel';
 
 import ActiveShapeManager from '../../components/business/interactions/ActiveShapeManager';
 import ActivePageManaager from '../../components/business/interactions/ActivePageManager';
@@ -61,6 +62,9 @@ class App extends React.Component {
     this.onSelectAll = this.onSelectAll.bind(this);
     this.onMouseWheel = this.onMouseWheel.bind(this);
 
+    this.onComponentActive = this.onComponentActive.bind(this);
+    this.onUnComponentActive = this.onUnComponentActive.bind(this);
+
     // 存储每一个页面active的Shape实例,一个page里面有多个ActiveShape
     this.pageActiveShapeMap = ActiveShapeManager;
 
@@ -105,6 +109,9 @@ class App extends React.Component {
     Emitter.remove(Actions.components.business.canvaspanel.paste, this.onPaste);
     Emitter.remove(Actions.components.business.canvaspanel.selectall, this.onSelectAll);
     Emitter.remove(Actions.components.business.canvaspanel.mousewheel, this.onMouseWheel);
+
+    Emitter.remove(Actions.components.library.component.active, this.onComponentActive);
+    Emitter.remove(Actions.components.library.component.unactive, this.onUnComponentActive);
   }
 
   /**
@@ -117,6 +124,9 @@ class App extends React.Component {
     Emitter.on(Actions.components.business.canvaspanel.paste, this.onPaste);
     Emitter.on(Actions.components.business.canvaspanel.selectall, this.onSelectAll);
     Emitter.on(Actions.components.business.canvaspanel.mousewheel, this.onMouseWheel);
+
+    Emitter.on(Actions.components.library.component.active, this.onComponentActive);
+    Emitter.on(Actions.components.library.component.unactive, this.onUnComponentActive);
   }
 
   /**
@@ -254,6 +264,12 @@ class App extends React.Component {
         this.resizeable.setDisable(true);
         this.selectable.setDisable(true);
       },
+      /**
+       * @param e
+       * @param el
+       * @param sourceEl
+       * @return {boolean}
+       */
       onEnd: (e, el, sourceEl) => {
         if (!el || !sourceEl) return false;
         this.splitV.setDisable(false);
@@ -267,6 +283,7 @@ class App extends React.Component {
         let curEl = sourceEl;
         let componentId = curEl.dataset.componentid;
 
+        // @todo 按shift的Shape点击
         if (shiftKey) {
           const isRangeSelectShape = sourceEl.classList.contains(RANGESELECTPREFIX);
           if (isRangeSelectShape) {
@@ -300,6 +317,7 @@ class App extends React.Component {
 
           this.onSelectAll(els);
         } else {
+          // @todo 正常Shape点击
           const rangeSelect = this.rangeSelectMap.get(this.curPageId);
           if (componentId) {
             // 如果拖动的是一个节点
@@ -455,7 +473,7 @@ class App extends React.Component {
         this.drag.setDisable(false);
       },
       /**
-       * 页面的点击
+       * @todo 页面的点击
        */
       onClick: () => {
         // console.log('selectClick');
@@ -588,10 +606,10 @@ class App extends React.Component {
       resize.setDisable(false);
     }
 
-    Emitter.trigger(Actions.components.library.component.active, {
-      pageId,
-      componentId,
-    });
+    // Emitter.trigger(Actions.components.library.component.active, {
+    //   pageId,
+    //   componentId,
+    // });
   }
 
   /**
@@ -713,6 +731,7 @@ class App extends React.Component {
   createRangeSelect(els) {
     if (!els || els.length === 0) return false;
 
+    // 如果只选择了一个节点
     if (els.length === 1) {
       const { pageid: pageId, componentid: componentId } = els[0].dataset;
       this.componentActive({ pageId, componentId });
@@ -966,6 +985,36 @@ class App extends React.Component {
    */
   onMouseWheel(scale) {
     this.setDRDSScale(scale);
+  }
+
+  /**
+   * onComponentActive
+   * @param {String} - from
+   * @param {String} - pageId
+   * @param {String} - componentId
+   */
+  onComponentActive({ from, pageId, componentId }) {
+    if (from !== SummaryPanelSelectPrefix) return false;
+    this.splitV.setDisable(false);
+    this.splitH.setDisable(false);
+    this.droppable.setDisable(false);
+    this.selectable.setDisable(false);
+
+    // 如果拖动的是一个节点
+    this.clearRangeSelect();
+    this.componentActive({ pageId, componentId });
+  }
+
+  /**
+   * onUnComponentActive
+   * @param {String} - from
+   * @param {String} - pageId
+   * @param {String} - componentId
+   */
+  onUnComponentActive({ from, pageId, componentId }) {
+    if (from !== SummaryPanelSelectPrefix) return false;
+    this.clearRangeSelect();
+    this.clearCurPageActiveShape();
   }
 
   /**

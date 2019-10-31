@@ -296,7 +296,6 @@ class RangeSelect {
     this.arrowDetail('right');
   };
 
-
   onCtrlArrowUp = () => {
     console.log('ctrlArrowUp');
     this.arrowDetail('top', KEYBOARD_FAST_STEP);

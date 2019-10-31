@@ -125,6 +125,12 @@ export default (Component, { groupKey, componentKey }) => {
       this.bindKeyBoard();
       this.setState({
         active: true,
+      }, () => {
+        Emitter.trigger(Actions.components.library.component.active, {
+          pageId: this.getPageId(),
+          componentId: this.getComponentId(),
+          from: selectorPrefix,
+        });
       });
     }
 
@@ -137,6 +143,12 @@ export default (Component, { groupKey, componentKey }) => {
       this.unBindKeyBoard();
       this.setState({
         active: false,
+      }, () => {
+        Emitter.trigger(Actions.components.library.component.unactive, {
+          pageId: this.getPageId(),
+          componentId: this.getComponentId(),
+          from: selectorPrefix,
+        });
       });
     }
 
@@ -147,6 +159,12 @@ export default (Component, { groupKey, componentKey }) => {
     rangeSelectActive() {
       this.setState({
         rangeSelectActive: true,
+      }, () => {
+        Emitter.trigger(Actions.components.library.component.rangeselectactive, {
+          pageId: this.getPageId(),
+          componentId: this.getComponentId(),
+          from: selectorPrefix,
+        });
       });
     }
 
@@ -156,7 +174,31 @@ export default (Component, { groupKey, componentKey }) => {
     unRangeSelectActive() {
       this.setState({
         rangeSelectActive: false,
+      }, () => {
+        Emitter.trigger(Actions.components.library.component.unrangeselectactive, {
+          pageId: this.getPageId(),
+          componentId: this.getComponentId(),
+          from: selectorPrefix,
+        });
       });
+    }
+
+    /**
+     * isActive
+     * @return {boolean}
+     */
+    isActive() {
+      const { active = false } = this.state;
+      return active;
+    }
+
+    /**
+     * isRangeSelectActive
+     * @return {boolean}
+     */
+    isRangeSelectActive() {
+      const { rangeSelectActive = false } = this.state;
+      return rangeSelectActive;
     }
 
     /**

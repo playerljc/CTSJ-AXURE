@@ -16,6 +16,8 @@ const { Component } = React;
 
 const selectPrefix = 'SummaryPanel';
 
+export { selectPrefix };
+
 /**
  * SummaryPanel
  * @class SummaryPanel
@@ -37,6 +39,12 @@ class SummaryPanel extends Component {
 
     this.onAddShape = this.onAddShape.bind(this);
     this.onRemoveShape = this.onRemoveShape.bind(this);
+
+    this.onComponentActive = this.onComponentActive.bind(this);
+    this.onUnComponentActive = this.onUnComponentActive.bind(this);
+
+    this.onComponentRangeSelectActive = this.onComponentRangeSelectActive.bind(this);
+    this.onUnComponentRangeSelectActive = this.onUnComponentRangeSelectActive.bind(this);
   }
 
   componentDidMount() {
@@ -46,6 +54,11 @@ class SummaryPanel extends Component {
 
     Emitter.on(Actions.components.business.canvaspanel.addshape, this.onAddShape);
     Emitter.on(Actions.components.business.canvaspanel.removeshape, this.onRemoveShape);
+
+    Emitter.on(Actions.components.library.component.active, this.onComponentActive);
+    Emitter.on(Actions.components.library.component.unactive, this.onUnComponentActive);
+    Emitter.on(Actions.components.library.component.rangeselectactive, this.onComponentRangeSelectActive);
+    Emitter.on(Actions.components.library.component.unrangeselectactive, this.onUnComponentRangeSelectActive);
   }
 
   componentWillUnMount() {
@@ -55,8 +68,41 @@ class SummaryPanel extends Component {
 
     Emitter.remove(Actions.components.business.canvaspanel.addshape, this.onAddShape);
     Emitter.remove(Actions.components.business.canvaspanel.removeshape, this.onRemoveShape);
+
+    Emitter.remove(Actions.components.library.component.active, this.onComponentActive);
+    Emitter.remove(Actions.components.library.component.unactive, this.onUnComponentActive);
+    Emitter.remove(Actions.components.library.component.rangeselectactive, this.onComponentRangeSelectActive);
+    Emitter.remove(Actions.components.library.component.unrangeselectactive, this.onUnComponentRangeSelectActive);
   }
 
+  /**
+   * onNodeClick
+   * @param {String} - componentId
+   * @return {Boolean}
+   */
+  onNodeClick(componentId) {
+    const { curPageId } = this.state;
+    const shape = ShapeModel.getShape({
+      pageId: curPageId,
+      componentId,
+    });
+    if (!shape) return false;
+
+    const isActive = shape.isActive();
+    const action = isActive
+      ? Actions.components.library.component.unactive
+      : Actions.components.library.component.active;
+    Emitter.trigger(action, {
+      pageId: curPageId,
+      componentId,
+      from: selectPrefix,
+    });
+  }
+
+  /**
+   * getData
+   * @return {Array}
+   */
   getData() {
     const data = [];
     const { curPageId } = this.state;
@@ -64,6 +110,7 @@ class SummaryPanel extends Component {
     const shapes = ShapeModel.getShapesByPage(curPageId);
 
     if (page) {
+      // console.log('getPageName', page.getPageName());
       data.push({
         name: page.getPageName(),
         leaf: false,
@@ -82,10 +129,16 @@ class SummaryPanel extends Component {
         const groupKey = Shape.getGroupKey();
         const Component = Register.get(groupKey).get(componentKey);
         const name = Shape.getProperty().prop.name;
+        const isActive = Shape.isActive() || Shape.isRangeSelectActive();
+
         childrendata.push({
           name: <Component.SummaryTool name={name} />,
           leaf: true,
           id: Shape.getComponentId(),
+          active: isActive,
+          onActive: ({ id }) => {
+            this.onNodeClick(id);
+          },
         });
       }
     }
@@ -116,6 +169,10 @@ class SummaryPanel extends Component {
     return data;
   }
 
+  /**
+   * onAddTab
+   * @param {String} - pageId
+   */
   onAddTab(pageId) {
     this.setState({
       curPageId: pageId,
@@ -143,13 +200,67 @@ class SummaryPanel extends Component {
     });
   }
 
+  /**
+   * onAddShape
+   * @param {String} - pageId
+   * @param {String} - componentId
+   */
   onAddShape({ pageId, componentId }) {
     this.setState({
       curPageId: pageId,
     });
   }
 
+  /**
+   * onRemoveShape
+   * @param {String} - pageId
+   * @param {String} - componentId
+   */
   onRemoveShape({ pageId, componentId }) {
+    this.setState({
+      curPageId: pageId,
+    });
+  }
+
+  /**
+   * onComponentActive
+   * @param {String} - pageId
+   * @param {String} - componentId
+   */
+  onComponentActive({ pageId }) {
+    this.setState({
+      curPageId: pageId,
+    });
+  }
+
+  /**
+   * onUnComponentActive
+   * @param {String} - pageId
+   * @param {String} - componentId
+   */
+  onUnComponentActive({ pageId }) {
+    this.setState({
+      curPageId: pageId,
+    });
+  }
+
+  /**
+   * onComponentRangeSelectActive
+   * @param {String} - pageId
+   * @param {String} - componentId
+   */
+  onComponentRangeSelectActive({ pageId }) {
+    this.setState({
+      curPageId: pageId,
+    });
+  }
+
+  /**
+   * onUnComponentRangeSelectActive
+   * @param {String} - pageId
+   * @param {String} - componentId
+   */
+  onUnComponentRangeSelectActive({ pageId }) {
     this.setState({
       curPageId: pageId,
     });

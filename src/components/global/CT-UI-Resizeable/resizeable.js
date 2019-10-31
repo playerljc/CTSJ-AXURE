@@ -1114,7 +1114,6 @@ class ResizeableGroupManager {
    * init
    */
   init() {
-    // TODO change
     // this.resizeManager.clear();
     const resizeableEls = Array.from(this.el.querySelectorAll(`.${selectorPrefix}`));
     for (let i = 0; i < resizeableEls.length; i++) {
@@ -1136,7 +1135,6 @@ class ResizeableGroupManager {
    * getGroup
    * @param {HTMLElement} - groupEl
    * @return {ResizeableGroup}
-   * TODO change
    */
   getGroup(groupEl) {
     return this.resizeManager.get(groupEl);

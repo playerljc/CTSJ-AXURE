@@ -14,16 +14,22 @@ const selectorPrefix = 'CT-UI-TreeNode';
  */
 class TreeNode extends React.Component {
   onClick() {
-    const { id, onActive } = this.props;
+    const { id, onActive, attributes } = this.props;
     if (onActive) {
-      onActive(id);
+      onActive({
+        id,
+        attributes,
+      });
     }
   }
 
   onDoubleClick() {
     const { name = '', leaf = false, id, attributes, onActive, onDBClick } = this.props;
     if (onActive) {
-      onActive(id);
+      onActive({
+        id,
+        attributes,
+      });
     }
     if (onDBClick) {
       onDBClick({
@@ -48,7 +54,7 @@ class TreeNode extends React.Component {
   }
 
   render() {
-    const { icon = '', name = '', leaf = false, id } = this.props;
+    const { icon = '', name = '', leaf = false, id, active = false } = this.props;
 
     return (
       <TreeContext.Consumer>
@@ -59,15 +65,28 @@ class TreeNode extends React.Component {
                 className={`${selectorPrefix} ${leaf ? 'Leaf' : ''} ${activeKey && activeKey === id ? 'Active' : ''}`}
                 open
               >
-                <summary className={`${selectorPrefix}-Summary`} >
+                <summary className={`${selectorPrefix}-Summary ${active ? 'active' : ''}`} >
+                  {active ? (
+                    <div
+                      className={`${selectorPrefix}-Summary-bcHook`}
+                      ref={(el) => {
+                        if (el && el.parentElement) {
+                          el.style.top = `${el.parentElement.offsetTop}px`;
+                          el.style.height = `${el.parentElement.offsetHeight}px`;
+                        }
+                      }}
+                    />
+                  ) : null}
                   <div
                     className={`${selectorPrefix}-Summary-Inner`}
-                    onClick={Click((count) => {
-                      if (count === 1) this.onClick();
-                      if (count === 2) this.onDoubleClick();
-                    }, (e) => {
-                      e.preventDefault();
-                    })}
+                    onClick={
+                      Click((count) => {
+                        if (count === 1) this.onClick();
+                        if (count === 2) this.onDoubleClick();
+                      }, (e) => {
+                        e.preventDefault();
+                      })
+                    }
                   >
                     {icon ? (<span className={`${selectorPrefix}-Icon fa fa-${icon}`} />) : null}
                     <span className={`${selectorPrefix}-Name`}>{name}</span>
@@ -93,17 +112,19 @@ TreeNode.defaultProps = {
   childrendata: [],
   leaf: true,
   open: true,
+  active: false,
   id: '',
   attributes: {},
 };
 
 
 TreeNode.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.node,
   leaf: PropTypes.bool,
   icon: PropTypes.string,
   childrendata: PropTypes.array,
   open: PropTypes.bool,
+  active: PropTypes.bool,
   id: PropTypes.string,
   attributes: PropTypes.object,
   onActive: PropTypes.func,

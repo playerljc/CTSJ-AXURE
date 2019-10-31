@@ -703,7 +703,6 @@ class Droppable {
         if (condition.left || condition.right || condition.top || condition.bottom) {
           if (onBoundaryDetection) {
             /**
-             * TODO change
              * 传入对象
              * 加入targetEls参数
              */

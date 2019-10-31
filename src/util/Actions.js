@@ -37,6 +37,12 @@ export default {
       component: {
         // Shape处于激活状态
         active: 'components-library-component-active',
+        // Shape处于未激活状态
+        unactive: 'components-library-component-unactive',
+        // Shape处于Range激活状态
+        rangeselectactive: 'components-libary-component-rangeselectactive',
+        // Shape处于Range未激活状态
+        unrangeselectactive: 'components-libary-component-unrangeselectactive',
         // Shape的属性变化
         propertychange: 'components-library-component-propertychange',
       },

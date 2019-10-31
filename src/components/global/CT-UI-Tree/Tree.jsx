@@ -16,12 +16,14 @@ class Tree extends React.Component {
   renderChildren(data = []) {
     const { onDBClick, onActive } = this.props;
     return data.map((t) => {
-      return (<TreeNode
-        key={t.id || uuidv1()}
-        onActive={onActive}
-        onDBClick={onDBClick}
-        {...t}
-      />);
+      return (
+        <TreeNode
+          key={t.id || uuidv1()}
+          onActive={onActive}
+          onDBClick={onDBClick}
+          {...t}
+        />
+      );
     });
   }
 

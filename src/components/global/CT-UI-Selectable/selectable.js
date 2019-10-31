@@ -583,7 +583,6 @@ class SelectableManager {
    * init
    */
   init() {
-    // TODO change
     // this.managers.clear();
     const els = Array.from(this.el.querySelectorAll(`.${selectorPrefix}`));
     for (let i = 0; i < els.length; i++) {
@@ -605,7 +604,6 @@ class SelectableManager {
    * getSelectable
    * @param {HTMLElement} - el
    * @return {Selectable}
-   * TODO change
    */
   getSelectable(el) {
     return this.managers.get(el);

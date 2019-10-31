@@ -15,6 +15,7 @@ export default (callback, beforeClick) => {
     if (!handler) {
       handler = window.setTimeout(() => {
         window.clearTimeout(handler);
+        handler = null;
         if (callback) {
           callback(count);
         }

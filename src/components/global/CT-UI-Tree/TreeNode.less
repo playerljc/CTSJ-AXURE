@@ -1,3 +1,5 @@
+@active-color: #CCEBF8;
+
 .CT-UI-TreeNode {
   overflow: auto;
   .CT-UI-TreeNode-Summary {
@@ -8,6 +10,19 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    &.active {
+      background-color: @active-color;
+    }
+
+    .CT-UI-TreeNode-Summary-bcHook {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      background-color: @active-color;
+      z-index: -1;
+    }
+
     .CT-UI-TreeNode-Summary-Inner {
       width: 100%;
       .CT-UI-TreeNode-Icon {
@@ -16,37 +31,39 @@
       }
     }
   }
+
   .CT-UI-TreeNode-Children {
+    position: relative;
     box-sizing: border-box;
     padding-left: 20px;
   }
-}
 
-.CT-UI-TreeNode.Active {
-  > .CT-UI-TreeNode-Summary {
-    > .CT-UI-TreeNode-Summary-Inner {
-      > .CT-UI-TreeNode-Name {
-        font-weight: bold;
+  &.Active {
+    > .CT-UI-TreeNode-Summary {
+      > .CT-UI-TreeNode-Summary-Inner {
+        > .CT-UI-TreeNode-Name {
+          font-weight: bold;
+        }
       }
     }
   }
-}
 
-.CT-UI-TreeNode.Leaf {
-  & ::-webkit-details-marker {
-    display: none;
-  }
+  &.Leaf {
+    & ::-webkit-details-marker {
+      display: none;
+    }
 
-  .CT-UI-TreeNode-Summary {
-    .CT-UI-TreeNode-Icon {
-      margin-left: 6px;
+    .CT-UI-TreeNode-Summary {
+      .CT-UI-TreeNode-Icon {
+        margin-left: 6px;
+      }
     }
   }
-}
 
-.CT-UI-TreeNode.Leaf {
-  & ::-moz-list-bullet {
-    font-size: 0;
-    float: left;
+  &.Leaf {
+    & ::-moz-list-bullet {
+      font-size: 0;
+      float: left;
+    }
   }
 }

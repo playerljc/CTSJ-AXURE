@@ -96,7 +96,7 @@ class PagePanel extends Component {
         <Tree
           data={data}
           activeKey={activeKey}
-          onActive={(key) => {
+          onActive={({ id: key }) => {
             this.setState({
               activeKey: key,
             });
