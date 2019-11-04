@@ -499,8 +499,8 @@ function naturalRelease(targetEl, sourceEl) {
   // 落户的节点
   // left和top的赋值
   innerEl.style.position = 'absolute';
-  innerEl.style.left = `${left / self.scale}px`;
-  innerEl.style.top = `${top / self.scale}px`;
+  // innerEl.style.left = `${left / self.scale}px`;
+  // innerEl.style.top = `${top / self.scale}px`;
 
   // sourceEl.style.position = 'absolute';
   // sourceEl.style.left = `${left}px`;
@@ -508,6 +508,11 @@ function naturalRelease(targetEl, sourceEl) {
 
   // 放入很大的节点
   targetEl.appendChild(sourceEl);
+
+  return {
+    left: left / self.scale,
+    top: top / self.scale,
+  };
 }
 
 /**

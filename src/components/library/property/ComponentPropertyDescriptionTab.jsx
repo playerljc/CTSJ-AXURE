@@ -9,6 +9,7 @@ import ComponentPropertyDescriptionSettingModal from './ComponentPropertyDescrip
 import Actions from '../../../util/Actions';
 import Emitter from '../../../util/Emitter';
 import { Immutable } from '../../../util/CTMobile-UI-Util';
+import StringUtil from '../../../util/StringUtil';
 
 import './ComponentPropertyDescriptionTab.less';
 
@@ -93,23 +94,24 @@ class ComponentPropertyDescriptionTab extends React.Component {
 
     const { type } = fieldEntry;
 
-    let fieldElement = null;
-    switch (type) {
-      case 'text':
-        fieldElement = this.renderTextField(groupId, fieldConfig);
-        break;
-      case 'number':
-        fieldElement = this.renderNumberField(groupId, fieldConfig);
-        break;
-      case 'date':
-        fieldElement = this.renderDateField(groupId, fieldConfig);
-        break;
-      case 'select':
-        fieldElement = this.renderSelectField(groupId, fieldConfig);
-        break;
-      default:
-        break;
-    }
+    const fieldElement = this[`render${StringUtil.captureName(type)}Field`](groupId, fieldConfig);
+
+    // switch (type) {
+    //   case 'text':
+    //     fieldElement = this.renderTextField(groupId, fieldConfig);
+    //     break;
+    //   case 'number':
+    //     fieldElement = this.renderNumberField(groupId, fieldConfig);
+    //     break;
+    //   case 'date':
+    //     fieldElement = this.renderDateField(groupId, fieldConfig);
+    //     break;
+    //   case 'select':
+    //     fieldElement = this.renderSelectField(groupId, fieldConfig);
+    //     break;
+    //   default:
+    //     break;
+    // }
 
     const { id = '' } = fieldConfig;
     const { name = '' } = fieldEntry;

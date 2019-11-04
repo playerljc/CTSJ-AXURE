@@ -281,12 +281,17 @@ export default (Component, { groupKey, componentKey }) => {
      * 根据propertyName设置Property的值
      * @param {String} - propertyName
      * @param {Object} - propertyValue
+     * @param {Function} -success
      */
-    setPropertyByProps(propertyName, propertyValue) {
+    setPropertyByProps(propertyName, propertyValue, success) {
       const property = { ...this.state.property };
       property[propertyName] = propertyValue;
       this.setState({
         property,
+      }, () => {
+        if (success) {
+          success();
+        }
       });
     }
 
@@ -553,9 +558,32 @@ export default (Component, { groupKey, componentKey }) => {
      * @return {ReactElement}
      */
     render() {
-      const { number = 1, pageId = '', componentId = '' } = this.props;
-      const { property: { style: { width, height } } } = this.state;
-      const { active = false } = this.state;
+      const {
+        // number = 1,
+        pageId = '',
+        componentId = '',
+      } = this.props;
+
+      const {
+        property: {
+          style: {
+            position: {
+              left,
+              top,
+            },
+            dimension: {
+              width,
+              height,
+            },
+            zIndex,
+          },
+        },
+      } = this.state;
+
+      const {
+        active = false,
+      } = this.state;
+
       return (
         <div
           ref={(el) => {
@@ -563,9 +591,11 @@ export default (Component, { groupKey, componentKey }) => {
           }}
           className={`${selectorPrefix} ${this.getDRSClassName()} ${this.getActiveClassName()}`}
           style={{
-            zIndex: active ? getMaxLevelNumber() : number,
+            zIndex: active ? getMaxLevelNumber() : zIndex/* number */,
             width: `${width}px`,
             height: `${height}px`,
+            left: `${left}px`,
+            top: `${top}px`,
           }}
           data-groupkey={groupKey}
           data-componentkey={componentKey}
@@ -588,7 +618,7 @@ export default (Component, { groupKey, componentKey }) => {
   }
 
   DRSHOC.defaultProps = {
-    number: 1,
+    // number: 1,
     pageId: '',
     componentId: '',
     property: {},
@@ -596,7 +626,7 @@ export default (Component, { groupKey, componentKey }) => {
 
   DRSHOC.propTypes = {
     // z-index的层级
-    number: PropTypes.number,
+    // number: PropTypes.number,
     // 页面的id
     pageId: PropTypes.string,
     // 组件的id

@@ -690,15 +690,16 @@ class App extends React.Component {
       <Component.Component
         pageId={pageId}
         componentId={componentId}
-        number={ShapeModel.getShapesByPage(pageId).length + 1}
+        // number={ShapeModel.getShapesByPage(pageId).length + 1}
         property={property}
         getInstance={(ins) => {
           ShapeModel.add(ins);
+          renderHandler(el/* el.firstElementChild */);
         }}
       />, el
     );
 
-    renderHandler(el/* el.firstElementChild */);
+    // renderHandler(el/* el.firstElementChild */);
 
     const resizeGroup = this.resizeable.getGroup(this.getPageEl(pageId));
     resizeGroup.refresh();
@@ -809,6 +810,8 @@ class App extends React.Component {
     const { curPageId: pageId } = this;
     const property = Register.get(groupKey).get(componentKey).propertyDefaultConfig();
 
+    property.style.zIndex = ShapeModel.getShapesByPage(pageId).length + 1;
+
     this.createActiveShape({
       groupKey,
       componentKey,
@@ -816,11 +819,17 @@ class App extends React.Component {
       componentId,
       property,
       renderHandler: (el) => {
-        naturalRelease.fn.call(
+        const position = naturalRelease.fn.call(
           naturalRelease.context,
           this.getPageEl(pageId),
           el
         );
+
+        const shape = ShapeModel.getShape({ pageId, componentId });
+        const { style } = shape.getProperty();
+        style.position.left = Math.floor(position.left);
+        style.position.top = Math.floor(position.top);
+        shape.setPropertyByProps('style', style);
       },
     });
 
@@ -959,11 +968,21 @@ class App extends React.Component {
         renderHandler: (el) => {
           const innerEl = el.firstElementChild;
           innerEl.style.position = 'absolute';
-          innerEl.style.left = `${left + PAST_XPOSITION_STEP}px`;
-          innerEl.style.top = `${top + PAST_YPOSITION_STEP}px`;
-          innerEl.style.width = `${width}px`;
-          innerEl.style.height = `${height}px`;
-          this.getPageEl(pageId).appendChild(el);
+
+          // innerEl.style.left = `${left + PAST_XPOSITION_STEP}px`;
+          // innerEl.style.top = `${top + PAST_YPOSITION_STEP}px`;
+          // innerEl.style.width = `${width}px`;
+          // innerEl.style.height = `${height}px`;
+
+          const shape = ShapeModel.getShape({ pageId, componentId });
+          const { style } = shape.getProperty();
+          style.position.left = Math.floor(left + PAST_XPOSITION_STEP);
+          style.position.top = Math.floor(top + PAST_YPOSITION_STEP);
+          style.dimension.width = width;
+          style.dimension.height = height;
+          shape.setPropertyByProps('style', style, () => {
+            this.getPageEl(pageId).appendChild(el);
+          });
         },
       });
     });

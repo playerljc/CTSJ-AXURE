@@ -55,7 +55,7 @@ class FormFieldManager {
        */
       onChange(e, onChange) {
         this.setState({
-          value: e.target.value,
+          value: e.target ? e.target.value : e,
         });
 
         if (onChange) {

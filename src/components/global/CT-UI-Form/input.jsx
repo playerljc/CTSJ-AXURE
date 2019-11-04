@@ -1,5 +1,6 @@
 import React from 'react';
 import FormFieldHOC from './FormFieldHOC';
+import FormFieldMouseDonwCaptureHOC from './FormFieldMouseDonwCaptureHOC';
 
 class Input extends React.Component {
   render() {
@@ -9,4 +10,4 @@ class Input extends React.Component {
   }
 }
 
-export default FormFieldHOC(Input);
+export default FormFieldHOC(FormFieldMouseDonwCaptureHOC(Input));

@@ -1,10 +1,71 @@
 export default () => ({
   // 样式
   style: {
-    // 宽度
-    width: 300,
-    // 高度
-    height: 50,
+    /* ---位置---*/
+    position: {
+      left: 0,
+      top: 0,
+    },
+    /* ---尺寸--- */
+    dimension: {
+      width: 300,
+      height: 120,
+    },
+    /* --- 填充 ---*/
+    fill: {
+      backgroundColor: '#fff',
+    },
+    /* --- 阴影 ---*/
+    shadow: {
+      // boxShadow
+      boxShadow: '',
+    },
+    /* --- 边框 ---*/
+    border: {
+      borderLeftWidth: '',
+      borderLeftStyle: '',
+      borderLeftColor: '',
+
+      borderRightWidth: '',
+      borderRightStyle: '',
+      borderRightColor: '',
+
+      borderTopWidth: '',
+      borderTopStyle: '',
+      borderTopColor: '',
+
+      borderBottomWidth: '',
+      borderBottomStyle: '',
+      borderBottomColor: '',
+    },
+    radius: {
+      /* --- 圆角 ---*/
+      // borderRadius
+      borderRadius: '',
+    },
+    /* ---透明度---*/
+    // opacity
+    opacity: 1,
+    /* ---字体---*/
+    fontfamily: {
+      // fontFamily
+      fontFamily: '',
+      // fontSize
+      fontSize: 0,
+      // fontWeight
+      fontWeight: '',
+      // fontStyle
+      fontStyle: '',
+      // textDecoration
+      textDecoration: '',
+      // color
+      color: '',
+    },
+    /* ---行间距---*/
+    // lineHeight
+    lineHeight: '',
+    /* ---层级---*/
+    zIndex: 9999,
   },
   // 说明
   description: {
