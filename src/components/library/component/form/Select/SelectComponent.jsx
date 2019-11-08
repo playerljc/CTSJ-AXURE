@@ -9,13 +9,39 @@ import './SelectComponent.less';
  * @class SelectComponent
  * @classdesc SelectComponent
  */
-class SelectComponent extends React.Component {
+class SelectComponent extends React.PureComponent {
+  /**
+   * getStyle
+   * @return {Object}
+   */
+  getStyle() {
+    const {
+      property: {
+        style: {
+          fill: {
+            backgroundColor,
+          },
+        },
+      },
+    } = this.props;
+
+    return {
+      backgroundColor,
+    };
+  }
+
   render() {
-    const { selectorPrefix, groupKey, componentKey } = this.props;
+    const {
+      selectorPrefix,
+      groupKey,
+      componentKey,
+    } = this.props;
+
     return (
       <div className={`${selectorPrefix}-${groupKey}-${componentKey}`}>
         <select
           className={`${selectorPrefix}-${groupKey}-${componentKey}-select`}
+          style={this.getStyle()}
         />
       </div>
     );

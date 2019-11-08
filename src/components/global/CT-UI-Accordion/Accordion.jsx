@@ -9,7 +9,7 @@ const selectorPrefix = 'CT-UI-Accordion';
  * @class Accordion
  * @classdesc Accordion
  */
-class Accordion extends React.Component {
+class Accordion extends React.PureComponent {
   render() {
     const { className = '', children, ...props } = this.props;
     return (

@@ -1,0 +1,49 @@
+.ComponentPropertyStyleTab-Shadow {
+  display: flex;
+  .ComponentPropertyStyleTab-Shadow-OutSetItem,
+  .ComponentPropertyStyleTab-Shadow-InSetItem {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    padding: 5px;
+    background-color: #fff;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    &:hover {
+      background-color: rgba(0, 122, 255, .5);
+      border-color: #007aff;
+    }
+
+    > .ComponentPropertyStyleTab-Shadow-Color {
+      width: 15px;
+      height: 15px;
+      box-sizing: border-box;
+      margin-right: 10px;
+    }
+
+    > .ComponentPropertyStyleTab-Shadow-Arrow {
+      color: #ccc;
+      font-size: 14px;
+      transform: rotate(90deg);
+    }
+  }
+
+  .ComponentPropertyStyleTab-Shadow-OutSetItem {
+    > .ComponentPropertyStyleTab-Shadow-Color {
+      background-color: gray;
+      box-shadow: 2px 2px 2px #ccc;
+    }
+  }
+
+  .ComponentPropertyStyleTab-Shadow-InSetItem {
+    > .ComponentPropertyStyleTab-Shadow-Color {
+      background-color: #007aff;
+      box-shadow: inset 2px 2px 2px #ccc;
+    }
+  }
+
+}

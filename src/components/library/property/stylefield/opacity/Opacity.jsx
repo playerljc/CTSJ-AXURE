@@ -5,7 +5,7 @@ import './Opacity.less';
 
 const selectorPrefix = 'ComponentPropertyStyleTab-Opacity';
 
-class Opacity extends React.Component {
+class Opacity extends React.PureComponent {
   render() {
     return (
       <div className={`${selectorPrefix}`}>

@@ -5,7 +5,7 @@ import './ZIndex.less';
 
 const selectorPrefix = 'ComponentPropertyStyleTab-ZIndex';
 
-class ZIndex extends React.Component {
+class ZIndex extends React.PureComponent {
   render() {
     return (
       <div className={`${selectorPrefix}`}>

@@ -3,7 +3,7 @@ import React from 'react';
 const selectorPrefix = 'CT-UI-Form';
 
 export default (Component) => {
-  return class extends React.Component {
+  return class extends React.PureComponent {
     constructor(props) {
       super(props);
       this.state = {

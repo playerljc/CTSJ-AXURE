@@ -10,7 +10,7 @@ const selectorPrefix = 'CT-UI-Tab-Panel';
  * @class TabPanel
  * @classdesc TabPanel
  */
-class TabPanel extends React.Component {
+class TabPanel extends React.PureComponent {
   render() {
     const { className = '', code = '', children } = this.props;
     return (

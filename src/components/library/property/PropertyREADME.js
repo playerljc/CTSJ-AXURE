@@ -17,26 +17,32 @@ export default {
     },
     /* --- 阴影 ---*/
     shadow: {
-      // boxShadow
-      boxShadow: '',
+      inset: {
+        disabled: false,
+        offsetX: '',
+        offsetY: '',
+        blurRadius: '',
+        spreadRadius: '',
+        color: '',
+      },
+      outset: {
+        disabled: false,
+        offsetX: '',
+        offsetY: '',
+        blurRadius: '',
+        spreadRadius: '',
+        color: '',
+      },
     },
     /* --- 边框 ---*/
     border: {
-      borderLeftWidth: '',
-      borderLeftStyle: '',
-      borderLeftColor: '',
-
-      borderRightWidth: '',
-      borderRightStyle: '',
-      borderRightColor: '',
-
-      borderTopWidth: '',
-      borderTopStyle: '',
-      borderTopColor: '',
-
-      borderBottomWidth: '',
-      borderBottomStyle: '',
-      borderBottomColor: '',
+      borderLeftDisable: true,
+      borderRightDisable: true,
+      borderTopDisable: true,
+      borderBottomDisable: true,
+      borderWidth: 0,
+      borderStyle: 'solid',
+      borderColor: '#fff',
     },
     radius: {
       /* --- 圆角 ---*/

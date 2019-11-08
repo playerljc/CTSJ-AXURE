@@ -8,7 +8,7 @@ const selectorPrefix = 'CT-UI-Form';
  * @class Form
  * @classdesc Form
  */
-class Form extends React.Component {
+class Form extends React.PureComponent {
   render() {
     const { children } = this.props;
     return (
@@ -37,7 +37,7 @@ class FormFieldManager {
    */
   createField(FieldComponent, name) {
     const self = this;
-    return class extends React.Component {
+    return class extends React.PureComponent {
       constructor(props) {
         super(props);
         const { value = '' } = props;
@@ -148,7 +148,7 @@ class FormFieldManager {
  * @return {ReactElement}
  */
 function create(Component) {
-  return class extends React.Component {
+  return class extends React.PureComponent {
     constructor(props) {
       super(props);
       this.formFieldManager = new FormFieldManager();

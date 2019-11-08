@@ -8,7 +8,7 @@ import './TextFieldProperty.less';
  * @class TextFieldProperty
  * @classdesc TextFieldProperty
  */
-class TextFieldProperty extends React.Component {
+class TextFieldProperty extends React.PureComponent {
   render() {
     return (
       <div>TextFieldProperty</div>

@@ -8,7 +8,7 @@ import './Rect2Property.less';
  * @class Rect2Property
  * @classdesc Rect2Property
  */
-class Rect2Property extends React.Component {
+class Rect2Property extends React.PureComponent {
   render() {
     return (
       <div>Rect2Property</div>

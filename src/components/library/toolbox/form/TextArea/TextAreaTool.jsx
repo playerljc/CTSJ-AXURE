@@ -8,7 +8,7 @@ import './TextAreaTool.less';
  * @class TextAreaTool
  * @classdesc TextArea
  */
-class TextAreaTool extends React.Component {
+class TextAreaTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (

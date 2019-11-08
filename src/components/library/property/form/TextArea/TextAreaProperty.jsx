@@ -8,7 +8,7 @@ import './TextAreaProperty.less';
  * @class TextAreaProperty
  * @classdesc TextAreaProperty
  */
-class TextAreaProperty extends React.Component {
+class TextAreaProperty extends React.PureComponent {
   render() {
     return (
       <div>TextAreaProperty</div>

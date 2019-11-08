@@ -7,7 +7,7 @@ import './ComponentToolBaseHOC.less';
 const selectorPrefix = `${DRSPREFIX}-tool`;
 
 export default (Component, { groupKey, componentKey }) => {
-  return class extends React.Component {
+  return class extends React.PureComponent {
     render() {
       const { name } = this.props;
       return (

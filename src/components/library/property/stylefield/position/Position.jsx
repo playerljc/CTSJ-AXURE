@@ -12,7 +12,7 @@ const selectorPrefix = 'ComponentPropertyStyleTab-Position';
  * @class Position
  * @classdesc 位置
  */
-class Position extends React.Component {
+class Position extends React.PureComponent {
   /**
    * constructor
    * @param props
@@ -20,11 +20,10 @@ class Position extends React.Component {
   constructor(props) {
     super(props);
 
-    const { value: { left, top } } = props;
+    const { value } = props;
 
     this.state = {
-      left,
-      top,
+      ...value,
     };
 
     this.onChangeX = this.onChangeX.bind(this);
@@ -32,11 +31,10 @@ class Position extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { value: { left, top } } = nextProps;
+    const { value } = nextProps;
 
     this.setState({
-      left,
-      top,
+      ...value,
     });
   }
 
@@ -49,11 +47,9 @@ class Position extends React.Component {
       left: Math.floor(e.target.value),
     }, () => {
       const { onChange } = this.props;
-      const { left, top } = this.state;
       if (onChange) {
         onChange({
-          left,
-          top,
+          ...this.state,
         });
       }
     });
@@ -68,11 +64,9 @@ class Position extends React.Component {
       top: Math.floor(e.target.value),
     }, () => {
       const { onChange } = this.props;
-      const { left, top } = this.state;
       if (onChange) {
         onChange({
-          left,
-          top,
+          ...this.state,
         });
       }
     });

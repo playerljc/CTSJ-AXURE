@@ -5,7 +5,7 @@ import './FontFamily.less';
 
 const selectorPrefix = 'ComponentPropertyStyleTab-FontFamily';
 
-class FontFamily extends React.Component {
+class FontFamily extends React.PureComponent {
   render() {
     return (
       <div className={`${selectorPrefix}`}>

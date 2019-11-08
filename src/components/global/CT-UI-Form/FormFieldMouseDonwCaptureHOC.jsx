@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default (Component) => {
-  return class extends React.Component {
+  return class extends React.PureComponent {
     render() {
       return (
         <Component

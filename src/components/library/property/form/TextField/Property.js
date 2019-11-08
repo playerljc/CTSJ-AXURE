@@ -8,7 +8,7 @@ export default () => ({
     /* ---尺寸--- */
     dimension: {
       width: 300,
-      height: 120,
+      height: 50,
     },
     /* --- 填充 ---*/
     fill: {
@@ -16,26 +16,32 @@ export default () => ({
     },
     /* --- 阴影 ---*/
     shadow: {
-      // boxShadow
-      boxShadow: '',
+      inset: {
+        disabled: true,
+        offsetX: 0,
+        offsetY: 0,
+        blurRadius: 0,
+        spreadRadius: 0,
+        color: '#fff',
+      },
+      outset: {
+        disabled: true,
+        offsetX: 0,
+        offsetY: 0,
+        blurRadius: 0,
+        spreadRadius: 0,
+        color: '#fff',
+      },
     },
     /* --- 边框 ---*/
     border: {
-      borderLeftWidth: '',
-      borderLeftStyle: '',
-      borderLeftColor: '',
-
-      borderRightWidth: '',
-      borderRightStyle: '',
-      borderRightColor: '',
-
-      borderTopWidth: '',
-      borderTopStyle: '',
-      borderTopColor: '',
-
-      borderBottomWidth: '',
-      borderBottomStyle: '',
-      borderBottomColor: '',
+      borderLeftDisable: true,
+      borderRightDisable: true,
+      borderTopDisable: true,
+      borderBottomDisable: true,
+      borderWidth: 0,
+      borderStyle: 'solid',
+      borderColor: '#fff',
     },
     radius: {
       /* --- 圆角 ---*/

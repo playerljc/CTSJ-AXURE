@@ -11,7 +11,7 @@ const selectorPrefix = 'CT-UI-Table';
  * @class Table
  * @classdesc Table
  */
-class Table extends React.Component {
+class Table extends React.PureComponent {
   constructor(props) {
     super(props);
 

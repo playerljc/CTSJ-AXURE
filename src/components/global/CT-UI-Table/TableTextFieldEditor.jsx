@@ -7,7 +7,7 @@ import TableEditorHOC from './TableEditorHOC';
  * @class TableTextFieldEditor
  * @classdesc TableTextFieldEditor
  */
-class TableTextFieldEditor extends React.Component {
+class TableTextFieldEditor extends React.PureComponent {
   /**
    * constructor
    * @param {Object} - props
@@ -60,6 +60,7 @@ class TableTextFieldEditor extends React.Component {
       <input
         autoFocus
         value={value}
+        onKeyDownCapture={(e) => { e.stopPropagation(); }}
         onChange={this.onInputChange}
         onBlur={this.onInputBlur}
         {...otherProps}

@@ -7,7 +7,7 @@ const selectorPrefix = 'CanvasTabPanelProperty';
 /**
  * CanvasTabPanelProperty
  */
-class CanvasTabPanelProperty extends React.Component {
+class CanvasTabPanelProperty extends React.PureComponent {
   render() {
     return (
       <div className={`${selectorPrefix}`} >{this.props.page.getPageId()}</div>

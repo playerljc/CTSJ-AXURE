@@ -5,7 +5,7 @@ import './Radius.less';
 
 const selectorPrefix = 'ComponentPropertyStyleTab-Radius';
 
-class Radius extends React.Component {
+class Radius extends React.PureComponent {
   render() {
     return (
       <div className={`${selectorPrefix}`}>

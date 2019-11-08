@@ -11,7 +11,7 @@ const selectorPrefix = 'CT-UI-Modal';
  * @class ModalComponent
  * @classdesc ModalComponent
  */
-class ModalComponent extends React.Component {
+class ModalComponent extends React.PureComponent {
   renderButtons() {
     const { buttons = [] } = this.props;
     const result = [];
@@ -39,11 +39,20 @@ class ModalComponent extends React.Component {
     const {
       title = '',
       zIndex = 9999,
+
+      minWidth = '60%',
+      maxWidth = '80%',
+      minHeight,
+      maxHeight = '80%',
+      width,
+      height,
+
       mask = true,
       component,
       xscroll = true,
       yscroll = true,
     } = this.props;
+
 
     return (
       <div
@@ -51,14 +60,26 @@ class ModalComponent extends React.Component {
           this.el = el;
         }}
         className={`${selectorPrefix}`}
-        style={{ zIndex }}
+        style={{
+          zIndex,
+        }}
         onClick={() => {
           if (!mask) {
             this.close();
           }
         }}
       >
-        <div className={`${selectorPrefix}-Inner`}>
+        <div
+          className={`${selectorPrefix}-Inner`}
+          style={{
+            minWidth,
+            maxWidth,
+            minHeight,
+            maxHeight,
+            width,
+            height,
+          }}
+        >
           <div className={`${selectorPrefix}-Title`}>{title}</div>
           <div className={`${selectorPrefix}-Content ${xscroll ? 'XScroll' : ''} ${yscroll ? 'YScroll' : ''}`}>
             {component}
@@ -73,6 +94,10 @@ class ModalComponent extends React.Component {
 ModalComponent.propTypes = {
   title: PropTypes.string,
   component: PropTypes.object,
+  minWidth: PropTypes.string,
+  maxWidth: PropTypes.string,
+  minHeight: PropTypes.string,
+  maxHeight: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
   zIndex: PropTypes.number,
@@ -85,16 +110,17 @@ ModalComponent.propTypes = {
 const Modal = {
   open(config) {
     const parentEl = document.createElement('div');
+    parentEl.className = `${selectorPrefix}-Wrap`;
+
     ReactDOM.render(
       <ModalComponent {...config} />,
       parentEl,
     );
-    const el = parentEl.firstElementChild;
-    document.body.appendChild(el);
-    return el;
+    document.body.appendChild(parentEl);
+    return parentEl;
   },
   close(el) {
-    el.parentElement.removeChild(el);
+    ReactDOM.unmountComponentAtNode(el);
   },
 };
 

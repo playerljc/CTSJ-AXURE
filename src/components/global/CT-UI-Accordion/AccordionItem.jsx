@@ -9,7 +9,7 @@ const selectorPrefix = 'CT-UI-AccordionItem';
  * @class AccordionItem
  * @classdesc AccordionItem
  */
-class AccordionItem extends React.Component {
+class AccordionItem extends React.PureComponent {
   render() {
     const {
       className = '',

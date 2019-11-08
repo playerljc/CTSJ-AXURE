@@ -14,7 +14,11 @@ import FontFamily from './stylefield/fontfamily/FontFamily';
 import LineHeight from './stylefield/lineHeight/LineHeight';
 import ZIndex from './stylefield/zindex/ZIndex';
 
+import Emitter from '../../../util/Emitter';
+import Actions from '../../../util/Actions';
+
 import './ComponentPropertyStyleTab.less';
+import ShapeModel from '../../../model/ShapeModel';
 
 const selectorPrefix = 'ComponentPropertyStyleTab';
 
@@ -89,10 +93,42 @@ const config = [
 class ComponentPropertyStyleTab extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      shape: props.shape,
+    };
+
+    // 组件的style发生变化
+    this.onShapeStyleChange = this.onShapeStyleChange.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      shape: nextProps.shape,
+    });
   }
 
   componentDidMount() {
+    Emitter.on(Actions.components.library.component.stylechange, this.onShapeStyleChange);
+  }
 
+  componentWillUnmount() {
+    Emitter.remove(Actions.components.library.component.stylechange, this.onShapeStyleChange);
+  }
+
+  /**
+   * onShapeStyleChange
+   * @param {String} - pageId
+   * @param {String} - componentId
+   */
+  onShapeStyleChange({
+    pageId,
+    componentId,
+  }) {
+    // console.log(pageId, componentId);
+    this.setState({
+      shape: ShapeModel.getShape({ pageId, componentId }),
+    });
   }
 
   /**
@@ -103,7 +139,8 @@ class ComponentPropertyStyleTab extends React.Component {
    * @return {ReactElement}
    */
   renderField({ name, type, Component }) {
-    const { form, shape } = this.props;
+    const { form } = this.props;
+    const { shape } = this.state;
     const FiledComponent = form.createField(Component, type);
 
     const defaultValue = shape.getProperty().style[type];
@@ -149,7 +186,6 @@ class ComponentPropertyStyleTab extends React.Component {
     return (
       <div className={`${selectorPrefix}`}>
         {this.renderFields()}
-        {/* <div>ComponentPropertyStyleTab</div> */}
       </div>
     );
   }

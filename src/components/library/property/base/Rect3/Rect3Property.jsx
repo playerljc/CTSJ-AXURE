@@ -8,7 +8,7 @@ import './Rect3Property.less';
  * @class Rect3Property
  * @classdesc Rect3Property
  */
-class Rect3Property extends React.Component {
+class Rect3Property extends React.PureComponent {
   render() {
     return (
       <div>Rect3Property</div>

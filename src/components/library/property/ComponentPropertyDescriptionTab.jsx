@@ -21,7 +21,7 @@ const selectorPrefix = 'ComponentPropertyDescriptionTab';
  * @class ComponentPropertyDescriptionTab
  * @classdesc ComponentPropertyDescriptionTab
  */
-class ComponentPropertyDescriptionTab extends React.Component {
+class ComponentPropertyDescriptionTab extends React.PureComponent {
   constructor(props) {
     super(props);
 

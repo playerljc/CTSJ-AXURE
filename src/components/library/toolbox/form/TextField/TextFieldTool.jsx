@@ -8,7 +8,7 @@ import './TextFieldTool.less';
  * @class TextFieldTool
  * @classdesc TextField
  */
-class TextFieldTool extends React.Component {
+class TextFieldTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (

@@ -9,11 +9,38 @@ import './Rect2Component.less';
  * @class Rect2Component
  * @classdesc Rect2Component
  */
-class Rect2Component extends React.Component {
+class Rect2Component extends React.PureComponent {
+  /**
+   * getStyle
+   * @return {Object}
+   */
+  getStyle() {
+    const {
+      property: {
+        style: {
+          fill: {
+            backgroundColor,
+          },
+        },
+      },
+    } = this.props;
+
+    return {
+      backgroundColor,
+    };
+  }
+
   render() {
-    const { selectorPrefix, groupKey, componentKey } = this.props;
+    const {
+      selectorPrefix,
+      groupKey,
+      componentKey,
+    } = this.props;
     return (
-      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} />
+      <div
+        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
+        style={this.getStyle()}
+      />
     );
   }
 }

@@ -13,7 +13,7 @@ const selectorPrefix = 'ToolBox';
  * @class ToolBox
  * @classdesc ToolBox
  */
-class ToolBox extends React.Component {
+class ToolBox extends React.PureComponent {
   renderInner() {
     const result = [];
     Config.forEach((group) => {

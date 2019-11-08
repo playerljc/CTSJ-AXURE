@@ -11,7 +11,7 @@ const selectorPrefix = 'CT-UI-Tab';
  * @class Tab
  * @classdesc Tab
  */
-class Tab extends React.Component {
+class Tab extends React.PureComponent {
   constructor(props) {
     super(props);
 

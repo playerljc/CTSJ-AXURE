@@ -25,13 +25,13 @@ const selectorPrefix = DRSPREFIX;
 
 /**
  * DRSHOC
- * @param {React.Component} Component
+ * @param {React.PureComponent} Component
  * @param {String} - groupKey
  * @param {String} - componentKey
- * @return {React.Component}
+ * @return {React.PureComponent}
  */
 export default (Component, { groupKey, componentKey }) => {
-  class DRSHOC extends React.Component {
+  class DRSHOC extends React.PureComponent {
     /**
      * constructor
      * @param {Object} - props
@@ -377,7 +377,64 @@ export default (Component, { groupKey, componentKey }) => {
         ShapeModel.removeShapeByPage(ShapeModel.getShape({ pageId, componentId }));
       }
 
-      Emitter.trigger(Actions.components.business.canvaspanel.addshape, { pageId, componentId });
+      Emitter.trigger(Actions.components.business.canvaspanel.removeshape, { pageId, componentId });
+    }
+
+    /**
+     * getStyle
+     * @return {Object}
+     */
+    getStyle() {
+      const {
+        active = false,
+        property: {
+          style: {
+            position: {
+              left,
+              top,
+            },
+            dimension: {
+              width,
+              height,
+            },
+            zIndex,
+          },
+        },
+      } = this.state;
+
+      return {
+        zIndex: active ? getMaxLevelNumber() : zIndex/* number */,
+        width: `${width}px`,
+        height: `${height}px`,
+        left: `${left}px`,
+        top: `${top}px`,
+        boxShadow: this.getBoxShadowStyle(),
+      };
+    }
+
+    getBoxShadowStyle() {
+      const {
+        property: {
+          style: {
+            shadow: {
+              inset,
+              outset,
+            },
+          },
+        },
+      } = this.state;
+
+      const boxShadow = [];
+
+      if (!inset.disabled) {
+        boxShadow.push(`inset ${inset.offsetX}px ${inset.offsetY}px ${inset.blurRadius}px ${inset.spreadRadius}px ${inset.color}`);
+      }
+
+      if (!outset.disabled) {
+        boxShadow.push(`${outset.offsetX}px ${outset.offsetY}px ${outset.blurRadius}px ${outset.spreadRadius}px ${outset.color}`);
+      }
+
+      return boxShadow.join(',');
     }
 
     /**
@@ -559,26 +616,9 @@ export default (Component, { groupKey, componentKey }) => {
      */
     render() {
       const {
-        // number = 1,
         pageId = '',
         componentId = '',
       } = this.props;
-
-      const {
-        property: {
-          style: {
-            position: {
-              left,
-              top,
-            },
-            dimension: {
-              width,
-              height,
-            },
-            zIndex,
-          },
-        },
-      } = this.state;
 
       const {
         active = false,
@@ -590,13 +630,7 @@ export default (Component, { groupKey, componentKey }) => {
             this.el = el;
           }}
           className={`${selectorPrefix} ${this.getDRSClassName()} ${this.getActiveClassName()}`}
-          style={{
-            zIndex: active ? getMaxLevelNumber() : zIndex/* number */,
-            width: `${width}px`,
-            height: `${height}px`,
-            left: `${left}px`,
-            top: `${top}px`,
-          }}
+          style={this.getStyle()}
           data-groupkey={groupKey}
           data-componentkey={componentKey}
           data-pageid={pageId}

@@ -31,12 +31,6 @@ export default (PropertyTabComponent) => {
       };
     }
 
-    componentWillReceiveProps(nextProps) {
-      this.setState({
-        property: Immutable.cloneDeep(nextProps.shape.getProperty()),
-      });
-    }
-
     onChange = (activeKey) => {
       this.setState({
         activeKey,

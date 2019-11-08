@@ -8,7 +8,7 @@ import './Rect2Tool.less';
  * @class Rect2Tool
  * @classdesc Rect2
  */
-class Rect2Tool extends React.Component {
+class Rect2Tool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (

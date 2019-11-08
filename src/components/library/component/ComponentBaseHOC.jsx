@@ -11,7 +11,7 @@ function getMaxLevelNumber() {
 export { getMaxLevelNumber };
 
 export default function (Component) {
-  return class extends React.Component {
+  return class extends React.PureComponent {
     componentDidMount() {
       const { getInstance } = this.props;
       if (getInstance) {

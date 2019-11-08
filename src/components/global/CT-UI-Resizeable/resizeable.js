@@ -516,7 +516,7 @@ class ResizeableGroup {
       self.resizeRightBottomDetail({ incrementWidth, incrementHeight });
     }
 
-
+    // 到了边界
     if (condition.left || condition.right || condition.top || condition.bottom) {
       if (condition.left || condition.right) {
         self.cur.baseWidth = self.cur.el.offsetWidth;
@@ -537,22 +537,39 @@ class ResizeableGroup {
       }
 
       if (onChange) {
-        onChange({ incrementWidth, incrementHeight, condition }, {
-          handler: (el, params) => {
-            return self.resizeCore(el, params);
+        onChange(
+          self.cur.el,
+          {
+            incrementWidth,
+            incrementHeight,
+            condition,
           },
-          context: self,
-        });
+          {
+            handler: (el, params) => {
+              return self.resizeCore(el, params);
+            },
+            context: self,
+          }
+        );
       }
 
       self.boundaryDetectionScroll(condition);
     } else if (onChange) {
-      onChange({ incrementWidth, incrementHeight, condition }, {
-        handler: (el, params) => {
-          return self.resizeCore(el, params);
+      // 没到边界
+      onChange(
+        self.cur.el,
+        {
+          incrementWidth,
+          incrementHeight,
+          condition,
         },
-        context: self,
-      });
+        {
+          handler: (el, params) => {
+            return self.resizeCore(el, params);
+          },
+          context: self,
+        }
+      );
     }
   }
 

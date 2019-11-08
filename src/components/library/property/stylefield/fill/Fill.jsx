@@ -1,16 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './Fill.less';
+import ColorPicker from '../../../../global/CT-UI-ColorPicker/ColorPicker';
+import { getMaxLevelNumber } from '../../../component/ComponentBaseHOC';
 
-const selectorPrefix = 'ComponentPropertyStyleTab-Fill';
+/**
+ * Fill
+ * @class Fill
+ * @classdesc 背景填充
+ */
+class Fill extends React.PureComponent {
+  constructor(props) {
+    super(props);
 
-class Fill extends React.Component {
+    const { value } = props;
+
+    this.state = {
+      ...value,
+    };
+  }
+
   render() {
+    const { backgroundColor } = this.state;
+
     return (
-      <div className={`${selectorPrefix}`}>
-        Fill
-      </div>
+      <ColorPicker
+        zIndex={window.parseInt(getMaxLevelNumber()) + 1}
+        color={backgroundColor}
+        onChange={(value) => {
+          return new Promise((resolve) => {
+            this.setState({
+              backgroundColor: value,
+            }, () => {
+              const { onChange } = this.props;
+              if (onChange) {
+                onChange({
+                  ...this.state,
+                });
+              }
+              resolve();
+            });
+          });
+        }}
+      />
     );
   }
 }

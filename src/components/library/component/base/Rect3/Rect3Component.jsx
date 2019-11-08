@@ -9,11 +9,39 @@ import './Rect3Component.less';
  * @class Rect3Component
  * @classdesc Rect3Component
  */
-class Rect3Component extends React.Component {
+class Rect3Component extends React.PureComponent {
+  /**
+   * getStyle
+   * @return {Object}
+   */
+  getStyle() {
+    const {
+      property: {
+        style: {
+          fill: {
+            backgroundColor,
+          },
+        },
+      },
+    } = this.props;
+
+    return {
+      backgroundColor,
+    };
+  }
+
   render() {
-    const { selectorPrefix, groupKey, componentKey } = this.props;
+    const {
+      selectorPrefix,
+      groupKey,
+      componentKey,
+    } = this.props;
+
     return (
-      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} />
+      <div
+        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
+        style={this.getStyle()}
+      />
     );
   }
 }

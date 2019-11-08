@@ -17,6 +17,8 @@ import {
 } from '../../../util/Constant';
 
 import './RangeSelect.less';
+import Emitter from '../../../util/Emitter';
+import Actions from '../../../util/Actions';
 
 const selectorPrefix = 'ct-axure-range-select-shape';
 
@@ -213,6 +215,33 @@ class RangeSelect {
       }
       // 让之前的元素进行显示
       el.style.display = 'flex';
+
+      if (changeEl) {
+        setTimeout(() => {
+          const {
+            offsetWidth: width,
+            offsetHeight: height,
+            offsetLeft: left,
+            offsetTop: top,
+            dataset: {
+              pageid: pageId,
+              componentid: componentId,
+            },
+          } = el;
+
+          const shape = ShapeModel.getShape({ pageId, componentId });
+          const { style } = shape.getProperty();
+          style.position = {
+            left,
+            top,
+          };
+          style.dimension = {
+            width,
+            height,
+          };
+          shape.setPropertyByProps('style', style);
+        }, 10);
+      }
     });
 
     this.el.parentElement.removeChild(this.el);

@@ -45,6 +45,8 @@ export default {
         unrangeselectactive: 'components-libary-component-unrangeselectactive',
         // Shape的属性变化
         propertychange: 'components-library-component-propertychange',
+        // Shape的style变化
+        stylechange: 'components-library-component-stylechange',
       },
     },
   },

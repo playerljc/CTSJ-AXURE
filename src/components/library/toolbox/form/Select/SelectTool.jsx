@@ -8,7 +8,7 @@ import './SelectTool.less';
  * @class SelectTool
  * @classdesc Select
  */
-class SelectTool extends React.Component {
+class SelectTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (

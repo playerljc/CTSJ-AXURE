@@ -5,7 +5,7 @@ import './LineHeight.less';
 
 const selectorPrefix = 'ComponentPropertyStyleTab-LineHeight';
 
-class LineHeight extends React.Component {
+class LineHeight extends React.PureComponent {
   render() {
     return (
       <div className={`${selectorPrefix}`}>

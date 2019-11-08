@@ -45,7 +45,7 @@ import './app.less';
 /**
  * App
  */
-class App extends React.Component {
+class App extends React.PureComponent {
   /**
    * App
    * @class App
@@ -61,6 +61,7 @@ class App extends React.Component {
     this.onPaste = this.onPaste.bind(this);
     this.onSelectAll = this.onSelectAll.bind(this);
     this.onMouseWheel = this.onMouseWheel.bind(this);
+    this.onRemoveShape = this.onRemoveShape.bind(this);
 
     this.onComponentActive = this.onComponentActive.bind(this);
     this.onUnComponentActive = this.onUnComponentActive.bind(this);
@@ -109,6 +110,7 @@ class App extends React.Component {
     Emitter.remove(Actions.components.business.canvaspanel.paste, this.onPaste);
     Emitter.remove(Actions.components.business.canvaspanel.selectall, this.onSelectAll);
     Emitter.remove(Actions.components.business.canvaspanel.mousewheel, this.onMouseWheel);
+    Emitter.remove(Actions.components.business.canvaspanel.removeshape, this.onRemoveShape);
 
     Emitter.remove(Actions.components.library.component.active, this.onComponentActive);
     Emitter.remove(Actions.components.library.component.unactive, this.onUnComponentActive);
@@ -124,6 +126,7 @@ class App extends React.Component {
     Emitter.on(Actions.components.business.canvaspanel.paste, this.onPaste);
     Emitter.on(Actions.components.business.canvaspanel.selectall, this.onSelectAll);
     Emitter.on(Actions.components.business.canvaspanel.mousewheel, this.onMouseWheel);
+    Emitter.on(Actions.components.business.canvaspanel.removeshape, this.onRemoveShape);
 
     Emitter.on(Actions.components.library.component.active, this.onComponentActive);
     Emitter.on(Actions.components.library.component.unactive, this.onUnComponentActive);
@@ -375,45 +378,87 @@ class App extends React.Component {
       },
       /**
        * 当resizeable有变化的时候
+       * @param {HTMLElement} - curEl
        * @param {number} - incrementWidth
        * @param {number} - incrementHeight
        * @param {Object} - condition
        * @param {Function} - callback
        * @return {boolean}
        */
-      onChange: ({ incrementWidth, incrementHeight, condition }, { handler, context }) => {
+      onChange: (
+        curEl,
+        {
+          incrementWidth,
+          incrementHeight,
+          condition,
+        },
+        {
+          handler,
+          context,
+        }
+      ) => {
+        const {
+          offsetWidth: width,
+          offsetHeight: height,
+          offsetLeft: left,
+          offsetTop: top,
+          dataset: {
+            pageid: pageId,
+            componentid: componentId,
+          },
+        } = curEl;
+
         const rangeSelect = this.rangeSelectMap.get(this.curPageId);
-        if (!rangeSelect) return false;
+        if (!rangeSelect) {
+          // 没有对rangeSelect进行处理
+          const shape = ShapeModel.getShape({ pageId, componentId });
+          const { style } = shape.getProperty();
+          style.position = {
+            left,
+            top,
+          };
+          style.dimension = {
+            width,
+            height,
+          };
+          shape.setPropertyByProps('style', style, () => {
+            Emitter.trigger(Actions.components.library.component.stylechange, {
+              pageId,
+              componentId,
+            });
+          });
+        } else {
+          // 对rangeSelect进行处理
+          const { children = [] } = rangeSelect;
+          children.forEach((entry) => {
+            const { el, baseWidth, baseHeight, clientX, clientY } = entry;
 
-        const { children = [] } = rangeSelect;
-        children.forEach((entry) => {
-          const { el, baseWidth, baseHeight, clientX, clientY } = entry;
+            handler.call(
+              context,
+              el,
+              {
+                baseWidth,
+                baseHeight,
+                clientX,
+                clientY,
+                incrementWidth,
+                incrementHeight,
+              }
+            );
 
-          handler.call(
-            context,
-            el,
-            {
-              baseWidth,
-              baseHeight,
-              clientX,
-              clientY,
-              incrementWidth,
-              incrementHeight,
+            if (condition.left || condition.right || condition.top || condition.bottom) {
+              if (condition.left || condition.right) {
+                entry.baseWidth = el.offsetWidth;
+                entry.clientX = el.offsetLeft;
+              }
+
+              if (condition.top || condition.bottom) {
+                entry.baseHeight = el.offsetHeight;
+                entry.clientY = el.offsetTop;
+              }
             }
-          );
-
-          if (condition.left || condition.right || condition.top || condition.bottom) {
-            if (condition.left || condition.right) {
-              entry.baseWidth = el.offsetWidth;
-              entry.clientX = el.offsetLeft;
-            }
-
-            if (condition.top || condition.bottom) {
-              entry.baseHeight = el.offsetHeight;
-              entry.clientY = el.offsetTop;
-            }
-          }
-        });
+          });
+        }
       },
     });
   }
@@ -1004,6 +1049,16 @@ class App extends React.Component {
    */
   onMouseWheel(scale) {
     this.setDRDSScale(scale);
+  }
+
+  /**
+   * onRemoveShape
+   * @param {String} - pageId
+   * @param {String} - componentId
+   */
+  onRemoveShape({ pageId, componentId }) {
+    this.clearRangeSelect();
+    this.clearCurPageActiveShape();
   }
 
   /**

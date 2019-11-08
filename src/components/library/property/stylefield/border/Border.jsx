@@ -1,15 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import BorderPicker from '../../../../global/CT-UI-BorderPicker/BorderPicker';
 
 import './Border.less';
 
 const selectorPrefix = 'ComponentPropertyStyleTab-Border';
 
-class Border extends React.Component {
+/**
+ * Border
+ * @class Border
+ * @classdesc 边框
+ */
+class Border extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    const {
+      value,
+    } = props;
+
+    this.state = { ...value };
+  }
+
   render() {
     return (
       <div className={`${selectorPrefix}`}>
-        Border
+        {/* <BorderPicker
+          {...this.state}
+          onChange={() => {
+
+          }}
+        /> */}
       </div>
     );
   }

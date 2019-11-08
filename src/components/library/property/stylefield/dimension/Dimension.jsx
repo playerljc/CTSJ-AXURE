@@ -12,15 +12,14 @@ const selectorPrefix = 'ComponentPropertyStyleTab-Dimension';
  * @class Dimension
  * @classdesc 尺寸
  */
-class Dimension extends React.Component {
+class Dimension extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const { value: { width, height } } = props;
+    const { value } = props;
 
     this.state = {
-      width,
-      height,
+      ...value,
     };
 
     this.onChangeWidth = this.onChangeWidth.bind(this);
@@ -28,11 +27,10 @@ class Dimension extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { value: { width, height } } = nextProps;
+    const { value } = nextProps;
 
     this.setState({
-      width,
-      height,
+      ...value,
     });
   }
 
@@ -45,11 +43,9 @@ class Dimension extends React.Component {
       width: Math.floor(e.target.value),
     }, () => {
       const { onChange } = this.props;
-      const { width, height } = this.state;
       if (onChange) {
         onChange({
-          width,
-          height,
+          ...this.state,
         });
       }
     });
@@ -64,11 +60,9 @@ class Dimension extends React.Component {
       height: Math.floor(e.target.value),
     }, () => {
       const { onChange } = this.props;
-      const { width, height } = this.state;
       if (onChange) {
         onChange({
-          width,
-          height,
+          ...this.state,
         });
       }
     });

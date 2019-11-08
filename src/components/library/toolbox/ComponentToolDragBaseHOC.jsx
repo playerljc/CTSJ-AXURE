@@ -7,7 +7,7 @@ import './ComponentToolDragBaseHOC.less';
 const selectorPrefix = `${DRSPREFIX}-tool-drag`;
 
 export default ({ groupKey, componentKey }) => {
-  return class extends React.Component {
+  return class extends React.PureComponent {
     render() {
       const Component = Register.get(groupKey).get(componentKey);
       return (

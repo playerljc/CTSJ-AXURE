@@ -8,7 +8,7 @@ import './SelectProperty.less';
  * @class SelectProperty
  * @classdesc SelectProperty
  */
-class SelectProperty extends React.Component {
+class SelectProperty extends React.PureComponent {
   render() {
     return (
       <div>SelectProperty</div>

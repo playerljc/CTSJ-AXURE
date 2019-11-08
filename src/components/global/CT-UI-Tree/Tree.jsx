@@ -12,7 +12,7 @@ const selectorPrefix = 'CT-UI-Tree';
  * @class Tree
  * @classdesc Tree
  */
-class Tree extends React.Component {
+class Tree extends React.PureComponent {
   renderChildren(data = []) {
     const { onDBClick, onActive } = this.props;
     return data.map((t) => {

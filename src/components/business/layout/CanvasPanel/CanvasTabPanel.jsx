@@ -59,7 +59,7 @@ const scaleCollection = [
 /**
  * CanvasTabPanel
  */
-class CanvasTabPanel extends React.Component {
+class CanvasTabPanel extends React.PureComponent {
   constructor(props) {
     super(props);
 

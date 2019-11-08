@@ -8,7 +8,7 @@ import PageModel from '../../../../model/PageModel';
 
 import './InteractivePanel.less';
 
-const { Component } = React;
+const { PureComponent } = React;
 
 const selectorPrefix = 'InteractivePanel';
 
@@ -17,7 +17,7 @@ const selectorPrefix = 'InteractivePanel';
  * @class InteractivePanel
  * @classdesc InteractivePanel
  */
-class InteractivePanel extends Component {
+class InteractivePanel extends PureComponent {
   constructor(props) {
     super(props);
 

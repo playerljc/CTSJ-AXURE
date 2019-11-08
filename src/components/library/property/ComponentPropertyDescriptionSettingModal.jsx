@@ -20,7 +20,7 @@ const selectPrefix = 'ComponentPropertyDescriptionSettingModal';
  * @class FieldTab
  * @classdesc FieldTab
  */
-class FieldTab extends React.Component {
+class FieldTab extends React.PureComponent {
   /**
    * constructor
    * @param {Object} - props
@@ -413,7 +413,7 @@ FieldTab.propTypes = {
  * @class SettingTab
  * @classdesc SettingTab
  */
-class SettingTab extends React.Component {
+class SettingTab extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -941,7 +941,7 @@ SettingTab.propTypes = {
  * @class ComponentPropertyDescriptionSettingModal
  * @classdesc ComponentPropertyDescriptionSettingModal
  */
-class ComponentPropertyDescriptionSettingModal extends React.Component {
+class ComponentPropertyDescriptionSettingModal extends React.PureComponent {
   constructor(props) {
     super(props);
 

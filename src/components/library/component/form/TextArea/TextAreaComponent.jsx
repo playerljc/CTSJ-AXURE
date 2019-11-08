@@ -10,7 +10,27 @@ import './TextAreaComponent.less';
  * @class TextAreaComponent
  * @classdesc TextAreaComponent
  */
-class TextAreaComponent extends React.Component {
+class TextAreaComponent extends React.PureComponent {
+  /**
+   * getStyle
+   * @return {Object}
+   */
+  getStyle() {
+    const {
+      property: {
+        style: {
+          fill: {
+            backgroundColor,
+          },
+        },
+      },
+    } = this.props;
+
+    return {
+      backgroundColor,
+    };
+  }
+
   render() {
     const { selectorPrefix, groupKey, componentKey } = this.props;
     return (
@@ -21,6 +41,7 @@ class TextAreaComponent extends React.Component {
           }}
           disabled
           className={`${selectorPrefix}-${groupKey}-${componentKey}-textarea`}
+          style={this.getStyle()}
         />
       </div>
     );

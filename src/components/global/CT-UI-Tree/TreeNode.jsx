@@ -12,7 +12,7 @@ const selectorPrefix = 'CT-UI-TreeNode';
  * @class TreeNode
  * @classdesc TreeNode
  */
-class TreeNode extends React.Component {
+class TreeNode extends React.PureComponent {
   onClick() {
     const { id, onActive, attributes } = this.props;
     if (onActive) {
