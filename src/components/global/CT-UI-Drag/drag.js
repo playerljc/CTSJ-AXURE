@@ -14,6 +14,7 @@
   onStart: [Function]
   onEnd: [Function]
   onClick: [Function]
+  onChange: [Function]
  }
 
  布局:
@@ -662,9 +663,10 @@ class Drag {
     e.stopPropagation();
 
     // 没有按下的时候
+    const sourceEl = getDragTarget(e.target);
+
     if (!self.isdown) {
       // 在目标上移动
-      const sourceEl = getDragTarget(e.target);
       if (sourceEl) {
         self.mouseenterEl = sourceEl;
         document.body.style.cursor = 'move';
@@ -766,6 +768,15 @@ class Drag {
       if (condition.left || condition.right || condition.top || condition.bottom) {
         boundaryDetectionScroll.call(self, condition);
       }
+    }
+
+    const { config } = this;
+
+    if (config.onChange) {
+      config.onChange({
+        left: self.sourceEl.offsetLeft,
+        top: self.sourceEl.offsetTop,
+      });
     }
 
     if (showGuide) {

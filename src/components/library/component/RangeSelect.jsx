@@ -17,8 +17,6 @@ import {
 } from '../../../util/Constant';
 
 import './RangeSelect.less';
-import Emitter from '../../../util/Emitter';
-import Actions from '../../../util/Actions';
 
 const selectorPrefix = 'ct-axure-range-select-shape';
 

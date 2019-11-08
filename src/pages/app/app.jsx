@@ -322,10 +322,24 @@ class App extends React.PureComponent {
         } else {
           // @todo 正常Shape点击
           const rangeSelect = this.rangeSelectMap.get(this.curPageId);
+
           if (componentId) {
-            // 如果拖动的是一个节点
-            this.clearRangeSelect();
-            this.componentActive({ pageId, componentId });
+            const shape = ShapeModel.getShape({ pageId, componentId });
+            const { style } = shape.getProperty();
+            style.position = {
+              left: curEl.offsetLeft,
+              top: curEl.offsetTop,
+            };
+            shape.setPropertyByProps('style', style, () => {
+              Emitter.trigger(Actions.components.library.component.stylechange, {
+                pageId,
+                componentId,
+              });
+
+              // 如果拖动的是一个节点
+              this.clearRangeSelect();
+              this.componentActive({ pageId, componentId });
+            });
           } else {
             // 如果拖动的是RangeSelect
             if (rangeSelect) {
@@ -337,7 +351,10 @@ class App extends React.PureComponent {
             }
           }
         }
-      },
+      }, /* ,
+      onChange({ left, top }) {
+
+      }, */
     });
   }
 
