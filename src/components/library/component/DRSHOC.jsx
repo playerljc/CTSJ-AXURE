@@ -412,6 +412,10 @@ export default (Component, { groupKey, componentKey }) => {
       };
     }
 
+    /**
+     * getBoxShadowStyle
+     * @returns {String}
+     */
     getBoxShadowStyle() {
       const {
         property: {

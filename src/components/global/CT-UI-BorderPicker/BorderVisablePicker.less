@@ -1,0 +1,95 @@
+.CT-UI-BorderPicker-BorderVisablePicker {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  padding: 5px;
+  background-color: #fff;
+
+  &.disabled {
+    background-color: rgba(0, 0, 0, .1);
+  }
+
+  &:hover {
+    background-color: rgba(0, 122, 255, .5);
+    border-color: #007aff;
+  }
+
+  > .CT-UI-BorderPicker-BorderVisablePicker-Inner {
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    position: relative;
+    border-left: 1px dashed #000;
+    border-right: 1px dashed #000;
+    border-top: 1px dashed #000;
+    border-bottom: 1px solid #000;
+  }
+
+  > .CT-UI-BorderPicker-BorderVisablePicker-Arrow {
+    color: #ccc;
+    font-size: 14px;
+    transform: rotate(90deg);
+  }
+}
+
+@size: 10px;
+
+.CT-UI-BorderPicker-BorderVisablePicker-Modal {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 10px auto;
+
+  > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Left,
+  > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Right,
+  > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Top,
+  > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Bottom {
+    position: absolute;
+    outline: 1px solid gray;
+    background-color: #ccc;
+    &.active {
+      outline: 1px solid #007aff;
+      background-color: rgba(0, 122, 255, 0.3);
+    }
+    &:hover {
+      outline: 1px solid #007aff;
+      background-color: rgba(0, 122, 255, 0.5);
+    }
+  }
+
+  > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Left,
+  > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Right {
+    width: @size;
+    height: 80%;
+    top: 50%;
+    transform: translate3d(0,-50%,0);
+  }
+
+  > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Top,
+  > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Bottom {
+    width: 80%;
+    height: @size;
+    left: 50%;
+    transform: translate3d(-50%,0,0);
+  }
+
+  > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Left {
+    left: -@size/2;
+  }
+  > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Right {
+    right: -@size/2;
+  }
+  > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Top {
+    top: -@size/2;
+  }
+  > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Bottom {
+    bottom: -@size/2;
+  }
+}

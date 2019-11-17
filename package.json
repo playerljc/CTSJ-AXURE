@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/playerljc/CTSJ-AXURE#readme",
   "devDependencies": {
+    "@ctsj/build": "^1.0.13",
     "babel-eslint": "^8.1.2",
     "eslint": "^4.14.0",
     "eslint-config-airbnb": "^16.0.0",

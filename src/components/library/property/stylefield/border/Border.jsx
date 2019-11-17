@@ -22,15 +22,28 @@ class Border extends React.PureComponent {
     this.state = { ...value };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const {
+      value,
+    } = nextProps;
+
+    this.setState({
+      ...value,
+    });
+  }
+
   render() {
+    const { onChange } = this.props;
     return (
       <div className={`${selectorPrefix}`}>
-        {/* <BorderPicker
+        <BorderPicker
           {...this.state}
-          onChange={() => {
-
+          onChange={(border) => {
+            if (onChange) {
+              onChange(border);
+            }
           }}
-        /> */}
+        />
       </div>
     );
   }

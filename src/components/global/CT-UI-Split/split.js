@@ -335,6 +335,7 @@ class Split {
    * @param {MouseEvent} - e
    */
   onMainMouseDown(e) {
+    e.preventDefault();
     const self = this;
     const { disable = false } = self;
 
@@ -373,6 +374,7 @@ class Split {
    * @param {MouseEvent} - e
    */
   onMainMouseMove(e) {
+    e.preventDefault();
     const self = this;
     const { disable = false } = self;
 
@@ -453,6 +455,7 @@ class Split {
    * @param {MouseEvent} - e
    */
   onMainMouseLeave(e) {
+    e.preventDefault();
     const self = this;
     const { disable = false } = self;
 
@@ -474,6 +477,7 @@ class Split {
    * @param {MouseEvent} - e
    */
   onElMouseMove(e) {
+    e.preventDefault();
     const self = this;
     const { disable = false } = self;
 
@@ -563,7 +567,8 @@ class Split {
   /**
    * onElMouseUp
    */
-  onElMouseUp() {
+  onElMouseUp(e) {
+    e.preventDefault();
     const self = this;
     const { disable = false } = self;
 

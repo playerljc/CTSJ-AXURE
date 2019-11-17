@@ -1,0 +1,65 @@
+.CT-UI-BorderPicker-BorderStylePicker {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  padding: 5px;
+  background-color: #fff;
+
+  &.disabled {
+    background-color: rgba(0, 0, 0, .1);
+  }
+
+  &:hover {
+    background-color: rgba(0, 122, 255, .5);
+    border-color: #007aff;
+  }
+
+  > .CT-UI-BorderPicker-BorderStylePicker-Inner {
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+    border: 1px solid #000;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    > div {
+      width: 100%;
+      &:not(:last-child) {
+        margin-bottom: 3px;
+      }
+    }
+  }
+
+  > .CT-UI-BorderPicker-BorderStylePicker-Arrow {
+    color: #ccc;
+    font-size: 14px;
+    transform: rotate(90deg);
+  }
+}
+
+
+.CT-UI-BorderPicker-BorderStylePicker-Modal {
+  list-style: none;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 0;
+  > li {
+    display: flex;
+    align-items: center;
+    height: 20px;
+    line-height: 20px;
+    &.active {
+      background-color: rgba(0, 122, 255, 0.3);
+    }
+    &:hover {
+      background-color: rgba(0, 122, 255, 0.3);
+    }
+    > div {
+      width: 100%;
+    }
+  }
+}

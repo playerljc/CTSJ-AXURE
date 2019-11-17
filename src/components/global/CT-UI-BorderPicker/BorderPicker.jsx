@@ -127,10 +127,10 @@ class BorderPicker extends React.PureComponent {
             borderTopDisable={borderTopDisable}
             borderBottomDisable={borderBottomDisable}
             onChange={({
-                         changeBorderLeftDisable,
-                         changeBorderRightDisable,
-                         changeBorderTopDisable,
-                         changeBorderBottomDisable,
+                         borderLeftDisable: changeBorderLeftDisable,
+                         borderRightDisable: changeBorderRightDisable,
+                         borderTopDisable: changeBorderTopDisable,
+                         borderBottomDisable: changeBorderBottomDisable,
                        }) => {
               this.setState({
                 borderLeftDisable: changeBorderLeftDisable,

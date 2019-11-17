@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Modal from '../CT-UI-Modal/modal';
+import { getMaxLevelNumber } from '../../library/component/ComponentBaseHOC';
+
+import './BorderWidthPicker.less';
 
 const selectorPrefix = 'CT-UI-BorderPicker-BorderWidthPicker';
 
@@ -13,16 +17,17 @@ const widthConfig = [0, 1, 2, 3, 4, 5];
  */
 class BorderWidthPickerModal extends React.PureComponent {
   render() {
+    const { borderWidth, onChange } = this.props;
     return (
       <ul className={`${selectorPrefix}-Modal`}>
         {widthConfig.map((t, index) => {
           return (
             <li
               key={index + 1}
-              className={this.props.borderWidth == t ? 'active' : ''}
-              onChange={() => {
-                if (this.props.onChange) {
-                  this.props.onChange(t);
+              className={borderWidth == t ? 'active' : ''}
+              onClick={() => {
+                if (onChange) {
+                  onChange(t);
                 }
               }}
             >
@@ -66,7 +71,11 @@ class BorderWidthPicker extends React.PureComponent {
   }
 
   onArrowClick() {
-    const { zIndex = 9999, borderWidth } = this.props;
+    const {
+      zIndex = window.parseInt(getMaxLevelNumber()) + 10,
+      borderWidth,
+      onChange,
+    } = this.props;
 
     const modal = Modal.open({
       title: 'borderWidthSetting',
@@ -79,6 +88,9 @@ class BorderWidthPicker extends React.PureComponent {
             this.setState({
               borderWidth: width,
             }, () => {
+              if (onChange) {
+                onChange(width);
+              }
               Modal.close(modal);
             });
           }}
@@ -94,6 +106,14 @@ class BorderWidthPicker extends React.PureComponent {
     });
   }
 
+  renderInner() {
+    const rels = [];
+    for (let i = 3; i >= 1; i--) {
+      rels.push(<div key={i} style={{ height: i }} />);
+    }
+    return rels;
+  }
+
   render() {
     return (
       <div
@@ -103,9 +123,7 @@ class BorderWidthPicker extends React.PureComponent {
         <div
           className={`${selectorPrefix}-Inner`}
         >
-          <div />
-          <div />
-          <div />
+          {this.renderInner()}
         </div>
         <div
           className={`fa fa-caret-right ${selectorPrefix}-Arrow`}

@@ -754,7 +754,7 @@ class ResizeableGroup {
    * @param left
    * @param incrementHeight
    */
-  resizeLeftBottomDetail({incrementWidth, left, incrementHeight}) {
+  resizeLeftBottomDetail({ incrementWidth, left, incrementHeight }) {
     this.resizeLeftDetail({ incrementWidth, left }, false);
     this.resizeBottomDetail(incrementHeight, false);
     document.body.style.cursor = 'sw-resize';
@@ -766,7 +766,7 @@ class ResizeableGroup {
    * @param incrementHeight
    * @param top
    */
-  resizeRightTopDetail({incrementWidth, incrementHeight, top}) {
+  resizeRightTopDetail({ incrementWidth, incrementHeight, top }) {
     this.resizeRightDetail(incrementWidth, false);
     this.resizeTopDetail({ incrementHeight, top }, false);
     document.body.style.cursor = 'ne-resize';
@@ -777,7 +777,7 @@ class ResizeableGroup {
    * @param incrementWidth
    * @param incrementHeight
    */
-  resizeRightBottomDetail({incrementWidth, incrementHeight}) {
+  resizeRightBottomDetail({ incrementWidth, incrementHeight }) {
     this.resizeRightDetail(incrementWidth, false);
     this.resizeBottomDetail(incrementHeight, false);
     document.body.style.cursor = 'se-resize';
