@@ -186,7 +186,6 @@ class BorderVisablePicker extends React.PureComponent {
         <BorderVisablePickerModal
           {...other}
           onChange={(value) => {
-            debugger
             this.setState({
               ...value,
             }, () => {

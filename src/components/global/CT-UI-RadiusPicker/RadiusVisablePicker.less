@@ -1,0 +1,111 @@
+.CT-UI-RadiusPicker-RadiusVisablePicker {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  padding: 5px;
+  background-color: #fff;
+
+  &.disabled {
+    background-color: rgba(0, 0, 0, .1);
+  }
+
+  &:hover {
+    background-color: rgba(0, 122, 255, .5);
+    border-color: #007aff;
+  }
+
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Inner {
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    position: relative;
+    border: 1px solid #000;
+    border-top-left-radius: 10px;
+  }
+
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Arrow {
+    color: #ccc;
+    font-size: 14px;
+    transform: rotate(90deg);
+  }
+}
+
+@size: 10px;
+
+.CT-UI-RadiusPicker-RadiusVisablePicker-Modal {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 10px auto;
+  border: 1px solid #000;
+  box-sizing: border-box;
+
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-LeftTop,
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-RightTop,
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-LeftBottom,
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-RightBottom {
+    position: absolute;
+    outline: 1px solid gray;
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 40%;
+    height: 40%;
+
+    &.active {
+      outline: 1px solid #007aff;
+      background-color: rgba(0, 122, 255, 0.3);
+    }
+
+    &:hover {
+      outline: 1px solid #007aff;
+      background-color: rgba(0, 122, 255, 0.5);
+    }
+  }
+
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-LeftTop,
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-RightTop {
+    top: 0;
+  }
+
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-LeftBottom,
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-RightBottom {
+    bottom: 0;
+  }
+
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-LeftTop,
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-LeftBottom {
+    left: 0;
+  }
+
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-RightTop,
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-RightBottom {
+    right: 0;
+  }
+
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-LeftTop {
+    transform: translate3d(-50%,-50%,0);
+  }
+
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-RightTop {
+    transform: translate3d(50%,-50%,0);
+  }
+
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-LeftBottom {
+    transform: translate3d(-50%,50%,0);
+  }
+
+  > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-RightBottom {
+    transform: translate3d(50%,50%,0);
+  }
+
+}
+
+.CT-UI-RadiusPicker-RadiusVisablePicker-Modal-ViablePicker {
+  padding: 20px;
+}

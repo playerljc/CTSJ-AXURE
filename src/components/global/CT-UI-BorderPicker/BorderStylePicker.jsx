@@ -70,7 +70,7 @@ class BorderStylePickerModal extends React.PureComponent {
 }
 
 BorderStylePickerModal.propTypes = {
-  borderStyle: PropTypes.number,
+  borderStyle: PropTypes.string,
   onChange: PropTypes.func,
 };
 

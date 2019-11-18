@@ -402,14 +402,18 @@ export default (Component, { groupKey, componentKey }) => {
         },
       } = this.state;
 
-      return {
-        zIndex: active ? getMaxLevelNumber() : zIndex/* number */,
-        width: `${width}px`,
-        height: `${height}px`,
-        left: `${left}px`,
-        top: `${top}px`,
-        boxShadow: this.getBoxShadowStyle(),
-      };
+      return Object.assign(
+        {
+          zIndex: active ? getMaxLevelNumber() : zIndex,
+          width: `${width}px`,
+          height: `${height}px`,
+          left: `${left}px`,
+          top: `${top}px`,
+          boxShadow: this.getBoxShadowStyle(),
+        },
+        this.getBorderStyle(),
+        this.getBorderRadiusStyle(),
+      );
     }
 
     /**
@@ -439,6 +443,62 @@ export default (Component, { groupKey, componentKey }) => {
       }
 
       return boxShadow.join(',');
+    }
+
+    /**
+     * getBorderStyle
+     * @returns {Object}
+     */
+    getBorderStyle() {
+      const {
+        property: {
+          style: {
+            border: {
+              borderLeftDisable,
+              borderRightDisable,
+              borderTopDisable,
+              borderBottomDisable,
+              borderWidth,
+              borderStyle,
+              borderColor,
+            },
+          },
+        },
+      } = this.state;
+
+      return Object.assign({},
+        !borderLeftDisable ? { borderLeft: `${borderWidth}px ${borderStyle} ${borderColor}` } : null,
+        !borderRightDisable ? { borderRight: `${borderWidth}px ${borderStyle} ${borderColor}` } : null,
+        !borderTopDisable ? { borderTop: `${borderWidth}px ${borderStyle} ${borderColor}` } : null,
+        !borderBottomDisable ? { borderBottom: `${borderWidth}px ${borderStyle} ${borderColor}` } : null,
+      );
+    }
+
+    /**
+     * getBorderRadiusStyle
+     * @return {Object}
+     */
+    getBorderRadiusStyle() {
+      const {
+        property: {
+          style: {
+            radius: {
+              borderLeftTopRadiusDisable,
+              borderRightTopRadiusDisable,
+              borderLeftBottomRadiusDisable,
+              borderRightBottomRadiusDisable,
+              radius,
+            },
+          },
+        },
+      } = this.state;
+
+      return Object.assign({},
+        !borderLeftTopRadiusDisable ? { borderTopLeftRadius: `${radius}px` } : null,
+        !borderRightTopRadiusDisable ? { borderTopRightRadius: `${radius}px` } : null,
+        !borderLeftBottomRadiusDisable ? { borderBottomLeftRadius: `${radius}px` } : null,
+        !borderRightBottomRadiusDisable ? { borderBottomRightRadius: `${radius}px` } : null,
+      );
     }
 
     /**

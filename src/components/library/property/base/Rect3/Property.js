@@ -46,8 +46,11 @@ export default () => ({
     },
     radius: {
       /* --- 圆角 ---*/
-      // borderRadius
-      borderRadius: '',
+      borderLeftTopRadiusDisable: true,
+      borderRightTopRadiusDisable: true,
+      borderLeftBottomRadiusDisable: true,
+      borderRightBottomRadiusDisable: true,
+      radius: 0,
     },
     /* ---透明度---*/
     // opacity

@@ -39,20 +39,21 @@ class ModalComponent extends React.PureComponent {
     const {
       title = '',
       zIndex = 9999,
-
       minWidth = '60%',
       maxWidth = '80%',
       minHeight,
       maxHeight = '80%',
       width,
       height,
-
       mask = true,
+      innerClass = '',
+      titleClass = '',
+      contentClass = '',
+      buttonsClass = '',
       component,
       xscroll = true,
       yscroll = true,
     } = this.props;
-
 
     return (
       <div
@@ -70,7 +71,7 @@ class ModalComponent extends React.PureComponent {
         }}
       >
         <div
-          className={`${selectorPrefix}-Inner`}
+          className={`${selectorPrefix}-Inner ${innerClass}`}
           style={{
             minWidth,
             maxWidth,
@@ -80,16 +81,24 @@ class ModalComponent extends React.PureComponent {
             height,
           }}
         >
-          <div className={`${selectorPrefix}-Title`}>{title}</div>
-          <div className={`${selectorPrefix}-Content ${xscroll ? 'XScroll' : ''} ${yscroll ? 'YScroll' : ''}`}>
+          <div className={`${selectorPrefix}-Title ${titleClass}`}>{title}</div>
+          <div className={`${selectorPrefix}-Content ${xscroll ? 'XScroll' : ''} ${yscroll ? 'YScroll' : ''} ${contentClass}`}>
             {component}
           </div>
-          <div className={`${selectorPrefix}-Buttons`}>{this.renderButtons()}</div>
+          <div className={`${selectorPrefix}-Buttons ${buttonsClass}`}>{this.renderButtons()}</div>
         </div>
       </div>
     );
   }
 }
+
+// 指定 props 的默认值：
+ModalComponent.defaultProps = {
+  innerClass: '',
+  titleClass: '',
+  contentClass: '',
+  buttonsClass: '',
+};
 
 ModalComponent.propTypes = {
   title: PropTypes.string,
@@ -102,6 +111,10 @@ ModalComponent.propTypes = {
   height: PropTypes.string,
   zIndex: PropTypes.number,
   mask: PropTypes.bool,
+  innerClass: PropTypes.string,
+  titleClass: PropTypes.string,
+  contentClass: PropTypes.string,
+  buttonsClass: PropTypes.string,
   buttons: PropTypes.array,
   xscroll: PropTypes.bool,
   yscroll: PropTypes.bool,
