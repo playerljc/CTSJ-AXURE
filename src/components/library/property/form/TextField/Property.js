@@ -53,7 +53,7 @@ export default () => ({
     },
     /* ---透明度---*/
     // opacity
-    opacity: 1,
+    opacity: 100,
     /* ---字体---*/
     fontfamily: {
       // fontFamily
