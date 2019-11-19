@@ -543,11 +543,10 @@ export default (Component, { groupKey, componentKey }) => {
         },
       } = this.state;
 
-
       return Object.assign({
         fontFamily,
         fontSize: `${fontSize}px`,
-        fontWeight: fontWeight ? 'blob' : 'normal',
+        fontWeight: fontWeight ? 'bold' : 'normal',
         fontStyle: fontStyle ? 'italic' : 'normal',
         textDecoration: textDecoration ? 'underline' : 'none',
         color,
