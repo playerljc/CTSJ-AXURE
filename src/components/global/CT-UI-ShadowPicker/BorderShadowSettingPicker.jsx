@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Immutable } from '../../../../../util/CTMobile-UI-Util';
-import { Input } from '../../../../global/CT-UI-Form/index';
-import ColorPicker from '../../../../global/CT-UI-ColorPicker/ColorPicker';
-import { getMaxLevelNumber } from '../../../component/ComponentBaseHOC';
+import { Immutable } from '../../../util/CTMobile-UI-Util';
+import { Input } from '../../global/CT-UI-Form/index';
+import ColorPicker from '../../global/CT-UI-ColorPicker/ColorPicker';
+import { getMaxLevelNumber } from '../../library/component/ComponentBaseHOC';
 
-import './ShadowSetting.less';
+import './BorderShadowSettingPicker.less';
 
-const selectorPrefix = 'ComponentPropertyStyleTab-ShadowSetting';
+const selectorPrefix = 'CT-UI-BorderShadowSettingPicker';
 
 /**
- * ShadowSetting
- * @class ShadowSetting
- * @classdesc ShadowSetting
+ * BorderShadowSettingPicker
+ * @class BorderShadowSettingPicker
+ * @classdesc 边框阴影设置
  */
-class ShadowSetting extends React.PureComponent {
+class BorderShadowSettingPicker extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -67,8 +67,8 @@ class ShadowSetting extends React.PureComponent {
                   type="checkbox"
                   checked={!disabled}
                   onChange={(e) => {
-                    this.onChange('disabled', !e.target.checked);
-                  }}
+                  this.onChange('disabled', !e.target.checked);
+                }}
                 />
               </td>
             </tr>
@@ -119,11 +119,11 @@ class ShadowSetting extends React.PureComponent {
                   color={color}
                   zIndex={window.parseInt(getMaxLevelNumber()) + 2}
                   onChange={(value) => {
-                    return new Promise((resolve) => {
-                      this.onChange('color', value);
-                      resolve();
-                    });
-                  }}
+                  return new Promise((resolve) => {
+                    this.onChange('color', value);
+                    resolve();
+                  });
+                }}
                 />
               </td>
             </tr>
@@ -134,7 +134,7 @@ class ShadowSetting extends React.PureComponent {
   }
 }
 
-ShadowSetting.propTypes = {
+BorderShadowSettingPicker.propTypes = {
   type: PropTypes.oneOf(['inset', 'outset']),
   disabled: PropTypes.bool,
   offsetX: PropTypes.number,
@@ -145,4 +145,4 @@ ShadowSetting.propTypes = {
   onChange: PropTypes.func,
 };
 
-export default ShadowSetting;
+export default BorderShadowSettingPicker;

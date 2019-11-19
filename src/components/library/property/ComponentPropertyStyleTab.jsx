@@ -6,7 +6,7 @@ import { create } from '../../global/CT-UI-Form/form';
 import Position from './stylefield/position/Position';
 import Dimension from './stylefield/dimension/Dimension';
 import Fill from './stylefield/fill/Fill';
-import Shadow from './stylefield/shadow/Shadow';
+import ShadowBack from './stylefield/shadow/Shadow';
 import Border from './stylefield/border/Border';
 import Radius from './stylefield/radius/Radius';
 import Opacity from './stylefield/opacity/Opacity';
@@ -45,7 +45,7 @@ const config = [
     // 阴影
     name: 'shadow',
     type: 'shadow',
-    Component: Shadow,
+    Component: ShadowBack,
   },
   {
     // 边框

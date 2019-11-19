@@ -1,0 +1,30 @@
+.CT-UI-TextShadowPicker {
+  display: flex;
+  .CT-UI-TextShadowPicker-Item{
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    padding: 5px;
+    background-color: #fff;
+
+    &:hover {
+      background-color: rgba(0, 122, 255, .5);
+      border-color: #007aff;
+    }
+
+    > .CT-UI-TextShadowPicker-Color {
+      font-size: 18px;
+      text-shadow: 2px 2px 2px rgba(0,0,0,.5);
+      box-sizing: border-box;
+      margin-right: 10px;
+      color: #bbbbbb;
+    }
+
+    > .CT-UI-TextShadowPicker-Arrow {
+      color: #ccc;
+      font-size: 14px;
+      transform: rotate(90deg);
+    }
+  }
+}

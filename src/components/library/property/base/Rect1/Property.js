@@ -57,18 +57,31 @@ export default () => ({
     opacity: 100,
     /* ---字体---*/
     fontfamily: {
-      // fontFamily
+      // fontFamily 字体
       fontFamily: '',
-      // fontSize
+      // fontSize 大小
       fontSize: 0,
-      // fontWeight
-      fontWeight: '',
-      // fontStyle
-      fontStyle: '',
-      // textDecoration
-      textDecoration: '',
-      // color
+      // fontWeight 加粗
+      fontWeight: false,
+      // fontStyle 倾斜
+      fontStyle: false,
+      // textDecoration 下划线
+      textDecoration: false,
+      // color 颜色
       color: '',
+      // 阴影
+      textShadow: {
+        // 是否启用
+        disabled: true,
+        // 水平阴影的位置
+        hShadow: 0,
+        // 垂直阴影的位置
+        vShadow: 0,
+        // 模糊的距离
+        blur: 0,
+        // 颜色
+        color: '#fff',
+      },
     },
     /* ---行间距---*/
     // lineHeight

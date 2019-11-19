@@ -415,6 +415,7 @@ export default (Component, { groupKey, componentKey }) => {
         },
         this.getBorderStyle(),
         this.getBorderRadiusStyle(),
+        this.getFontFamilyStyle(),
       );
     }
 
@@ -500,6 +501,58 @@ export default (Component, { groupKey, componentKey }) => {
         !borderRightTopRadiusDisable ? { borderTopRightRadius: `${radius}px` } : null,
         !borderLeftBottomRadiusDisable ? { borderBottomLeftRadius: `${radius}px` } : null,
         !borderRightBottomRadiusDisable ? { borderBottomRightRadius: `${radius}px` } : null,
+      );
+    }
+
+    /**
+     * getFontFamilyStyle
+     * @return {Object}
+     */
+    getFontFamilyStyle() {
+      const {
+        property: {
+          style: {
+            fontfamily: {
+              // fontFamily 字体
+              fontFamily,
+              // fontSize 大小
+              fontSize,
+              // fontWeight 加粗
+              fontWeight,
+              // fontStyle 倾斜
+              fontStyle,
+              // textDecoration 下划线
+              textDecoration,
+              // color 颜色
+              color,
+              // 阴影
+              textShadow: {
+                // 是否启用
+                disabled,
+                // 水平阴影的位置
+                hShadow,
+                // 垂直阴影的位置
+                vShadow,
+                // 模糊的距离
+                blur,
+                // 颜色
+                color: shadowColor,
+              },
+            },
+          },
+        },
+      } = this.state;
+
+
+      return Object.assign({
+        fontFamily,
+        fontSize: `${fontSize}px`,
+        fontWeight: fontWeight ? 'blob' : 'normal',
+        fontStyle: fontStyle ? 'italic' : 'normal',
+        textDecoration: textDecoration ? 'underline' : 'none',
+        color,
+      },
+      !disabled ? { textShadow: `${hShadow}px ${vShadow}px ${blur}px ${shadowColor}` } : null
       );
     }
 
