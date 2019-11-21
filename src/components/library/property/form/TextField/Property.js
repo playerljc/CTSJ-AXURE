@@ -84,9 +84,9 @@ export default () => ({
     },
     /* ---行间距---*/
     // lineHeight
-    lineHeight: '',
+    lineheight: '',
     /* ---层级---*/
-    zIndex: 9999,
+    zindex: 9999,
   },
   // 说明
   description: {

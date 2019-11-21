@@ -398,20 +398,22 @@ export default (Component, { groupKey, componentKey }) => {
               height,
             },
             opacity,
-            zIndex,
+            lineheight,
+            zindex,
           },
         },
       } = this.state;
 
       return Object.assign(
         {
-          zIndex: active ? getMaxLevelNumber() : zIndex,
+          zIndex: active ? getMaxLevelNumber() : zindex,
           width: `${width}px`,
           height: `${height}px`,
           left: `${left}px`,
           top: `${top}px`,
           boxShadow: this.getBoxShadowStyle(),
           opacity: opacity / 100,
+          lineHeight: lineheight,
         },
         this.getBorderStyle(),
         this.getBorderRadiusStyle(),
