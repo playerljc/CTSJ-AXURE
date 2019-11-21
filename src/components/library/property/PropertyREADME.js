@@ -88,6 +88,21 @@ export default {
     lineheight: '',
     /* ---层级---*/
     zindex: 9999,
+    /* ---对其---*/
+    align: {
+      // 水平左
+      hleft: false,
+      // 水平右
+      hright: false,
+      // 水平居中
+      hcenter: true,
+      // 垂直上
+      vtop: false,
+      // 垂直居中
+      vcenter: true,
+      // 垂直下
+      vbottom: false,
+    },
   },
   // 说明
   description: {

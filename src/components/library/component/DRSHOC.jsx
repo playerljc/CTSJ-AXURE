@@ -418,6 +418,7 @@ export default (Component, { groupKey, componentKey }) => {
         this.getBorderStyle(),
         this.getBorderRadiusStyle(),
         this.getFontFamilyStyle(),
+        this.getAlignStyle(),
       );
     }
 
@@ -555,6 +556,41 @@ export default (Component, { groupKey, componentKey }) => {
       },
       !disabled ? { textShadow: `${hShadow}px ${vShadow}px ${blur}px ${shadowColor}` } : null
       );
+    }
+
+    /**
+     * getAlignStyle
+     * @return {Object}
+     */
+    getAlignStyle() {
+      const {
+        property: {
+          style: {
+            /* ---对其---*/
+            align: {
+              // 水平左
+              hleft,
+              // 水平右
+              hright,
+              // 水平居中
+              hcenter,
+
+              // 垂直上
+              vtop,
+              // 垂直居中
+              vcenter,
+              // 垂直下
+              vbottom,
+            },
+          },
+        },
+      } = this.state;
+
+      return {
+        display: 'flex',
+        justifyContent: hleft ? 'flex-start' : (hcenter ? 'center' : 'flex-end'),
+        alignItems: vtop ? 'flex-start' : (vcenter ? 'center' : 'flex-end'),
+      };
     }
 
     /**

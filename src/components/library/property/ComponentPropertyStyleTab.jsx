@@ -13,6 +13,7 @@ import Opacity from './stylefield/opacity/Opacity';
 import FontFamily from './stylefield/fontfamily/FontFamily';
 import LineHeight from './stylefield/lineHeight/LineHeight';
 import ZIndex from './stylefield/zindex/ZIndex';
+import Align from './stylefield/align/Align';
 
 import Emitter from '../../../util/Emitter';
 import Actions from '../../../util/Actions';
@@ -82,6 +83,12 @@ const config = [
     name: 'zindex',
     type: 'zindex',
     Component: ZIndex,
+  },
+  {
+    // 对齐
+    name: 'align',
+    type: 'align',
+    Component: Align,
   },
 ];
 
