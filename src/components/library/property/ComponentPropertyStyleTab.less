@@ -1,23 +1,34 @@
-.ComponentPropertyStyleTab-GridList {
-  padding: 0;
-  margin: 0;
+.ComponentPropertyStyleTab {
+  padding: 0 20px;
 
-  > .g-listview-item {
-    display: flex;
-    align-items: flex-start;
-    background-color: #fff;
-    padding: 10px;
-    
-    > .ComponentPropertyStyleTab-GridList-Label {
-      flex-shrink: 0;
-    }
+  > .ComponentPropertyStyleTab-GridList {
+    border-collapse: collapse;
 
-    > .ComponentPropertyStyleTab-GridList-Value {
-      flex-grow: 1;
-      min-width: 0;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-start;
+    > tbody {
+      > tr {
+        &:not(:last-child) {
+          border-bottom:solid 1px #d0dee5;
+        }
+      }
     }
   }
+
+  //> .g-listview-item {
+  //  display: flex;
+  //  align-items: flex-start;
+  //  background-color: #fff;
+  //  padding: 10px;
+  //
+  //  > .ComponentPropertyStyleTab-GridList-Label {
+  //    flex-shrink: 0;
+  //  }
+  //
+  //  > .ComponentPropertyStyleTab-GridList-Value {
+  //    flex-grow: 1;
+  //    min-width: 0;
+  //    display: flex;
+  //    justify-content: flex-end;
+  //    align-items: flex-start;
+  //  }
+  //}
 }

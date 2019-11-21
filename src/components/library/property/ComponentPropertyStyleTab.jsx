@@ -153,12 +153,12 @@ class ComponentPropertyStyleTab extends React.Component {
     const defaultValue = shape.getProperty().style[type];
 
     return (
-      <li
+      <tr
         className="g-listview-item"
         key={type}
       >
-        <div className={`${selectorPrefix}-GridList-Label`}>{name}</div>
-        <div className={`${selectorPrefix}-GridList-Value`}>
+        <td className={`${selectorPrefix}-GridList-Label`}>{name}</td>
+        <td className={`${selectorPrefix}-GridList-Value`}>
           <FiledComponent
             value={defaultValue}
             onChange={(value) => {
@@ -167,8 +167,8 @@ class ComponentPropertyStyleTab extends React.Component {
               shape.setPropertyByProps('style', style);
             }}
           />
-        </div>
-      </li>
+        </td>
+      </tr>
     );
   }
 
@@ -182,7 +182,11 @@ class ComponentPropertyStyleTab extends React.Component {
       fieldElementArr.push(this.renderField(t));
     });
     return (
-      <ul className={`${selectorPrefix}-GridList g-listview`}>{fieldElementArr}</ul>
+      <table className={`${selectorPrefix}-GridList`} cellPadding={20} >
+        <tbody>
+          {fieldElementArr}
+        </tbody>
+      </table>
     );
   }
 
