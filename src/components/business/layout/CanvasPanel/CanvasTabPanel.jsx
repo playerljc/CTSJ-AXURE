@@ -336,8 +336,11 @@ class CanvasTabPanel extends React.PureComponent {
       <div
         className={`${selectorPrefix} ${activePageId === pageId ? `${DROPPABLESELECTORPREFIX}-target` : ''}`}
         data-pageid={pageId}
-        style={this.getStyle()}
       >
+        <div
+          className={`${selectorPrefix}-Background`}
+          style={this.getStyle()}
+        />
         <div
           className={`${selectorPrefix}-Scroll ${activePageId === pageId ? this.getDRSClassName() : ''}`}
           data-pageid={pageId}
