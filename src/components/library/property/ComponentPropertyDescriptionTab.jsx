@@ -96,23 +96,6 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
 
     const fieldElement = this[`render${StringUtil.captureName(type)}Field`](groupId, fieldConfig);
 
-    // switch (type) {
-    //   case 'text':
-    //     fieldElement = this.renderTextField(groupId, fieldConfig);
-    //     break;
-    //   case 'number':
-    //     fieldElement = this.renderNumberField(groupId, fieldConfig);
-    //     break;
-    //   case 'date':
-    //     fieldElement = this.renderDateField(groupId, fieldConfig);
-    //     break;
-    //   case 'select':
-    //     fieldElement = this.renderSelectField(groupId, fieldConfig);
-    //     break;
-    //   default:
-    //     break;
-    // }
-
     const { id = '' } = fieldConfig;
     const { name = '' } = fieldEntry;
     return (

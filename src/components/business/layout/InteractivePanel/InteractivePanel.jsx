@@ -1,14 +1,14 @@
 import React from 'react';
 import ShapeModel from '../../../../model/ShapeModel';
 import Register from '../../../library/Register';
-import CanvasTabPanelProperty from '../CanvasPanel/CanvasTabPanelProperty';
+import CanvasTabPanelProperty from '../CanvasPanel/property/CanvasTabPanelProperty';
 import Emitter from '../../../../util/Emitter';
 import Actions from '../../../../util/Actions';
 import PageModel from '../../../../model/PageModel';
 
 import './InteractivePanel.less';
 
-const { PureComponent } = React;
+const { Component } = React;
 
 const selectorPrefix = 'InteractivePanel';
 
@@ -17,7 +17,7 @@ const selectorPrefix = 'InteractivePanel';
  * @class InteractivePanel
  * @classdesc InteractivePanel
  */
-class InteractivePanel extends PureComponent {
+class InteractivePanel extends Component {
   constructor(props) {
     super(props);
 

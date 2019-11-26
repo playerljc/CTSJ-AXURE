@@ -6,7 +6,7 @@ import CanvasEmptyPanel from './CanvasEmptyPanel';
 import Actions from '../../../../util/Actions';
 import Emitter from '../../../../util/Emitter';
 import PageModel from '../../../../model/PageModel';
-import CanvasTabPanelPropertyDefaultConfig from './Property';
+import CanvasTabPanelPropertyDefaultConfig from './property/Property';
 
 import './CanvasPanel.less';
 

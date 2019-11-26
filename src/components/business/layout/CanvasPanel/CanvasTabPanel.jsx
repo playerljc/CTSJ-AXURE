@@ -17,6 +17,7 @@ import {
 import ShapeModel from '../../../../model/ShapeModel';
 
 import './CanvasTabPanel.less';
+import { getMaxLevelNumber } from '../../../library/component/ComponentBaseHOC';
 
 const selectorPrefix = 'CanvasTabPanel';
 
@@ -68,6 +69,10 @@ class CanvasTabPanel extends React.PureComponent {
       [['Ctrl', 'a'], this.onCtrlA],
     ]);
 
+    this.state = {
+      property: Object.assign({}, props.property),
+    };
+
     this.scaleIndex = 7;
 
     this.onMouseWheel = this.onMouseWheel.bind(this);
@@ -99,12 +104,32 @@ class CanvasTabPanel extends React.PureComponent {
   }
 
   /**
-   * getPageProperty
+   * getProperty
    * @return {Object}
    */
-  getPageProperty() {
-    const { property } = this.props;
-    return Immutable.cloneDeep(property);
+  getProperty() {
+    // const { property } = this.props;
+    // return Immutable.cloneDeep(property);
+    return Object.assign({}, this.state.property);
+  }
+
+  /**
+   * 根据propertyName设置Property的值
+   * @param {String} - propertyName
+   * @param {Object} - propertyValue
+   * @param {Function} -success
+   */
+  setPropertyByProps(propertyName, propertyValue, success) {
+    console.log(this.props);
+    const property = { ...this.state.property };
+    property[propertyName] = propertyValue;
+    this.setState({
+      property,
+    }, () => {
+      if (success) {
+        success();
+      }
+    });
   }
 
   /**
@@ -225,12 +250,93 @@ class CanvasTabPanel extends React.PureComponent {
     return scaleCollection[this.scaleIndex];
   }
 
+  getBackgroundPositionStyle() {
+    const {
+      property: {
+        style: {
+          fillimg,
+        },
+      },
+    } = this.state;
+
+    const xkey = ['left', 'hcenter', 'right'];
+    const ykey = ['top', 'vcenter', 'bottom'];
+    return {
+      backgroundPositionX: xkey.filter(key => fillimg[key])[0].replace('hcenter', 'center'),
+      backgroundPositionY: ykey.filter(key => fillimg[key])[0].replace('vcenter', 'center'),
+    };
+  }
+
+  getBackgroundRepeatStyle() {
+    const {
+      property: {
+        style: {
+          fillimg: {
+            repeat,
+          },
+        },
+      },
+    } = this.state;
+
+    const exclude = ['fill', 'fit'];
+    const includex = ['repeat', 'repeatx'];
+    const includey = ['repeat', 'repeaty'];
+    return {
+      backgroundRepeatX: exclude.includes(repeat) ? 'no-repeat' : includex.includes(repeat) ? 'repeat' : 'no-repeat',
+      backgroundRepeatY: exclude.includes(repeat) ? 'no-repeat' : includey.includes(repeat) ? 'repeat' : 'no-repeat',
+    };
+  }
+
+  getBackgroundSizeStyle() {
+    const {
+      property: {
+        style: {
+          fillimg: {
+            repeat,
+          },
+        },
+      },
+    } = this.state;
+
+    const include = ['fill', 'fit'];
+
+    return {
+      backgroundSize: include.includes(repeat) ? (repeat === 'fill' ? 'contain' : 'auto') : 'auto',
+    };
+  }
+
+  getStyle() {
+    const {
+      property: {
+        style: {
+          fill: {
+            backgroundColor,
+          },
+          fillimg: {
+            backgroundImg,
+          },
+        },
+      },
+    } = this.state;
+
+    return Object.assign(
+      {
+        backgroundColor,
+        backgroundImage: backgroundImg ? `url(${backgroundImg})` : 'none',
+      },
+      this.getBackgroundPositionStyle(),
+      this.getBackgroundRepeatStyle(),
+      this.getBackgroundSizeStyle(),
+    );
+  }
+
   render() {
     const { activePageId, pageId } = this.props;
     return (
       <div
         className={`${selectorPrefix} ${activePageId === pageId ? `${DROPPABLESELECTORPREFIX}-target` : ''}`}
         data-pageid={pageId}
+        style={this.getStyle()}
       >
         <div
           className={`${selectorPrefix}-Scroll ${activePageId === pageId ? this.getDRSClassName() : ''}`}

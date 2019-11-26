@@ -538,7 +538,7 @@ class App extends React.PureComponent {
        * @todo 页面的点击
        */
       onClick: () => {
-        // console.log('selectClick');
+        console.log('selectClick');
         this.clearRangeSelect();
         this.clearCurPageActiveShape();
       },

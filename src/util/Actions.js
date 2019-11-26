@@ -10,6 +10,7 @@ export default {
       // 页面
       pagepanel: {
         dbclick: 'components-business-pagepanel-dbclick',
+        stylechange: 'components-business-pagepanel-stylechange',
       },
       // 画布
       canvaspanel: {

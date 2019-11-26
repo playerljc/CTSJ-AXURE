@@ -1,0 +1,39 @@
+.CT-UI-BackgroundImgImportPicker {
+  display: flex;
+  align-items: center;
+
+  > .CT-UI-BackgroundImgImportPicker-BackgroundImg {
+    img {
+      border: 1px solid rgba(0, 0, 0, .1);
+      background-color: #fff;
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  > .CT-UI-BackgroundImgImportPicker-Import,
+  > .CT-UI-BackgroundImgImportPicker-Empty {
+    border: 1px solid rgba(0,0,0,.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    font-size: 14px;
+    &:hover {
+      background-color: rgba(0, 122, 255, .5);
+      border-color: #007aff;
+    }
+    &.disabled {
+      background-color: #ccc;
+      border: 1px solid #ccc;
+    }
+  }
+
+  > .CT-UI-BackgroundImgImportPicker-Import {
+    margin: 0 5px;
+  }
+
+  > .CT-UI-BackgroundImgImportPicker-Empty {
+    margin: 0 5px;
+  }
+}

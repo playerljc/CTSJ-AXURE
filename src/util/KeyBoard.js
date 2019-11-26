@@ -91,6 +91,7 @@ function onKey(e) {
  * handler是一个Array
  */
 window.addEventListener('keydown', (e) => {
+  console.log('keydown');
   e.preventDefault();
   onKey(e);
 });
