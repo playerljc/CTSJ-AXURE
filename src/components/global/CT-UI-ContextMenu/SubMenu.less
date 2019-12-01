@@ -1,0 +1,31 @@
+@import "MenuItem";
+
+.CT-UI-ContextMenu-SubMenu() {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  box-sizing: border-box;
+  box-shadow: 2px 2px 2px #ccc;
+  outline: 1px solid #ccc;
+  background-color: #ffffff;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    left: 0;
+    width: 28px;
+    background-color: rgba(0, 0, 0, .1);
+    border-right: 1px solid #ccc;
+  }
+
+  > .CT-UI-ContextMenu-MenuItem {
+    .CT-UI-ContextMenu-MenuItem()
+  }
+
+  > .CT-UI-ContextMenu-MenuItem-Separation {
+    .CT-UI-ContextMenu-MenuItem-Separation()
+  }
+}

@@ -24,13 +24,23 @@ class TreeNode extends React.PureComponent {
   }
 
   onDoubleClick() {
-    const { name = '', leaf = false, id, attributes, onActive, onDBClick } = this.props;
+    const {
+      name = '',
+      leaf = false,
+      id,
+      attributes,
+      onActive,
+      onDBClick,
+      onContextMenu,
+    } = this.props;
+
     if (onActive) {
       onActive({
         id,
         attributes,
       });
     }
+
     if (onDBClick) {
       onDBClick({
         name,
@@ -42,19 +52,28 @@ class TreeNode extends React.PureComponent {
   }
 
   renderChildren() {
-    const { childrendata = [], onActive, onDBClick } = this.props;
+    const { childrendata = [], onActive, onDBClick, onContextMenu } = this.props;
     return childrendata.map((t) => {
       return (<TreeNode
         key={uuidv1()}
         onActive={onActive}
         onDBClick={onDBClick}
+        onContextMenu={onContextMenu}
         {...t}
       />);
     });
   }
 
   render() {
-    const { icon = '', name = '', leaf = false, id, active = false } = this.props;
+    const {
+      icon = '',
+      name = '',
+      leaf = false,
+      id,
+      active = false,
+      attributes,
+      onContextMenu,
+    } = this.props;
 
     return (
       <TreeContext.Consumer>
@@ -65,7 +84,7 @@ class TreeNode extends React.PureComponent {
                 className={`${selectorPrefix} ${leaf ? 'Leaf' : ''} ${activeKey && activeKey === id ? 'Active' : ''}`}
                 open
               >
-                <summary className={`${selectorPrefix}-Summary ${active ? 'active' : ''}`} >
+                <summary className={`${selectorPrefix}-Summary ${active ? 'active' : ''}`}>
                   {active ? (
                     <div
                       className={`${selectorPrefix}-Summary-bcHook`}
@@ -87,6 +106,16 @@ class TreeNode extends React.PureComponent {
                         e.preventDefault();
                       })
                     }
+                    onContextMenuCapture={(e) => {
+                      e.preventDefault();
+                      onContextMenu(e, {
+                        icon,
+                        name,
+                        leaf,
+                        id,
+                        attributes,
+                      });
+                    }}
                   >
                     {icon ? (<span className={`${selectorPrefix}-Icon fa fa-${icon}`} />) : null}
                     <span className={`${selectorPrefix}-Name`}>{name}</span>
@@ -129,6 +158,7 @@ TreeNode.propTypes = {
   attributes: PropTypes.object,
   onActive: PropTypes.func,
   onDBClick: PropTypes.func,
+  onContextMenu: PropTypes.func,
 };
 
 export default TreeNode;

@@ -28,9 +28,11 @@ class FunctionalPanel extends Component {
         id="FunctionalPanel"
       >
         <CardAccordionItem className={`ct-split-top ${selectorPrefix}-Item PagePanelGroup`} name="page" open>
+          {/* 页面 */}
           <PagePanel />
         </CardAccordionItem>
         <CardAccordionItem className={`ct-split-main ${selectorPrefix}-Item ComponentGroup`} name="component" open>
+          {/* 组件 */}
           <ComponentPanel />
         </CardAccordionItem>
       </Accordion>

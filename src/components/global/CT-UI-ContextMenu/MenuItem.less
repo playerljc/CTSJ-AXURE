@@ -1,0 +1,76 @@
+.CT-UI-ContextMenu-MenuItem() {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 20px;
+  padding: 5px;
+
+  &:disabled {
+    &:hover {
+      background-color: initial;
+      border-color: initial;
+
+      > .CT-UI-ContextMenu-SubMenu {
+        display: none !important;
+      }
+    }
+
+    > .CT-UI-ContextMenu-MenuItem-Icon {
+      color: rgba(0, 0, 0, .1);
+    }
+
+    > .CT-UI-ContextMenu-MenuItem-Name {
+      color: rgba(0, 0, 0, .1);
+    }
+
+    > .CT-UI-ContextMenu-MenuItem-More {
+      color: rgba(0, 0, 0, .1);
+    }
+  }
+
+  &:hover {
+    background-color: rgba(0, 122, 255, .5);
+    border-color: #007aff;
+
+    > .CT-UI-ContextMenu-SubMenu {
+      display: block !important;
+    }
+  }
+
+  > .CT-UI-ContextMenu-MenuItem-Icon {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 100%;
+    margin-right: 10px;
+  }
+
+  > .CT-UI-ContextMenu-MenuItem-Name {
+    flex-grow: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  > .CT-UI-ContextMenu-MenuItem-More {
+    flex-shrink: 0;
+    font-size: 12px;
+    color: #000;
+    margin-right: 5px;
+  }
+
+  > .CT-UI-ContextMenu-SubMenu {
+    display: none;
+    top: 0;
+    left: 100%;
+  }
+}
+
+.CT-UI-ContextMenu-MenuItem-Separation() {
+  height: 1px;
+  background-color: rgba(0, 0, 0, .1);
+  margin: 5px 0;
+}

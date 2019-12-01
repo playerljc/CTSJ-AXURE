@@ -9,45 +9,45 @@ export default {
     business: {
       // 页面
       pagepanel: {
-        dbclick: 'components-business-pagepanel-dbclick',
-        stylechange: 'components-business-pagepanel-stylechange',
+        dbclick: Symbol(),
+        stylechange: Symbol(),
       },
       // 画布
       canvaspanel: {
         // 页面的切换
-        changetab: 'components-business-canvaspanel-changetab',
+        changetab: Symbol(),
         // 页面的增加
-        addtab: 'components-business-canvaspanel-addtab',
+        addtab: Symbol(),
         // 页面的删除
-        removetab: 'components-business-canvaspanel-removetab',
+        removetab: Symbol(),
         // 页面处于激活
-        activetab: 'components-business-canvaspanel-activetab',
+        activetab: Symbol(),
         // 粘贴
-        paste: 'components-business-canvaspanel-paste',
+        paste: Symbol(),
         // 全选
-        selectall: 'components-business-canvaspanel-selectall',
+        selectall: Symbol(),
         // 鼠标滚轮滚动
-        mousewheel: 'components-business-canvaspanel-mousewheel',
+        mousewheel: Symbol(),
         // 页面添加一个Shape
-        addshape: 'components-business-canvaspanel-addshape',
+        addshape: Symbol(),
         // 页面删除一个Shape
-        removeshape: 'components-business-canvaspanel-removeshape',
+        removeshape: Symbol(),
       },
     },
     library: {
       component: {
         // Shape处于激活状态
-        active: 'components-library-component-active',
+        active: Symbol(),
         // Shape处于未激活状态
-        unactive: 'components-library-component-unactive',
+        unactive: Symbol(),
         // Shape处于Range激活状态
-        rangeselectactive: 'components-libary-component-rangeselectactive',
+        rangeselectactive: Symbol(),
         // Shape处于Range未激活状态
-        unrangeselectactive: 'components-libary-component-unrangeselectactive',
+        unrangeselectactive: Symbol(),
         // Shape的属性变化
-        propertychange: 'components-library-component-propertychange',
+        propertychange: Symbol(),
         // Shape的style变化
-        stylechange: 'components-library-component-stylechange',
+        stylechange: Symbol(),
       },
     },
   },

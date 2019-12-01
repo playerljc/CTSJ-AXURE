@@ -14,13 +14,14 @@ const selectorPrefix = 'CT-UI-Tree';
  */
 class Tree extends React.PureComponent {
   renderChildren(data = []) {
-    const { onDBClick, onActive } = this.props;
+    const { onDBClick, onActive, onContextMenu } = this.props;
     return data.map((t) => {
       return (
         <TreeNode
           key={t.id || uuidv1()}
           onActive={onActive}
           onDBClick={onDBClick}
+          onContextMenu={onContextMenu}
           {...t}
         />
       );
@@ -49,8 +50,9 @@ Tree.propTypes = {
   className: PropTypes.string,
   activeKey: PropTypes.string,
   data: PropTypes.array,
-  onDBClick: PropTypes.func,
   onActive: PropTypes.func,
+  onDBClick: PropTypes.func,
+  onContextMenu: PropTypes.func,
 };
 
 export default Tree;
