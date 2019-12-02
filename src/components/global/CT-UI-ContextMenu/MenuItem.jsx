@@ -43,7 +43,7 @@ class MenuItem extends React.PureComponent {
         icon,
         separation,
         children,
-        disabled,
+        disabled = false,
       },
     } = this.props;
 
@@ -55,7 +55,7 @@ class MenuItem extends React.PureComponent {
           separation ?
             <li className={`${selectorPrefix}-Separation`} /> :
             <li
-              className={`${selectorPrefix}${disabled ? 'disabled' : ''}`}
+              className={`${selectorPrefix} ${disabled ? 'disabled' : ''}`}
               onClick={this.onClick}
             >
               <span className={`${selectorPrefix}-Icon fa fa-${icon}`} />

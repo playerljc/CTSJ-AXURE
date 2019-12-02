@@ -33,6 +33,7 @@ class Prompt extends React.PureComponent {
     const {
       content,
       required = true,
+      maxLength,
     } = this.props;
 
     const { value } = this.state;
@@ -44,6 +45,7 @@ class Prompt extends React.PureComponent {
           className={`${selectorPrefix}-Prompt-Input ${required && !value ? 'error' : ''}`}
           type="text"
           value={value}
+          maxLength={maxLength}
           onKeyDownCapture={(e) => { e.stopPropagation(); }}
           onChange={(e) => {
             this.setState({
@@ -61,6 +63,7 @@ Prompt.propTypes = {
   defaultValue: PropTypes.string,
   content: PropTypes.node,
   required: PropTypes.bool,
+  maxLength: Prompt.number,
 };
 
 export default Prompt;

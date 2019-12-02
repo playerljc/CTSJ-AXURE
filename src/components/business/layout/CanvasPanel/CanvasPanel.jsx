@@ -1,18 +1,25 @@
 import React from 'react';
+
 import Tab from '../../../global/CT-UI-Tab/Tab';
 import TabPanel from '../../../global/CT-UI-Tab/TabPanel';
-import CanvasTabPanel from './CanvasTabPanel';
-import CanvasEmptyPanel from './CanvasEmptyPanel';
 import Actions from '../../../../util/Actions';
 import Emitter from '../../../../util/Emitter';
+import { Immutable } from '../../../../util/CTMobile-UI-Util';
 import PageModel from '../../../../model/PageModel';
+
+import CanvasTabPanel from './CanvasTabPanel';
+import CanvasEmptyPanel from './CanvasEmptyPanel';
 import CanvasTabPanelPropertyDefaultConfig from './property/Property';
+import { CanvasPanelContext } from './CanvasPanelContext';
 
 import './CanvasPanel.less';
+
 
 const { Component } = React;
 
 const selectorPrefix = 'CanvasPanel';
+
+const onRemoveSymbol = Symbol('onRemove');
 
 /**
  * CanvasPabel
@@ -47,7 +54,7 @@ class CanvasPanel extends Component {
    * @param {Object} - t
    */
   onDBClick(t) {
-    const data = [...this.state.data];
+    const data = Immutable.cloneDeep(this.state.data);
     const { id } = t;
     const index = data.findIndex((n) => {
       return n.id === id;
@@ -81,10 +88,11 @@ class CanvasPanel extends Component {
   };
 
   /**
-   * onRemove
+   * onRemoveSymbol
    * @param {String} - pageId
+   * @param {Function} - success
    */
-  onRemove = (pageId) => {
+  [onRemoveSymbol] = (pageId, success) => {
     const data = [...this.state.data];
     const index = data.findIndex(t => t.id === pageId);
     data.splice(index, 1);
@@ -109,47 +117,98 @@ class CanvasPanel extends Component {
       }
 
       PageModel.remove(pageId);
+
+      if (success) {
+        success();
+      }
     });
   };
+
+  /**
+   * removePage
+   * @param {String} - pageId
+   * @param {Function} - success
+   */
+  removePage({ pageId, success }) {
+    this[onRemoveSymbol](pageId, success);
+  }
+
+  /**
+   * setName
+   * @param {String} - pageId
+   * @param {String} - name
+   * @param {Function} - success
+   */
+  setName({ pageId, name }, success) {
+    const dataClone = Immutable.cloneDeep(this.state.data);
+    const tabData = dataClone.find(({ id }) => pageId === id);
+    if (tabData) {
+      tabData.name = name;
+      this.setState({
+        data: dataClone,
+      }, () => {
+        if (success) {
+          success();
+        }
+      });
+    }
+  }
+
+  /**
+   * renderTabPanels
+   * @return {ReactElement}
+   */
+  renderTabPanels() {
+    const { data = [], activeKey } = this.state;
+
+    return (
+      data.map((t) => {
+        const { name, id: pageId, property } = t;
+        return (
+          <TabPanel
+            name={name}
+            key={pageId}
+          >
+            {/* 一个页面 start */}
+            <CanvasTabPanel
+              activePageId={activeKey}
+              pageId={pageId}
+              name={name}
+              property={property || CanvasTabPanelPropertyDefaultConfig()}
+              getInstance={(ins) => {
+                PageModel.add(ins);
+              }}
+            />
+            {/* 一个页面 end */}
+          </TabPanel>
+        );
+      })
+    );
+  }
 
   render() {
     const { data = [], activeKey } = this.state;
     return (
-      <div className={selectorPrefix}>
-        {
-          data.length === 0 ?
-          (<CanvasEmptyPanel />) :
-          <Tab
-            activeKey={activeKey}
-            onChange={this.onChange}
-            onRemove={this.onRemove}
-          >
-            {
-              data.map((t) => {
-                const { name, id: pageId, property } = t;
-                  return (
-                    <TabPanel
-                      name={name}
-                      key={pageId}
-                    >
-                      {/* 一个页面 start */}
-                      <CanvasTabPanel
-                        activePageId={activeKey}
-                        pageId={pageId}
-                        name={name}
-                        property={property || CanvasTabPanelPropertyDefaultConfig()}
-                        getInstance={(ins) => {
-                          PageModel.add(ins);
-                        }}
-                      />
-                      {/* 一个页面 end */}
-                    </TabPanel>
-                  );
-              })
-            }
-          </Tab>
-        }
-      </div>
+      <CanvasPanelContext.Provider
+        value={{
+          removePage: this.removePage.bind(this),
+          setName: this.setName.bind(this),
+        }}
+      >
+        <div className={selectorPrefix}>
+          {
+            data.length === 0 ?
+              (<CanvasEmptyPanel />) :
+              <Tab
+                activeKey={activeKey}
+                onChange={this.onChange}
+                onRemove={this[onRemoveSymbol]}
+              >
+                {this.renderTabPanels()}
+              </Tab>
+          }
+        </div>
+      </CanvasPanelContext.Provider>
     );
   }
 }

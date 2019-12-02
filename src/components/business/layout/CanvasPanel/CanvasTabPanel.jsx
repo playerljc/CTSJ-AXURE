@@ -11,51 +11,16 @@ import { Immutable } from '../../../../util/CTMobile-UI-Util';
 import {
   DRSSELECTORPREFIX,
   DROPPABLESELECTORPREFIX,
-  DRSPREFIX,
-} from '../../../../util/Constant';
-
+  SCALECOLLECTION } from '../../../../util/Constant';
 import ShapeModel from '../../../../model/ShapeModel';
+import { CanvasPanelContext } from './CanvasPanelContext';
+
 
 import './CanvasTabPanel.less';
-import { getMaxLevelNumber } from '../../../library/component/ComponentBaseHOC';
 
 const selectorPrefix = 'CanvasTabPanel';
 
 export { selectorPrefix };
-
-// 缩放的数组
-/**
- * 400% 4
- * 350% 3.5
- * 300% 3
- * 250% 2.5
- * 200% 2
- * 150% 1.5
- * 125% 1.25
- * 100% 1
- * 80%  0.8
- * 65%  0.65
- * 50%  0.5
- * 33%  0.33
- * 25%  0.25
- * 10%  0.1
- */
-const scaleCollection = [
-  4,
-  3.5,
-  3,
-  2.5,
-  2,
-  1.5,
-  1.25,
-  1,
-  0.8,
-  0.65,
-  0.5,
-  0.33,
-  0.25,
-  0.1,
-];
 
 /**
  * CanvasTabPanel
@@ -232,7 +197,7 @@ class CanvasTabPanel extends React.PureComponent {
         this.scaleIndex--;
       }
     } else if (direction === 'bottom') {
-      if (this.scaleIndex !== scaleCollection.length - 1) {
+      if (this.scaleIndex !== SCALECOLLECTION.length - 1) {
         this.scaleIndex++;
       }
     }
@@ -247,7 +212,7 @@ class CanvasTabPanel extends React.PureComponent {
    * @return {number}
    */
   getScale() {
-    return scaleCollection[this.scaleIndex];
+    return SCALECOLLECTION[this.scaleIndex];
   }
 
   getBackgroundPositionStyle() {
@@ -333,23 +298,34 @@ class CanvasTabPanel extends React.PureComponent {
   render() {
     const { activePageId, pageId } = this.props;
     return (
-      <div
-        className={`${selectorPrefix} ${activePageId === pageId ? `${DROPPABLESELECTORPREFIX}-target` : ''}`}
-        data-pageid={pageId}
-      >
-        <div
-          className={`${selectorPrefix}-Background`}
-          style={this.getStyle()}
-        />
-        <div
-          className={`${selectorPrefix}-Scroll ${activePageId === pageId ? this.getDRSClassName() : ''}`}
-          data-pageid={pageId}
-          id={pageId}
-          ref={(el) => {
-            this.innerEl = el;
-          }}
-        />
-      </div>
+      <CanvasPanelContext.Consumer>{({
+         removePage,
+         setName,
+      }) => {
+        this.removePage = removePage;
+        this.setName = setName;
+
+        return (
+          <div
+            className={`${selectorPrefix} ${activePageId === pageId ? `${DROPPABLESELECTORPREFIX}-target` : ''}`}
+            data-pageid={pageId}
+          >
+            <div
+              className={`${selectorPrefix}-Background`}
+              style={this.getStyle()}
+            />
+            <div
+              className={`${selectorPrefix}-Scroll ${activePageId === pageId ? this.getDRSClassName() : ''}`}
+              data-pageid={pageId}
+              id={pageId}
+              ref={(el) => {
+                this.innerEl = el;
+              }}
+            />
+          </div>
+        );
+      }}
+      </CanvasPanelContext.Consumer>
     );
   }
 }

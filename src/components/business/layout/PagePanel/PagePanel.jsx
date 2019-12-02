@@ -2,18 +2,29 @@ import React from 'react';
 import uuid from 'uuid/v1';
 
 import Tree from '../../../global/CT-UI-Tree/Tree';
+import Modal from '../../../global/CT-UI-Modal/modal';
+import ContextMenu from '../../../global/CT-UI-ContextMenu/ContextMenu';
 import Actions from '../../../../util/Actions';
 import Emitter from '../../../../util/Emitter';
-import ContextMenu from '../../../global/CT-UI-ContextMenu/ContextMenu';
 import { Immutable } from '../../../../util/CTMobile-UI-Util';
+import {
+  PAGE_TREE_ICON,
+  FOLDER_TREE_ICON,
+} from '../../../../util/Constant';
+
+import PageModel from '../../../../model/PageModel';
 
 import './PagePanel.less';
-import Modal from '../../../global/CT-UI-Modal/modal';
+
 
 const { Component } = React;
 
 const selectorPrefix = 'PagePanel';
 
+/**
+ * 上下文菜单数据
+ * @return - {Array}
+ */
 const contextMenuData = [
   {
     name: 'add',
@@ -120,7 +131,7 @@ const treeData = [
   {
     name: '1',
     leaf: false,
-    icon: 'file-o',
+    icon: PAGE_TREE_ICON,
     open: true,
     id: 't1',
     attributes: {
@@ -130,7 +141,7 @@ const treeData = [
       {
         name: '1.1',
         id: 't1.1',
-        icon: 'file-o',
+        icon: PAGE_TREE_ICON,
         leaf: false,
         open: true,
         attributes: {
@@ -140,7 +151,7 @@ const treeData = [
           {
             name: '1.2',
             id: 't1.2',
-            icon: 'file-o',
+            icon: PAGE_TREE_ICON,
             leaf: true,
             attributes: {
               type: 'file',
@@ -155,7 +166,7 @@ const treeData = [
     id: 't2',
     leaf: false,
     open: true,
-    icon: 'file-o',
+    icon: PAGE_TREE_ICON,
     attributes: {
       type: 'file',
     },
@@ -163,7 +174,7 @@ const treeData = [
       {
         name: '2.1',
         id: 't2.1',
-        icon: 'file-o',
+        icon: PAGE_TREE_ICON,
         leaf: false,
         open: true,
         attributes: {
@@ -173,7 +184,7 @@ const treeData = [
           {
             name: '2.2',
             id: 't2.2',
-            icon: 'file-o',
+            icon: PAGE_TREE_ICON,
             leaf: true,
             attributes: {
               type: 'file',
@@ -256,12 +267,21 @@ class PagePanel extends Component {
       if (node) break;
     }
 
-    return node;
+    return node && node.id ? node : null;
   }
 
+  /**
+   * addNode - 数据添加节点
+   * @param {String} - nodeId 目标节点
+   * @param {String} - name 节点的名称
+   * @param {String} - icon 节点的icon
+   * @param {String} - type 节点的类型[file | folder]
+   * @param {String} - direction 节点的方向[top | bottom]
+   * @return {Promise<any>}
+   */
   addNode({
-    node,
-    value,
+    nodeId,
+    name,
     icon,
     type,
     direction,
@@ -269,10 +289,10 @@ class PagePanel extends Component {
     return new Promise((resolve, reject) => {
       const data = Immutable.cloneDeep(this.state.data);
 
-      const curNode = this.findParentById({ childrendata: data }, node.id);
+      const curNode = this.findParentById({ childrendata: data }, nodeId);
 
       const newNode = {
-        name: value,
+        name,
         leaf: true,
         icon,
         open: true,
@@ -285,10 +305,10 @@ class PagePanel extends Component {
       if (curNode) {
         curNode.leaf = false;
         curNode.childrendata = curNode.childrendata || [];
-        const index = curNode.childrendata.findIndex(({ id }) => id === node.id);
+        const index = curNode.childrendata.findIndex(({ id }) => id === nodeId);
         curNode.childrendata.splice(index + (direction === 'top' ? 0 : 1), 0, newNode);
       } else {
-        const index = data.findIndex(({ id }) => id === node.id);
+        const index = data.findIndex(({ id }) => id === nodeId);
         data.splice(index + 1, (direction === 'top' ? 0 : 1), newNode);
       }
 
@@ -298,6 +318,46 @@ class PagePanel extends Component {
         resolve();
       });
     });
+  }
+
+  /**
+   * setDisableContextMenu
+   * move
+   *  上移(第一个节点不能上移)
+   *  下移(最后一个节点不能下移)
+   *  升级(和父亲平级)(没有父亲不能升级)
+   *  降级(成为前一个兄弟的孩子)(没有前一个兄弟不能降级)
+   * @param {Array<Object>} - menudata
+   * @param {Object} - node
+   */
+  setDisableContextMenu({
+    menudata,
+    node,
+  }) {
+    const parentNode = this.findParentById(
+      {
+        childrendata: Immutable.cloneDeep(this.state.data),
+      },
+      node.id);
+    let children;
+    if (parentNode) {
+      children = parentNode.childrendata;
+    } else {
+      children = this.state.data;
+    }
+    children = Immutable.cloneDeep(children);
+
+    const index = children.findIndex(({ id }) => id === node.id);
+
+    // 上移 降级
+    if (index === 0) {
+      menudata[1].children[0].disabled = true;
+      menudata[1].children[3].disabled = true;
+    }
+    // 下移
+    if (index === children.length - 1) menudata[1].children[1].disabled = true;
+    // 升级
+    if (!parentNode) menudata[1].children[2].disabled = true;
   }
 
   onTabChange(key) {
@@ -315,15 +375,24 @@ class PagePanel extends Component {
   }
 
   /**
-   * onContextMenu
+   * onContextMenu - 右键菜单
    * @param {Event} - e
    * @param {Object} - node
    */
   onContextMenu(e, node) {
-    const data = Immutable.cloneDeep(contextMenuData);
+    const menudata = Immutable.cloneDeep(contextMenuData);
+
+    // 上移(第一个节点不能上移)
+    // 下移(最后一个节点不能下移)
+    // 升级(和父亲平级)(没有父亲不能升级)
+    // 降级(成为前一个兄弟的孩子)(没有前一个兄弟不能降级)
+    this.setDisableContextMenu({
+      menudata,
+      node,
+    });
 
     ContextMenu.open(
-      data,
+      menudata,
       {
         width: 200,
         handler: (id, attribute) => {
@@ -365,9 +434,9 @@ class PagePanel extends Component {
       defaultValue: 'folder',
       success: (value) => {
         return this.addNode({
-          node,
-          value,
-          icon: 'folder-open',
+          nodeId: node.id,
+          name: value,
+          icon: FOLDER_TREE_ICON,
           type: 'folder',
           direction: 'bottom',
         });
@@ -386,9 +455,9 @@ class PagePanel extends Component {
       defaultValue: 'page',
       success: (value) => {
         return this.addNode({
-          node,
-          value,
-          icon: 'file-o',
+          nodeId: node.id,
+          name: value,
+          icon: PAGE_TREE_ICON,
           type: 'file',
           direction: 'top',
         });
@@ -407,9 +476,9 @@ class PagePanel extends Component {
       defaultValue: 'page',
       success: (value) => {
         return this.addNode({
-          node,
-          value,
-          icon: 'file-o',
+          nodeId: node.id,
+          name: value,
+          icon: PAGE_TREE_ICON,
           type: 'file',
           direction: 'bottom',
         });
@@ -435,7 +504,7 @@ class PagePanel extends Component {
           curNode.childrendata.push({
             name: value,
             leaf: true,
-            icon: 'file-o',
+            icon: PAGE_TREE_ICON,
             open: true,
             id: uuid(),
             attributes: {
@@ -453,12 +522,157 @@ class PagePanel extends Component {
   }
 
   /**
+   * 上移
+   * @param {Object} - menuItemAttribute 菜单的attribute
+   * @param {Object} - node 节点数据
+   */
+  onContextMenumoveup(menuItemAttribute, node) {
+    const stateClone = Immutable.cloneDeep(this.state.data);
+    const parentNode = this.findParentById({
+      childrendata: stateClone,
+    }, node.id);
+
+    let children;
+    if (parentNode) {
+      children = parentNode.childrendata;
+    } else {
+      children = stateClone;
+    }
+
+    const index = children.findIndex(({ id }) => id === node.id);
+    children.splice(index - 1, 0, children[index]);
+    children.splice(index + 1, 1);
+    this.setState({
+      data: stateClone,
+    });
+  }
+
+  /**
+   * 下移
+   * @param {Object} - menuItemAttribute 菜单的attribute
+   * @param {Object} - node 节点数据
+   */
+  onContextMenumovedown(menuItemAttribute, node) {
+    const stateClone = Immutable.cloneDeep(this.state.data);
+    const parentNode = this.findParentById({
+      childrendata: stateClone,
+    }, node.id);
+
+    let children;
+    if (parentNode) {
+      children = parentNode.childrendata;
+    } else {
+      children = stateClone;
+    }
+
+    const index = children.findIndex(({ id }) => id === node.id);
+    children.splice(index, 0, children[index + 1]);
+    children.splice(index + 2, 1);
+    this.setState({
+      data: stateClone,
+    });
+  }
+
+  /**
+   * 升级 - (和父亲平级)(没有父亲不能升级)
+   * @param {Object} - menuItemAttribute 菜单的attribute
+   * @param {Object} - node 节点数据
+   */
+  onContextMenuupgrade(menuItemAttribute, node) {
+    const stateClone = Immutable.cloneDeep(this.state.data);
+    const parentNode = this.findParentById({
+      childrendata: stateClone,
+    }, node.id);
+
+    let children = parentNode.childrendata;
+    let index = children.findIndex(({ id }) => id === node.id);
+    const curNode = children.splice(index, 1)[0];
+    if (children.length === 0) {
+      parentNode.leaf = true;
+    }
+
+    const ppNode = this.findParentById({
+      childrendata: stateClone,
+    }, parentNode.id);
+
+    if (ppNode) {
+      children = ppNode.childrendata;
+    } else {
+      children = stateClone;
+    }
+
+    index = children.findIndex(({ id }) => id === parentNode.id);
+    children.splice(index + 1, 0, curNode);
+
+    this.setState({
+      data: stateClone,
+    });
+  }
+
+  /**
+   * 降级 - (成为前一个兄弟的孩子)(没有前一个兄弟不能降级)
+   * @param {Object} - menuItemAttribute 菜单的attribute
+   * @param {Object} - node 节点数据
+   */
+  onContextMenudowngrade(menuItemAttribute, node) {
+    const stateClone = Immutable.cloneDeep(this.state.data);
+    const parentNode = this.findParentById({
+      childrendata: stateClone,
+    }, node.id);
+
+    const children = parentNode.childrendata;
+    const index = children.findIndex(({ id }) => id === node.id) - 1;
+    // 前一个兄弟
+    const preNode = children[index];
+    preNode.childrendata.push(children.find(({ id }) => id === node.id));
+
+    this.setState({
+      data: stateClone,
+    });
+  }
+
+  /**
    * delete 删除
    * @param {Object} - menuItemAttribute 菜单的attribute
    * @param {Object} - node 节点数据
    */
   onContextMenudelete(menuItemAttribute, node) {
+    const page = PageModel.get(node.id);
 
+    function deleteMenu() {
+      // 删除菜单项
+      const stateClone = Immutable.cloneDeep(this.state.data);
+      const parentNode = this.findParentById({
+        childrendata: stateClone,
+      }, node.id);
+
+      let children;
+      if (parentNode) {
+        children = parentNode.childrendata;
+      } else {
+        children = stateClone;
+      }
+      const index = children.findIndex(({ id }) => id === node.id);
+      children.splice(index, 1);
+      if (parentNode && children.length === 0) {
+        parentNode.leaf = true;
+      }
+
+      this.setState({
+        data: stateClone,
+      });
+    }
+
+    if (!page) {
+      deleteMenu.call(this);
+    } else {
+      page.removePage({
+        pageId: node.id,
+        success: () => {
+          deleteMenu.call(this);
+        },
+      });
+    }
   }
 
   /**
@@ -467,7 +681,42 @@ class PagePanel extends Component {
    * @param {Object} - node 节点数据
    */
   onContextMenurename(menuItemAttribute, node) {
+    function rename(value) {
+      return new Promise((resolve) => {
+        const stateClone = Immutable.cloneDeep(this.state.data);
+        const curNode = this.findNodeById(stateClone, node.id);
+        curNode.name = value;
+        this.setState({
+          data: stateClone,
+        }, () => {
+          resolve();
+        });
+      });
+    }
 
+    Modal.prompt({
+      content: 'rename',
+      defaultValue: node.name,
+      success: (value) => {
+        return new Promise((resolve) => {
+          const page = PageModel.get(node.id);
+          if (page) {
+            page.setName({
+              pageId: node.id,
+              name: value,
+            }, () => {
+              rename.call(this, value).then(() => {
+                resolve();
+              });
+            });
+          } else {
+            rename.call(this, value).then(() => {
+              resolve();
+            });
+          }
+        });
+      },
+    });
   }
 
   render() {

@@ -117,6 +117,7 @@ const Modal = {
     defaultValue = '',
     success,
     zIndex = 9999,
+    maxLength = 100,
   }) {
     let ins;
     const modal = Modal.open({
@@ -125,6 +126,7 @@ const Modal = {
         <Prompt
           defaultValue={defaultValue}
           content={content}
+          maxLength={maxLength}
           ref={self => ins = self}
         />
       ),
