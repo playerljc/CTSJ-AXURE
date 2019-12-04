@@ -13,7 +13,7 @@ export default () => ({
     },
     /* --- 填充 ---*/
     fill: {
-      backgroundColor: '#fff',
+      backgroundColor: '#f2f2f2',
     },
     /* --- 阴影 ---*/
     shadow: {
