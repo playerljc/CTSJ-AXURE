@@ -2,6 +2,25 @@
 
 .CT-UI-TreeNode {
   overflow: auto;
+
+  & ::-webkit-details-marker {
+    display: none;
+  }
+
+  &[open] {
+    > .CT-UI-TreeNode-Summary {
+      &:before {
+        font-family: FontAwesome;
+        content: '\f0da';
+        font-size: 18px;
+        margin: 0 5px 0 10px;
+        color: gray;
+        transform: rotate(0deg);
+        font-weight: bold;
+      }
+    }
+  }
+
   .CT-UI-TreeNode-Summary {
     display: flex;
     align-items: center;
@@ -10,6 +29,16 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    &:before {
+      font-family: FontAwesome;
+      content: '\f0da';
+      font-size: 18px;
+      margin: 5px 5px 0 10px;
+      color: gray;
+      transform: rotate(43deg);
+      font-weight: bold;
+    }
 
     &.active {
       background-color: @active-color;
@@ -54,6 +83,10 @@
     }
 
     .CT-UI-TreeNode-Summary {
+      &:before {
+        font-size: 0;
+        margin: 0;
+      }
       .CT-UI-TreeNode-Icon {
         margin-left: 6px;
       }
@@ -65,5 +98,11 @@
       font-size: 0;
       float: left;
     }
+  }
+}
+
+.CT-UI-TreeNode {
+  & ::-moz-list-bullet {
+    display: none;
   }
 }

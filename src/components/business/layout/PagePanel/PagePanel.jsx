@@ -16,7 +16,6 @@ import PageModel from '../../../../model/PageModel';
 
 import './PagePanel.less';
 
-
 const { Component } = React;
 
 const selectorPrefix = 'PagePanel';
@@ -36,7 +35,7 @@ const contextMenuData = [
       {
         name: 'folder',
         id: 'folder',
-        icon: 'folder',
+        icon: 'folder-o',
         separation: false,
         attribute: {},
         children: [],
@@ -205,6 +204,7 @@ class PagePanel extends Component {
   constructor(pros) {
     super(pros);
 
+
     this.state = {
       data: treeData,
       activeKey: '',
@@ -309,7 +309,8 @@ class PagePanel extends Component {
         curNode.childrendata.splice(index + (direction === 'top' ? 0 : 1), 0, newNode);
       } else {
         const index = data.findIndex(({ id }) => id === nodeId);
-        data.splice(index + 1, (direction === 'top' ? 0 : 1), newNode);
+        // data.splice(index + 1, (direction === 'top' ? 0 : 1), newNode);
+        data.splice(index + (direction === 'top' ? 0 : 1), 0, newNode);
       }
 
       this.setState({
@@ -411,16 +412,55 @@ class PagePanel extends Component {
       });
   }
 
+  /**
+   * onActive
+   * @param {String} - id
+   */
   onActive({ id: key }) {
     this.setState({
       activeKey: key,
     });
   }
 
+  /**
+   * onDBClick
+   * @param {Object} - t
+   * @return {boolean}
+   */
   onDBClick(t) {
     const { attributes: { type } } = t;
     if (type === 'folder') return false;
     Emitter.trigger(Actions.components.business.pagepanel.dbclick, t);
+  }
+
+  /**
+   * activeNodeInsertFolderAfter
+   */
+  activeNodeInsertFolderAfter() {
+    const { activeKey } = this.state;
+    const stateClone = Immutable.cloneDeep(this.state.data);
+    let activeNode;
+    if (activeKey) {
+      activeNode = this.findNodeById(stateClone, activeKey);
+    } else {
+      activeNode = stateClone[stateClone.length - 1];
+    }
+    this.onContextMenufolder(null, activeNode || { id: '' });
+  }
+
+  /**
+   * activeNodeInsertFileAfter
+   */
+  activeNodeInsertFileAfter() {
+    const { activeKey } = this.state;
+    const stateClone = Immutable.cloneDeep(this.state.data);
+    let activeNode;
+    if (activeKey) {
+      activeNode = this.findNodeById(stateClone, activeKey);
+    } else {
+      activeNode = stateClone[stateClone.length - 1];
+    }
+    this.onContextMenuaddpagebelow(null, activeNode || { id: '' });
   }
 
   /**
@@ -717,6 +757,45 @@ class PagePanel extends Component {
         });
       },
     });
+  }
+
+  /**
+   * extendComponent
+   * @param {Function} - onAddFile
+   * @param {Function} - onAddFolder
+   * @param {Function} - onSearch
+   * @return {ReactElement}
+   */
+  static extendComponent({
+    onAddFile,
+    onAddFolder,
+    onSearch,
+  }) {
+    return (
+      <div className={`${selectorPrefix}-ExtendBar`}>
+        <span
+          className="fa fa-addfile"
+          onClick={(e) => {
+            e.preventDefault();
+            onAddFile();
+          }}
+        />
+        <span
+          className="fa fa-addfolder"
+          onClick={(e) => {
+            e.preventDefault();
+            onAddFolder();
+          }}
+        />
+        <span
+          className="fa fa-icon-search"
+          onClick={(e) => {
+            e.preventDefault();
+            onSearch();
+          }}
+        />
+      </div>
+    );
   }
 
   render() {

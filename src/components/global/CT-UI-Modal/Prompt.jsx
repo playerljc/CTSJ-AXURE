@@ -63,7 +63,7 @@ Prompt.propTypes = {
   defaultValue: PropTypes.string,
   content: PropTypes.node,
   required: PropTypes.bool,
-  maxLength: Prompt.number,
+  maxLength: PropTypes.number,
 };
 
 export default Prompt;

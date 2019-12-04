@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import uuidv1 from 'uuid/v1';
+
 import { TreeContext } from './Context';
 import Click from '../../../util/Click';
+
 import './TreeNode.less';
 
 const selectorPrefix = 'CT-UI-TreeNode';
@@ -31,7 +33,6 @@ class TreeNode extends React.PureComponent {
       attributes,
       onActive,
       onDBClick,
-      onContextMenu,
     } = this.props;
 
     if (onActive) {

@@ -14,6 +14,46 @@
       {
         "name": "Rect3",
         "key": "Rect3"
+      },
+      {
+        "name": "Ellipse",
+        "key": "Ellipse"
+      },
+      {
+        "name": "Image",
+        "key": "Image"
+      },
+      {
+        "name": "Button",
+        "key": "Button"
+      },
+      {
+        "name": "PrimaryButton",
+        "key": "PrimaryButton"
+      },
+      {
+        "name": "LinkButton",
+        "key": "LinkButton"
+      },
+      {
+        "name": "First level heading",
+        "key": "H1"
+      },
+      {
+        "name": "Secondary title",
+        "key": "H2"
+      },
+      {
+        "name": "Tertiary title",
+        "key": "H3"
+      },
+      {
+        "name": "Text",
+        "key": "Text"
+      },
+      {
+        "name": "Section",
+        "key": "Section"
       }
     ]
   },

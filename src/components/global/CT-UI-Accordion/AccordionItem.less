@@ -1,11 +1,27 @@
 .CT-UI-AccordionItem {
   & ::-webkit-details-marker {
-    direction: ltr;
-    color: gray;
-    margin-left: .5ch;
+    display: none;
+    //direction: ltr;
+    //color: gray;
+    //margin-left: .5ch;
   }
 
-  .CT-UI-AccordionItem-Trigger {
+  &[open] {
+    > .CT-UI-AccordionItem-Trigger {
+      &:before {
+        font-family: FontAwesome;
+        content: '\f103';
+        font-size: 18px;
+        margin: 0 5px 0 10px;
+        color: gray;
+        transform: rotate(0deg);
+        font-weight: bold;
+      }
+    }
+  }
+
+  > .CT-UI-AccordionItem-Trigger {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,7 +30,21 @@
     -ms-user-select: none;
     user-select: none;
     outline: 0;
-    .CT-UI-AccordionItem-Trigger-Name {
+
+    &:before {
+      font-family: FontAwesome;
+      content: '\f102';
+      font-size: 18px;
+      margin: 0 5px 0 10px;
+      color: gray;
+      transform: rotate(0deg);
+      font-weight: bold;
+    }
+
+    > .CT-UI-AccordionItem-Trigger-Name {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       height: 100%;
     }
   }
@@ -22,8 +52,9 @@
 
 .CT-UI-AccordionItem {
   & ::-moz-list-bullet {
-    direction: ltr;
-    color: gray;
-    margin-left: .5ch;
+    display: none;
+    //direction: ltr;
+    //color: gray;
+    //margin-left: .5ch;
   }
 }

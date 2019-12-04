@@ -1,9 +1,11 @@
 import React from 'react';
 import uuidv1 from 'uuid/v1';
+
 import Accordion from '../../global/CT-UI-Accordion/Accordion';
 import AccordionItem from '../../global/CT-UI-Accordion/AccordionItem';
 import Register from '../Register';
 import Config from './Toolbox.json';
+
 import './ToolBox.less';
 
 const selectorPrefix = 'ToolBox';
