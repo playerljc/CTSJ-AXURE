@@ -62,7 +62,11 @@
       {
         "name": "Vertical line",
         "key": "Vline"
-      }
+      },
+      {
+        "name": "Hot Area",
+        "key": "HotArea"
+     }
     ]
   },
   {
