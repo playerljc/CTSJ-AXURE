@@ -1,0 +1,24 @@
+.ct-axure-shape-tool-base-vline {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &:before,
+  &:after {
+    flex-shrink: 0;
+    content: '';
+    width: 8px;
+    height: 8px;
+    background-color: #007aff;
+  }
+
+  > .ct-axure-shape-tool-base-vline-inner {
+    flex-grow: 1;
+    min-height: 0;
+    width: 2px;
+    background-color: #ccc;
+  }
+}

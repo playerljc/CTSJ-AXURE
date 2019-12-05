@@ -1,0 +1,23 @@
+.ct-axure-shape-tool-base-hline {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:before,
+  &:after {
+    flex-shrink: 0;
+    content: '';
+    width: 8px;
+    height: 8px;
+    background-color: #007aff;
+  }
+
+  > .ct-axure-shape-tool-base-hline-inner {
+    flex-grow: 1;
+    min-width: 0;
+    height: 2px;
+    background-color: #ccc;
+  }
+}

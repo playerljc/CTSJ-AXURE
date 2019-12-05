@@ -54,6 +54,14 @@
       {
         "name": "Section",
         "key": "Section"
+      },
+      {
+        "name": "Horizontal line",
+        "key": "Hline"
+      },
+      {
+        "name": "Vertical line",
+        "key": "Vline"
       }
     ]
   },
