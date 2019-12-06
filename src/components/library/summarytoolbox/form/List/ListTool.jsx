@@ -1,33 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import SummaryToolBaseHOC from '../../SummaryToolBaseHOC';
-import './SelectTool.less';
+
+import './ListTool.less';
 
 /**
- * Select
- * @class SelectTool
- * @classdesc Select
+ * ListTool
+ * @class ListTool
+ * @classdesc ListTool
  */
-class SelectTool extends React.PureComponent {
+class ListTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-form-select fa fa-custom-select`} />
+        <div className={`${selectorPrefix}-form-list fa fa-custom-square`} />
       </React.Fragment>
     );
   }
 }
 
-SelectTool.defaultProps = {
+ListTool.defaultProps = {
   selectorPrefix: '',
 };
 
-SelectTool.propTypes = {
+ListTool.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default SummaryToolBaseHOC(SelectTool, {
+export default SummaryToolBaseHOC(ListTool, {
   groupKey: 'form',
-  componentKey: 'Select',
+  componentKey: 'List',
 });

@@ -17,7 +17,7 @@ class HotAreaTool extends React.PureComponent {
       <React.Fragment>
         <div className={`${selectorPrefix}-base-hotarea`} >
           <div className={`${selectorPrefix}-base-hotarea-top`} />
-          <div className={`${selectorPrefix}-base-hotarea-arrow fa fa-jiantouarrow478`} />
+          <div className={`${selectorPrefix}-base-hotarea-arrow fa fa-custom-jiantouarrow478`} />
         </div>
       </React.Fragment>
     );

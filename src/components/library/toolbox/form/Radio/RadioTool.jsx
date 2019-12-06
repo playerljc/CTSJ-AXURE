@@ -1,33 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import ComponentToolBaseHOC from '../../ComponentToolBaseHOC';
-import './SelectTool.less';
+
+import './RadioTool.less';
 
 /**
- * Select
- * @class SelectTool
- * @classdesc Select
+ * Radio
+ * @class RadioTool
+ * @classdesc Radio
  */
-class SelectTool extends React.PureComponent {
+class RadioTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-form-select fa fa-custom-select`} />
+        <div className={`${selectorPrefix}-form-Radio fa fa-custom-radio`} />
       </React.Fragment>
     );
   }
 }
 
-SelectTool.defaultProps = {
+RadioTool.defaultProps = {
   selectorPrefix: '',
 };
 
-SelectTool.propTypes = {
+RadioTool.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentToolBaseHOC(SelectTool, {
+export default ComponentToolBaseHOC(RadioTool, {
   groupKey: 'form',
-  componentKey: 'Select',
+  componentKey: 'Radio',
 });

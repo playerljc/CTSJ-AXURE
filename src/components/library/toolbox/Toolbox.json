@@ -66,7 +66,11 @@
       {
         "name": "Hot Area",
         "key": "HotArea"
-     }
+      },
+      {
+        "name": "Inline Frame",
+        "key": "InlineFrame"
+      }
     ]
   },
   {
@@ -84,6 +88,18 @@
       {
         "name": "Select",
         "key": "Select"
+      },
+      {
+        "name": "List",
+        "key": "List"
+      },
+      {
+        "name": "Checkbox",
+        "key": "Checkbox"
+      },
+      {
+        "name": "Radio",
+        "key": "Radio"
       }
     ]
   }

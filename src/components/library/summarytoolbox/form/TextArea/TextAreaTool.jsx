@@ -13,7 +13,7 @@ class TextAreaTool extends React.PureComponent {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-form-textarea fa fa-textarea`} />
+        <div className={`${selectorPrefix}-form-textarea fa fa-custom-textarea`} />
       </React.Fragment>
     );
   }

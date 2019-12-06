@@ -7,61 +7,61 @@
   url('./iconfont.svg?t=1575355859651#FontAwesome') format('svg'); /* iOS 4.1- */
 }
 
-.fa-input:before {
+.fa-custom-input:before {
   content: "\e619";
 }
-.fa-textarea:before {
+.fa-custom-textarea:before {
   content: "\e62f";
 }
-.fa-select:before {
+.fa-custom-select:before {
   content: "\e6af";
 }
-.fa-addfile:before {
+.fa-custom-addfile:before {
   content: "\e888";
 }
-.fa-addfolder:before {
+.fa-custom-addfolder:before {
   content: "\e889";
 }
-.fa-icon-search:before {
+.fa-custom-icon-search:before {
   content: "\e629";
 }
 
 
 
 
-.fa-table:before {
+.fa-custom-table:before {
   content: "\e895";
 }
-.fa-iframe:before {
+.fa-custom-iframe:before {
   content: "\e74c";
 }
-.fa-jiantouarrow478:before {
+.fa-custom-jiantouarrow478:before {
   content: "\e6a2";
 }
-.fa-square:before {
+.fa-custom-square:before {
   content: "\e684";
 }
-.fa-radio:before {
+.fa-custom-radio:before {
   content: "\e631";
 }
-.fa-caidan:before {
+.fa-custom-caidan:before {
   content: "\e62a";
 }
-.fa-tree:before {
+.fa-custom-tree:before {
   content: "\e61b";
 }
-.fa-xuanxiangqia:before {
+.fa-custom-xuanxiangqia:before {
   content: "\e69f";
 }
-.fa-checkbox:before {
+.fa-custom-checkbox:before {
   content: "\e608";
 }
-.fa-danhangwenben:before {
+.fa-custom-danhangwenben:before {
   content: "\e61c";
 }
-.fa-duohangwenben:before {
+.fa-custom-duohangwenben:before {
   content: "\e61d";
 }
-.fa-tupian:before {
+.fa-custom-tupian:before {
   content: "\e620";
 }
