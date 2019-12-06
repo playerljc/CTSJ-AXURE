@@ -100,6 +100,10 @@
       {
         "name": "Radio",
         "key": "Radio"
+      },
+      {
+        "name": "Submit",
+        "key": "Submit"
       }
     ]
   }
