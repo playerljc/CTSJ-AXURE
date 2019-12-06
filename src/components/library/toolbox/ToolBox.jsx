@@ -4,7 +4,7 @@ import uuidv1 from 'uuid/v1';
 import Accordion from '../../global/CT-UI-Accordion/Accordion';
 import AccordionItem from '../../global/CT-UI-Accordion/AccordionItem';
 import Register from '../Register';
-import Config from './Toolbox.json';
+import ToolBoxConfig from './Toolbox.config';
 
 import './ToolBox.less';
 
@@ -18,7 +18,7 @@ const selectorPrefix = 'ToolBox';
 class ToolBox extends React.PureComponent {
   renderInner() {
     const result = [];
-    Config.forEach((group) => {
+    ToolBoxConfig.forEach((group) => {
       const { groupName, key: groupKey, components } = group;
       // 分类名
       result.push(

@@ -1,8 +1,8 @@
-import ToolBox from './toolbox/Toolbox.json';
+import ToolBoxConfig from './toolbox/Toolbox.config';
 
 const map = new Map();
 
-ToolBox.forEach(({
+ToolBoxConfig.forEach(({
   key: groupKey,
   components,
 }) => {
