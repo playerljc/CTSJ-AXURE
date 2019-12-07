@@ -112,22 +112,22 @@ export default
     groupName: 'Menu Table',
     key: 'menutable',
     components: [
-      // {
-      //   name: 'Tree',
-      //   key: 'Tree',
-      // },
-      // {
-      //   name: 'Table',
-      //   key: 'Table',
-      // },
-      // {
-      //   name: 'Horizontal Menu',
-      //   key: 'HMenu',
-      // },
-      // {
-      //   name: 'Vertical Menu',
-      //   key: 'VMenu',
-      // },
+      {
+        name: 'Tree',
+        key: 'Tree',
+      },
+      {
+        name: 'Table',
+        key: 'Table',
+      },
+      {
+        name: 'Horizontal Menu',
+        key: 'HMenu',
+      },
+      {
+        name: 'Vertical Menu',
+        key: 'VMenu',
+      },
     ],
   },
 ];
