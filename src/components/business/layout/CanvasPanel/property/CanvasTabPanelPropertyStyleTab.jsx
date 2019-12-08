@@ -97,7 +97,6 @@ class CanvasTabPanelPropertyStyleTab extends React.Component {
           <FiledComponent
             value={defaultValue}
             onChange={(value) => {
-              debugger
               const style = shape.getProperty().style;
               style[type] = value;
               shape.setPropertyByProps('style', style);

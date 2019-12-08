@@ -4,7 +4,7 @@ import { Input, Select } from '../../global/CT-UI-Form';
 import Modal from '../../global/CT-UI-Modal/modal';
 import { create } from '../../global/CT-UI-Form/form';
 import { getMaxLevelNumber } from '../component/ComponentBaseHOC';
-import ComponentPropertyDescriptionSettingModal from './ComponentPropertyDescriptionSettingModal';
+import ComponentPropertyDescriptionSettingModal from './ComponentPropertyDescriptionSettingModal/ComponentPropertyDescriptionSettingModal';
 
 import Actions from '../../../util/Actions';
 import Emitter from '../../../util/Emitter';

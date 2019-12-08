@@ -1,0 +1,45 @@
+.ComponentPropertyDescriptionSettingModal {
+  &-FieldTab {
+    display: flex;
+    align-items: flex-start;
+
+    &-FieldSet {
+      flex-grow: 1;
+      min-width: 0;
+      flex-shrink: 0;
+      border: 1px solid #ccc;
+
+      &-ToolBar {
+        margin: 15px 0;
+
+        .UpFieldBtn,
+        .DownFieldBtn,
+        .DeleteFieldBtn {
+          font-size: 20px;
+          font-weight: 400;
+        }
+
+        .UpFieldBtn.Disable,
+        .DownFieldBtn.Disable,
+        .DeleteFieldBtn.Disable {
+          color: gray;
+        }
+
+        .UpFieldBtn {
+          margin-left: 10px;
+          color: #007aff;
+        }
+
+        .DownFieldBtn {
+          margin: 0 10px;
+          color: #007aff;
+        }
+
+        .DeleteFieldBtn {
+          color: red;
+        }
+      }
+
+    }
+  }
+}
