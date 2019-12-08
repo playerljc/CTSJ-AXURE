@@ -228,6 +228,7 @@ class RangeSelect {
           } = el;
 
           const shape = ShapeModel.getShape({ pageId, componentId });
+          if (!shape) return false;
           const { style } = shape.getProperty();
           style.position = {
             left,
