@@ -57,6 +57,54 @@ class App extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    this.EmitterRegister = [
+      {
+        action: Actions.components.business.canvaspanel.addtab,
+        removeHandler: this.onAddTab,
+        onHandler: ::this.onAddTab,
+      },
+      {
+        action: Actions.components.business.canvaspanel.changetab,
+        removeHandler: this.onChangeTab,
+        onHandler: ::this.onChangeTab,
+      },
+      {
+        action: Actions.components.business.canvaspanel.removetab,
+        removeHandler: this.onRemoveTab,
+        onHandler: ::this.onRemoveTab,
+      },
+      {
+        action: Actions.components.business.canvaspanel.paste,
+        removeHandler: this.onPaste,
+        onHandler: ::this.onPaste,
+      },
+      {
+        action: Actions.components.business.canvaspanel.selectall,
+        removeHandler: this.onSelectAll,
+        onHandler: ::this.onSelectAll,
+      },
+      {
+        action: Actions.components.business.canvaspanel.mousewheel,
+        removeHandler: this.onMouseWheel,
+        onHandler: null,
+      },
+      {
+        action: Actions.components.business.canvaspanel.removeshape,
+        removeHandler: this.onRemoveShape,
+        onHandler: ::this.onRemoveShape,
+      },
+      {
+        action: Actions.components.library.component.active,
+        removeHandler: this.onComponentActive,
+        onHandler: ::this.onComponentActive,
+      },
+      {
+        action: Actions.components.library.component.unactive,
+        removeHandler: this.onUnComponentActive,
+        onHandler: ::this.onUnComponentActive,
+      },
+    ];
+
     // 当前激活页面的pageId
     this.curPageId = '';
   }
@@ -77,30 +125,18 @@ class App extends React.PureComponent {
    * componentWillUnMount
    */
   componentWillUnMount() {
-    Emitter.remove(Actions.components.business.canvaspanel.addtab, this.onAddTab);
-    Emitter.remove(Actions.components.business.canvaspanel.changetab, this.onChangeTab);
-    Emitter.remove(Actions.components.business.canvaspanel.removetab, this.onRemoveTab);
-    Emitter.remove(Actions.components.business.canvaspanel.paste, this.onPaste);
-    Emitter.remove(Actions.components.business.canvaspanel.selectall, this.onSelectAll);
-    Emitter.remove(Actions.components.business.canvaspanel.mousewheel, this.onMouseWheel);
-    Emitter.remove(Actions.components.business.canvaspanel.removeshape, this.onRemoveShape);
-    Emitter.remove(Actions.components.library.component.active, this.onComponentActive);
-    Emitter.remove(Actions.components.library.component.unactive, this.onUnComponentActive);
+    this.EmitterRegister.forEach(({ action, removeHandler }) => {
+      Emitter.remove(action, removeHandler);
+    });
   }
 
   /**
    * initEvents
    */
   initEvents() {
-    Emitter.on(Actions.components.business.canvaspanel.addtab, ::this.onAddTab);
-    Emitter.on(Actions.components.business.canvaspanel.changetab, ::this.onChangeTab);
-    Emitter.on(Actions.components.business.canvaspanel.removetab, ::this.onRemoveTab);
-    Emitter.on(Actions.components.business.canvaspanel.paste, ::this.onPaste);
-    Emitter.on(Actions.components.business.canvaspanel.selectall, ::this.onSelectAll);
-    Emitter.on(Actions.components.business.canvaspanel.mousewheel, ::this.onMouseWheel);
-    Emitter.on(Actions.components.business.canvaspanel.removeshape, ::this.onRemoveShape);
-    Emitter.on(Actions.components.library.component.active, ::this.onComponentActive);
-    Emitter.on(Actions.components.library.component.unactive, ::this.onUnComponentActive);
+    this.EmitterRegister.forEach(({ action, onHandler }) => {
+      Emitter.on(action, onHandler);
+    });
   }
 
   /**

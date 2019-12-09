@@ -2,24 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-import { getMaxLevelNumber } from './ComponentBaseHOC';
+import ShapeModel from '../../../model/ShapeModel';
 
-import KeyBoard from '../../../util/KeyBoard';
 import ClipBoard from '../../../util/ClipBoard';
+import Emitter from '../../../util/Emitter';
+import Actions from '../../../util/Actions';
 import { Immutable } from '../../../util/CTMobile-UI-Util';
 import {
   DRSITEMSELECTORPREFIX,
   KEYBOARD_NORMAL_STEP,
-  KEYBOARD_FAST_STEP,
   DRSPREFIX,
 } from '../../../util/Constant';
 
-import ShapeModel from '../../../model/ShapeModel';
-
-import Emitter from '../../../util/Emitter';
-import Actions from '../../../util/Actions';
+import DRSKeyBoard from './DRSKeyBoard';
+import DRSStyle from './DRSStyle';
 
 import './DRSHOC.less';
+
 
 const selectorPrefix = DRSPREFIX;
 
@@ -39,68 +38,8 @@ export default (Component, { groupKey, componentKey }) => {
     constructor(props) {
       super(props);
 
-      this.keyBoardMap = new Map([
-        [['ArrowUp'], this.onArrowUp],
-
-        [['ArrowDown'], this.onArrowDown],
-
-        [['ArrowLeft'], this.onArrowLeft],
-
-        [['ArrowRight'], this.onArrowRight],
-
-        [['Ctrl', 'ArrowUp'], this.onCtrlArrowUp],
-
-        [['Ctrl', 'ArrowDown'], this.onCtrlArrowDown],
-
-        [['Ctrl', 'ArrowLeft'], this.onCtrlArrowLeft],
-
-        [['Ctrl', 'ArrowRight'], this.onCtrlArrowRight],
-
-
-        [['Shift', 'ArrowUp'], this.onCtrlArrowUp],
-
-        [['Shift', 'ArrowDown'], this.onCtrlArrowDown],
-
-        [['Shift', 'ArrowLeft'], this.onCtrlArrowLeft],
-
-        [['Shift', 'ArrowRight'], this.onCtrlArrowRight],
-
-
-        [['Repeat', 'ArrowUp'], this.onRepeatArrowUp],
-
-        [['Repeat', 'ArrowDown'], this.onRepeatArrowDown],
-
-        [['Repeat', 'ArrowLeft'], this.onRepeatArrowLeft],
-
-        [['Repeat', 'ArrowRight'], this.onRepeatArrowRight],
-
-
-        [['Repeat', 'Ctrl', 'ArrowUp'], this.onRepeatCtrlArrowUp],
-
-        [['Repeat', 'Ctrl', 'ArrowDown'], this.onRepeatCtrlArrowDown],
-
-        [['Repeat', 'Ctrl', 'ArrowLeft'], this.onRepeatCtrlArrowLeft],
-
-        [['Repeat', 'Ctrl', 'ArrowRight'], this.onRepeatCtrlArrowRight],
-
-
-        [['Repeat', 'Shift', 'ArrowUp'], this.onRepeatCtrlArrowUp],
-
-        [['Repeat', 'Shift', 'ArrowDown'], this.onRepeatCtrlArrowDown],
-
-        [['Repeat', 'Shift', 'ArrowLeft'], this.onRepeatCtrlArrowLeft],
-
-        [['Repeat', 'Shift', 'ArrowRight'], this.onRepeatCtrlArrowRight],
-
-
-        [['Ctrl', 'c'], this.onCtrlC],
-
-        [['Delete'], this.onDelete],
-
-        [['Backspace'], this.onBackapace],
-
-        [['Ctrl', 'Control'], this.onCtrl],
-      ]);
+      this.drsKeyBoard = new DRSKeyBoard(this);
+      this.drsStyle = new DRSStyle();
 
       this.state = {
         active: false,
@@ -316,20 +255,14 @@ export default (Component, { groupKey, componentKey }) => {
      * bindKeyBoard
      */
     bindKeyBoard() {
-      const entrys = this.keyBoardMap.entries();
-      for (const [key, handler] of entrys) {
-        KeyBoard.on(key, handler);
-      }
+      this.drsKeyBoard.bindKeyBoard();
     }
 
     /**
      * unBindKeyBoard
      */
     unBindKeyBoard() {
-      const entrys = this.keyBoardMap.entries();
-      for (const [key, handler] of entrys) {
-        KeyBoard.off(key, handler);
-      }
+      this.drsKeyBoard.bindKeyBoard();
     }
 
     /**
@@ -381,351 +314,9 @@ export default (Component, { groupKey, componentKey }) => {
     }
 
     /**
-     * getStyle
-     * @return {Object}
+     * copy
      */
-    getStyle() {
-      const {
-        active = false,
-        property: {
-          style: {
-            position: {
-              left,
-              top,
-            },
-            dimension: {
-              width,
-              height,
-            },
-            opacity,
-            lineheight,
-            zindex,
-          },
-        },
-      } = this.state;
-
-      return Object.assign(
-        {
-          zIndex: active ? getMaxLevelNumber() : zindex,
-          width: `${width}px`,
-          height: `${height}px`,
-          left: `${left}px`,
-          top: `${top}px`,
-          boxShadow: this.getBoxShadowStyle(),
-          opacity: opacity / 100,
-          lineHeight: lineheight,
-        },
-        this.getBorderStyle(),
-        this.getBorderRadiusStyle(),
-        this.getFontFamilyStyle(),
-        this.getAlignStyle(),
-      );
-    }
-
-    /**
-     * getBoxShadowStyle
-     * @returns {String}
-     */
-    getBoxShadowStyle() {
-      const {
-        property: {
-          style: {
-            shadow: {
-              inset,
-              outset,
-            },
-          },
-        },
-      } = this.state;
-
-      const boxShadow = [];
-
-      if (!inset.disabled) {
-        boxShadow.push(`inset ${inset.offsetX}px ${inset.offsetY}px ${inset.blurRadius}px ${inset.spreadRadius}px ${inset.color}`);
-      }
-
-      if (!outset.disabled) {
-        boxShadow.push(`${outset.offsetX}px ${outset.offsetY}px ${outset.blurRadius}px ${outset.spreadRadius}px ${outset.color}`);
-      }
-
-      return boxShadow.join(',');
-    }
-
-    /**
-     * getBorderStyle
-     * @returns {Object}
-     */
-    getBorderStyle() {
-      const {
-        property: {
-          style: {
-            border: {
-              borderLeftDisable,
-              borderRightDisable,
-              borderTopDisable,
-              borderBottomDisable,
-              borderWidth,
-              borderStyle,
-              borderColor,
-            },
-          },
-        },
-      } = this.state;
-
-      return Object.assign({},
-        !borderLeftDisable ? { borderLeft: `${borderWidth}px ${borderStyle} ${borderColor}` } : null,
-        !borderRightDisable ? { borderRight: `${borderWidth}px ${borderStyle} ${borderColor}` } : null,
-        !borderTopDisable ? { borderTop: `${borderWidth}px ${borderStyle} ${borderColor}` } : null,
-        !borderBottomDisable ? { borderBottom: `${borderWidth}px ${borderStyle} ${borderColor}` } : null,
-      );
-    }
-
-    /**
-     * getBorderRadiusStyle
-     * @return {Object}
-     */
-    getBorderRadiusStyle() {
-      const {
-        property: {
-          style: {
-            radius: {
-              borderLeftTopRadiusDisable,
-              borderRightTopRadiusDisable,
-              borderLeftBottomRadiusDisable,
-              borderRightBottomRadiusDisable,
-              radius,
-            },
-          },
-        },
-      } = this.state;
-
-      return Object.assign({},
-        !borderLeftTopRadiusDisable ? { borderTopLeftRadius: `${radius}px` } : null,
-        !borderRightTopRadiusDisable ? { borderTopRightRadius: `${radius}px` } : null,
-        !borderLeftBottomRadiusDisable ? { borderBottomLeftRadius: `${radius}px` } : null,
-        !borderRightBottomRadiusDisable ? { borderBottomRightRadius: `${radius}px` } : null,
-      );
-    }
-
-    /**
-     * getFontFamilyStyle
-     * @return {Object}
-     */
-    getFontFamilyStyle() {
-      const {
-        property: {
-          style: {
-            fontfamily: {
-              // fontFamily 字体
-              fontFamily,
-              // fontSize 大小
-              fontSize,
-              // fontWeight 加粗
-              fontWeight,
-              // fontStyle 倾斜
-              fontStyle,
-              // textDecoration 下划线
-              textDecoration,
-              // color 颜色
-              color,
-              // 阴影
-              textShadow: {
-                // 是否启用
-                disabled,
-                // 水平阴影的位置
-                hShadow,
-                // 垂直阴影的位置
-                vShadow,
-                // 模糊的距离
-                blur,
-                // 颜色
-                color: shadowColor,
-              },
-            },
-          },
-        },
-      } = this.state;
-
-      return Object.assign({
-        fontFamily,
-        fontSize: `${fontSize}px`,
-        fontWeight: fontWeight ? 'bold' : 'normal',
-        fontStyle: fontStyle ? 'italic' : 'normal',
-        textDecoration: textDecoration ? 'underline' : 'none',
-        color,
-      },
-      !disabled ? { textShadow: `${hShadow}px ${vShadow}px ${blur}px ${shadowColor}` } : null
-      );
-    }
-
-    /**
-     * getAlignStyle
-     * @return {Object}
-     */
-    getAlignStyle() {
-      const {
-        property: {
-          style: {
-            /* ---对其---*/
-            align: {
-              // 水平左
-              hleft,
-              // 水平右
-              hright,
-              // 水平居中
-              hcenter,
-
-              // 垂直上
-              vtop,
-              // 垂直居中
-              vcenter,
-              // 垂直下
-              vbottom,
-            },
-          },
-        },
-      } = this.state;
-
-      return {
-        display: 'flex',
-        justifyContent: hleft ? 'flex-start' : (hcenter ? 'center' : 'flex-end'),
-        alignItems: vtop ? 'flex-start' : (vcenter ? 'center' : 'flex-end'),
-      };
-    }
-
-    /**
-     * onArrowUp
-     */
-    onArrowUp = () => {
-      console.log('arrowUp');
-      this.arrowDetail('top');
-    };
-
-    /**
-     * onArrowDown
-     */
-    onArrowDown = () => {
-      console.log('arrowDown');
-      this.arrowDetail('bottom');
-    };
-
-    /**
-     * onArrowLeft
-     */
-    onArrowLeft = () => {
-      console.log('arrowLeft');
-      this.arrowDetail('left');
-    };
-
-    /**
-     * onArrowRight
-     */
-    onArrowRight = () => {
-      console.log('arrowRight');
-      this.arrowDetail('right');
-    };
-
-    /**
-     * onCtrlArrowUp
-     */
-    onCtrlArrowUp = () => {
-      console.log('ctrlArrowUp');
-      this.arrowDetail('top', KEYBOARD_FAST_STEP);
-    };
-
-    /**
-     * onCtrlArrowDown
-     */
-    onCtrlArrowDown = () => {
-      console.log('ctrlArrowDown');
-      this.arrowDetail('bottom', KEYBOARD_FAST_STEP);
-    };
-
-    /**
-     * onCtrlArrowLeft
-     */
-    onCtrlArrowLeft = () => {
-      console.log('ctrlArrowLeft');
-      this.arrowDetail('left', KEYBOARD_FAST_STEP);
-    };
-
-    /**
-     * onCtrlArrowRight
-     */
-    onCtrlArrowRight = () => {
-      console.log('ctrlArrowRight');
-      this.arrowDetail('right', KEYBOARD_FAST_STEP);
-    };
-
-    /**
-     * onRepeatArrowUp
-     */
-    onRepeatArrowUp = () => {
-      console.log('repeatArrowUp');
-      this.arrowDetail('top');
-    };
-
-    /**
-     * onRepeatArrowDown
-     */
-    onRepeatArrowDown = () => {
-      console.log('repeatArrowDown');
-      this.arrowDetail('bottom');
-    };
-
-    /**
-     * onRepeatArrowLeft
-     */
-    onRepeatArrowLeft = () => {
-      console.log('repeatArrowLeft');
-      this.arrowDetail('left');
-    };
-
-    /**
-     * onRepeatArrowRight
-     */
-    onRepeatArrowRight = () => {
-      console.log('repeatArrowRight');
-      this.arrowDetail('right');
-    };
-
-    /**
-     * onRepeatCtrlArrowUp
-     */
-    onRepeatCtrlArrowUp = () => {
-      console.log('repeatCtrlArrowUp');
-      this.arrowDetail('top', KEYBOARD_FAST_STEP);
-    };
-
-    /**
-     * onRepeatCtrlArrowDown
-     */
-    onRepeatCtrlArrowDown = () => {
-      console.log('repeatCtrlArrowDown');
-      this.arrowDetail('bottom', KEYBOARD_FAST_STEP);
-    };
-
-    /**
-     * onRepeatCtrlArrowLeft
-     */
-    onRepeatCtrlArrowLeft = () => {
-      console.log('repeatCtrlArrowLeft');
-      this.arrowDetail('left', KEYBOARD_FAST_STEP);
-    };
-
-    /**
-     * onRepeatCtrlArrowRight
-     */
-    onRepeatCtrlArrowRight = () => {
-      console.log('repeatCtrlArrowRight');
-      this.arrowDetail('right', KEYBOARD_FAST_STEP);
-    };
-
-    /**
-     * onCtrlC
-     */
-    onCtrlC = () => {
-      console.log('CtrlC');
+    copy() {
       const { pageId } = this.props;
       const { property } = this.state;
       const el = this.getEl();
@@ -741,30 +332,7 @@ export default (Component, { groupKey, componentKey }) => {
         height: el.offsetHeight,
         active: true,
       }]);
-    };
-
-    /**
-     * onDelete
-     */
-    onDelete = () => {
-      console.log('Delete');
-      this.deleteSelf();
-    };
-
-    /**
-     * onBackapace
-     */
-    onBackapace = () => {
-      console.log('Backapace');
-      this.deleteSelf();
-    };
-
-    /**
-     * onCtrl
-     */
-    onCtrl = () => {
-      console.log('Ctrl');
-    };
+    }
 
     /**
      * render
@@ -786,7 +354,7 @@ export default (Component, { groupKey, componentKey }) => {
             this.el = el;
           }}
           className={`${selectorPrefix} ${this.getDRSClassName()} ${this.getActiveClassName()}`}
-          style={this.getStyle()}
+          style={this.drsStyle.getStyle(Immutable.cloneDeep(this.state))}
           data-groupkey={groupKey}
           data-componentkey={componentKey}
           data-pageid={pageId}
