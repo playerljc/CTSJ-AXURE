@@ -1,8 +1,6 @@
 import { getMaxLevelNumber } from './ComponentBaseHOC';
 
 import { Dom6, Immutable } from '../../../util/CTMobile-UI-Util';
-import KeyBoard from '../../../util/KeyBoard';
-import ClipBoard from '../../../util/ClipBoard';
 
 import ShapeModel from '../../../model/ShapeModel';
 
@@ -12,11 +10,13 @@ import {
   DRITEMSELECTORPREFIX,
   DRSITEMSELECTORPREFIX,
   KEYBOARD_NORMAL_STEP,
-  KEYBOARD_FAST_STEP,
   DRSPREFIX,
 } from '../../../util/Constant';
 
+import RangeSelectKeyBoard from './RangeSelectKeyBoard';
+
 import './RangeSelect.less';
+import ClipBoard from '../../../util/ClipBoard';
 
 const selectorPrefix = 'ct-axure-range-select-shape';
 
@@ -101,69 +101,7 @@ class RangeSelect {
       pageId,
     };
 
-    this.keyBoardMap = new Map([
-      [['ArrowUp'], this.onArrowUp],
-
-      [['ArrowDown'], this.onArrowDown],
-
-      [['ArrowLeft'], this.onArrowLeft],
-
-      [['ArrowRight'], this.onArrowRight],
-
-      [['Ctrl', 'ArrowUp'], this.onCtrlArrowUp],
-
-      [['Ctrl', 'ArrowDown'], this.onCtrlArrowDown],
-
-      [['Ctrl', 'ArrowLeft'], this.onCtrlArrowLeft],
-
-      [['Ctrl', 'ArrowRight'], this.onCtrlArrowRight],
-
-
-      [['Shift', 'ArrowUp'], this.onCtrlArrowUp],
-
-      [['Shift', 'ArrowDown'], this.onCtrlArrowDown],
-
-      [['Shift', 'ArrowLeft'], this.onCtrlArrowLeft],
-
-      [['Shift', 'ArrowRight'], this.onCtrlArrowRight],
-
-
-      [['Repeat', 'ArrowUp'], this.onRepeatArrowUp],
-
-      [['Repeat', 'ArrowDown'], this.onRepeatArrowDown],
-
-      [['Repeat', 'ArrowLeft'], this.onRepeatArrowLeft],
-
-      [['Repeat', 'ArrowRight'], this.onRepeatArrowRight],
-
-
-      [['Repeat', 'Ctrl', 'ArrowUp'], this.onRepeatCtrlArrowUp],
-
-      [['Repeat', 'Ctrl', 'ArrowDown'], this.onRepeatCtrlArrowDown],
-
-      [['Repeat', 'Ctrl', 'ArrowLeft'], this.onRepeatCtrlArrowLeft],
-
-      [['Repeat', 'Ctrl', 'ArrowRight'], this.onRepeatCtrlArrowRight],
-
-
-      [['Repeat', 'Shift', 'ArrowUp'], this.onRepeatCtrlArrowUp],
-
-      [['Repeat', 'Shift', 'ArrowDown'], this.onRepeatCtrlArrowDown],
-
-      [['Repeat', 'Shift', 'ArrowLeft'], this.onRepeatCtrlArrowLeft],
-
-      [['Repeat', 'Shift', 'ArrowRight'], this.onRepeatCtrlArrowRight],
-
-
-      [['Ctrl', 'c'], this.onCtrlC],
-
-      [['Delete'], this.onDelete],
-
-      [['Backspace'], this.onBackapace],
-
-      [['Ctrl', 'Control'], this.onCtrl],
-    ]);
-
+    this.rangeSelectKeyBoard = new RangeSelectKeyBoard(this);
     this.bindKeyBoard();
     this.render();
   }
@@ -172,20 +110,14 @@ class RangeSelect {
    * bindKeyBoard
    */
   bindKeyBoard() {
-    const entrys = this.keyBoardMap.entries();
-    for (const [key, handler] of entrys) {
-      KeyBoard.on(key, handler);
-    }
+    this.rangeSelectKeyBoard.bindKeyBoard();
   }
 
   /**
    * unBindKeyBoard
    */
   unBindKeyBoard() {
-    const entrys = this.keyBoardMap.entries();
-    for (const [key, handler] of entrys) {
-      KeyBoard.off(key, handler);
-    }
+    this.rangeSelectKeyBoard.unBindKeyBoard();
   }
 
   /**
@@ -304,88 +236,10 @@ class RangeSelect {
     }
   }
 
-  onArrowUp = () => {
-    console.log('arrowUp');
-    this.arrowDetail('top');
-  };
-
-  onArrowDown = () => {
-    console.log('arrowDown');
-    this.arrowDetail('bottom');
-  };
-
-  onArrowLeft = () => {
-    console.log('arrowLeft');
-    this.arrowDetail('left');
-  };
-
-  onArrowRight = () => {
-    console.log('arrowRight');
-    this.arrowDetail('right');
-  };
-
-  onCtrlArrowUp = () => {
-    console.log('ctrlArrowUp');
-    this.arrowDetail('top', KEYBOARD_FAST_STEP);
-  };
-
-  onCtrlArrowDown = () => {
-    console.log('ctrlArrowDown');
-    this.arrowDetail('bottom', KEYBOARD_FAST_STEP);
-  };
-
-  onCtrlArrowLeft = () => {
-    console.log('ctrlArrowLeft');
-    this.arrowDetail('left', KEYBOARD_FAST_STEP);
-  };
-
-  onCtrlArrowRight = () => {
-    console.log('ctrlArrowRight');
-    this.arrowDetail('right', KEYBOARD_FAST_STEP);
-  };
-
-  onRepeatArrowUp = () => {
-    console.log('repeatArrowUp');
-    this.arrowDetail('top');
-  };
-
-  onRepeatArrowDown = () => {
-    console.log('repeatArrowDown');
-    this.arrowDetail('bottom');
-  };
-
-  onRepeatArrowLeft = () => {
-    console.log('repeatArrowLeft');
-    this.arrowDetail('left');
-  };
-
-  onRepeatArrowRight = () => {
-    console.log('repeatArrowRight');
-    this.arrowDetail('right');
-  };
-
-  onRepeatCtrlArrowUp = () => {
-    console.log('repeatCtrlArrowUp');
-    this.arrowDetail('top', KEYBOARD_FAST_STEP);
-  };
-
-  onRepeatCtrlArrowDown = () => {
-    console.log('repeatCtrlArrowDown');
-    this.arrowDetail('bottom', KEYBOARD_FAST_STEP);
-  };
-
-  onRepeatCtrlArrowLeft = () => {
-    console.log('repeatCtrlArrowLeft');
-    this.arrowDetail('left', KEYBOARD_FAST_STEP);
-  };
-
-  onRepeatCtrlArrowRight = () => {
-    console.log('repeatCtrlArrowRight');
-    this.arrowDetail('right', KEYBOARD_FAST_STEP);
-  };
-
-  onCtrlC = () => {
-    console.log('CtrlC');
+  /**
+   * copy
+   */
+  copy() {
     const { config: { pageId } } = this;
 
     const changeEls = Array.from(this.el.querySelectorAll(`.${DRSPREFIX}`));
@@ -413,21 +267,7 @@ class RangeSelect {
         active,
       };
     }));
-  };
-
-  onDelete = () => {
-    console.log('Delete');
-    this.deleteSelf();
-  };
-
-  onBackapace = () => {
-    console.log('Backapace');
-    this.deleteSelf();
-  };
-
-  onCtrl = () => {
-    console.log('Ctrl');
-  };
+  }
 
   /**
    * render
