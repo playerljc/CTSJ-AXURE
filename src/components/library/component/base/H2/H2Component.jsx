@@ -12,26 +12,6 @@ import './H2Component.less';
  * @classdesc H2Component
  */
 class H2Component extends React.PureComponent {
-  /**
-   * getStyle
-   * @return {Object}
-   */
-  getStyle() {
-    const {
-      property: {
-        style: {
-          fill: {
-            backgroundColor,
-          },
-        },
-      },
-    } = this.props;
-
-    return {
-      backgroundColor,
-    };
-  }
-
   render() {
     const {
       selectorPrefix,
@@ -41,7 +21,6 @@ class H2Component extends React.PureComponent {
     return (
       <div
         className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={this.getStyle()}
       >Secondary title
       </div>
     );

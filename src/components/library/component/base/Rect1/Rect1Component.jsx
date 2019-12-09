@@ -10,26 +10,6 @@ import './Rect1Component.less';
  * @classdesc Rect1Component
  */
 class Rect1Component extends React.PureComponent {
-  /**
-   * getStyle
-   * @return {Object}
-   */
-  getStyle() {
-    const {
-      property: {
-        style: {
-          fill: {
-            backgroundColor,
-          },
-        },
-      },
-    } = this.props;
-
-    return {
-      backgroundColor,
-    };
-  }
-
   render() {
     const {
       selectorPrefix,
@@ -39,7 +19,6 @@ class Rect1Component extends React.PureComponent {
     return (
       <div
         className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={this.getStyle()}
       />
     );
   }

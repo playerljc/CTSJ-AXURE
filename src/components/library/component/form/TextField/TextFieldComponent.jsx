@@ -11,26 +11,6 @@ import './TextFieldComponent.less';
  * @classdesc TextFieldComponent
  */
 class TextFieldComponent extends React.PureComponent {
-  /**
-   * getStyle
-   * @return {Object}
-   */
-  getStyle() {
-    const {
-      property: {
-        style: {
-          fill: {
-            backgroundColor,
-          },
-        },
-      },
-    } = this.props;
-
-    return {
-      backgroundColor,
-    };
-  }
-
   render() {
     const { selectorPrefix, groupKey, componentKey } = this.props;
     return (
@@ -42,7 +22,6 @@ class TextFieldComponent extends React.PureComponent {
           type="text"
           disabled
           className={`${selectorPrefix}-${groupKey}-${componentKey}-input`}
-          style={this.getStyle()}
         />
       </div>
     );

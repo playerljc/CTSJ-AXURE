@@ -13,26 +13,6 @@ import './CheckboxComponent.less';
  * @classdesc CheckboxComponent
  */
 class CheckboxComponent extends React.PureComponent {
-  /**
-   * getStyle
-   * @return {Object}
-   */
-  getStyle() {
-    const {
-      property: {
-        style: {
-          fill: {
-            backgroundColor,
-          },
-        },
-      },
-    } = this.props;
-
-    return {
-      backgroundColor,
-    };
-  }
-
   render() {
     const { selectorPrefix, groupKey, componentKey } = this.props;
     return (
@@ -43,7 +23,6 @@ class CheckboxComponent extends React.PureComponent {
           }}
           type="checkbox"
           className={`${selectorPrefix}-${groupKey}-${componentKey}-checkbox`}
-          style={this.getStyle()}
         />
         <span className={`${selectorPrefix}-${groupKey}-${componentKey}-checkbox-label`}>
           aaaaaaa

@@ -12,26 +12,6 @@ import './H3Component.less';
  * @classdesc H3Component
  */
 class H3Component extends React.PureComponent {
-  /**
-   * getStyle
-   * @return {Object}
-   */
-  getStyle() {
-    const {
-      property: {
-        style: {
-          fill: {
-            backgroundColor,
-          },
-        },
-      },
-    } = this.props;
-
-    return {
-      backgroundColor,
-    };
-  }
-
   render() {
     const {
       selectorPrefix,
@@ -41,7 +21,6 @@ class H3Component extends React.PureComponent {
     return (
       <div
         className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={this.getStyle()}
       >Tertiary title
       </div>
     );

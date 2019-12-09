@@ -12,26 +12,6 @@ import './TextComponent.less';
  * @classdesc TextComponent
  */
 class TextComponent extends React.PureComponent {
-  /**
-   * getStyle
-   * @return {Object}
-   */
-  getStyle() {
-    const {
-      property: {
-        style: {
-          fill: {
-            backgroundColor,
-          },
-        },
-      },
-    } = this.props;
-
-    return {
-      backgroundColor,
-    };
-  }
-
   render() {
     const {
       selectorPrefix,
@@ -41,7 +21,6 @@ class TextComponent extends React.PureComponent {
     return (
       <div
         className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={this.getStyle()}
       >Text
       </div>
     );

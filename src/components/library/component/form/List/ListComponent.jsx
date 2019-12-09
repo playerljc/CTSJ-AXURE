@@ -12,26 +12,6 @@ import './ListComponent.less';
  * @classdesc ListComponent
  */
 class ListComponent extends React.PureComponent {
-  /**
-   * getStyle
-   * @return {Object}
-   */
-  getStyle() {
-    const {
-      property: {
-        style: {
-          fill: {
-            backgroundColor,
-          },
-        },
-      },
-    } = this.props;
-
-    return {
-      backgroundColor,
-    };
-  }
-
   render() {
     const {
       selectorPrefix,
@@ -43,7 +23,6 @@ class ListComponent extends React.PureComponent {
       <div className={`${selectorPrefix}-${groupKey}-${componentKey}`}>
         <select
           className={`${selectorPrefix}-${groupKey}-${componentKey}-list`}
-          style={this.getStyle()}
         />
       </div>
     );

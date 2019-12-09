@@ -13,26 +13,6 @@ import './RadioComponent.less';
  * @classdesc RadioComponent
  */
 class RadioComponent extends React.PureComponent {
-  /**
-   * getStyle
-   * @return {Object}
-   */
-  getStyle() {
-    const {
-      property: {
-        style: {
-          fill: {
-            backgroundColor,
-          },
-        },
-      },
-    } = this.props;
-
-    return {
-      backgroundColor,
-    };
-  }
-
   render() {
     const { selectorPrefix, groupKey, componentKey } = this.props;
     return (
@@ -43,7 +23,6 @@ class RadioComponent extends React.PureComponent {
           }}
           type="Radio"
           className={`${selectorPrefix}-${groupKey}-${componentKey}-radio`}
-          style={this.getStyle()}
         />
         <span className={`${selectorPrefix}-${groupKey}-${componentKey}-radio-label`}>
           aaaaaaa
