@@ -6,6 +6,7 @@ import DRSHOC from '../../DRSHOC';
 
 import './ImageComponent.less';
 
+import defaultImg from '../../../../../res/images/fa-tupian.svg';
 
 /**
  * ImageComponent
@@ -18,10 +19,17 @@ class ImageComponent extends React.PureComponent {
       selectorPrefix,
       groupKey,
       componentKey,
+      property: {
+        prop: {
+          base64,
+        },
+      },
     } = this.props;
+
     return (
       <div
         className={`${selectorPrefix}-${groupKey}-${componentKey}`}
+        style={{ backgroundImage: `url(${base64 || defaultImg})` }}
       />
     );
   }

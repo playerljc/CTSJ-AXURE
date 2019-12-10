@@ -36,21 +36,21 @@ export default () => ({
     },
     /* --- 边框 ---*/
     border: {
-      borderLeftDisable: true,
-      borderRightDisable: true,
-      borderTopDisable: true,
-      borderBottomDisable: true,
-      borderWidth: 0,
+      borderLeftDisable: false,
+      borderRightDisable: false,
+      borderTopDisable: false,
+      borderBottomDisable: false,
+      borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: '#fff',
+      borderColor: '#000',
     },
     radius: {
       /* --- 圆角 ---*/
-      borderLeftTopRadiusDisable: true,
-      borderRightTopRadiusDisable: true,
-      borderLeftBottomRadiusDisable: true,
-      borderRightBottomRadiusDisable: true,
-      radius: 0,
+      borderLeftTopRadiusDisable: false,
+      borderRightTopRadiusDisable: false,
+      borderLeftBottomRadiusDisable: false,
+      borderRightBottomRadiusDisable: false,
+      radius: 3,
     },
     /* ---透明度---*/
     // opacity
@@ -60,7 +60,7 @@ export default () => ({
       // fontFamily 字体
       fontFamily: '',
       // fontSize 大小
-      fontSize: 0,
+      fontSize: 12,
       // fontWeight 加粗
       fontWeight: false,
       // fontStyle 倾斜
@@ -184,5 +184,9 @@ export default () => ({
   prop: {
     // 组件的名字
     name: 'button',
+    // 组件的文本
+    text: 'BUTTON',
+    // 组件的提示
+    tooltip: 'BUTTON',
   },
 });

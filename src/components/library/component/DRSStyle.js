@@ -24,6 +24,9 @@ class DRSStyle {
             width,
             height,
           },
+          fill: {
+            backgroundColor,
+          },
           opacity,
           lineheight,
           zindex,
@@ -38,6 +41,7 @@ class DRSStyle {
         height: `${height}px`,
         left: `${left}px`,
         top: `${top}px`,
+        backgroundColor,
         boxShadow: this.getBoxShadowStyle(style),
         opacity: opacity / 100,
         lineHeight: lineheight,
@@ -45,7 +49,7 @@ class DRSStyle {
       this.getBorderStyle(style),
       this.getBorderRadiusStyle(style),
       this.getFontFamilyStyle(style),
-      this.getAlignStyle(style),
+      // this.getAlignStyle(style),
     );
   }
 
@@ -129,11 +133,13 @@ class DRSStyle {
       },
     } = style;
 
+    const value = typeof radius === 'string' ? radius : `${radius}px`;
+
     return Object.assign({},
-      !borderLeftTopRadiusDisable ? { borderTopLeftRadius: `${radius}px` } : null,
-      !borderRightTopRadiusDisable ? { borderTopRightRadius: `${radius}px` } : null,
-      !borderLeftBottomRadiusDisable ? { borderBottomLeftRadius: `${radius}px` } : null,
-      !borderRightBottomRadiusDisable ? { borderBottomRightRadius: `${radius}px` } : null,
+      !borderLeftTopRadiusDisable ? { borderTopLeftRadius: value } : null,
+      !borderRightTopRadiusDisable ? { borderTopRightRadius: value } : null,
+      !borderLeftBottomRadiusDisable ? { borderBottomLeftRadius: value } : null,
+      !borderRightBottomRadiusDisable ? { borderBottomRightRadius: value } : null,
     );
   }
 

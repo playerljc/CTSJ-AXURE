@@ -74,11 +74,12 @@ class RadiusPicker extends React.PureComponent {
       <div className={`${selectorPrefix} g-grid-list column2`}>
         <div className="g-grid-list-item">
           <Input
-            type="number"
+            type="text"
             value={radius}
             onChange={(e) => {
+              const value = e.target.value;
               this.setState({
-                radius: window.parseInt(e.target.value),
+                radius: value.endsWith('%') ? value : window.parseInt(value),
               }, () => {
                 this.refresh();
               });
@@ -118,7 +119,10 @@ RadiusPicker.propTypes = {
   borderRightTopRadiusDisable: PropTypes.bool,
   borderLeftBottomRadiusDisable: PropTypes.bool,
   borderRightBottomRadiusDisable: PropTypes.bool,
-  radius: PropTypes.number,
+  radius: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   onChange: PropTypes.func,
 };
 

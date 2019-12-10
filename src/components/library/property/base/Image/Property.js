@@ -184,5 +184,9 @@ export default () => ({
   prop: {
     // 组件的名字
     name: 'image',
+    // 组件的提示
+    tooltip: 'image',
+    // 图片的数据
+    base64: '',
   },
 });

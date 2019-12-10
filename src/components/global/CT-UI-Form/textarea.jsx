@@ -1,5 +1,6 @@
 import React from 'react';
 import FormFieldHOC from './FormFieldHOC';
+import FormFieldMouseDonwCaptureHOC from './FormFieldMouseDonwCaptureHOC';
 
 class TextArea extends React.PureComponent {
   render() {
@@ -9,4 +10,4 @@ class TextArea extends React.PureComponent {
   }
 }
 
-export default FormFieldHOC(TextArea);
+export default FormFieldHOC(FormFieldMouseDonwCaptureHOC(TextArea));

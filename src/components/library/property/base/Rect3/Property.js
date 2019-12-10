@@ -36,13 +36,13 @@ export default () => ({
     },
     /* --- 边框 ---*/
     border: {
-      borderLeftDisable: true,
-      borderRightDisable: true,
-      borderTopDisable: true,
-      borderBottomDisable: true,
-      borderWidth: 0,
+      borderLeftDisable: false,
+      borderRightDisable: false,
+      borderTopDisable: false,
+      borderBottomDisable: false,
+      borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: '#fff',
+      borderColor: '#ccc',
     },
     radius: {
       /* --- 圆角 ---*/
@@ -60,7 +60,7 @@ export default () => ({
       // fontFamily 字体
       fontFamily: '',
       // fontSize 大小
-      fontSize: 0,
+      fontSize: 12,
       // fontWeight 加粗
       fontWeight: false,
       // fontStyle 倾斜
@@ -68,7 +68,7 @@ export default () => ({
       // textDecoration 下划线
       textDecoration: false,
       // color 颜色
-      color: '',
+      color: '#000',
       // 阴影
       textShadow: {
         // 是否启用
@@ -184,5 +184,9 @@ export default () => ({
   prop: {
     // 组件的名字
     name: 'react3',
+    // 组件的文本
+    text: 'react3',
+    // 组件的提示
+    tooltip: 'react3',
   },
 });

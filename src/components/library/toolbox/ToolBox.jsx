@@ -44,7 +44,7 @@ class ToolBox extends React.PureComponent {
   render() {
     return (
       <div className={`${selectorPrefix}`} >
-        <Accordion>
+        <Accordion className="Fresh">
           {this.renderInner()}
         </Accordion>
       </div>

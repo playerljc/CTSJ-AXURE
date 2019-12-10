@@ -17,11 +17,22 @@ class LinkButtonComponent extends React.PureComponent {
       selectorPrefix,
       groupKey,
       componentKey,
+      property: {
+        prop: {
+          text,
+        },
+      },
+      style: {
+        alignStyle,
+      },
     } = this.props;
+
     return (
       <div
         className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-      >BUTTON
+        style={alignStyle}
+      >
+        {text}
       </div>
     );
   }
@@ -37,6 +48,7 @@ LinkButtonComponent.propTypes = {
   groupKey: PropTypes.string,
   componentKey: PropTypes.string,
   selectorPrefix: PropTypes.string,
+  style: PropTypes.object,
 };
 
 export default ComponentBaseHOC(DRSHOC(LinkButtonComponent, {

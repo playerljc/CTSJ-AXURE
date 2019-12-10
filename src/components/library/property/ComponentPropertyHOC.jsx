@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Tab from '../../global/CT-UI-Tab/Tab';
 import TabPanel from '../../global/CT-UI-Tab/TabPanel';
+import AccordionItem from '../../global/CT-UI-Accordion/AccordionItem';
+import Accordion from '../../global/CT-UI-Accordion/Accordion';
+
 import ComponentPropertyDescriptionTab from './ComponentPropertyDescriptionTab';
 import ComponentPropertyStyleTab from './ComponentPropertyStyleTab';
 
 import './ComponentPropertyHOC.less';
+
 
 const selectorPrefix = 'ComponentPropertyHOC';
 
@@ -48,7 +53,22 @@ export default (PropertyTabComponent) => {
         >
           <TabPanel name="Property" key="Property">
             {/* 属性面板 */}
-            <PropertyTabComponent shape={shape} />
+            <PropertyTabComponent shape={shape}>
+              {(config) => {
+                return (
+                  <Accordion className="Fresh">
+                    {config.map(({ key, name, Component }) => (
+                      <AccordionItem
+                        key={key}
+                        name={name}
+                        open
+                      >{Component}
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                );
+              }}
+            </PropertyTabComponent>
           </TabPanel>
           <TabPanel name="Description" key="Description">
             {/* 说明面板 */}

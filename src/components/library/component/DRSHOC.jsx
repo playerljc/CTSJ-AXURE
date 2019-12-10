@@ -304,6 +304,8 @@ export default (Component, { groupKey, componentKey }) => {
      * deleteSelf
      */
     deleteSelf() {
+      if (!this.getEl()) return false;
+
       const { pageId, componentId } = this.props;
       const result = ReactDOM.unmountComponentAtNode(this.getEl().parentElement);
       if (result) {
@@ -348,13 +350,15 @@ export default (Component, { groupKey, componentKey }) => {
         active = false,
       } = this.state;
 
+      const stateClone = Immutable.cloneDeep(this.state);
+
       return (
         <div
           ref={(el) => {
             this.el = el;
           }}
           className={`${selectorPrefix} ${this.getDRSClassName()} ${this.getActiveClassName()}`}
-          style={this.drsStyle.getStyle(Immutable.cloneDeep(this.state))}
+          style={this.drsStyle.getStyle(stateClone)}
           data-groupkey={groupKey}
           data-componentkey={componentKey}
           data-pageid={pageId}
@@ -363,6 +367,14 @@ export default (Component, { groupKey, componentKey }) => {
           {active ? this.renderActiveIndicatorPointer() : null}
           <Component
             {...this.state}
+            style={{
+              style: this.drsStyle.getStyle(stateClone),
+              boxShadowStyle: this.drsStyle.getBoxShadowStyle(stateClone),
+              borderStyle: this.drsStyle.getBorderStyle(stateClone),
+              borderRadiusStyle: this.drsStyle.getBorderRadiusStyle(stateClone),
+              fontFamilyStyle: this.drsStyle.getFontFamilyStyle(stateClone),
+              alignStyle: this.drsStyle.getAlignStyle(stateClone),
+            }}
             selectorPrefix={selectorPrefix}
             groupKey={groupKey}
             componentKey={componentKey}

@@ -13,7 +13,7 @@ export default () => ({
     },
     /* --- 填充 ---*/
     fill: {
-      backgroundColor: '#fff',
+      backgroundColor: '#007aff',
     },
     /* --- 阴影 ---*/
     shadow: {
@@ -46,11 +46,11 @@ export default () => ({
     },
     radius: {
       /* --- 圆角 ---*/
-      borderLeftTopRadiusDisable: true,
-      borderRightTopRadiusDisable: true,
-      borderLeftBottomRadiusDisable: true,
-      borderRightBottomRadiusDisable: true,
-      radius: 0,
+      borderLeftTopRadiusDisable: false,
+      borderRightTopRadiusDisable: false,
+      borderLeftBottomRadiusDisable: false,
+      borderRightBottomRadiusDisable: false,
+      radius: 3,
     },
     /* ---透明度---*/
     // opacity
@@ -60,7 +60,7 @@ export default () => ({
       // fontFamily 字体
       fontFamily: '',
       // fontSize 大小
-      fontSize: 0,
+      fontSize: 12,
       // fontWeight 加粗
       fontWeight: false,
       // fontStyle 倾斜
@@ -68,7 +68,7 @@ export default () => ({
       // textDecoration 下划线
       textDecoration: false,
       // color 颜色
-      color: '',
+      color: '#fff',
       // 阴影
       textShadow: {
         // 是否启用
@@ -184,5 +184,9 @@ export default () => ({
   prop: {
     // 组件的名字
     name: 'primarybutton',
+    // 组件的文本
+    text: 'BUTTON',
+    // 组件的提示
+    tooltip: 'primarybutton',
   },
 });

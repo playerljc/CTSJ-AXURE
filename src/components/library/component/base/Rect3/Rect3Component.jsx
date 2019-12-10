@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import ComponentBaseHOC from '../../ComponentBaseHOC';
 import DRSHOC from '../../DRSHOC';
+
 import './Rect3Component.less';
 
 /**
@@ -15,12 +17,23 @@ class Rect3Component extends React.PureComponent {
       selectorPrefix,
       groupKey,
       componentKey,
+      property: {
+        prop: {
+          text,
+        },
+      },
+      style: {
+        alignStyle,
+      },
     } = this.props;
 
     return (
       <div
         className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-      />
+        style={alignStyle}
+      >
+        {text}
+      </div>
     );
   }
 }
@@ -35,6 +48,7 @@ Rect3Component.propTypes = {
   groupKey: PropTypes.string,
   componentKey: PropTypes.string,
   selectorPrefix: PropTypes.string,
+  style: PropTypes.object,
 };
 
 export default ComponentBaseHOC(DRSHOC(Rect3Component, {

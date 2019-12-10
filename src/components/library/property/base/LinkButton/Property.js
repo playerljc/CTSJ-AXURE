@@ -13,7 +13,7 @@ export default () => ({
     },
     /* --- 填充 ---*/
     fill: {
-      backgroundColor: '#fff',
+      backgroundColor: 'transparent',
     },
     /* --- 阴影 ---*/
     shadow: {
@@ -60,15 +60,15 @@ export default () => ({
       // fontFamily 字体
       fontFamily: '',
       // fontSize 大小
-      fontSize: 0,
+      fontSize: 14,
       // fontWeight 加粗
-      fontWeight: false,
+      fontWeight: true,
       // fontStyle 倾斜
       fontStyle: false,
       // textDecoration 下划线
-      textDecoration: false,
+      textDecoration: true,
       // color 颜色
-      color: '',
+      color: '#007aff',
       // 阴影
       textShadow: {
         // 是否启用
@@ -184,5 +184,9 @@ export default () => ({
   prop: {
     // 组件的名字
     name: 'linkbutton',
+    // 组件的文本
+    text: 'BUTTON',
+    // 组件的提示
+    tooltip: 'linkbutton',
   },
 });
