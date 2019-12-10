@@ -17,11 +17,22 @@ class H3Component extends React.PureComponent {
       selectorPrefix,
       groupKey,
       componentKey,
+      property: {
+        prop: {
+          text,
+        },
+      },
+      style: {
+        alignStyle,
+      },
     } = this.props;
+
     return (
       <div
         className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-      >Tertiary title
+        style={alignStyle}
+      >
+        {text}
       </div>
     );
   }
@@ -37,6 +48,7 @@ H3Component.propTypes = {
   groupKey: PropTypes.string,
   componentKey: PropTypes.string,
   selectorPrefix: PropTypes.string,
+  style: PropTypes.object,
 };
 
 export default ComponentBaseHOC(DRSHOC(H3Component, {

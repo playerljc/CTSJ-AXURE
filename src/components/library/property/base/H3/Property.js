@@ -60,9 +60,9 @@ export default () => ({
       // fontFamily 字体
       fontFamily: '',
       // fontSize 大小
-      fontSize: 0,
+      fontSize: 20,
       // fontWeight 加粗
-      fontWeight: false,
+      fontWeight: true,
       // fontStyle 倾斜
       fontStyle: false,
       // textDecoration 下划线
@@ -184,5 +184,9 @@ export default () => ({
   prop: {
     // 组件的名字
     name: 'H3',
+    // 组件的文本
+    text: 'Tertiary title',
+    // 组件的提示
+    tooltip: 'H3',
   },
 });

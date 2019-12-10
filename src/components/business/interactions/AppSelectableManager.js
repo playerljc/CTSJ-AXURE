@@ -65,7 +65,6 @@ function onEnd() {
  * @todo 页面的点击
  */
 function onClick() {
-  console.log('selectClick');
   App.clearRangeSelect();
   App.clearCurPageActiveShape();
 }
