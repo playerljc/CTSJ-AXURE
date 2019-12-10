@@ -262,7 +262,7 @@ export default (Component, { groupKey, componentKey }) => {
      * unBindKeyBoard
      */
     unBindKeyBoard() {
-      this.drsKeyBoard.bindKeyBoard();
+      this.drsKeyBoard.unBindKeyBoard();
     }
 
     /**
@@ -274,30 +274,53 @@ export default (Component, { groupKey, componentKey }) => {
       const styleKey = (direction === 'top' || direction === 'bottom') ? 'top' : 'left';
       const styleUpperKey = styleKey.charAt(0).toUpperCase() + styleKey.substring(1);
 
+      // if (direction === 'left' || direction === 'top') {
+      //   if (this.el[`offset${styleUpperKey}`] - step < 0) {
+      //     this.el.style[styleKey] = '0';
+      //   } else {
+      //     this.el.style[styleKey] = `${this.el[`offset${styleUpperKey}`] - step}px`;
+      //   }
+      // } else {
+      //   this.el.style[styleKey] = `${this.el[`offset${styleUpperKey}`] + step}px`;
+      // }
+
+      let value;
       if (direction === 'left' || direction === 'top') {
         if (this.el[`offset${styleUpperKey}`] - step < 0) {
-          this.el.style[styleKey] = '0';
+          value = '0';
         } else {
-          this.el.style[styleKey] = `${this.el[`offset${styleUpperKey}`] - step}px`;
+          value = `${this.el[`offset${styleUpperKey}`] - step}`;
         }
       } else {
-        this.el.style[styleKey] = `${this.el[`offset${styleUpperKey}`] + step}px`;
+        value = `${this.el[`offset${styleUpperKey}`] + step}`;
       }
 
-      const { pageid: pageId } = this.el.dataset;
-      const pageEl = document.getElementById(pageId).parentElement;
-      const elRect = this.el.getBoundingClientRect();
-      const pageRect = pageEl.getBoundingClientRect();
+      const style = this.getProperty().style;
+      style.position[styleKey] = window.parseInt(value);
+      this.setPropertyByProps('style', style, () => {
+        const {
+          pageid: pageId,
+          componentid: componentId,
+        } = this.el.dataset;
+        const pageEl = document.getElementById(pageId).parentElement;
+        const elRect = this.el.getBoundingClientRect();
+        const pageRect = pageEl.getBoundingClientRect();
 
-      if (direction === 'left' || direction === 'top') {
-        if (elRect[direction] <= pageRect[direction]) {
-          if (pageEl[`scroll${styleUpperKey}`] > 0) {
-            pageEl[`scroll${styleUpperKey}`] -= (pageRect[direction] - elRect[direction]);
+        if (direction === 'left' || direction === 'top') {
+          if (elRect[direction] <= pageRect[direction]) {
+            if (pageEl[`scroll${styleUpperKey}`] > 0) {
+              pageEl[`scroll${styleUpperKey}`] -= (pageRect[direction] - elRect[direction]);
+            }
           }
+        } else if (elRect[direction] >= pageRect[direction]) {
+          pageEl[`scroll${styleUpperKey}`] += (elRect[direction] - pageRect[direction]);
         }
-      } else if (elRect[direction] >= pageRect[direction]) {
-        pageEl[`scroll${styleUpperKey}`] += (elRect[direction] - pageRect[direction]);
-      }
+
+        Emitter.trigger(Actions.components.library.component.stylechange, {
+          pageId,
+          componentId,
+        });
+      });
     }
 
     /**

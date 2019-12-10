@@ -80,7 +80,6 @@ class DRSKeyBoard {
    * bindKeyBoard
    */
   bindKeyBoard() {
-    this.unBindKeyBoard();
     const entrys = this.keyBoardMap.entries();
     for (const [key, handler] of entrys) {
       KeyBoard.on(key, handler);

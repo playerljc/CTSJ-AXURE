@@ -132,7 +132,6 @@ class ComponentPropertyStyleTab extends React.Component {
     pageId,
     componentId,
   }) {
-    // console.log(pageId, componentId);
     this.setState({
       shape: ShapeModel.getShape({ pageId, componentId }),
     });
