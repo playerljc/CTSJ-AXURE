@@ -17,11 +17,22 @@ class TextComponent extends React.PureComponent {
       selectorPrefix,
       groupKey,
       componentKey,
+      property: {
+        prop: {
+          text,
+        },
+      },
+      style: {
+        alignStyle,
+      },
     } = this.props;
+
     return (
       <div
         className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-      >Text
+        style={alignStyle}
+      >
+        {text}
       </div>
     );
   }
@@ -37,6 +48,7 @@ TextComponent.propTypes = {
   groupKey: PropTypes.string,
   componentKey: PropTypes.string,
   selectorPrefix: PropTypes.string,
+  style: PropTypes.object,
 };
 
 export default ComponentBaseHOC(DRSHOC(TextComponent, {

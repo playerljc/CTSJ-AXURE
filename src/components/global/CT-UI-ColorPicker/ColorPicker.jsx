@@ -27,19 +27,19 @@ class ColorPicker extends React.PureComponent {
     this.onArrowClick = this.onArrowClick.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
-    return {
-      color: props.color,
-      disabled: props.disabled,
-    };
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({
-  //     color: nextProps.color,
-  //     disabled: nextProps.disabled,
-  //   });
+  // static getDerivedStateFromProps(props, state) {
+  //   return {
+  //     color: props.color,
+  //     disabled: props.disabled,
+  //   };
   // }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      color: nextProps.color,
+      disabled: nextProps.disabled,
+    });
+  }
 
   onArrowClick() {
     const { zIndex = 9999, title = 'backgroundColor' } = this.props;

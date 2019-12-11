@@ -41,29 +41,7 @@ class BorderPicker extends React.PureComponent {
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const {
-      borderLeftDisable,
-      borderRightDisable,
-      borderTopDisable,
-      borderBottomDisable,
-      borderWidth,
-      borderStyle,
-      borderColor,
-    } = props;
-
-    return {
-      borderLeftDisable,
-      borderRightDisable,
-      borderTopDisable,
-      borderBottomDisable,
-      borderWidth,
-      borderStyle,
-      borderColor,
-    };
-  }
-
-  // componentWillReceiveProps(nextProps) {
+  // static getDerivedStateFromProps(props, state) {
   //   const {
   //     borderLeftDisable,
   //     borderRightDisable,
@@ -72,9 +50,9 @@ class BorderPicker extends React.PureComponent {
   //     borderWidth,
   //     borderStyle,
   //     borderColor,
-  //   } = nextProps;
+  //   } = props;
   //
-  //   this.setState({
+  //   return {
   //     borderLeftDisable,
   //     borderRightDisable,
   //     borderTopDisable,
@@ -82,8 +60,30 @@ class BorderPicker extends React.PureComponent {
   //     borderWidth,
   //     borderStyle,
   //     borderColor,
-  //   });
+  //   };
   // }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      borderLeftDisable,
+      borderRightDisable,
+      borderTopDisable,
+      borderBottomDisable,
+      borderWidth,
+      borderStyle,
+      borderColor,
+    } = nextProps;
+
+    this.setState({
+      borderLeftDisable,
+      borderRightDisable,
+      borderTopDisable,
+      borderBottomDisable,
+      borderWidth,
+      borderStyle,
+      borderColor,
+    });
+  }
 
   refresh() {
     const { onChange } = this.props;

@@ -24,19 +24,19 @@ class BackgroundImgImportPicker extends React.PureComponent {
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    return {
-      backgroundImg: props.backgroundImg,
-      disabled: !props.backgroundImg,
-    };
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({
-  //     backgroundImg: nextProps.backgroundImg,
-  //     disabled: !nextProps.backgroundImg,
-  //   });
+  // static getDerivedStateFromProps(props, state) {
+  //   return {
+  //     backgroundImg: props.backgroundImg,
+  //     disabled: !props.backgroundImg,
+  //   };
   // }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      backgroundImg: nextProps.backgroundImg,
+      disabled: !nextProps.backgroundImg,
+    });
+  }
 
   onSuccess = (data) => {
     const { onChange } = this.props;

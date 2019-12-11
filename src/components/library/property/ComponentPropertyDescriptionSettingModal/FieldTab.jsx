@@ -43,17 +43,17 @@ class FieldTab extends React.PureComponent {
     this.onSelectOptionsValueChange = this.onSelectOptionsValueChange.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
-    return {
-      data: props.data,
-    };
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({
-  //     data: nextProps.data,
-  //   });
+  // static getDerivedStateFromProps(props, state) {
+  //   return {
+  //     data: props.data,
+  //   };
   // }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      data: nextProps.data,
+    });
+  }
 
   /**
    * getTableColumnsConfig

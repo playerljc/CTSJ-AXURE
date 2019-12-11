@@ -109,17 +109,17 @@ class ComponentPropertyStyleTab extends React.Component {
     this.onShapeStyleChange = this.onShapeStyleChange.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
-    return {
-      shape: props.shape,
-    };
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({
-  //     shape: nextProps.shape,
-  //   });
+  // static getDerivedStateFromProps(props, state) {
+  //   return {
+  //     shape: props.shape,
+  //   };
   // }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      shape: nextProps.shape,
+    });
+  }
 
   componentDidMount() {
     Emitter.on(Actions.components.library.component.stylechange, this.onShapeStyleChange);

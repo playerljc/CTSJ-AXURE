@@ -60,7 +60,7 @@ export default () => ({
       // fontFamily 字体
       fontFamily: '',
       // fontSize 大小
-      fontSize: 0,
+      fontSize: 14,
       // fontWeight 加粗
       fontWeight: false,
       // fontStyle 倾斜
@@ -91,15 +91,15 @@ export default () => ({
     /* ---对其---*/
     align: {
       // 水平左
-      hleft: false,
+      hleft: true,
       // 水平右
       hright: false,
       // 水平居中
-      hcenter: true,
+      hcenter: false,
       // 垂直上
-      vtop: false,
+      vtop: true,
       // 垂直居中
-      vcenter: true,
+      vcenter: false,
       // 垂直下
       vbottom: false,
     },
@@ -184,5 +184,9 @@ export default () => ({
   prop: {
     // 组件的名字
     name: 'Section',
+    // 组件的文本
+    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.',
+    // 组件的提示
+    tooltip: 'Section',
   },
 });

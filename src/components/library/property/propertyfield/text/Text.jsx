@@ -23,25 +23,25 @@ class Text extends React.PureComponent {
     this.state = { value };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const {
-      value,
-    } = props;
-
-    return {
-      value,
-    };
-  }
-
-  // componentWillReceiveProps(nextProps) {
+  // static getDerivedStateFromProps(props, state) {
   //   const {
   //     value,
-  //   } = nextProps;
+  //   } = props;
   //
-  //   this.setState({
+  //   return {
   //     value,
-  //   });
+  //   };
   // }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      value,
+    } = nextProps;
+
+    this.setState({
+      value,
+    });
+  }
 
   render() {
     const { onChange } = this.props;

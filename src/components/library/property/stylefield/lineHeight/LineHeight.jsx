@@ -45,25 +45,25 @@ class LineHeight extends React.PureComponent {
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const {
-      value,
-    } = props;
-
-    return {
-      value: value === 'normal' ? '--' : value.replace('px', ''),
-    };
-  }
-
-  // componentWillReceiveProps(nextProps) {
+  // static getDerivedStateFromProps(props, state) {
   //   const {
   //     value,
-  //   } = nextProps;
+  //   } = props;
   //
-  //   this.setState({
+  //   return {
   //     value: value === 'normal' ? '--' : value.replace('px', ''),
-  //   });
+  //   };
   // }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      value,
+    } = nextProps;
+
+    this.setState({
+      value: value === 'normal' ? '--' : value.replace('px', ''),
+    });
+  }
 
   render() {
     const { value } = this.state;

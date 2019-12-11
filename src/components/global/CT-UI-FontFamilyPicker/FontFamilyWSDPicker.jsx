@@ -29,33 +29,33 @@ class FontFamilyWSDPicker extends React.PureComponent {
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const {
-      fontWeight,
-      fontStyle,
-      textDecoration,
-    } = props;
-
-    return {
-      fontWeight,
-      fontStyle,
-      textDecoration,
-    };
-  }
-
-  // componentWillReceiveProps(nextProps) {
+  // static getDerivedStateFromProps(props, state) {
   //   const {
   //     fontWeight,
   //     fontStyle,
   //     textDecoration,
-  //   } = nextProps;
+  //   } = props;
   //
-  //   this.setState({
+  //   return {
   //     fontWeight,
   //     fontStyle,
   //     textDecoration,
-  //   });
+  //   };
   // }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      fontWeight,
+      fontStyle,
+      textDecoration,
+    } = nextProps;
+
+    this.setState({
+      fontWeight,
+      fontStyle,
+      textDecoration,
+    });
+  }
 
   onBoldClick = () => {
     const { fontWeight } = this.state;

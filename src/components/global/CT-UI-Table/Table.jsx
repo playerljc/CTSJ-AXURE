@@ -23,23 +23,23 @@ class Table extends React.PureComponent {
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.rowSelection && props.rowSelection.selectedRowKey) {
-      return {
-        selectedRowKey: props.rowSelection.selectedRowKey,
-      };
-    } else {
-      return null;
-    }
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.rowSelection && nextProps.rowSelection.selectedRowKey) {
-  //     this.setState({
-  //       selectedRowKey: nextProps.rowSelection.selectedRowKey,
-  //     });
+  // static getDerivedStateFromProps(props, state) {
+  //   if (props.rowSelection && props.rowSelection.selectedRowKey) {
+  //     return {
+  //       selectedRowKey: props.rowSelection.selectedRowKey,
+  //     };
+  //   } else {
+  //     return null;
   //   }
   // }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.rowSelection && nextProps.rowSelection.selectedRowKey) {
+      this.setState({
+        selectedRowKey: nextProps.rowSelection.selectedRowKey,
+      });
+    }
+  }
 
   /**
    * rowData

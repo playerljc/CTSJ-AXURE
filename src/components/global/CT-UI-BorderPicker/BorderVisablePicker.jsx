@@ -32,37 +32,37 @@ class BorderVisablePickerModal extends React.PureComponent {
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const {
-      borderLeftDisable,
-      borderRightDisable,
-      borderTopDisable,
-      borderBottomDisable,
-    } = props;
-
-    return {
-      borderLeftDisable,
-      borderRightDisable,
-      borderTopDisable,
-      borderBottomDisable,
-    };
-  }
-
-  // componentWillReceiveProps(nextProps) {
+  // static getDerivedStateFromProps(props, state) {
   //   const {
   //     borderLeftDisable,
   //     borderRightDisable,
   //     borderTopDisable,
   //     borderBottomDisable,
-  //   } = nextProps;
+  //   } = props;
   //
-  //   this.state = {
+  //   return {
   //     borderLeftDisable,
   //     borderRightDisable,
   //     borderTopDisable,
   //     borderBottomDisable,
   //   };
   // }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      borderLeftDisable,
+      borderRightDisable,
+      borderTopDisable,
+      borderBottomDisable,
+    } = nextProps;
+
+    this.state = {
+      borderLeftDisable,
+      borderRightDisable,
+      borderTopDisable,
+      borderBottomDisable,
+    };
+  }
 
   onLeftClick = () => {
     const { borderLeftDisable } = this.state;
@@ -171,37 +171,37 @@ class BorderVisablePicker extends React.PureComponent {
     this.onArrowClick = this.onArrowClick.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const {
-      borderLeftDisable,
-      borderRightDisable,
-      borderTopDisable,
-      borderBottomDisable,
-    } = props;
-
-    return {
-      borderLeftDisable,
-      borderRightDisable,
-      borderTopDisable,
-      borderBottomDisable,
-    };
-  }
-
-  // componentWillReceiveProps(nextProps) {
+  // static getDerivedStateFromProps(props, state) {
   //   const {
   //     borderLeftDisable,
   //     borderRightDisable,
   //     borderTopDisable,
   //     borderBottomDisable,
-  //   } = nextProps;
+  //   } = props;
   //
-  //   this.setState({
+  //   return {
   //     borderLeftDisable,
   //     borderRightDisable,
   //     borderTopDisable,
   //     borderBottomDisable,
-  //   });
+  //   };
   // }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      borderLeftDisable,
+      borderRightDisable,
+      borderTopDisable,
+      borderBottomDisable,
+    } = nextProps;
+
+    this.setState({
+      borderLeftDisable,
+      borderRightDisable,
+      borderTopDisable,
+      borderBottomDisable,
+    });
+  }
 
   onArrowClick() {
     const {

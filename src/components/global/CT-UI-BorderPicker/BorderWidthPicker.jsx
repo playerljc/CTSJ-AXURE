@@ -64,17 +64,17 @@ class BorderWidthPicker extends React.PureComponent {
     this.onArrowClick = this.onArrowClick.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
-    return {
-      borderWidth: props.borderWidth,
-    };
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({
-  //     borderWidth: nextProps.borderWidth,
-  //   });
+  // static getDerivedStateFromProps(props, state) {
+  //   return {
+  //     borderWidth: props.borderWidth,
+  //   };
   // }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      borderWidth: nextProps.borderWidth,
+    });
+  }
 
   onArrowClick() {
     const {

@@ -28,17 +28,17 @@ export default (Component) => {
       };
     }
 
-    static getDerivedStateFromProps(props, state) {
-      return {
-        ...props,
-      };
-    }
-
-    // componentWillReceiveProps(nextProps) {
-    //   this.setState({
-    //     ...nextProps,
-    //   });
+    // static getDerivedStateFromProps(props, state) {
+    //   return {
+    //     ...props,
+    //   };
     // }
+
+    componentWillReceiveProps(nextProps) {
+      this.setState({
+        ...nextProps,
+      });
+    }
 
     /**
      * onCellClick

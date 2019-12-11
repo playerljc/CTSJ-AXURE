@@ -30,21 +30,21 @@ class Position extends React.PureComponent {
     this.onChangeY = this.onChangeY.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const { value } = props;
-
-    return {
-      ...value,
-    };
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   const { value } = nextProps;
+  // static getDerivedStateFromProps(props, state) {
+  //   const { value } = props;
   //
-  //   this.setState({
+  //   return {
   //     ...value,
-  //   });
+  //   };
   // }
+
+  componentWillReceiveProps(nextProps) {
+    const { value } = nextProps;
+
+    this.setState({
+      ...value,
+    });
+  }
 
   /**
    * onChangeX

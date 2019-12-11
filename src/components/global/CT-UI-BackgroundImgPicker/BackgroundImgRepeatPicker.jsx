@@ -28,16 +28,17 @@ class BackgroundImgRepeatPicker extends React.PureComponent {
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    return {
-      repeat: props.repeat,
-    };
-  }
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({
-  //     repeat: nextProps.repeat,
-  //   });
+  // static getDerivedStateFromProps(props, state) {
+  //   return {
+  //     repeat: props.repeat,
+  //   };
   // }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      repeat: nextProps.repeat,
+    });
+  }
 
   onChange = (e) => {
     const { onChange } = this.props;
