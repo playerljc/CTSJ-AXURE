@@ -35,23 +35,41 @@ class RadiusPicker extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(props, state) {
     const {
       borderLeftTopRadiusDisable,
       borderRightTopRadiusDisable,
       borderLeftBottomRadiusDisable,
       borderRightBottomRadiusDisable,
       radius,
-    } = nextProps;
+    } = props;
 
-    this.setState({
+    return {
       borderLeftTopRadiusDisable,
       borderRightTopRadiusDisable,
       borderLeftBottomRadiusDisable,
       borderRightBottomRadiusDisable,
       radius,
-    });
+    };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const {
+  //     borderLeftTopRadiusDisable,
+  //     borderRightTopRadiusDisable,
+  //     borderLeftBottomRadiusDisable,
+  //     borderRightBottomRadiusDisable,
+  //     radius,
+  //   } = nextProps;
+  //
+  //   this.setState({
+  //     borderLeftTopRadiusDisable,
+  //     borderRightTopRadiusDisable,
+  //     borderLeftBottomRadiusDisable,
+  //     borderRightBottomRadiusDisable,
+  //     radius,
+  //   });
+  // }
 
   refresh() {
     const { onChange } = this.props;

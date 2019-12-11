@@ -41,6 +41,8 @@ export default (Component, { groupKey, componentKey }) => {
       this.drsKeyBoard = new DRSKeyBoard(this);
       this.drsStyle = new DRSStyle();
 
+      this.isUnmount = false;
+
       this.state = {
         active: false,
         rangeSelectActive: false,
@@ -53,6 +55,7 @@ export default (Component, { groupKey, componentKey }) => {
      */
     componentWillUnmount() {
       this.unBindKeyBoard();
+      this.isUnmount = true;
     }
 
     /**
@@ -78,6 +81,8 @@ export default (Component, { groupKey, componentKey }) => {
      * 正常节点的unActive
      */
     unActive() {
+      if (this.isUnmount) return false;
+
       // 解除当前Shape的KeyBoard操作
       this.unBindKeyBoard();
       this.setState({
@@ -111,6 +116,8 @@ export default (Component, { groupKey, componentKey }) => {
      * unRangeSelectActive
      */
     unRangeSelectActive() {
+      if (this.isUnmount) return false;
+
       this.setState({
         rangeSelectActive: false,
       }, () => {

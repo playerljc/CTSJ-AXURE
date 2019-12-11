@@ -26,13 +26,21 @@ class Dimension extends React.PureComponent {
     this.onChangeHeight = this.onChangeHeight.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { value } = nextProps;
+  static getDerivedStateFromProps(props, state) {
+    const { value } = props;
 
-    this.setState({
+    return {
       ...value,
-    });
+    };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const { value } = nextProps;
+  //
+  //   this.setState({
+  //     ...value,
+  //   });
+  // }
 
   /**
    * onChangeWidth

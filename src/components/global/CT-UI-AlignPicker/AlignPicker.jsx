@@ -35,7 +35,7 @@ class AlignPicker extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(props, state) {
     const {
       hleft,
       hright,
@@ -43,17 +43,37 @@ class AlignPicker extends React.PureComponent {
       vtop,
       vcenter,
       vbottom,
-    } = nextProps;
+    } = props;
 
-    this.setState({
+    return {
       hleft,
       hright,
       hcenter,
       vtop,
       vcenter,
       vbottom,
-    });
+    };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const {
+  //     hleft,
+  //     hright,
+  //     hcenter,
+  //     vtop,
+  //     vcenter,
+  //     vbottom,
+  //   } = nextProps;
+  //
+  //   this.setState({
+  //     hleft,
+  //     hright,
+  //     hcenter,
+  //     vtop,
+  //     vcenter,
+  //     vbottom,
+  //   });
+  // }
 
   onHLeftClick = () => {
     const { hleft } = this.state;

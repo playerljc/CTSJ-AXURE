@@ -32,21 +32,37 @@ class BorderVisablePickerModal extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(props, state) {
     const {
       borderLeftDisable,
       borderRightDisable,
       borderTopDisable,
       borderBottomDisable,
-    } = nextProps;
+    } = props;
 
-    this.state = {
+    return {
       borderLeftDisable,
       borderRightDisable,
       borderTopDisable,
       borderBottomDisable,
     };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const {
+  //     borderLeftDisable,
+  //     borderRightDisable,
+  //     borderTopDisable,
+  //     borderBottomDisable,
+  //   } = nextProps;
+  //
+  //   this.state = {
+  //     borderLeftDisable,
+  //     borderRightDisable,
+  //     borderTopDisable,
+  //     borderBottomDisable,
+  //   };
+  // }
 
   onLeftClick = () => {
     const { borderLeftDisable } = this.state;
@@ -155,21 +171,37 @@ class BorderVisablePicker extends React.PureComponent {
     this.onArrowClick = this.onArrowClick.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(props, state) {
     const {
       borderLeftDisable,
       borderRightDisable,
       borderTopDisable,
       borderBottomDisable,
-    } = nextProps;
+    } = props;
 
-    this.setState({
+    return {
       borderLeftDisable,
       borderRightDisable,
       borderTopDisable,
       borderBottomDisable,
-    });
+    };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const {
+  //     borderLeftDisable,
+  //     borderRightDisable,
+  //     borderTopDisable,
+  //     borderBottomDisable,
+  //   } = nextProps;
+  //
+  //   this.setState({
+  //     borderLeftDisable,
+  //     borderRightDisable,
+  //     borderTopDisable,
+  //     borderBottomDisable,
+  //   });
+  // }
 
   onArrowClick() {
     const {
@@ -190,7 +222,6 @@ class BorderVisablePicker extends React.PureComponent {
               ...value,
             }, () => {
               if (onChange) {
-                debugger
                 onChange(value);
               }
             });

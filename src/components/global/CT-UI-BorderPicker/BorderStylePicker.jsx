@@ -93,11 +93,17 @@ class BorderStylePicker extends React.PureComponent {
     this.onArrowClick = this.onArrowClick.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      borderStyle: nextProps.borderStyle,
-    });
+  static getDerivedStateFromProps(props, state) {
+    return {
+      borderStyle: props.borderStyle,
+    };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({
+  //     borderStyle: nextProps.borderStyle,
+  //   });
+  // }
 
   onArrowClick() {
     const {

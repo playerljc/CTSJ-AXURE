@@ -40,7 +40,7 @@ class BackgroundImgPicker extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(props, state) {
     const {
       backgroundImg,
       repeat,
@@ -50,9 +50,9 @@ class BackgroundImgPicker extends React.PureComponent {
       top,
       vcenter,
       bottom,
-    } = nextProps;
+    } = props;
 
-    this.setState({
+    return {
       backgroundImg,
       repeat,
       left,
@@ -61,8 +61,32 @@ class BackgroundImgPicker extends React.PureComponent {
       top,
       vcenter,
       bottom,
-    });
+    };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const {
+  //     backgroundImg,
+  //     repeat,
+  //     left,
+  //     hcenter,
+  //     right,
+  //     top,
+  //     vcenter,
+  //     bottom,
+  //   } = nextProps;
+  //
+  //   this.setState({
+  //     backgroundImg,
+  //     repeat,
+  //     left,
+  //     hcenter,
+  //     right,
+  //     top,
+  //     vcenter,
+  //     bottom,
+  //   });
+  // }
 
   refresh() {
     const { onChange } = this.props;

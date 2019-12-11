@@ -22,15 +22,25 @@ class Border extends React.PureComponent {
     this.state = { ...value };
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(props, state) {
     const {
       value,
-    } = nextProps;
+    } = props;
 
-    this.setState({
+    return {
       ...value,
-    });
+    };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const {
+  //     value,
+  //   } = nextProps;
+  //
+  //   this.setState({
+  //     ...value,
+  //   });
+  // }
 
   render() {
     const { onChange } = this.props;

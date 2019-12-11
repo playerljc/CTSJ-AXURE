@@ -32,21 +32,37 @@ class RadiusVisablePickerModal extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(props, state) {
     const {
       borderLeftTopRadiusDisable,
       borderRightTopRadiusDisable,
       borderLeftBottomRadiusDisable,
       borderRightBottomRadiusDisable,
-    } = nextProps;
+    } = props;
 
-    this.state = {
+    return {
       borderLeftTopRadiusDisable,
       borderRightTopRadiusDisable,
       borderLeftBottomRadiusDisable,
       borderRightBottomRadiusDisable,
     };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const {
+  //     borderLeftTopRadiusDisable,
+  //     borderRightTopRadiusDisable,
+  //     borderLeftBottomRadiusDisable,
+  //     borderRightBottomRadiusDisable,
+  //   } = nextProps;
+  //
+  //   this.state = {
+  //     borderLeftTopRadiusDisable,
+  //     borderRightTopRadiusDisable,
+  //     borderLeftBottomRadiusDisable,
+  //     borderRightBottomRadiusDisable,
+  //   };
+  // }
 
   onLeftTopClick = () => {
     const { borderLeftTopRadiusDisable } = this.state;
@@ -154,21 +170,37 @@ class RadiusVisablePicker extends React.PureComponent {
     this.onArrowClick = this.onArrowClick.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(props, state) {
     const {
       borderLeftTopRadiusDisable,
       borderRightTopRadiusDisable,
       borderLeftBottomRadiusDisable,
       borderRightBottomRadiusDisable,
-    } = nextProps;
+    } = props;
 
-    this.setState({
+    return {
       borderLeftTopRadiusDisable,
       borderRightTopRadiusDisable,
       borderLeftBottomRadiusDisable,
       borderRightBottomRadiusDisable,
-    });
+    };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const {
+  //     borderLeftTopRadiusDisable,
+  //     borderRightTopRadiusDisable,
+  //     borderLeftBottomRadiusDisable,
+  //     borderRightBottomRadiusDisable,
+  //   } = nextProps;
+  //
+  //   this.setState({
+  //     borderLeftTopRadiusDisable,
+  //     borderRightTopRadiusDisable,
+  //     borderLeftBottomRadiusDisable,
+  //     borderRightBottomRadiusDisable,
+  //   });
+  // }
 
   onArrowClick() {
     const {

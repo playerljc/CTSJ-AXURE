@@ -21,14 +21,25 @@ class Tab extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { activeKey } = this.props;
-    if (nextProps.activeKey !== activeKey) {
-      this.setState({
-        activeKey: nextProps.activeKey,
-      });
+  static getDerivedStateFromProps(props, state) {
+    const { activeKey } = props;
+    if (props.activeKey !== activeKey) {
+      return {
+        activeKey: props.activeKey,
+      };
+    } else {
+      return null;
     }
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const { activeKey } = this.props;
+  //   if (nextProps.activeKey !== activeKey) {
+  //     this.setState({
+  //       activeKey: nextProps.activeKey,
+  //     });
+  //   }
+  // }
 
   onTabItemClick(key) {
     const { onChange } = this.props;

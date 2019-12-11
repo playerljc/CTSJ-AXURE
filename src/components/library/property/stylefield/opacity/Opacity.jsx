@@ -25,15 +25,25 @@ class Opacity extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(props, state) {
     const {
       value,
-    } = nextProps;
+    } = props;
 
-    this.setState({
+    return {
       value,
-    });
+    };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const {
+  //     value,
+  //   } = nextProps;
+  //
+  //   this.setState({
+  //     value,
+  //   });
+  // }
 
   render() {
     const { value } = this.state;

@@ -35,7 +35,7 @@ class BackgroundImgPositionPicker extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(props, state) {
     const {
       left,
       hcenter,
@@ -43,17 +43,37 @@ class BackgroundImgPositionPicker extends React.PureComponent {
       top,
       vcenter,
       bottom,
-    } = nextProps;
+    } = props;
 
-    this.setState({
+    return {
       left,
       hcenter,
       right,
       top,
       vcenter,
       bottom,
-    });
+    };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const {
+  //     left,
+  //     hcenter,
+  //     right,
+  //     top,
+  //     vcenter,
+  //     bottom,
+  //   } = nextProps;
+  //
+  //   this.setState({
+  //     left,
+  //     hcenter,
+  //     right,
+  //     top,
+  //     vcenter,
+  //     bottom,
+  //   });
+  // }
 
   refresh() {
     const { onChange } = this.props;

@@ -19,11 +19,17 @@ class Prompt extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      value: nextProps.defaultValue,
-    });
+  static getDerivedStateFromProps(props, state) {
+    return {
+      value: props.defaultValue,
+    };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({
+  //     value: nextProps.defaultValue,
+  //   });
+  // }
 
   getValue() {
     return this.state.value;

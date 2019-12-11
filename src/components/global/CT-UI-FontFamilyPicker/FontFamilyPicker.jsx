@@ -58,7 +58,7 @@ class FontFamilyPicker extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(props, state) {
     const {
       fontFamily,
       fontSize,
@@ -67,9 +67,9 @@ class FontFamilyPicker extends React.PureComponent {
       textDecoration,
       color,
       textShadow,
-    } = nextProps;
+    } = props;
 
-    this.setState({
+    return {
       fontFamily,
       fontSize,
       fontWeight,
@@ -77,8 +77,30 @@ class FontFamilyPicker extends React.PureComponent {
       textDecoration,
       color,
       textShadow,
-    });
+    };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   const {
+  //     fontFamily,
+  //     fontSize,
+  //     fontWeight,
+  //     fontStyle,
+  //     textDecoration,
+  //     color,
+  //     textShadow,
+  //   } = nextProps;
+  //
+  //   this.setState({
+  //     fontFamily,
+  //     fontSize,
+  //     fontWeight,
+  //     fontStyle,
+  //     textDecoration,
+  //     color,
+  //     textShadow,
+  //   });
+  // }
 
   refresh() {
     const { onChange } = this.props;

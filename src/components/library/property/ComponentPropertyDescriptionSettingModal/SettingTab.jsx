@@ -42,12 +42,19 @@ class SettingTab extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      groupData: nextProps.data.group,
-      fieldData: nextProps.data.field,
-    });
+  static getDerivedStateFromProps(props, state) {
+    return {
+      groupData: props.data.group,
+      fieldData: props.data.field,
+    };
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({
+  //     groupData: nextProps.data.group,
+  //     fieldData: nextProps.data.field,
+  //   });
+  // }
 
   /**
    * getGroupTableColumnsConfig
