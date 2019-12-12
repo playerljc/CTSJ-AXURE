@@ -433,7 +433,7 @@ class App extends React.PureComponent {
 
   /**
    * setDRDSScale
-   * @param {Number} - scale
+   * @param {Checkbox} - scale
    */
   setDRDSScale(scale) {
     AppDroppableManager.setScale(scale);

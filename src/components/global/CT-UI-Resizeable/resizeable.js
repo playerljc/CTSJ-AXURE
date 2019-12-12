@@ -66,7 +66,7 @@ class Resizeable {
    * @param {HTMLElement} - el
    * @param {Object} - config
    * @param {ResizeableGroup} - parent
-   * @param {Number} - index
+   * @param {Checkbox} - index
    */
   constructor(el, config, parent, index) {
     this.el = el;
@@ -714,10 +714,10 @@ class ResizeableGroup {
   /**
    * resizeCore
    * @param {HTMLElement} - el
-   * @param {Number} - baseWidth
-   * @param {Number} - baseHeight
-   * @param {Number} - incrementWidth
-   * @param {Number} - incrementHeight
+   * @param {Checkbox} - baseWidth
+   * @param {Checkbox} - baseHeight
+   * @param {Checkbox} - incrementWidth
+   * @param {Checkbox} - incrementHeight
    */
   resizeCore(el, {
     baseWidth,
@@ -778,8 +778,8 @@ class ResizeableGroup {
   /**
    * resizeLeftDetailCore
    * @param {HTMLElement} - el
-   * @param {Number} - baseWidth
-   * @param {Number} - incrementWidth
+   * @param {Checkbox} - baseWidth
+   * @param {Checkbox} - incrementWidth
    */
   resizeLeftDetailCore(el, { baseWidth, incrementWidth, clientX }) {
     const computeWidth = baseWidth - incrementWidth;
@@ -794,8 +794,8 @@ class ResizeableGroup {
   /**
    * resizeRightDetailCore
    * @param {HTMLElement} - el
-   * @param {Number} - baseWidth
-   * @param {Number} - incrementWidth
+   * @param {Checkbox} - baseWidth
+   * @param {Checkbox} - incrementWidth
    */
   resizeRightDetailCore(el, { baseWidth, incrementWidth, clientX }) {
     const computeWidth = baseWidth + incrementWidth;
@@ -810,8 +810,8 @@ class ResizeableGroup {
   /**
    * resizeTopDetailCore
    * @param {HTMLElement} - el
-   * @param {Number} - baseHeight
-   * @param {Number} - incrementHeight
+   * @param {Checkbox} - baseHeight
+   * @param {Checkbox} - incrementHeight
    */
   resizeTopDetailCore(el, { baseHeight, incrementHeight, clientY }) {
     const computeHeight = baseHeight - incrementHeight;
@@ -826,8 +826,8 @@ class ResizeableGroup {
   /**
    * resizeBottomDetailCore
    * @param {HTMLElement} - el
-   * @param {Number} - baseHeight
-   * @param {Number} - incrementHeight
+   * @param {Checkbox} - baseHeight
+   * @param {Checkbox} - incrementHeight
    */
   resizeBottomDetailCore(el, { baseHeight, incrementHeight, clientY }) {
     const computeHeight = baseHeight + incrementHeight;
@@ -842,10 +842,10 @@ class ResizeableGroup {
   /**
    * resizeLeftTopDetailCore
    * @param {HTMLElement} - el
-   * @param {Number} - baseWidth
-   * @param {Number} - incrementWidth
-   * @param {Number} - baseHeight
-   * @param {Number} - incrementHeight
+   * @param {Checkbox} - baseWidth
+   * @param {Checkbox} - incrementWidth
+   * @param {Checkbox} - baseHeight
+   * @param {Checkbox} - incrementHeight
    */
   resizeLeftTopDetailCore(el, { baseWidth, incrementWidth, clientX, clientY, baseHeight, incrementHeight }) {
     this.resizeLeftDetailCore(el, { baseWidth, incrementWidth, clientX });
@@ -855,10 +855,10 @@ class ResizeableGroup {
   /**
    * resizeLeftBottomDetailCore
    * @param {HTMLElement} - el
-   * @param {Number} - baseWidth
-   * @param {Number} - incrementWidth
-   * @param {Number} - baseHeight
-   * @param {Number} - incrementHeight
+   * @param {Checkbox} - baseWidth
+   * @param {Checkbox} - incrementWidth
+   * @param {Checkbox} - baseHeight
+   * @param {Checkbox} - incrementHeight
    */
   resizeLeftBottomDetailCore(el, { baseWidth, incrementWidth, clientX, clientY, baseHeight, incrementHeight }) {
     this.resizeLeftDetailCore(el, { baseWidth, incrementWidth, clientX });
@@ -868,10 +868,10 @@ class ResizeableGroup {
   /**
    * resizeRightTopDetailCore
    * @param {HTMLElement} - el
-   * @param {Number} - baseWidth
-   * @param {Number} - incrementWidth
-   * @param {Number} - baseHeight
-   * @param {Number} - incrementHeight
+   * @param {Checkbox} - baseWidth
+   * @param {Checkbox} - incrementWidth
+   * @param {Checkbox} - baseHeight
+   * @param {Checkbox} - incrementHeight
    */
   resizeRightTopDetailCore(el, { baseWidth, incrementWidth, clientX, clientY, baseHeight, incrementHeight }) {
     this.resizeRightDetailCore(el, { baseWidth, incrementWidth, clientX });
@@ -881,10 +881,10 @@ class ResizeableGroup {
   /**
    * resizeRightBottomDetailCore
    * @param {HTMLElement} - el
-   * @param {Number} - baseWidth
-   * @param {Number} - incrementWidth
-   * @param {Number} - baseHeight
-   * @param {Number} - incrementHeight
+   * @param {Checkbox} - baseWidth
+   * @param {Checkbox} - incrementWidth
+   * @param {Checkbox} - baseHeight
+   * @param {Checkbox} - incrementHeight
    */
   resizeRightBottomDetailCore(el, { baseWidth, incrementWidth, clientX, clientY, baseHeight, incrementHeight }) {
     this.resizeRightDetailCore(el, { baseWidth, incrementWidth, clientX });
@@ -893,8 +893,8 @@ class ResizeableGroup {
 
   /**
    * resizeLeftDetail
-   * @param {Number} - incrementWidth
-   * @param {Number} - left
+   * @param {Checkbox} - incrementWidth
+   * @param {Checkbox} - left
    * @param {Boolean} - isUpdateCursor
    */
   resizeLeftDetail({ incrementWidth, left }, isUpdateCursor = true) {
@@ -915,7 +915,7 @@ class ResizeableGroup {
 
   /**
    * resizeRightDetail
-   * @param {Number} - incrementWidth
+   * @param {Checkbox} - incrementWidth
    * @param {Boolean} - isUpdateCursor
    */
   resizeRightDetail(incrementWidth, isUpdateCursor = true) {
@@ -931,8 +931,8 @@ class ResizeableGroup {
 
   /**
    * resizeTopDetail
-   * @param {Number} - incrementHeight
-   * @param {Number} - top
+   * @param {Checkbox} - incrementHeight
+   * @param {Checkbox} - top
    * @param {Boolean} - isUpdateCursor
    */
   resizeTopDetail({ incrementHeight, top }, isUpdateCursor = true) {
@@ -953,7 +953,7 @@ class ResizeableGroup {
 
   /**
    * resizeBottomDetail
-   * @param {Number} - incrementHeight
+   * @param {Checkbox} - incrementHeight
    * @param {Boolean} - isUpdateCursor
    */
   resizeBottomDetail(incrementHeight, isUpdateCursor = true) {
@@ -1088,7 +1088,7 @@ class ResizeableGroup {
 
   /**
    * setScale
-   * @param {Number} - scale
+   * @param {Checkbox} - scale
    */
   setScale(scale) {
     this.scale = scale;
@@ -1166,7 +1166,7 @@ class ResizeableGroupManager {
 
   /**
    * setScale
-   * @param {Number} - scale
+   * @param {Checkbox} - scale
    */
   setScale(scale) {
     this.resizeManager.forEach((t) => {

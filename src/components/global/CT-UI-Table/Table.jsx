@@ -92,7 +92,7 @@ class Table extends React.PureComponent {
   /**
    * renderRow
    * @param {Object} - rowData
-   * @param {Number} - index
+   * @param {Checkbox} - index
    * @return {Array<ReactElement>}
    */
   renderRow({ rowData, index }) {

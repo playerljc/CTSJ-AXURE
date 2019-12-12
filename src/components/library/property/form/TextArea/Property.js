@@ -184,5 +184,16 @@ export default () => ({
   prop: {
     // 组件的名字
     name: 'textArea',
+    tooltip: '',
+
+    value: '',
+    placeholder: '',
+    maxlength: 50,
+    autofocus: false,
+    readonly: false,
+    disabled: false,
+    required: false,
+    cols: 20,
+    rows: 50,
   },
 });

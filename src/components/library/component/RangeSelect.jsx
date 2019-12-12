@@ -181,7 +181,7 @@ class RangeSelect {
   /**
    * arrowDetail
    * @param {String} - direction [top,bottom,left,right]
-   * @param {Number} - step
+   * @param {Checkbox} - step
    */
   arrowDetail(direction, step = KEYBOARD_NORMAL_STEP) {
     const styleKey = (direction === 'top' || direction === 'bottom') ? 'top' : 'left';

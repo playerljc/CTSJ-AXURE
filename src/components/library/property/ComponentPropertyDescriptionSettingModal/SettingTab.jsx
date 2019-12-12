@@ -102,7 +102,7 @@ class SettingTab extends React.PureComponent {
   /**
    * onEditorModify
    * @param {String} - value
-   * @param {Number} - index
+   * @param {Checkbox} - index
    * @param {String} - dataIndex
    */
   onEditorModify({ value, index, dataIndex }) {
