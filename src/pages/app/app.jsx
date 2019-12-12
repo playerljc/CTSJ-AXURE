@@ -40,7 +40,7 @@ import {
 } from '../../util/Constant';
 
 import ShapeModel from '../../model/ShapeModel';
-import PageModel from '../../model/PageModel';
+import OpenPageModel from '../../model/OpenPageModel';
 
 import './app.less';
 
@@ -249,7 +249,7 @@ class App extends React.PureComponent {
     // .概要面板初始化
     shape.active();
     ActiveShapeManager.setShape({ pageId, shape });
-    PageModel.get(pageId).setActiveShape(shape);
+    OpenPageModel.get(pageId).setActiveShape(shape);
 
     // .当前resize的group也可以resize
     const groupEl = this.getPageEl(pageId);
@@ -298,7 +298,7 @@ class App extends React.PureComponent {
    */
   clearCurPageActiveShape() {
     this.acitveShapeUnActive(this.curPageId);
-    PageModel.get(this.curPageId).setActiveShape(null);
+    OpenPageModel.get(this.curPageId).setActiveShape(null);
     Emitter.trigger(Actions.components.business.canvaspanel.activetab, this.curPageId);
   }
 
@@ -464,7 +464,7 @@ class App extends React.PureComponent {
     ActivePageManaager.removePage(this.curPageId);
 
     this.curPageId = pageId;
-    ActivePageManaager.setPage(this.curPageId, PageModel.get(this.curPageId));
+    ActivePageManaager.setPage(this.curPageId, OpenPageModel.get(this.curPageId));
     ActivePageKeyBoardBind.bindKeyBoard(this.curPageId);
     ActivePageMouseWheelBind.bindMouseWheel(this.curPageId);
 
@@ -488,7 +488,7 @@ class App extends React.PureComponent {
     ActiveShapeKeyBoardBind.bindKeyBoard(pageId);
 
     this.curPageId = pageId;
-    ActivePageManaager.setPage(this.curPageId, PageModel.get(this.curPageId));
+    ActivePageManaager.setPage(this.curPageId, OpenPageModel.get(this.curPageId));
     ActivePageKeyBoardBind.bindKeyBoard(pageId);
     ActivePageMouseWheelBind.bindMouseWheel(pageId);
 
@@ -516,7 +516,7 @@ class App extends React.PureComponent {
     }
 
     this.curPageId = activeKey;
-    ActivePageManaager.setPage(this.curPageId, PageModel.get(this.curPageId));
+    ActivePageManaager.setPage(this.curPageId, OpenPageModel.get(this.curPageId));
     if (activeKey && this.curPageId !== activeKey) {
       ActivePageKeyBoardBind.bindKeyBoard(this.curPageId);
       ActivePageMouseWheelBind.bindMouseWheel(this.curPageId);

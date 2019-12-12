@@ -5,7 +5,7 @@ import TabPanel from '../../../global/CT-UI-Tab/TabPanel';
 import Actions from '../../../../util/Actions';
 import Emitter from '../../../../util/Emitter';
 import { Immutable } from '../../../../util/CTMobile-UI-Util';
-import PageModel from '../../../../model/PageModel';
+import OpenPageModel from '../../../../model/OpenPageModel';
 
 import CanvasTabPanel from './CanvasTabPanel';
 import CanvasEmptyPanel from './CanvasEmptyPanel';
@@ -116,7 +116,7 @@ class CanvasPanel extends Component {
         Emitter.trigger(Actions.components.business.canvaspanel.changetab, activeKey);
       }
 
-      PageModel.remove(pageId);
+      OpenPageModel.remove(pageId);
 
       if (success) {
         success();
@@ -176,7 +176,7 @@ class CanvasPanel extends Component {
               name={name}
               property={property || CanvasTabPanelPropertyDefaultConfig()}
               getInstance={(ins) => {
-                PageModel.add(ins);
+                OpenPageModel.add(ins);
               }}
             />
             {/* 一个页面 end */}

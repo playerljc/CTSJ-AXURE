@@ -6,7 +6,7 @@ import Emitter from '../../../../util/Emitter';
 import Actions from '../../../../util/Actions';
 
 import ShapeModel from '../../../../model/ShapeModel';
-import PageModel from '../../../../model/PageModel';
+import OpenPageModel from '../../../../model/OpenPageModel';
 
 import Register from '../../../../components/library/Register';
 
@@ -106,7 +106,7 @@ class SummaryPanel extends Component {
   getData() {
     const data = [];
     const { curPageId } = this.state;
-    const page = PageModel.get(curPageId);
+    const page = OpenPageModel.get(curPageId);
     const shapes = ShapeModel.getShapesByPage(curPageId);
 
     if (page) {

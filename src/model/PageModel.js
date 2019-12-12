@@ -1,34 +1,13 @@
-/**
- * PageModel
- * @type {Map<PageId, CanvasTabPanel>}
- */
-const Model = new Map();
+let pageIns;
 
 /**
- * 所有的页面模型
+ * 获取PagePanel的Ins
  */
 export default {
-  /**
-   * add
-   * @param {CanvasTabPanel} - page
-   */
-  add(page) {
-    const pageId = page.getPageId();
-    Model.set(pageId, page);
+  set(ins) {
+    pageIns = ins;
   },
-  /**
-   * remove
-   * @param {String} - pageId
-   */
-  remove(pageId) {
-    Model.delete(pageId);
-  },
-  /**
-   * get
-   * @param {String} - pageId
-   * @return {CanvasTabPanel}
-   */
-  get(pageId) {
-    return Model.get(pageId);
+  get() {
+    return pageIns;
   },
 };

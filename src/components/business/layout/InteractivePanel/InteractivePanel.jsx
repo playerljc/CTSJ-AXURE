@@ -1,10 +1,11 @@
 import React from 'react';
+
 import ShapeModel from '../../../../model/ShapeModel';
 import Register from '../../../library/Register';
 import CanvasTabPanelProperty from '../CanvasPanel/property/CanvasTabPanelProperty';
 import Emitter from '../../../../util/Emitter';
 import Actions from '../../../../util/Actions';
-import PageModel from '../../../../model/PageModel';
+import OpenPageModel from '../../../../model/OpenPageModel';
 
 import './InteractivePanel.less';
 
@@ -140,7 +141,7 @@ class InteractivePanel extends Component {
     if (pageId) {
       if (!componentId) {
         // page
-        const page = PageModel.get(pageId);
+        const page = OpenPageModel.get(pageId);
         if (page) {
           const shape = page.getActiveShape();
           if (!shape) {

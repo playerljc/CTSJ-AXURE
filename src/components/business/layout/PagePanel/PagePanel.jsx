@@ -12,6 +12,7 @@ import {
   FOLDER_TREE_ICON,
 } from '../../../../util/Constant';
 
+import OpenPageModel from '../../../../model/OpenPageModel';
 import PageModel from '../../../../model/PageModel';
 
 import './PagePanel.less';
@@ -204,7 +205,6 @@ class PagePanel extends Component {
   constructor(pros) {
     super(pros);
 
-
     this.state = {
       data: treeData,
       activeKey: '',
@@ -212,6 +212,8 @@ class PagePanel extends Component {
 
     this.onTabChange = this.onTabChange.bind(this);
     this.onTabRemove = this.onTabRemove.bind(this);
+
+    PageModel.set(this);
   }
 
   componentDidMount() {
@@ -222,6 +224,7 @@ class PagePanel extends Component {
   componentWillUnMount() {
     Emitter.remove(Actions.components.business.canvaspanel.changetab, this.onTabChange);
     Emitter.remove(Actions.components.business.canvaspanel.removetab, this.onTabRemove);
+    PageModel.set(null);
   }
 
   /**
@@ -464,6 +467,14 @@ class PagePanel extends Component {
   }
 
   /**
+   * getData
+   * @return {Array<Object>}
+   */
+  getData() {
+    return Immutable.cloneDeep(this.state.data);
+  }
+
+  /**
    * folder 添加目录
    * @param {Object} - menuItemAttribute 菜单的attribute
    * @param {Object} - node 节点数据
@@ -677,7 +688,7 @@ class PagePanel extends Component {
    * @param {Object} - node 节点数据
    */
   onContextMenudelete(menuItemAttribute, node) {
-    const page = PageModel.get(node.id);
+    const page = OpenPageModel.get(node.id);
 
     function deleteMenu() {
       // 删除菜单项
@@ -739,7 +750,7 @@ class PagePanel extends Component {
       defaultValue: node.name,
       success: (value) => {
         return new Promise((resolve) => {
-          const page = PageModel.get(node.id);
+          const page = OpenPageModel.get(node.id);
           if (page) {
             page.setName({
               pageId: node.id,

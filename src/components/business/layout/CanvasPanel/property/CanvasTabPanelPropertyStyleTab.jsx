@@ -9,7 +9,7 @@ import FillImg from './stylefield/fillimg/FillImg';
 import Emitter from '../../../../../util/Emitter';
 import Actions from '../../../../../util/Actions';
 
-import PageModel from '../../../../../model/PageModel';
+import OpenPageModel from '../../../../../model/OpenPageModel';
 
 import './CanvasTabPanelPropertyStyleTab.less';
 
@@ -75,7 +75,7 @@ class CanvasTabPanelPropertyStyleTab extends React.Component {
     pageId,
   }) {
     this.setState({
-      shape: PageModel.get(pageId),
+      shape: OpenPageModel.get(pageId),
     });
   }
 
