@@ -132,8 +132,8 @@ function setMapPosition(/* { left, top, width, height } */config, isRightEdge = 
 
 /**
  * stepDetail
- * @param {Checkbox} - pageX
- * @param {Checkbox} - pageY
+ * @param {Number} - pageX
+ * @param {Number} - pageY
  * @return {Object}
  * @access private
  */
@@ -844,7 +844,7 @@ class Drag {
 
   /**
    * setScale
-   * @param {Checkbox} - scale
+   * @param {Number} - scale
    */
   setScale(scale) {
     this.scale = scale;
@@ -915,7 +915,7 @@ class DragManager {
 
   /**
    * setScale
-   * @param {Checkbox} - scale
+   * @param {Number} - scale
    */
   setScale(scale) {
     this.managers.forEach((t) => {

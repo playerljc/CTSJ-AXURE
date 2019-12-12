@@ -758,7 +758,7 @@ class Droppable {
 
   /**
    * setScale
-   * @param {Checkbox} - scale
+   * @param {Number} - scale
    */
   setScale(scale) {
     this.scale = scale;

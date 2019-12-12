@@ -68,7 +68,7 @@ function onPutSuccess({
 /**
  * onDroppableDragClone
  * @param {HTMLElement} - sourceEl
- * @param {Checkbox} - scale
+ * @param {Number} - scale
  * @return {HTMLElement}
  */
 function onDragClone(sourceEl, scale) {

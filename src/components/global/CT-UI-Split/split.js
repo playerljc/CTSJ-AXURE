@@ -269,10 +269,10 @@ function reset() {
 
 /**
  * getMoveValue
- * @param {Checkbox} - min
- * @param {Checkbox} - max
- * @param {Checkbox} - val
- * @return {Checkbox}
+ * @param {Number} - min
+ * @param {Number} - max
+ * @param {Number} - val
+ * @return {Number}
  */
 function getMoveValue({ min, max, val }) {
   const { minBlankWidth = minWidth, minBlankHeight = minHeight } = this.config;

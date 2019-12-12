@@ -60,7 +60,7 @@ class Resizeable {
    * @param {HTMLElement} - el
    * @param {Object} - config
    * @param {ResizeableGroup} - parent
-   * @param {Checkbox} - index
+   * @param {Number} - index
    */
   constructor(el, config, parent, index) {
     this.el = el;
@@ -658,8 +658,8 @@ class ResizeableGroup {
 
   /**
    * resizeLeftDetail
-   * @param {Checkbox} - incrementWidth
-   * @param {Checkbox} - left
+   * @param {Number} - incrementWidth
+   * @param {Number} - left
    * @param {Boolean} - isUpdateCursor
    */
   resizeLeftDetail({ incrementWidth, left }, isUpdateCursor = true) {
@@ -682,7 +682,7 @@ class ResizeableGroup {
 
   /**
    * resizeRightDetail
-   * @param {Checkbox} - incrementWidth
+   * @param {Number} - incrementWidth
    * @param {Boolean} - isUpdateCursor
    */
   resizeRightDetail(incrementWidth, isUpdateCursor = true) {
@@ -698,8 +698,8 @@ class ResizeableGroup {
 
   /**
    * resizeTopDetail
-   * @param {Checkbox} - incrementHeight
-   * @param {Checkbox} - top
+   * @param {Number} - incrementHeight
+   * @param {Number} - top
    * @param {Boolean} - isUpdateCursor
    */
   resizeTopDetail({ incrementHeight, top }, isUpdateCursor = true) {
@@ -721,7 +721,7 @@ class ResizeableGroup {
 
   /**
    * resizeBottomDetail
-   * @param {Checkbox} - incrementHeight
+   * @param {Number} - incrementHeight
    * @param {Boolean} - isUpdateCursor
    */
   resizeBottomDetail(incrementHeight, isUpdateCursor = true) {

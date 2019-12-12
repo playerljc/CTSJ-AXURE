@@ -337,7 +337,7 @@ export default {
   /**
    * getPageLeft
    * @param {HTMLElement} - el
-   * @return {Checkbox}
+   * @return {Number}
    */
   getPageLeft(el) {
     let left = el.offsetLeft;
@@ -350,7 +350,7 @@ export default {
   /**
    * getPageTop
    * @param {HTMLElement} - el
-   * @return {Checkbox}
+   * @return {Number}
    */
   getPageTop(el) {
     let top = el.offsetTop;

@@ -38,7 +38,7 @@ const Modal = {
   /**
    * alert
    * @param {String | ReactElement} - content
-   * @param {Checkbox} - zIndex
+   * @param {Number} - zIndex
    */
   alert({
     content,
@@ -66,7 +66,7 @@ const Modal = {
   /**
    * confirm
    * @param {String | ReactElement} - content
-   * @param {Checkbox} - zIndex
+   * @param {Number} - zIndex
    * @param {Function} - success
    */
   confirm({
@@ -109,7 +109,7 @@ const Modal = {
    * prompt
    * @param {String | ReactElement} - content
    * @param {String} - defaultValue
-   * @param {Checkbox} - zIndex
+   * @param {Number} - zIndex
    * @param {Function} - success
    */
   prompt({

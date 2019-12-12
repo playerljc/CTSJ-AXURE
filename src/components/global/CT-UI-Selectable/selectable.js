@@ -547,7 +547,7 @@ class Selectable {
 
   /**
    * setScale
-   * @param {Checkbox} - scale
+   * @param {Number} - scale
    */
   setScale(scale) {
     this.scale = scale;
@@ -618,7 +618,7 @@ class SelectableManager {
 
   /**
    * setScale
-   * @param {Checkbox} - scale
+   * @param {Number} - scale
    */
   setScale(scale) {
     this.managers.forEach((t) => {
