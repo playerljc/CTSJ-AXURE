@@ -60,7 +60,7 @@ class Resizeable {
    * @param {HTMLElement} - el
    * @param {Object} - config
    * @param {ResizeableGroup} - parent
-   * @param {Number} - index
+   * @param {SelectOptions} - index
    */
   constructor(el, config, parent, index) {
     this.el = el;
@@ -658,8 +658,8 @@ class ResizeableGroup {
 
   /**
    * resizeLeftDetail
-   * @param {Number} - incrementWidth
-   * @param {Number} - left
+   * @param {SelectOptions} - incrementWidth
+   * @param {SelectOptions} - left
    * @param {Boolean} - isUpdateCursor
    */
   resizeLeftDetail({ incrementWidth, left }, isUpdateCursor = true) {
@@ -682,7 +682,7 @@ class ResizeableGroup {
 
   /**
    * resizeRightDetail
-   * @param {Number} - incrementWidth
+   * @param {SelectOptions} - incrementWidth
    * @param {Boolean} - isUpdateCursor
    */
   resizeRightDetail(incrementWidth, isUpdateCursor = true) {
@@ -698,8 +698,8 @@ class ResizeableGroup {
 
   /**
    * resizeTopDetail
-   * @param {Number} - incrementHeight
-   * @param {Number} - top
+   * @param {SelectOptions} - incrementHeight
+   * @param {SelectOptions} - top
    * @param {Boolean} - isUpdateCursor
    */
   resizeTopDetail({ incrementHeight, top }, isUpdateCursor = true) {
@@ -721,7 +721,7 @@ class ResizeableGroup {
 
   /**
    * resizeBottomDetail
-   * @param {Number} - incrementHeight
+   * @param {SelectOptions} - incrementHeight
    * @param {Boolean} - isUpdateCursor
    */
   resizeBottomDetail(incrementHeight, isUpdateCursor = true) {

@@ -1,0 +1,46 @@
+.CT-UI-SelectOptionsPicker {
+  > .CT-UI-SelectOptionsPicker-Tool {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    > .fa {
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      &.fa-plus {
+        color: green;
+      }
+      &.fa-long-arrow-up {
+        &.disable {
+          color: gray;
+        }
+        color: #007aff;
+      }
+      &.fa-long-arrow-down {
+        &.disable {
+          color: gray;
+        }
+        color: #007aff;
+      }
+      &.fa-close {
+        color: red;
+      }
+      &.fa-times-circle {
+        color: red;
+      }
+
+      font-size: 20px;
+      &:not(:last-child) {
+        margin-right: 15px;
+      }
+    }
+  }
+
+  // #007aff
+  // red
+  // green
+
+  > .CT-UI-SelectOptionsPicker-Inner {
+
+  }
+}

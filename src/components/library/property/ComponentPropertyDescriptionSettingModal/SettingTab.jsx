@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import uuidv1 from 'uuid/v1';
 
 import TableTextFieldEditor from '../../../global/CT-UI-Table/TableTextFieldEditor';
-import { Immutable } from '../../../../util/CTMobile-UI-Util';
 import Table from '../../../global/CT-UI-Table/Table';
 import { Select } from '../../../global/CT-UI-Form';
+
+import { Immutable } from '../../../../util/CTMobile-UI-Util';
+
 import { selectPrefix } from './ComponentPropertyDescriptionSettingModal';
 
 import './SettingTab.less';
@@ -61,21 +63,23 @@ class SettingTab extends React.PureComponent {
    * @return {Array<ColumnConfig>}
    * */
   getGroupTableColumnsConfig() {
-    return [{
-      title: 'GroupName',
-      key: 'GroupName',
-      align: 'left',
-      dataIndex: 'name',
-      render: (record, value, index, dataIndex) => {
-        return (
-          <TableTextFieldEditor
-            type="text"
-            value={value}
-            index={index}
-            dataIndex={dataIndex}
-          />);
+    return [
+      {
+        title: 'GroupName',
+        key: 'GroupName',
+        align: 'left',
+        dataIndex: 'name',
+        render: (record, value, index, dataIndex) => {
+          return (
+            <TableTextFieldEditor
+              type="text"
+              value={value}
+              index={index}
+              dataIndex={dataIndex}
+            />);
+        },
       },
-    }];
+    ];
   }
 
   /**
@@ -102,7 +106,7 @@ class SettingTab extends React.PureComponent {
   /**
    * onEditorModify
    * @param {String} - value
-   * @param {Number} - index
+   * @param {SelectOptions} - index
    * @param {String} - dataIndex
    */
   onEditorModify({ value, index, dataIndex }) {

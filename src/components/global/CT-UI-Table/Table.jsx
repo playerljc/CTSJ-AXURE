@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { TableContext } from './Context';
 
 import './Table.less';
@@ -92,7 +93,7 @@ class Table extends React.PureComponent {
   /**
    * renderRow
    * @param {Object} - rowData
-   * @param {Number} - index
+   * @param {SelectOptions} - index
    * @return {Array<ReactElement>}
    */
   renderRow({ rowData, index }) {

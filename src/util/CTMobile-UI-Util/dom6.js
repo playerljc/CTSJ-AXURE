@@ -337,7 +337,7 @@ export default {
   /**
    * getPageLeft
    * @param {HTMLElement} - el
-   * @return {Number}
+   * @return {SelectOptions}
    */
   getPageLeft(el) {
     let left = el.offsetLeft;
@@ -350,7 +350,7 @@ export default {
   /**
    * getPageTop
    * @param {HTMLElement} - el
-   * @return {Number}
+   * @return {SelectOptions}
    */
   getPageTop(el) {
     let top = el.offsetTop;

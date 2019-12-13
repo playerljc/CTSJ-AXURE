@@ -547,7 +547,7 @@ class Selectable {
 
   /**
    * setScale
-   * @param {Number} - scale
+   * @param {SelectOptions} - scale
    */
   setScale(scale) {
     this.scale = scale;
@@ -618,7 +618,7 @@ class SelectableManager {
 
   /**
    * setScale
-   * @param {Number} - scale
+   * @param {SelectOptions} - scale
    */
   setScale(scale) {
     this.managers.forEach((t) => {

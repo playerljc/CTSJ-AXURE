@@ -132,8 +132,8 @@ function setMapPosition(/* { left, top, width, height } */config, isRightEdge = 
 
 /**
  * stepDetail
- * @param {Number} - pageX
- * @param {Number} - pageY
+ * @param {SelectOptions} - pageX
+ * @param {SelectOptions} - pageY
  * @return {Object}
  * @access private
  */
@@ -844,7 +844,7 @@ class Drag {
 
   /**
    * setScale
-   * @param {Number} - scale
+   * @param {SelectOptions} - scale
    */
   setScale(scale) {
     this.scale = scale;
@@ -915,7 +915,7 @@ class DragManager {
 
   /**
    * setScale
-   * @param {Number} - scale
+   * @param {SelectOptions} - scale
    */
   setScale(scale) {
     this.managers.forEach((t) => {

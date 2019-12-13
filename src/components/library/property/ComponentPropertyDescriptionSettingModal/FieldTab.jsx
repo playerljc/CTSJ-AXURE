@@ -192,7 +192,7 @@ class FieldTab extends React.PureComponent {
   /**
    * onEditorModify
    * @param {String} - value
-   * @param {Number} - index
+   * @param {SelectOptions} - index
    * @param {String} - dataIndex
    */
   onEditorModify({ value, index, dataIndex }) {
@@ -321,7 +321,7 @@ class FieldTab extends React.PureComponent {
 
   /**
    * getSelectRowIndex
-   * @return {Number}
+   * @return {SelectOptions}
    */
   getSelectRowIndex() {
     const { selectedRowKey, data = [] } = this.state;

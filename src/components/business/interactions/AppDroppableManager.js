@@ -68,7 +68,7 @@ function onPutSuccess({
 /**
  * onDroppableDragClone
  * @param {HTMLElement} - sourceEl
- * @param {Number} - scale
+ * @param {SelectOptions} - scale
  * @return {HTMLElement}
  */
 function onDragClone(sourceEl, scale) {

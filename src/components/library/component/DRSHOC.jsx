@@ -275,7 +275,7 @@ export default (Component, { groupKey, componentKey }) => {
     /**
      * arrowDetail
      * @param {String} - direction [top,bottom,left,right]
-     * @param {Number} - step
+     * @param {SelectOptions} - step
      */
     arrowDetail(direction, step = KEYBOARD_NORMAL_STEP) {
       const styleKey = (direction === 'top' || direction === 'bottom') ? 'top' : 'left';

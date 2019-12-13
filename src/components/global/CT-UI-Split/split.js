@@ -269,10 +269,10 @@ function reset() {
 
 /**
  * getMoveValue
- * @param {Number} - min
- * @param {Number} - max
- * @param {Number} - val
- * @return {Number}
+ * @param {SelectOptions} - min
+ * @param {SelectOptions} - max
+ * @param {SelectOptions} - val
+ * @return {SelectOptions}
  */
 function getMoveValue({ min, max, val }) {
   const { minBlankWidth = minWidth, minBlankHeight = minHeight } = this.config;

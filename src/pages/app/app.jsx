@@ -433,7 +433,7 @@ class App extends React.PureComponent {
 
   /**
    * setDRDSScale
-   * @param {Number} - scale
+   * @param {SelectOptions} - scale
    */
   setDRDSScale(scale) {
     AppDroppableManager.setScale(scale);
