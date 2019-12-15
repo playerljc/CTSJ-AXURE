@@ -65,7 +65,6 @@ class SelectProperty extends React.PureComponent {
               data,
             }}
             onChange={({ value: v, data: d }) => {
-              debugger
               const prop = shape.getProperty().prop;
               prop.value = v;
               prop.data = d;

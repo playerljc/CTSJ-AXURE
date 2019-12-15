@@ -60,7 +60,7 @@ export default () => ({
       // fontFamily 字体
       fontFamily: '',
       // fontSize 大小
-      fontSize: 0,
+      fontSize: 12,
       // fontWeight 加粗
       fontWeight: false,
       // fontStyle 倾斜
@@ -184,5 +184,26 @@ export default () => ({
   prop: {
     // 组件的名字
     name: 'list',
+    tooltip: '',
+
+    value: '1',
+    placeholder: '',
+    disabled: false,
+    required: false,
+    size: 20,
+    data: [
+      {
+        label: 'item1',
+        value: '1',
+      },
+      {
+        label: 'item2',
+        value: '2',
+      },
+      {
+        label: 'item3',
+        value: '3',
+      },
+    ],
   },
 });
