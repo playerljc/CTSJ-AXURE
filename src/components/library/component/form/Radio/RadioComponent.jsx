@@ -13,19 +13,64 @@ import './RadioComponent.less';
  * @classdesc RadioComponent
  */
 class RadioComponent extends React.PureComponent {
+  componentDidMount() {
+    const {
+      property: {
+        prop: {
+          checked = false,
+        },
+      },
+    } = this.props;
+
+    this.el.checked = checked;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      property: {
+        prop: {
+          checked = false,
+        },
+      },
+    } = nextProps;
+
+    this.el.checked = checked;
+  }
+
   render() {
-    const { selectorPrefix, groupKey, componentKey } = this.props;
+    const {
+      selectorPrefix,
+      groupKey,
+      componentKey,
+      property: {
+        prop: {
+          tooltip = '',
+          label = '',
+          disabled = false,
+          required = false,
+        },
+      },
+      style: {
+        alignStyle,
+      },
+    } = this.props;
+
     return (
-      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`}>
+      <div
+        className={`${selectorPrefix}-${groupKey}-${componentKey} ${required ? 'require' : ''}`}
+        style={alignStyle}
+      >
         <input
           ref={(el) => {
             this.el = el;
           }}
-          type="Radio"
+          type="radio"
+          disabled={disabled}
+          title={tooltip}
           className={`${selectorPrefix}-${groupKey}-${componentKey}-radio`}
         />
         <span className={`${selectorPrefix}-${groupKey}-${componentKey}-radio-label`}>
-          aaaaaaa
+          {label}
         </span>
       </div>
     );

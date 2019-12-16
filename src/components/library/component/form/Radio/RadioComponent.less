@@ -5,6 +5,14 @@
   padding: 5px;
   display: flex;
   word-break: break-word;
+
+  &.require:before {
+    content: '*';
+    flex-shrink: 0;
+    color: red;
+    margin: 0 10px;
+  }
+  
   .ct-axure-shape-form-Radio-radio {
     flex-shrink: 0;
     width: 20px;

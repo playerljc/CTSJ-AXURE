@@ -7,7 +7,6 @@ import Checkbox from '../../propertyfield/checkbox/Checkbox';
 import ToolTip from '../../propertyfield/tooltip/ToolTip';
 
 import './CheckboxProperty.less';
-import SelectOptions from '../../propertyfield/selectoptions/SelectOptions';
 
 const selectorPrefix = 'CheckboxProperty';
 
