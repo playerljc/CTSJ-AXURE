@@ -185,7 +185,6 @@ export default () => ({
     // 组件的名字
     name: 'select',
     tooltip: '',
-
     value: '1',
     placeholder: '',
     disabled: false,

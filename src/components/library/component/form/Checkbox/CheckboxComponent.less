@@ -5,11 +5,20 @@
   padding: 5px;
   display: flex;
   word-break: break-word;
+
+  &.require:before {
+    content: '*';
+    flex-shrink: 0;
+    color: red;
+    margin: 0 10px;
+  }
+
   .ct-axure-shape-form-Checkbox-checkbox {
     flex-shrink: 0;
     width: 20px;
     height: 20px;
   }
+
   .ct-axure-shape-form-Checkbox-checkbox-label {
     flex-grow: 1;
     min-width: 0;

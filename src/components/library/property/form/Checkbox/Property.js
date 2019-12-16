@@ -59,7 +59,7 @@ export default () => ({
       // fontFamily 字体
       fontFamily: '',
       // fontSize 大小
-      fontSize: 0,
+      fontSize: 12,
       // fontWeight 加粗
       fontWeight: false,
       // fontStyle 倾斜
@@ -183,5 +183,10 @@ export default () => ({
   prop: {
     // 组件的名字
     name: 'checkbox',
+    tooltip: '',
+    label: '',
+    checked: false,
+    disabled: false,
+    required: false,
   },
 });
