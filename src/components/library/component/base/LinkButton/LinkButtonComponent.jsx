@@ -20,6 +20,8 @@ class LinkButtonComponent extends React.PureComponent {
       property: {
         prop: {
           text,
+          tooltip,
+          disabled,
         },
       },
       style: {
@@ -29,8 +31,9 @@ class LinkButtonComponent extends React.PureComponent {
 
     return (
       <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
+        className={`${selectorPrefix}-${groupKey}-${componentKey} ${disabled ? 'Disabled' : ''}`}
         style={alignStyle}
+        title={tooltip}
       >
         {text}
       </div>

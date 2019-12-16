@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ComponentPropertyHOC from '../../ComponentPropertyHOC';
 
 import Text from '../../propertyfield/text/Text';
+import CheckBox from '../../propertyfield/checkbox/Checkbox';
 import ToolTip from '../../propertyfield/tooltip/ToolTip';
 
 import './ButtonProperty.less';
@@ -28,6 +29,7 @@ class ButtonProperty extends React.PureComponent {
     const {
       text,
       tooltip,
+      disabled,
     } = shape.getProperty().prop;
 
     return [
@@ -45,6 +47,21 @@ class ButtonProperty extends React.PureComponent {
             onChange={(value) => {
               const prop = shape.getProperty().prop;
               prop.text = value;
+              shape.setPropertyByProps('prop', prop);
+            }}
+          />
+        ),
+      },
+      {
+        key: 'disabled',
+        name: 'disabled',
+        Component: (
+          <CheckBox
+            label="disabled"
+            value={disabled}
+            onChange={(v) => {
+              const prop = shape.getProperty().prop;
+              prop.disabled = v;
               shape.setPropertyByProps('prop', prop);
             }}
           />

@@ -17,11 +17,25 @@ class SubmitComponent extends React.PureComponent {
       selectorPrefix,
       groupKey,
       componentKey,
+      property: {
+        prop: {
+          text,
+          tooltip,
+          disabled,
+        },
+      },
+      style: {
+        alignStyle,
+      },
     } = this.props;
+
     return (
       <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-      >Submit
+        className={`${selectorPrefix}-${groupKey}-${componentKey} ${disabled ? 'Disabled' : ''}`}
+        style={alignStyle}
+        title={tooltip}
+      >
+        {text}
       </div>
     );
   }
@@ -37,6 +51,7 @@ SubmitComponent.propTypes = {
   groupKey: PropTypes.string,
   componentKey: PropTypes.string,
   selectorPrefix: PropTypes.string,
+  style: PropTypes.object,
 };
 
 export default ComponentBaseHOC(DRSHOC(SubmitComponent, {

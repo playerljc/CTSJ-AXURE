@@ -188,5 +188,7 @@ export default () => ({
     text: 'BUTTON',
     // 组件的提示
     tooltip: 'BUTTON',
+    // 禁用
+    disabled: false,
   },
 });
