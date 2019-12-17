@@ -6,6 +6,7 @@ import DRSHOC from '../../DRSHOC';
 import Table from '../../../../global/CT-UI-Table/Table';
 
 import './TableComponent.less';
+import {Immutable} from "../../../../../util/CTMobile-UI-Util";
 
 /**
  * TableComponent
@@ -13,6 +14,36 @@ import './TableComponent.less';
  * @classdesc TableComponent
  */
 class TableComponent extends React.PureComponent {
+  getColumns() {
+    const {
+      property: {
+        prop: {
+          table: {
+            showNumber = true,
+            columns,
+          },
+        },
+      },
+    } = this.props;
+
+    if (showNumber) {
+      const cloneColumns = Immutable.cloneDeep(columns);
+      cloneColumns.unshift({
+        key: '_number',
+        title: 'number',
+        dataIndex: '',
+        width: '20px',
+        align: 'center',
+        render: (record, rowValue, rowIndex) => {
+          return (rowIndex + 1);
+        },
+      });
+      return cloneColumns;
+    } else {
+      return columns;
+    }
+  }
+
   render() {
     const {
       selectorPrefix,
@@ -23,7 +54,6 @@ class TableComponent extends React.PureComponent {
           tooltip = '',
           table: {
             data,
-            columns,
             isDisplayHead,
             pagin,
             // columnLock,
@@ -38,7 +68,6 @@ class TableComponent extends React.PureComponent {
       pagin,
       isDisplayHead,
       data,
-      columns,
     };
 
     return (
@@ -48,6 +77,7 @@ class TableComponent extends React.PureComponent {
       >
         <Table
           {...props}
+          columns={this.getColumns()}
         />
       </div>
     );

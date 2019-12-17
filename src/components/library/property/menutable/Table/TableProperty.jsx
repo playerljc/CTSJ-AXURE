@@ -7,6 +7,7 @@ import ToolTip from '../../propertyfield/tooltip/ToolTip';
 import Table from '../../propertyfield/table/Table';
 
 import './TableProperty.less';
+import { Immutable } from '../../../../../util/CTMobile-UI-Util';
 
 const selectorPrefix = 'TableProperty';
 
@@ -16,6 +17,27 @@ const selectorPrefix = 'TableProperty';
  * @classdesc TableProperty
  */
 class TableProperty extends React.PureComponent {
+  getTableValue() {
+    const {
+      shape,
+    } = this.props;
+
+    const {
+      table,
+    } = shape.getProperty().prop;
+
+    const { showNumber } = table;
+
+    debugger
+    if (showNumber) {
+      const cloneTable = Immutable.cloneDeep(table);
+      cloneTable.columns.shift();
+      return cloneTable;
+    } else {
+      return table;
+    }
+  }
+
   /**
    * getConfig
    * @return {*[]}
@@ -27,7 +49,6 @@ class TableProperty extends React.PureComponent {
 
     const {
       tooltip = '',
-      table,
     } = shape.getProperty().prop;
 
     return [
@@ -55,7 +76,7 @@ class TableProperty extends React.PureComponent {
         name: 'Table',
         Component: (
           <Table
-            value={table}
+            value={this.getTableValue()}
             onChange={(v) => {
               const prop = shape.getProperty().prop;
               prop.table = v;
