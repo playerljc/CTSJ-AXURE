@@ -32,11 +32,11 @@ export default (Component) => {
     };
 
     render() {
-      const { onFocus, onBlur, ...props } = this.props;
+      const { onFocus, onBlur,className, ...props } = this.props;
       const { active = false } = this.state;
 
       return (
-        <div className={`${selectorPrefix}-Field ${active ? 'Active' : ''}`}>
+        <div className={`${selectorPrefix}-Field ${className} ${active ? 'Active' : ''}`}>
           <Component
             {...props}
             onFocus={(e) => {

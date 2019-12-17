@@ -3,78 +3,112 @@
   border-radius: 4px;
   background-color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+  display: table;
+  width: 100%;
 
   // 列头
   > .CT-UI-Table-Header {
-    display: flex;
-    align-items: center;
+    //display: flex;
+    //align-items: center;
+    //flex-wrap: nowrap;
+
+    display: table-row;
+    width: 100%;
+
     // 列头项
     > .CT-UI-Table-Header-Item {
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
+      //display: flex;
+      //align-items: center;
+      //flex-shrink: 0;
+
+      display: table-cell;
+
       background: #fafafa;
       border-bottom: 1px solid #e8e8e8;
       padding: 15px 10px;
       font-weight: 500;
+      box-sizing: border-box;
+      word-break: break-word;
+
+      &.active {
+        font-weight: bold;
+      }
     }
 
     // 列头Cell的对其方式
     > .CT-UI-Table-Header-Item.align-left {
-      justify-content: flex-start;
+      //justify-content: flex-start;
+      text-align: left;
     }
 
     > .CT-UI-Table-Header-Item.align-center {
-      justify-content: center;
+      //justify-content: center;
+      text-align: center;
     }
 
     > .CT-UI-Table-Header-Item.align-right {
-      justify-content: flex-end;
+      //justify-content: flex-end;
+      text-align: right;
     }
 
     // 列头Cell自适应
     > .CT-UI-Table-Header-Item.auto {
-      flex-grow: 1;
-      flex-shrink: 1;
-      min-width: 0;
+      //flex-grow: 1;
+      //flex-shrink: 1;
+      //min-width: 0;
     }
 
   }
 
   // 表格体
   > .CT-UI-Table-Body {
+
+    display: table-row-group;
+    width: 100%;
+
     // 行
     > .CT-UI-Table-Body-Row {
-      display: flex;
-      align-items: center;
+      //display: flex;
+      //align-items: center;
+
+      display: table-row;
+
       border-bottom: 1px solid #e8e8e8;
       transition: background-color .2s linear;
       // 单元格
       > .CT-UI-Table-Cell {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
+        //display: flex;
+        //align-items: center;
+        //flex-shrink: 0;
+
+        display: table-cell;
+
         padding: 10px;
+        word-break: break-word;
+        box-sizing: border-box;
       }
 
       // 单元格的对其方式
       > .CT-UI-Table-Cell.align-left {
-        justify-content: flex-start;
+        //justify-content: flex-start;
+        text-align: left;
       }
 
       > .CT-UI-Table-Cell.align-center {
-        justify-content: center;
+        //justify-content: center;
+        text-align: center;
       }
 
       > .CT-UI-Table-Cell.align-right {
-        justify-content: flex-end;
+        //justify-content: flex-end;
+        text-align: right;
       }
 
       // 单元格自适应
       > .CT-UI-Table-Cell.auto {
-        flex-grow: 1;
-        flex-shrink: 1;
-        min-width: 0;
+        //flex-grow: 1;
+        //flex-shrink: 1;
+        //min-width: 0;
       }
 
       // hover
@@ -88,20 +122,20 @@
       background-color: rgba(0, 0, 0, .2);
     }
   }
-}
 
-// 列锁定
-.CT-UI-Table.columnLock {
-  display: flex;
-  flex-direction: column;
-
-  > .CT-UI-Table-Header {
-    flex-shrink: 0;
-  }
-
-  > .CT-UI-Table-Body {
-    flex-grow: 1;
-    min-height: 0;
-    overflow-y: auto;
-  }
+  // 列锁定
+  //&.columnLock {
+  //  display: flex;
+  //  flex-direction: column;
+  //
+  //  > .CT-UI-Table-Header {
+  //    flex-shrink: 0;
+  //  }
+  //
+  //  > .CT-UI-Table-Body {
+  //    flex-grow: 1;
+  //    min-height: 0;
+  //    overflow-y: auto;
+  //  }
+  //}
 }

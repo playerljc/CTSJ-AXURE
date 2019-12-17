@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import ModalComponent, { selectorPrefix } from './ModalComponent';
 import Prompt from './Prompt';
+import PromptSelect from './PromptSelect';
 
 const MessageDialogStyle = {
   display: 'flex',
@@ -109,12 +110,14 @@ const Modal = {
    * prompt
    * @param {String | ReactElement} - content
    * @param {String} - defaultValue
+   * @param {Boolean} - required
    * @param {SelectOptions} - zIndex
    * @param {Function} - success
    */
   prompt({
     content,
     defaultValue = '',
+    required = true,
     success,
     zIndex = 9999,
     maxLength = 100,
@@ -126,7 +129,65 @@ const Modal = {
         <Prompt
           defaultValue={defaultValue}
           content={content}
+          required={required}
           maxLength={maxLength}
+          ref={self => ins = self}
+        />
+      ),
+      minWidth: 'auto',
+      zIndex,
+      buttons: [
+        {
+          text: 'ok',
+          handler: () => {
+            const value = ins.getValue();
+            if (!value) return false;
+            if (success) {
+              success(value).then(() => {
+                Modal.close(modal);
+              });
+            } else {
+              Modal.close(modal);
+            }
+          },
+        },
+        {
+          text: 'cancel',
+          handler: () => {
+            Modal.close(modal);
+          },
+        },
+      ],
+      xscroll: true,
+      yscroll: true,
+    });
+  },
+  /**
+   * promptSelect
+   * @param {String | ReactElement} - content
+   * @param {String} - defaultValue
+   * @param {Boolean} - required
+   * @param {Array} - data
+   * @param {SelectOptions} - zIndex
+   * @param {Function} - success
+   */
+  promptSelect({
+    content,
+    defaultValue = '',
+    required = true,
+    data = [],
+    success,
+    zIndex = 9999,
+  }) {
+    let ins;
+    const modal = Modal.open({
+      title: 'prompt',
+      component: (
+        <PromptSelect
+          defaultValue={defaultValue}
+          required={required}
+          content={content}
+          data={data}
           ref={self => ins = self}
         />
       ),

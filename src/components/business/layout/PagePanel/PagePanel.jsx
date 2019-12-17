@@ -786,6 +786,7 @@ class PagePanel extends Component {
       <div className={`${selectorPrefix}-ExtendBar`}>
         <span
           className="fa fa-custom-addfile"
+          title="add file"
           onClick={(e) => {
             e.preventDefault();
             onAddFile();
@@ -793,6 +794,7 @@ class PagePanel extends Component {
         />
         <span
           className="fa fa-custom-addfolder"
+          title="add folder"
           onClick={(e) => {
             e.preventDefault();
             onAddFolder();
@@ -800,6 +802,7 @@ class PagePanel extends Component {
         />
         <span
           className="fa fa-custom-icon-search"
+          title="search"
           onClick={(e) => {
             e.preventDefault();
             onSearch();

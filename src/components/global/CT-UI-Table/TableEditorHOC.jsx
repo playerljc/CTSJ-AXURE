@@ -93,7 +93,7 @@ export default (Component) => {
                         this.onBlur({ value: editorValue, context });
                       }}
                     /> :
-                    (<div onClick={this.onCellClick}>{value}</div>)
+                    (<div className={`${selectorPrefix}-Wrap`} onClick={this.onCellClick}>{value}</div>)
                 }
               </div>
             );

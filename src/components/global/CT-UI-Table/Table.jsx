@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { TableContext } from './Context';
+import { Immutable } from '../../../util/CTMobile-UI-Util';
 
 import './Table.less';
+
 
 const selectorPrefix = 'CT-UI-Table';
 
@@ -21,6 +23,10 @@ class Table extends React.PureComponent {
       selectedRowKey: props.rowSelection && props.rowSelection.selectedRowKey ?
         props.rowSelection.selectedRowKey :
         '',
+      // 选中列的columnKey
+      selectedColumnKey: props.columnSelection && props.columnSelection.selectedColumnKey ?
+        props.columnSelection.selectedColumnKey :
+        '',
     };
   }
 
@@ -35,9 +41,15 @@ class Table extends React.PureComponent {
   // }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.rowSelection && nextProps.rowSelection.selectedRowKey) {
+    if (
+      nextProps.rowSelection &&
+      nextProps.rowSelection.selectedRowKey &&
+      nextProps.columnSelection &&
+      nextProps.columnSelection.selectedColumnKey
+    ) {
       this.setState({
         selectedRowKey: nextProps.rowSelection.selectedRowKey,
+        selectedColumnKey: nextProps.columnSelection.selectedColumnKey,
       });
     }
   }
@@ -62,6 +74,40 @@ class Table extends React.PureComponent {
     });
   }
 
+  /**
+   * onCellClick
+   * @param {Object} - cellData
+   */
+  onCellClick(cellData) {
+    const { cellSelection } = this.props;
+    if (cellSelection && cellSelection.onChange) {
+      cellSelection.onChange(cellData);
+    }
+  }
+
+  /**
+   * onColumnClick
+   * @param {String} - key
+   */
+  onColumnClick(key) {
+    const {
+      columns = [],
+      columnSelection,
+    } = this.props;
+
+    this.setState({
+      selectedColumnKey: key,
+    });
+
+    if (columnSelection && columnSelection.onChange) {
+      columnSelection.onChange(Immutable.cloneDeep(columns.find(t => t.key === key)));
+    }
+  }
+
+  /**
+   * renderHeader
+   * @return {Array}
+   */
   renderHeader() {
     /**
      * columns
@@ -76,13 +122,26 @@ class Table extends React.PureComponent {
      * @type {Array<ColumnItem>}
      */
     const { columns = [] } = this.props;
+    const { selectedColumnKey = '' } = this.state;
+
     const rels = [];
     columns.forEach(({ title, key, align = 'center', width }) => {
+      const props = {
+        key,
+        className: `${selectorPrefix}-Header-Item ${!width || width === 'auto' ? 'auto' : ''} align-${align} ${selectedColumnKey === key ? 'active' : ''}`,
+        onClickCapture: () => {
+          this.onColumnClick(key);
+        },
+      };
+
+      if (width && width !== 'auto' && !width.endsWith('%')) {
+        props.style = {
+          width: `${width}px`,
+        };
+      }
+
       rels.push(
-        <div
-          key={key}
-          className={`${selectorPrefix}-Header-Item ${!width || width === 'auto' ? 'auto' : ''} align-${align}`}
-        >
+        <div {...props}>
           {title}
         </div>
       );
@@ -104,7 +163,7 @@ class Table extends React.PureComponent {
         key={rowData[rowKey]}
         className={`${selectorPrefix}-Body-Row ${selectedRowKey === rowData[rowKey] ? 'Selected' : ''}`}
         onClick={() => {
-          this.onRowClick(rowData);
+          this.onRowClick(Immutable.cloneDeep(rowData));
         }}
       >{
         columns.map(column => this.renderCell({ rowData, column, index }))
@@ -123,11 +182,22 @@ class Table extends React.PureComponent {
   renderCell({ rowData, column, index }) {
     const { key, render, align = 'center', width, dataIndex } = column;
 
+    const props = {
+      key,
+      className: `${selectorPrefix}-Cell ${!width || width === 'auto' ? 'auto' : ''} align-${align}`,
+      onClick: () => {
+        this.onCellClick(Immutable.cloneDeep(rowData[dataIndex]));
+      },
+    };
+
+    if (width && width !== 'auto' && !width.endsWith('%')) {
+      props.style = {
+        width: `${width}px`,
+      };
+    }
+
     return (
-      <div
-        key={key}
-        className={`${selectorPrefix}-Cell ${!width || width === 'auto' ? 'auto' : ''} align-${align}`}
-      >
+      <div {...props}>
         {
           render ?
             render(rowData, rowData[dataIndex], index, dataIndex) :
@@ -151,7 +221,11 @@ class Table extends React.PureComponent {
     return (
       <TableContext.Provider value={this.props}>
         <div className={`${selectorPrefix} ${columnLock ? 'columnLock' : ''}`}>
-          {isDisplayHead ? (<div className={`${selectorPrefix}-Header`}>{this.renderHeader()}</div>) : null}
+          {
+            isDisplayHead ?
+              (<div className={`${selectorPrefix}-Header`}>{this.renderHeader()}</div>)
+              : null
+          }
           <div
             className={`${selectorPrefix}-Body`}
             style={{ height: (columnLock && bodyHeight) ? bodyHeight : 'auto' }}
@@ -172,6 +246,8 @@ Table.propTypes = {
   columnLock: PropTypes.bool,
   bodyHeight: PropTypes.string,
   rowSelection: PropTypes.object,
+  cellSelection: PropTypes.object,
+  columnSelection: PropTypes.object,
   isDisplayHead: PropTypes.bool,
   onEditorModify: PropTypes.func,
 };

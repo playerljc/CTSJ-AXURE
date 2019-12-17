@@ -163,14 +163,14 @@ class AlignPicker extends React.PureComponent {
     return (
       <div className={`${selectorPrefix}`}>
         <div className={`${selectorPrefix} g-grid-list column3`}>
-          <div className={`g-grid-list-item fa fa-align-left hleft ${hleft ? 'active' : ''}`} onClick={this.onHLeftClick} />
-          <div className={`g-grid-list-item fa fa-align-center hcenter ${hcenter ? 'active' : ''}`} onClick={this.onHCenterClick} />
-          <div className={`g-grid-list-item fa fa-align-right hright ${hright ? 'active' : ''}`} onClick={this.onHRightClick} />
+          <div className={`g-grid-list-item fa fa-align-left hleft ${hleft ? 'active' : ''}`} title="horizontal left" onClick={this.onHLeftClick} />
+          <div className={`g-grid-list-item fa fa-align-center hcenter ${hcenter ? 'active' : ''}`} title="horizontal center" onClick={this.onHCenterClick} />
+          <div className={`g-grid-list-item fa fa-align-right hright ${hright ? 'active' : ''}`} title="horizontal right" onClick={this.onHRightClick} />
         </div>
         <div className={`${selectorPrefix} g-grid-list column3`}>
-          <div className={`g-grid-list-item fa fa-dedent vtop ${vtop ? 'active' : ''}`} onClick={this.onVTopClick} />
-          <div className={`g-grid-list-item fa fa-align-justify vcenter ${vcenter ? 'active' : ''}`} onClick={this.onVCenterClick} />
-          <div className={`g-grid-list-item fa fa-indent vbottom ${vbottom ? 'active' : ''}`} onClick={this.onVBottomClick} />
+          <div className={`g-grid-list-item fa fa-dedent vtop ${vtop ? 'active' : ''}`} title="vertical left" onClick={this.onVTopClick} />
+          <div className={`g-grid-list-item fa fa-align-justify vcenter ${vcenter ? 'active' : ''}`} title="vertical center" onClick={this.onVCenterClick} />
+          <div className={`g-grid-list-item fa fa-indent vbottom ${vbottom ? 'active' : ''}`} title="vertical right" onClick={this.onVBottomClick} />
         </div>
       </div>
     );
