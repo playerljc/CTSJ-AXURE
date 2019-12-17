@@ -44,6 +44,7 @@ class TableComponent extends React.PureComponent {
     return (
       <div
         className={`${selectorPrefix}-${groupKey}-${componentKey}`}
+        title={tooltip}
       >
         <Table
           {...props}
