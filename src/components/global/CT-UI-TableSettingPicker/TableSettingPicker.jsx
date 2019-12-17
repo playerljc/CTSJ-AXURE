@@ -14,9 +14,7 @@ export default {
 
     const {
       zIndex = 9999,
-      // 目标 [外部和内部]
       value,
-      // 页面
       onSuccess,
     } = config;
 
