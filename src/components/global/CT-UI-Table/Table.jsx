@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { TableContext } from './Context';
 import { Immutable } from '../../../util/CTMobile-UI-Util';
+import TablePagin from './TablePagin';
 
 import './Table.less';
 
@@ -27,6 +28,12 @@ class Table extends React.PureComponent {
       selectedColumnKey: props.columnSelection && props.columnSelection.selectedColumnKey ?
         props.columnSelection.selectedColumnKey :
         '',
+
+      // 分页数据
+      pagin: {
+        page: 1,
+        pageSize: 10,
+      },
     };
   }
 
@@ -106,9 +113,93 @@ class Table extends React.PureComponent {
 
   /**
    * renderHeader
-   * @return {Array}
+   * @return {ReactElement}
    */
   renderHeader() {
+    const { isDisplayHead = true } = this.props;
+    return (
+      isDisplayHead ?
+        (<div className={`${selectorPrefix}-Header`}>{this.renderHeaderInner()}</div>)
+        : null
+    );
+  }
+
+  /**
+   * renderBody
+   * @return {ReactElement}
+   */
+  renderBody() {
+    const { columnLock = false, bodyHeight } = this.props;
+    return (
+      <div
+        className={`${selectorPrefix}-Body`}
+        style={{ height: (columnLock && bodyHeight) ? bodyHeight : 'auto' }}
+      >
+        {this.renderBodyInner()}
+      </div>
+    );
+  }
+
+  /**
+   * renderPagin
+   * @return {ReactElement}
+   */
+  renderPagin() {
+    const { pagin, data } = this.props;
+    const {
+      pagin: {
+        page,
+        pageSize,
+      },
+    } = this.state;
+
+    return pagin ? (
+      <TablePagin
+        total={data.length}
+        page={page}
+        pageSize={pageSize}
+        onPre={() => {
+          const clonePagin = Immutable.cloneDeep(this.state.pagin);
+          clonePagin.pagin.page--;
+          this.setState({
+            pagin: clonePagin,
+          });
+        }}
+        onNext={() => {
+          const clonePagin = Immutable.cloneDeep(this.state.pagin);
+          clonePagin.pagin.page++;
+          this.setState({
+            pagin: clonePagin,
+          });
+        }}
+        onQuickJumperKeyDown={(targetPage) => {
+          const clonePagin = Immutable.cloneDeep(this.state.pagin);
+          clonePagin.pagin.page = targetPage;
+          this.setState({
+            pagin: clonePagin,
+          });
+        }}
+        onSizeChanger={(e) => {
+          const v = window.parseInt(e.target.value);
+          const clonePagin = Immutable.cloneDeep(this.state.pagin);
+          clonePagin.pageSize = v;
+          const pageCount = window.parseInt(data.length / v) + data.length % v;
+          if (clonePagin.page > pageCount) {
+            clonePagin.page = pageCount;
+          }
+          this.setState({
+            pagin: clonePagin,
+          });
+        }}
+      />
+    ) : null;
+  }
+
+  /**
+   * renderHeaderInner
+   * @return {Array}
+   */
+  renderHeaderInner() {
     /**
      * columns
      * ColumnItem {
@@ -208,30 +299,37 @@ class Table extends React.PureComponent {
   }
 
   /**
-   * renderBody
+   * renderBodyInner
    * @return {Array<ReactElement>[]}
    */
-  renderBody() {
-    const { data = [] } = this.props;
-    return data.map((rowData, index) => this.renderRow({ rowData, index }));
+  renderBodyInner() {
+    const { data = [], pagin = false } = this.props;
+    const {
+      pagin: {
+        page,
+        pageSize,
+      },
+    } = this.state;
+
+    let target = data;
+    if (pagin) {
+      const startIndex = (page - 1) * pageSize;
+      target = data.slice(startIndex, startIndex + pageSize);
+    }
+
+    return target.map((rowData, index) => this.renderRow({ rowData, index }));
   }
 
   render() {
-    const { columnLock = false, bodyHeight, isDisplayHead = true } = this.props;
+    const { columnLock = false } = this.props;
     return (
       <TableContext.Provider value={this.props}>
-        <div className={`${selectorPrefix} ${columnLock ? 'columnLock' : ''}`}>
-          {
-            isDisplayHead ?
-              (<div className={`${selectorPrefix}-Header`}>{this.renderHeader()}</div>)
-              : null
-          }
-          <div
-            className={`${selectorPrefix}-Body`}
-            style={{ height: (columnLock && bodyHeight) ? bodyHeight : 'auto' }}
-          >
+        <div className={`${selectorPrefix}`}>
+          <div className={`${selectorPrefix}-Inner ${columnLock ? 'columnLock' : ''}`}>
+            {this.renderHeader()}
             {this.renderBody()}
           </div>
+          {this.renderPagin()}
         </div>
       </TableContext.Provider>
     );
@@ -241,7 +339,7 @@ class Table extends React.PureComponent {
 Table.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.array,
-  pagin: PropTypes.bool,
+  pagin: PropTypes.object,
   rowKey: PropTypes.string,
   columnLock: PropTypes.bool,
   bodyHeight: PropTypes.string,
