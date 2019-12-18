@@ -15,7 +15,7 @@ class HMenuTool extends React.PureComponent {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-menutable-HMenu fa fa-custom-xuanxiangqia`} />
+        <div className={`${selectorPrefix}-menutable-HMenu FontAwesome`}>&#xe69f;</div>
       </React.Fragment>
     );
   }

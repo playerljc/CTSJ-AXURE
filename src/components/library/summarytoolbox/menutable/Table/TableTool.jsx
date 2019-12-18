@@ -15,7 +15,7 @@ class TableTool extends React.PureComponent {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-menutable-Table fa fa-custom-table`} />
+        <div className={`${selectorPrefix}-menutable-Table FontAwesome`}>&#xe895;</div>
       </React.Fragment>
     );
   }

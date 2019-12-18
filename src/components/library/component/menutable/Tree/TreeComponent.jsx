@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import ComponentBaseHOC from '../../ComponentBaseHOC';
 import DRSHOC from '../../DRSHOC';
 
+import Tree from '../../../../global/CT-UI-Tree/Tree';
+
 import './TreeComponent.less';
 
 /**
@@ -12,33 +14,27 @@ import './TreeComponent.less';
  * @classdesc TreeComponent
  */
 class TreeComponent extends React.PureComponent {
-  /**
-   * getStyle
-   * @return {Object}
-   */
-  getStyle() {
+  render() {
     const {
+      selectorPrefix,
+      groupKey,
+      componentKey,
       property: {
-        style: {
-          fill: {
-            backgroundColor,
-          },
+        prop: {
+          tooltip = '',
+          tree,
         },
       },
     } = this.props;
 
-    return {
-      backgroundColor,
-    };
-  }
-
-  render() {
-    const { selectorPrefix, groupKey, componentKey } = this.props;
     return (
       <div
         className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={this.getStyle()}
-      >Tree
+        title={tooltip}
+      >
+        <Tree
+          {...tree}
+        />
       </div>
     );
   }

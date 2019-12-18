@@ -15,7 +15,7 @@ class SectionTool extends React.PureComponent {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-base-Section fa fa-custom-duohangwenben`} />
+        <div className={`${selectorPrefix}-base-Section FontAwesome`} >&#xe61d;</div>
       </React.Fragment>
     );
   }

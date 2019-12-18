@@ -17,7 +17,7 @@ import './SettingTab.less';
  * @class SettingTab
  * @classdesc SettingTab
  */
-class SettingTab extends React.PureComponent {
+class SettingTab extends React.Component {
   constructor(props) {
     super(props);
 
@@ -110,7 +110,7 @@ class SettingTab extends React.PureComponent {
    * @param {String} - dataIndex
    */
   onEditorModify({ value, index, dataIndex }) {
-    const data = [...this.state.groupData];
+    const data = Immutable.cloneDeep(this.state.groupData);
     data[index][dataIndex] = value;
     this.setState({
       groupData: data,
@@ -122,7 +122,7 @@ class SettingTab extends React.PureComponent {
    */
   onAddGroup() {
     const id = uuidv1();
-    const data = [...this.state.groupData];
+    const data = Immutable.cloneDeep(this.state.groupData);
     data.push({
       id,
       name: 'newGroup',
@@ -151,7 +151,7 @@ class SettingTab extends React.PureComponent {
       }
     }
 
-    const cloneData = [...groupData];
+    const cloneData = Immutable.cloneDeep(groupData);
     const curTemp = cloneData[index];
     cloneData[index] = cloneData[index - 1];
     cloneData[index - 1] = curTemp;
@@ -175,7 +175,7 @@ class SettingTab extends React.PureComponent {
       }
     }
 
-    const cloneData = [...groupData];
+    const cloneData = Immutable.cloneDeep(groupData);
     const curTemp = cloneData[index];
     cloneData[index] = cloneData[index + 1];
     cloneData[index + 1] = curTemp;
@@ -196,7 +196,7 @@ class SettingTab extends React.PureComponent {
       return false;
     }
 
-    const cloneData = [...groupData];
+    const cloneData = Immutable.cloneDeep(groupData);
     cloneData.splice(index, 1);
     this.setState({
       groupData: cloneData,
@@ -285,17 +285,20 @@ class SettingTab extends React.PureComponent {
     const fieldId = e.target.value;
     const { type } = fieldData.find(t => t.id === fieldId);
     const { fields = [], index: groupIndex } = this.getActiveGroupFields();
-    const cloneData = [...fields];
+    const cloneData = Immutable.cloneDeep(fields);
     cloneData.push({
       id: uuidv1(),
       fieldId,
       value: type === 'select' ? [] : '',
     });
-    groupData[groupIndex].fields = cloneData;
-    this.setState({
-      groupData,
-      fieldSelectValue: fieldId,
-    });
+
+    if (groupIndex !== -1) {
+      groupData[groupIndex].fields = cloneData;
+      this.setState({
+        groupData,
+        fieldSelectValue: fieldId,
+      });
+    }
   }
 
   getActiveGroupFields() {
@@ -363,7 +366,7 @@ class SettingTab extends React.PureComponent {
       if (index === 0) {
         return false;
       } else {
-        const cloneData = [...fields];
+        const cloneData = Immutable.cloneDeep(fields);
         const curTemp = cloneData[index];
         cloneData[index] = cloneData[index - 1];
         cloneData[index - 1] = curTemp;
@@ -389,7 +392,7 @@ class SettingTab extends React.PureComponent {
       if (index === fields.length - 1) {
         return false;
       } else {
-        const cloneData = [...fields];
+        const cloneData = Immutable.cloneDeep(fields);
         const curTemp = cloneData[index];
         cloneData[index] = cloneData[index + 1];
         cloneData[index + 1] = curTemp;
@@ -412,7 +415,7 @@ class SettingTab extends React.PureComponent {
     if (index === -1) {
       return false;
     } else {
-      const cloneData = [...fields];
+      const cloneData = Immutable.cloneDeep(fields);
       cloneData.splice(index, 1);
       groupData[groupIndex].fields = cloneData;
       this.setState({
@@ -480,11 +483,11 @@ class SettingTab extends React.PureComponent {
               onClick={this.onAddGroup}
             />
             <span
-              className={`g-flex-fixed fa fa-long-arrow-up UpGroupBtn ${this.renderUpGroupClass()}`}
+              className={`g-flex-fixed fa fa-long-arrow-alt-up UpGroupBtn ${this.renderUpGroupClass()}`}
               onClick={this.onUpGroup}
             />
             <span
-              className={`g-flex-fixed fa fa-long-arrow-down DownGroupBtn ${this.renderDownGroupClass()}`}
+              className={`g-flex-fixed fa fa-long-arrow-alt-down DownGroupBtn ${this.renderDownGroupClass()}`}
               onClick={this.onDownGroup}
             />
             <span
@@ -517,11 +520,11 @@ class SettingTab extends React.PureComponent {
               </Select>
             </div>
             <span
-              className={`g-flex-fixed fa fa-long-arrow-up UpFieldBtn ${this.renderUpFieldClass()}`}
+              className={`g-flex-fixed fa fa-long-arrow-alt-up UpFieldBtn ${this.renderUpFieldClass()}`}
               onClick={this.onUpField}
             />
             <span
-              className={`g-flex-fixed fa fa-long-arrow-down DownFieldBtn ${this.renderDownFieldClass()}`}
+              className={`g-flex-fixed fa fa-long-arrow-alt-down DownFieldBtn ${this.renderDownFieldClass()}`}
               onClick={this.onDownField}
             />
             <span

@@ -13,7 +13,7 @@ class TextFieldTool extends React.PureComponent {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-form-textfield fa fa-custom-input`} />
+        <div className={`${selectorPrefix}-form-textfield FontAwesome`}>&#xe619;</div>
       </React.Fragment>
     );
   }

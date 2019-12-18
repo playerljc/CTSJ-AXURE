@@ -8,7 +8,7 @@ import Table from '../CT-UI-Table/Table';
 import Input from '../CT-UI-Form/input';
 import Modal from '../CT-UI-Modal/modal';
 
-import './TableSetting.less';
+import './TreeSetting.less';
 
 
 const selectorPrefix = 'CT-UI-TableSettingPicker';

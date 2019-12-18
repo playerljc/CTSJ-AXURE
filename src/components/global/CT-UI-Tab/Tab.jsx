@@ -89,7 +89,7 @@ class Tab extends React.PureComponent {
         >
           <div className={`${selectorPrefix}-Bar-Item-Inner`}>{name}</div>
           {canRemove ? (
-            <span className={`${selectorPrefix}-Bar-Item-Trigger fa fa-close`} />
+            <span className={`${selectorPrefix}-Bar-Item-Trigger fa fa-times`} />
           ) : null }
         </div>
       );

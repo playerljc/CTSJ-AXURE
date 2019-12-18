@@ -15,7 +15,7 @@ class TreeTool extends React.PureComponent {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-menutable-Tree fa fa-custom-tree`} />
+        <div className={`${selectorPrefix}-menutable-Tree FontAwesome`}>&#xe61b;</div>
       </React.Fragment>
     );
   }

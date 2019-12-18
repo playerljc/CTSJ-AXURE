@@ -5,9 +5,10 @@ import ComponentPropertyHOC from '../../ComponentPropertyHOC';
 
 import ToolTip from '../../propertyfield/tooltip/ToolTip';
 import Table from '../../propertyfield/table/Table';
+import { Immutable } from '../../../../../util/CTMobile-UI-Util';
 
 import './TableProperty.less';
-import { Immutable } from '../../../../../util/CTMobile-UI-Util';
+
 
 const selectorPrefix = 'TableProperty';
 

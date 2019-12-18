@@ -277,7 +277,7 @@ class Table extends React.PureComponent {
       key,
       className: `${selectorPrefix}-Cell ${!width || width === 'auto' ? 'auto' : ''} align-${align}`,
       onClick: () => {
-        this.onCellClick(Immutable.cloneDeep(rowData[dataIndex]));
+        this.onCellClick(Immutable.cloneDeep(rowData[dataIndex] ? rowData[dataIndex] : {}));
       },
     };
 

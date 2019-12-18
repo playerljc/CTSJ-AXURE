@@ -71,6 +71,7 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
 
     if (group.length === 0) return null;
 
+    debugger
     const curGroup = group.find(t => t.id === groupSelectValue);
     if (!curGroup) return null;
 

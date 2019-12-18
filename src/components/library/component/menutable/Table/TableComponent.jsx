@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 import ComponentBaseHOC from '../../ComponentBaseHOC';
 import DRSHOC from '../../DRSHOC';
+
 import Table from '../../../../global/CT-UI-Table/Table';
+import { Immutable } from '../../../../../util/CTMobile-UI-Util';
 
 import './TableComponent.less';
-import {Immutable} from "../../../../../util/CTMobile-UI-Util";
 
 /**
  * TableComponent

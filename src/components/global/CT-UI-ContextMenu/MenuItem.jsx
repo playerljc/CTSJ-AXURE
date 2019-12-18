@@ -58,7 +58,7 @@ class MenuItem extends React.PureComponent {
               className={`${selectorPrefix} ${disabled ? 'disabled' : ''}`}
               onClick={this.onClick}
             >
-              <span className={`${selectorPrefix}-Icon fa fa-${icon}`} />
+              <span className={`${selectorPrefix}-Icon ${icon}`} />
               <span className={`${selectorPrefix}-Name`}>{name}</span>
               {children.length !== 0 ? <span className={`${selectorPrefix}-More fa fa-caret-right`} /> : null}
               {children.length !== 0 ? <SubMenu data={children} /> : null}

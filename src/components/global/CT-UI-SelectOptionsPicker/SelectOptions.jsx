@@ -273,15 +273,15 @@ class SelectOptions extends React.PureComponent {
             onClick={::this.onAdd}
           />
           <span
-            className={`fa fa-long-arrow-up ${this.getUpDisable() ? 'disable' : ''}`}
+            className={`fa fa-long-arrow-alt-up ${this.getUpDisable() ? 'disable' : ''}`}
             onClick={::this.onUp}
           />
           <span
-            className={`fa fa-long-arrow-down ${this.getDownDisable() ? 'disable' : ''}`}
+            className={`fa fa-long-arrow-alt-down ${this.getDownDisable() ? 'disable' : ''}`}
             onClick={::this.onDown}
           />
           <span
-            className="fa fa-close"
+            className="fa fa-times"
             onClick={::this.onDeleteRow}
           />
           <span

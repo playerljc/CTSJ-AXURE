@@ -359,15 +359,15 @@ class FieldTab extends React.PureComponent {
               </Select>
             </div>
             <span
-              className={`g-flex-fixed fa fa-long-arrow-up UpFieldBtn ${this.renderUpFieldClass()}`}
+              className={`g-flex-fixed fa fa-long-arrow-alt-up UpFieldBtn ${this.renderUpFieldClass()}`}
               onClick={this.onUpField}
             />
             <span
-              className={`g-flex-fixed fa fa-long-arrow-down DownFieldBtn ${this.renderDownFieldClass()}`}
+              className={`g-flex-fixed fa fa-long-arrow-alt-down DownFieldBtn ${this.renderDownFieldClass()}`}
               onClick={this.onDownField}
             />
             <span
-              className={`g-flex-fixed fa fa-times DeleteFieldBtn ${this.renderDeleteFieldClass()}`}
+              className={`g-flex-fixed fas fa-times DeleteFieldBtn ${this.renderDeleteFieldClass()}`}
               onClick={this.onDeleteField}
             />
           </div>

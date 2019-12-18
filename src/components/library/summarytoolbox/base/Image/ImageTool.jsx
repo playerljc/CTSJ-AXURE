@@ -15,7 +15,7 @@ class ImageTool extends React.PureComponent {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-base-Image fa fa-custom-tupian`} />
+        <div className={`${selectorPrefix}-base-Image far fa-image`} />
       </React.Fragment>
     );
   }

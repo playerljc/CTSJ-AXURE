@@ -71,7 +71,7 @@ class CanvasTabPanelProperty extends React.PureComponent {
         </TabPanel>
         <TabPanel name="Description" key="Description">
           {/* 说明面板 */}
-          {/*<ComponentPropertyDescriptionTab shape={page} />*/}
+          <ComponentPropertyDescriptionTab shape={page} />
         </TabPanel>
         <TabPanel name="Style" key="Style">
           {/* 样式面板 */}

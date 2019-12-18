@@ -15,7 +15,7 @@ class TextTool extends React.PureComponent {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-base-Text fa fa-custom-danhangwenben`} />
+        <div className={`${selectorPrefix}-base-Text FontAwesome`}>&#xe61c;</div>
       </React.Fragment>
     );
   }

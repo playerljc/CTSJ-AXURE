@@ -29,14 +29,14 @@ const contextMenuData = [
   {
     name: 'add',
     id: 'add',
-    icon: 'plus',
+    icon: 'fa fa-plus',
     separation: false,
     attribute: {},
     children: [
       {
         name: 'folder',
         id: 'folder',
-        icon: 'folder-o',
+        icon: 'fa fa-folder',
         separation: false,
         attribute: {},
         children: [],
@@ -44,7 +44,7 @@ const contextMenuData = [
       {
         name: 'Add page above',
         id: 'addpageabove',
-        icon: 'file-text-o',
+        icon: 'fa fa-file-alt',
         separation: false,
         attribute: {},
         children: [],
@@ -52,7 +52,7 @@ const contextMenuData = [
       {
         name: 'Add page below',
         id: 'addpagebelow',
-        icon: 'file-text',
+        icon: 'far fa-file-alt',
         separation: false,
         attribute: {},
         children: [],
@@ -60,7 +60,7 @@ const contextMenuData = [
       {
         name: 'subpage',
         id: 'subpage',
-        icon: 'file-o',
+        icon: 'fa fa-file',
         separation: false,
         attribute: {},
         children: [],
@@ -70,14 +70,14 @@ const contextMenuData = [
   {
     name: 'move',
     id: 'move',
-    icon: 'arrows-v',
+    icon: 'fa fa-arrows-alt-v',
     separation: false,
     attribute: {},
     children: [
       {
         name: 'Move up',
         id: 'moveup',
-        icon: 'long-arrow-up',
+        icon: 'fa fa-long-arrow-alt-up',
         separation: false,
         attribute: {},
         children: [],
@@ -85,7 +85,7 @@ const contextMenuData = [
       {
         name: 'Move down',
         id: 'movedown',
-        icon: 'long-arrow-down',
+        icon: 'fa fa-long-arrow-alt-down',
         separation: false,
         attribute: {},
         children: [],
@@ -93,7 +93,7 @@ const contextMenuData = [
       {
         name: 'upgrade',
         id: 'upgrade',
-        icon: 'long-arrow-right',
+        icon: 'fa fa-long-arrow-alt-right',
         separation: false,
         attribute: {},
         children: [],
@@ -101,7 +101,7 @@ const contextMenuData = [
       {
         name: 'downgrade',
         id: 'downgrade',
-        icon: 'long-arrow-left',
+        icon: 'fa fa-long-arrow-alt-left',
         separation: false,
         attribute: {},
         children: [],
@@ -111,7 +111,7 @@ const contextMenuData = [
   {
     name: 'delete',
     id: 'delete',
-    icon: 'trash-o',
+    icon: 'fa fa-trash-alt',
     separation: false,
     attribute: {},
     children: [],
@@ -119,7 +119,7 @@ const contextMenuData = [
   {
     name: 'rename',
     id: 'rename',
-    icon: 'exchange',
+    icon: 'fa fa-exchange-alt',
     separation: false,
     attribute: {},
     children: [],
@@ -785,7 +785,7 @@ class PagePanel extends Component {
     return (
       <div className={`${selectorPrefix}-ExtendBar`}>
         <span
-          className="fa fa-custom-addfile"
+          className="fa fa-file-medical"
           title="add file"
           onClick={(e) => {
             e.preventDefault();
@@ -793,7 +793,7 @@ class PagePanel extends Component {
           }}
         />
         <span
-          className="fa fa-custom-addfolder"
+          className="fa fa-folder-plus"
           title="add folder"
           onClick={(e) => {
             e.preventDefault();
@@ -801,7 +801,7 @@ class PagePanel extends Component {
           }}
         />
         <span
-          className="fa fa-custom-icon-search"
+          className="fa fa-search-plus"
           title="search"
           onClick={(e) => {
             e.preventDefault();
