@@ -289,6 +289,36 @@ class TableSetting extends React.PureComponent {
           return columns.length === 0;
         },
       },
+      // 加行(加多行)
+      {
+        key: 'addMulitRow',
+        className: () => `fa fa-server ${this.rowToolConfig.find(t => t.key === 'addMulitRow').disable() ? 'disable' : ''}`,
+        title: 'add mulit row',
+        onClick: () => {
+          const disabled = this.rowToolConfig.find(t => t.key === 'addMulitRow').disable();
+          if (disabled) return false;
+
+          const { zIndex } = this.props;
+
+          Modal.prompt({
+            content: 'add mulit row',
+            type: 'number',
+            defaultValue: 1,
+            zIndex: zIndex + 10,
+            success: (rowCount) => {
+              return new Promise((resolve) => {
+                this.appendMulitRow(rowCount).then(() => {
+                  resolve();
+                });
+              });
+            },
+          });
+        },
+        disable: () => {
+          const { columns = [] } = this.state;
+          return columns.length === 0;
+        },
+      },
       // 上方加行
       {
         key: 'addLineAbove',
@@ -539,6 +569,35 @@ class TableSetting extends React.PureComponent {
     dataClone.splice(index, 0, rowData);
     this.setState({
       data: dataClone,
+    });
+  }
+
+  /**
+   * appendMulitRow
+   * @param {Number} - rowCount
+   * @return {Promise}
+   */
+  appendMulitRow(rowCount) {
+    return new Promise((resolve) => {
+      const { data = [], columns = [] } = this.state;
+
+      const dataClone = Immutable.cloneDeep(data);
+
+      const rowData = {};
+      columns.forEach(({ dataIndex }) => {
+        rowData[dataIndex] = '';
+      });
+
+      const addRows = [];
+      for (let i = 0; i < rowCount; i++) {
+        addRows.push(Object.assign(Immutable.cloneDeep(rowData), { id: uuid() }));
+      }
+
+      this.setState({
+        data: dataClone.concat(addRows),
+      }, () => {
+        resolve();
+      });
     });
   }
 

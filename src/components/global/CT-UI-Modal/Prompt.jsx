@@ -67,7 +67,10 @@ class Prompt extends React.PureComponent {
 }
 
 Prompt.propTypes = {
-  defaultValue: PropTypes.string,
+  defaultValue: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   content: PropTypes.node,
   required: PropTypes.bool,
   maxLength: PropTypes.number,

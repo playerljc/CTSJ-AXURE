@@ -3,7 +3,6 @@ import React from 'react';
 export default (Component) => {
   return class extends React.PureComponent {
     componentDidMount() {
-      debugger
       this.ins.el.addEventListener('mousedown', (e) => {
         e.stopPropagation();
       });

@@ -339,7 +339,7 @@ class Table extends React.PureComponent {
 Table.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.array,
-  pagin: PropTypes.object,
+  pagin: PropTypes.bool,
   rowKey: PropTypes.string,
   columnLock: PropTypes.bool,
   bodyHeight: PropTypes.string,

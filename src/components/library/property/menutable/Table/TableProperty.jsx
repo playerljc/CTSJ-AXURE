@@ -28,7 +28,6 @@ class TableProperty extends React.PureComponent {
 
     const { showNumber } = table;
 
-    debugger
     if (showNumber) {
       const cloneTable = Immutable.cloneDeep(table);
       cloneTable.columns.shift();
