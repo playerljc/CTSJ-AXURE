@@ -68,8 +68,6 @@ module.exports = {
     }, {
       "enforceForRenamedProperties": false
     }],
-    // 关于const和let的使用问题，影响逻辑。
-    // add by zhinan.zhang@baifendian.com 20180211
     "import/no-mutable-exports": [0]
   },
   "parserOptions": {
