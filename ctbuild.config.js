@@ -26,7 +26,7 @@ module.exports = {
               modifyVars,
               plugins: [
                 new LessPluginCleanCSS({ advanced: true }),
-                new LessPluginAutoPrefix({ add: false, remove: false, browsers: ['last 2 versions'] }),
+                new LessPluginAutoPrefix({ add: false, remove: false, browsers: ['last 2 versions']}),
               ],
             },
           },
