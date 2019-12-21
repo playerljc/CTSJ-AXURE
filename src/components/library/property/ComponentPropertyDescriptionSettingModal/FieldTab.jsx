@@ -112,7 +112,7 @@ class FieldTab extends React.PureComponent {
    * 上移
    */
   onUpField() {
-    const { selectedRowKey, data = [] } = this.state;
+    const { selectedRowKey, data = []} = this.state;
 
     let index;
     if (!selectedRowKey) {
@@ -138,7 +138,7 @@ class FieldTab extends React.PureComponent {
    * 下移
    */
   onDownField() {
-    const { selectedRowKey, data = [] } = this.state;
+    const { selectedRowKey, data = []} = this.state;
     let index;
     if (!selectedRowKey) {
       return false;
@@ -164,7 +164,7 @@ class FieldTab extends React.PureComponent {
    */
   onDeleteField() {
     const { onDeleteField } = this.props;
-    const { selectedRowKey, data = [] } = this.state;
+    const { selectedRowKey, data = []} = this.state;
     if (!selectedRowKey) return false;
 
     const index = data.findIndex(t => t.id === selectedRowKey);
@@ -266,7 +266,7 @@ class FieldTab extends React.PureComponent {
    * @return {String}
    */
   renderUpFieldClass() {
-    const { selectedRowKey, data = [] } = this.state;
+    const { selectedRowKey, data = []} = this.state;
     let className = '';
     if (!selectedRowKey) {
       className = 'Disable';
@@ -283,7 +283,7 @@ class FieldTab extends React.PureComponent {
    * renderDownFieldClass
    */
   renderDownFieldClass() {
-    const { selectedRowKey, data = [] } = this.state;
+    const { selectedRowKey, data = []} = this.state;
     let className = '';
     if (!selectedRowKey) {
       className = 'Disable';
@@ -310,7 +310,7 @@ class FieldTab extends React.PureComponent {
    * @return {String}
    */
   getSelectRowProperty(property) {
-    const { selectedRowKey, data = [] } = this.state;
+    const { selectedRowKey, data = []} = this.state;
     const entry = data.find(t => t.id === selectedRowKey);
     if (entry) {
       return entry[property];
@@ -324,7 +324,7 @@ class FieldTab extends React.PureComponent {
    * @return {SelectOptions}
    */
   getSelectRowIndex() {
-    const { selectedRowKey, data = [] } = this.state;
+    const { selectedRowKey, data = []} = this.state;
     return data.findIndex(t => t.id === selectedRowKey);
   }
 

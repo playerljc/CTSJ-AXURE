@@ -297,7 +297,7 @@ function getMoveInTargetEls() {
 
   const cloneElRect = this.cloneEl.getBoundingClientRect();
 
-  const { dragTargetExtendClasses = [] } = this.config;
+  const { dragTargetExtendClasses = []} = this.config;
 
   const { targetEls } = this;
   for (let i = 0; i < targetEls.length; i++) {
@@ -433,7 +433,7 @@ function goBack(sourceEl, targetEls) {
  */
 function reset(targetEls) {
   const self = this;
-  const { dragTargetExtendClasses = [] } = this.config;
+  const { dragTargetExtendClasses = []} = this.config;
 
   if (self.boundaryDetectionHandler) {
     cancelAnimationFrame(self.boundaryDetectionHandler);

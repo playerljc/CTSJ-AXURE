@@ -212,7 +212,7 @@ class Table extends React.PureComponent {
      * }
      * @type {Array<ColumnItem>}
      */
-    const { columns = [] } = this.props;
+    const { columns = []} = this.props;
     const { selectedColumnKey = '' } = this.state;
 
     const rels = [];

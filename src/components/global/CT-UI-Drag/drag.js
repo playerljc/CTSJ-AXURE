@@ -68,7 +68,7 @@ function getDragTarget(el) {
  */
 function createCloneEl(sourceEl) {
   const self = this;
-  const { cloneClasses = [] } = self.config;
+  const { cloneClasses = []} = self.config;
   const cloneClassNames = cloneClasses.join(' ');
   self.sourceEl = Dom6.createElement(`<div class="${selectorPrefix}-clone ${cloneClassNames}"></div>`);
   self.sourceEl.style.width = `${sourceEl.offsetWidth}px`;

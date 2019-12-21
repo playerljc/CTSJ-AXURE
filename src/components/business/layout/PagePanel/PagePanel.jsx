@@ -242,7 +242,7 @@ class PagePanel extends Component {
         break;
       }
 
-      const { childrendata = [] } = n;
+      const { childrendata = []} = n;
       node = this.findNodeById(childrendata, id);
       if (node) break;
     }
@@ -258,7 +258,7 @@ class PagePanel extends Component {
    */
   findParentById(parent, id) {
     let node;
-    const { childrendata = [] } = parent;
+    const { childrendata = []} = parent;
     for (let i = 0; i < childrendata.length; i++) {
       const n = childrendata[i];
       if (n.id === id) {

@@ -24,7 +24,7 @@ class SubMenu extends React.PureComponent {
   }
 
   render() {
-    const { data = [] } = this.props;
+    const { data = []} = this.props;
     return (
       <ProviderContext.Consumer>{({ config }) => {
         this.config = config;

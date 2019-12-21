@@ -53,7 +53,7 @@ class TableSetting extends React.PureComponent {
         className: () => 'fa fa-plus',
         title: 'add column',
         onClick: () => {
-          const { columns = [] } = this.state;
+          const { columns = []} = this.state;
           this.addColumn({
             name: 'NewColumn',
             index: columns.length,
@@ -69,7 +69,7 @@ class TableSetting extends React.PureComponent {
           const disabled = this.columnToolConfig.find(t => t.key === 'addLeftColumn').disable();
           if (disabled) return false;
 
-          const { selectedColumnKey = '', columns = [] } = this.state;
+          const { selectedColumnKey = '', columns = []} = this.state;
           const index = columns.findIndex(t => t.key === selectedColumnKey);
           this.addColumn({
             name: 'NewColumn',
@@ -90,7 +90,7 @@ class TableSetting extends React.PureComponent {
           const disabled = this.columnToolConfig.find(t => t.key === 'addRightColumn').disable();
           if (disabled) return false;
 
-          const { selectedColumnKey = '', columns = [] } = this.state;
+          const { selectedColumnKey = '', columns = []} = this.state;
           const index = columns.findIndex(t => t.key === selectedColumnKey);
           this.addColumn({
             name: 'NewColumn',
@@ -111,7 +111,7 @@ class TableSetting extends React.PureComponent {
           const disabled = this.columnToolConfig.find(t => t.key === 'removeColumn').disable();
           if (disabled) return false;
 
-          const { selectedColumnKey = '', columns = [], data = [] } = this.state;
+          const { selectedColumnKey = '', columns = [], data = []} = this.state;
           const index = columns.findIndex(t => t.key === selectedColumnKey);
           const columnsClone = this.cloneColumns();
           let dataClone = Immutable.cloneDeep(data);
@@ -142,7 +142,7 @@ class TableSetting extends React.PureComponent {
           const disabled = this.columnToolConfig.find(t => t.key === 'moveLeftColumn').disable();
           if (disabled) return false;
 
-          const { selectedColumnKey = '', columns = [] } = this.state;
+          const { selectedColumnKey = '', columns = []} = this.state;
           const index = columns.findIndex(t => t.key === selectedColumnKey);
           const columnsClone = this.cloneColumns();
 
@@ -154,7 +154,7 @@ class TableSetting extends React.PureComponent {
           });
         },
         disable: () => {
-          const { selectedColumnKey = '', columns = [] } = this.state;
+          const { selectedColumnKey = '', columns = []} = this.state;
           if (!selectedColumnKey) return true;
           else {
             const index = columns.findIndex(t => t.key === selectedColumnKey);
@@ -172,7 +172,7 @@ class TableSetting extends React.PureComponent {
           const disabled = this.columnToolConfig.find(t => t.key === 'moveRightColumn').disable();
           if (disabled) return false;
 
-          const { selectedColumnKey = '', columns = [] } = this.state;
+          const { selectedColumnKey = '', columns = []} = this.state;
           const index = columns.findIndex(t => t.key === selectedColumnKey);
           const columnsClone = this.cloneColumns();
 
@@ -184,7 +184,7 @@ class TableSetting extends React.PureComponent {
           });
         },
         disable: () => {
-          const { selectedColumnKey = '', columns = [] } = this.state;
+          const { selectedColumnKey = '', columns = []} = this.state;
           if (!selectedColumnKey) return true;
           else {
             const index = columns.findIndex(t => t.key === selectedColumnKey);
@@ -204,7 +204,7 @@ class TableSetting extends React.PureComponent {
 
           const { zIndex } = this.props;
 
-          const { selectedColumnKey = '', columns = [] } = this.state;
+          const { selectedColumnKey = '', columns = []} = this.state;
           const index = columns.findIndex(t => t.key === selectedColumnKey);
           const columnsClone = this.cloneColumns();
 
@@ -240,7 +240,7 @@ class TableSetting extends React.PureComponent {
 
           const { zIndex } = this.props;
 
-          const { selectedColumnKey = '', columns = [] } = this.state;
+          const { selectedColumnKey = '', columns = []} = this.state;
           const index = columns.findIndex(t => t.key === selectedColumnKey);
           const columnsClone = this.cloneColumns();
 
@@ -281,11 +281,11 @@ class TableSetting extends React.PureComponent {
           const disabled = this.rowToolConfig.find(t => t.key === 'addRow').disable();
           if (disabled) return false;
 
-          const { data = [] } = this.state;
+          const { data = []} = this.state;
           this.addRow(data.length);
         },
         disable: () => {
-          const { columns = [] } = this.state;
+          const { columns = []} = this.state;
           return columns.length === 0;
         },
       },
@@ -318,7 +318,7 @@ class TableSetting extends React.PureComponent {
           });
         },
         disable: () => {
-          const { columns = [] } = this.state;
+          const { columns = []} = this.state;
           return columns.length === 0;
         },
       },
@@ -331,7 +331,7 @@ class TableSetting extends React.PureComponent {
           const disabled = this.rowToolConfig.find(t => t.key === 'addLineAbove').disable();
           if (disabled) return false;
 
-          const { selectedRowKey = '', data = [] } = this.state;
+          const { selectedRowKey = '', data = []} = this.state;
           const index = data.findIndex(t => t.id === selectedRowKey);
           this.addRow(index);
         },
@@ -349,7 +349,7 @@ class TableSetting extends React.PureComponent {
           const disabled = this.rowToolConfig.find(t => t.key === 'addLineBelow').disable();
           if (disabled) return false;
 
-          const { selectedRowKey = '', data = [] } = this.state;
+          const { selectedRowKey = '', data = []} = this.state;
           const index = data.findIndex(t => t.id === selectedRowKey);
           this.addRow(index + 1);
         },
@@ -367,7 +367,7 @@ class TableSetting extends React.PureComponent {
           const disabled = this.rowToolConfig.find(t => t.key === 'removeRow').disable();
           if (disabled) return false;
 
-          const { selectedRowKey = '', data = [] } = this.state;
+          const { selectedRowKey = '', data = []} = this.state;
           const index = data.findIndex(t => t.id === selectedRowKey);
           const dataClone = Immutable.cloneDeep(data);
           dataClone.splice(index, 1);
@@ -391,7 +391,7 @@ class TableSetting extends React.PureComponent {
           const disabled = this.rowToolConfig.find(t => t.key === 'moveRowUp').disable();
           if (disabled) return false;
 
-          const { selectedRowKey = '', data = [] } = this.state;
+          const { selectedRowKey = '', data = []} = this.state;
           const index = data.findIndex(t => t.id === selectedRowKey);
           const dataClone = Immutable.cloneDeep(data);
 
@@ -403,7 +403,7 @@ class TableSetting extends React.PureComponent {
           });
         },
         disable: () => {
-          const { selectedRowKey = '', data = [] } = this.state;
+          const { selectedRowKey = '', data = []} = this.state;
           if (!selectedRowKey) return true;
           else {
             const index = data.findIndex(t => t.id === selectedRowKey);
@@ -421,7 +421,7 @@ class TableSetting extends React.PureComponent {
           const disabled = this.rowToolConfig.find(t => t.key === 'moveRowDown').disable();
           if (disabled) return false;
 
-          const { selectedRowKey = '', data = [] } = this.state;
+          const { selectedRowKey = '', data = []} = this.state;
           const index = data.findIndex(t => t.id === selectedRowKey);
           const dataClone = Immutable.cloneDeep(data);
 
@@ -433,7 +433,7 @@ class TableSetting extends React.PureComponent {
           });
         },
         disable: () => {
-          const { selectedRowKey = '', data = [] } = this.state;
+          const { selectedRowKey = '', data = []} = this.state;
           if (!selectedRowKey) return true;
           else {
             const index = data.findIndex(t => t.id === selectedRowKey);
@@ -558,7 +558,7 @@ class TableSetting extends React.PureComponent {
    * @param {Number} - index
    */
   addRow(index) {
-    const { data = [], columns = [] } = this.state;
+    const { data = [], columns = []} = this.state;
 
     const dataClone = Immutable.cloneDeep(data);
 
@@ -582,7 +582,7 @@ class TableSetting extends React.PureComponent {
    */
   appendMulitRow(rowCount) {
     return new Promise((resolve) => {
-      const { data = [], columns = [] } = this.state;
+      const { data = [], columns = []} = this.state;
 
       const dataClone = Immutable.cloneDeep(data);
 

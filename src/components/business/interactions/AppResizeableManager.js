@@ -35,7 +35,7 @@ function onEnd() {
 
   const rangeSelect = RangeSelectManager.get(App.getCurPageId());
   if (rangeSelect) {
-    const { children = [] } = rangeSelect;
+    const { children = []} = rangeSelect;
     rangeSelect.children = children.map((t) => {
       const { el } = t;
       return Object.assign(t, {
@@ -99,7 +99,7 @@ function onChange(curEl,
     });
   } else {
     // 对rangeSelect进行处理
-    const { children = [] } = rangeSelect;
+    const { children = []} = rangeSelect;
     children.forEach((entry) => {
       const { el, baseWidth, baseHeight, clientX, clientY } = entry;
 

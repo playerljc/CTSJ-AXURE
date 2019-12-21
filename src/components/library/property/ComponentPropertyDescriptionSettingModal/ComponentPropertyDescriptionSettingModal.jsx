@@ -43,7 +43,7 @@ class ComponentPropertyDescriptionSettingModal extends React.PureComponent {
 
   onDeleteField({ field, fieldId: deleteFieldId }) {
     // 在这里进行group引用filed的删减操作
-    const { group = [] } = Immutable.cloneDeep(this.state.property);
+    const { group = []} = Immutable.cloneDeep(this.state.property);
     let isUpdate = false;
     group.forEach(({ fields }) => {
       fields.forEach(({ fieldId }, index) => {
@@ -78,7 +78,7 @@ class ComponentPropertyDescriptionSettingModal extends React.PureComponent {
   }
 
   render() {
-    const { activeKey, property: { group = [], field = [] } } = this.state;
+    const { activeKey, property: { group = [], field = []} } = this.state;
 
     return (
       <div className={`${selectPrefix}`}>

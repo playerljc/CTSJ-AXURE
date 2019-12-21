@@ -38,7 +38,7 @@ function onEnd(e, el, sourceEl) {
   AppDroppableManager.setEnable();
   AppSelectableManager.setEnable();
 
-  const { shiftKey = false, path = [] } = e;
+  const { shiftKey = false, path = []} = e;
   const pageId = App.getCurPageId();
 
   let curEl = sourceEl;

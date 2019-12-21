@@ -32,7 +32,7 @@ class Tree extends React.PureComponent {
   }
 
   render() {
-    const { className = '', data = [] } = this.props;
+    const { className = '', data = []} = this.props;
     return (
       <TreeContext.Provider value={this.props}>
         <div className={`${selectorPrefix} ${className}`}>

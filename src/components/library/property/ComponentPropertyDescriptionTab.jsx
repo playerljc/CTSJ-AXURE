@@ -31,7 +31,7 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
     const { shape } = this.props;
 
     const property = Immutable.cloneDeep(shape.getProperty().description);
-    const { group = [] } = property;
+    const { group = []} = property;
 
     this.state = {
       property,
@@ -44,7 +44,7 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
    * @return {<Select>}
    */
   renderGroupSelect() {
-    const { property: { group = [] }, groupSelectValue } = this.state;
+    const { property: { group = []}, groupSelectValue } = this.state;
     return (
       <Select
         onChange={this.onGroupSelectChange}
@@ -67,7 +67,7 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
 
     if (!groupSelectValue) return null;
 
-    const { property: { group = [] } } = this.state;
+    const { property: { group = []} } = this.state;
 
     if (group.length === 0) return null;
 
@@ -89,7 +89,7 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
    */
   renderField(groupId, fieldConfig) {
     const { fieldId } = fieldConfig;
-    const { property: { field = [] } } = this.state;
+    const { property: { field = []} } = this.state;
     const fieldEntry = field.find(t => t.id === fieldId);
     if (!fieldEntry) return null;
 
@@ -180,7 +180,7 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
    */
   renderSelectField(groupId, { id, fieldId, value = '' }) {
     const { form } = this.props;
-    const { property: { field = [] } } = this.state;
+    const { property: { field = []} } = this.state;
     const FiledComponent = form.createField(Select, id);
 
     let options = [];
@@ -211,7 +211,7 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
   propertyChange({ groupId, fieldId, value }) {
     const { shape } = this.props;
     const property = Immutable.cloneDeep(this.state.property);
-    const { group = [] } = property;
+    const { group = []} = property;
     const groupEntry = group.find(t => t.id === groupId);
     if (groupEntry) {
       const fieldEntry = groupEntry.fields.find(t => t.id === fieldId);

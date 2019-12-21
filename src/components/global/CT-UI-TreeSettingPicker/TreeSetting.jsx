@@ -521,7 +521,7 @@ class TreeSetting extends React.PureComponent {
         break;
       }
 
-      const { childrendata = [] } = n;
+      const { childrendata = []} = n;
       node = this.findNodeById(childrendata, id);
       if (node) break;
     }
@@ -537,7 +537,7 @@ class TreeSetting extends React.PureComponent {
    */
   findParentById(parent, id) {
     let node;
-    const { childrendata = [] } = parent;
+    const { childrendata = []} = parent;
     for (let i = 0; i < childrendata.length; i++) {
       const n = childrendata[i];
       if (n.id === id) {
@@ -608,7 +608,7 @@ class TreeSetting extends React.PureComponent {
    */
   appendMulitNode(rowCount) {
     return new Promise((resolve) => {
-      const { data = [] } = this.state;
+      const { data = []} = this.state;
       const cloneData = Immutable.cloneDeep(data);
 
       for (let i = 0; i < rowCount; i++) {
@@ -650,6 +650,11 @@ class TreeSetting extends React.PureComponent {
     });
   }
 
+  /**
+   * onEditorModify
+   * @param {String} - value
+   * @param {String} - id
+   */
   onEditorModify({ value, id }) {
     const { data } = this.state;
     const cloneData = Immutable.cloneDeep(data);
@@ -660,6 +665,11 @@ class TreeSetting extends React.PureComponent {
     });
   }
 
+  /**
+   * onRenderNode
+   * @param {Object} - nodeConfig
+   * @return {Object}
+   */
   onRenderNode(nodeConfig) {
     return (
       <TreeTextFieldEditor {...nodeConfig} value={nodeConfig.name} />

@@ -12,7 +12,7 @@ const selectorPrefix = 'CT-UI-Modal';
  */
 class ModalComponent extends React.PureComponent {
   renderButtons() {
-    const { buttons = [] } = this.props;
+    const { buttons = []} = this.props;
     const result = [];
     buttons.forEach(({ text = '', handler }, index) => {
       result.push(
