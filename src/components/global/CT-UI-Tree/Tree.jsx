@@ -56,6 +56,10 @@ Tree.propTypes = {
   onActive: PropTypes.func,
   onDBClick: PropTypes.func,
   onContextMenu: PropTypes.func,
+  // 编辑完成时
+  onEditorModify: PropTypes.func,
+  // 节点渲染
+  onRenderNode: PropTypes.func,
 };
 
 export default Tree;

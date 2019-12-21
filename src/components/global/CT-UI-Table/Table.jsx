@@ -253,7 +253,8 @@ class Table extends React.PureComponent {
       <div
         key={rowData[rowKey]}
         className={`${selectorPrefix}-Body-Row ${selectedRowKey === rowData[rowKey] ? 'Selected' : ''}`}
-        onClick={() => {
+        onClickCapture={() => {
+          console.log('rowClick');
           this.onRowClick(Immutable.cloneDeep(rowData));
         }}
       >{
@@ -323,7 +324,12 @@ class Table extends React.PureComponent {
   render() {
     const { columnLock = false } = this.props;
     return (
-      <TableContext.Provider value={this.props}>
+      <TableContext.Provider
+        value={{
+          props: this.props,
+          state: this.state,
+        }}
+      >
         <div className={`${selectorPrefix}`}>
           <div className={`${selectorPrefix}-Inner ${columnLock ? 'columnLock' : ''}`}>
             {this.renderHeader()}

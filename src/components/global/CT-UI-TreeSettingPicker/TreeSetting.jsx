@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import uuid from 'uuid/v1';
 
 import { Immutable } from '../../../util/CTMobile-UI-Util';
-import Tree from '../CT-UI-Tree/Tree';
 import FontAwesomeFreePicker from '../../global/CT-UI-FontAwesomeFree/FontAwesomeFreePicker';
+import TreeTextFieldEditor from '../../global/CT-UI-Tree/TreeTextFieldEditor';
+import Tree from '../CT-UI-Tree/Tree';
 import Modal from '../CT-UI-Modal/modal';
 
 import './TreeSetting.less';
@@ -650,10 +651,30 @@ class TreeSetting extends React.PureComponent {
     });
   }
 
+  onEditorModify({ value, id }) {
+    const { data } = this.state;
+    const cloneData = Immutable.cloneDeep(data);
+    const node = this.findNodeById(cloneData, id);
+    node.name = value;
+    this.setState({
+      data: cloneData,
+    });
+  }
+
+  onRenderNode(nodeConfig) {
+    return (
+      <TreeTextFieldEditor {...nodeConfig} value={nodeConfig.name} />
+    );
+  }
+
   render() {
     const props = {
       ...this.state,
       onActive: ::this.onTreeActive,
+      // 编辑完成时
+      onEditorModify: ::this.onEditorModify,
+      // 节点渲染
+      onRenderNode: ::this.onRenderNode,
     };
 
     return (

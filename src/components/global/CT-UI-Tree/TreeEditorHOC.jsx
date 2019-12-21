@@ -1,20 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { TableContext } from './Context';
-import { Immutable } from '../../../util/CTMobile-UI-Util';
+import { TreeContext } from './Context';
 
-import './TableEditorHOC.less';
+import './TreeEditorHOC.less';
 
-const selectorPrefix = 'CT-UI-Table-TableEditor';
+const selectorPrefix = 'CT-UI-Tree-TreeEditor';
 
 export default (Component) => {
   /**
-   * TableEditorHOC
-   * @class TableEditorHOC
-   * @classdesc TableEditorHOC
+   * TreeEditorHOC
+   * @class TreeEditorHOC
+   * @classdesc TreeEditorHOC
    */
-  class TableEditorHOC extends React.PureComponent {
+  class TreeEditorHOC extends React.PureComponent {
     /**
      * constructor
      * @param {Object} - props
@@ -51,15 +50,15 @@ export default (Component) => {
      * @param {Object} - context
      */
     onBlur({ value, context }) {
-      const { index, dataIndex } = this.state;
-      const { onEditorModify } = context.props;
+      const { id } = this.state;
+      const { onEditorModify } = context;
 
       this.setState({
         editorable: false,
         value,
       }, () => {
         if (onEditorModify) {
-          onEditorModify({ value, index, dataIndex });
+          onEditorModify({ value, id });
         }
       });
     }
@@ -69,19 +68,14 @@ export default (Component) => {
      * @return {Object}
      */
     getOtherProps() {
-      const {
-        index,
-        dataIndex,
-        editorable,
-        ...otherProps
-      } = this.state;
-      return Immutable.cloneDeep(otherProps);
+      const { editorable, ...otherProps } = this.state;
+      return otherProps;
     }
 
     render() {
       const { editorable = false, value } = this.state;
       return (
-        <TableContext.Consumer>{
+        <TreeContext.Consumer>{
           (context) => {
             return (
               <div className={`${selectorPrefix}`}>
@@ -97,9 +91,7 @@ export default (Component) => {
                     (
                       <div
                         className={`${selectorPrefix}-Wrap`}
-                        onClickCapture={() => {
-                          this.onCellClick();
-                        }}
+                        onClick={this.onCellClick}
                       >{value}
                       </div>
                     )
@@ -108,16 +100,15 @@ export default (Component) => {
             );
           }
         }
-        </TableContext.Consumer>
+        </TreeContext.Consumer>
       );
     }
   }
 
-  TableEditorHOC.propTypes = {
+  TreeEditorHOC.propTypes = {
+    id: PropTypes.string,
     value: PropTypes.string,
-    index: PropTypes.number,
-    dataIndex: PropTypes.string,
   };
 
-  return TableEditorHOC;
+  return TreeEditorHOC;
 };

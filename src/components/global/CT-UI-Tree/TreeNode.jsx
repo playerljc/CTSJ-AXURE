@@ -6,6 +6,7 @@ import { TreeContext } from './Context';
 import Click from '../../../util/Click';
 
 import './TreeNode.less';
+import { Immutable } from '../../../util/CTMobile-UI-Util';
 
 const selectorPrefix = 'CT-UI-TreeNode';
 
@@ -65,6 +66,21 @@ class TreeNode extends React.PureComponent {
     });
   }
 
+  /**
+   * getOther
+   * @return {Object}
+   */
+  getOther() {
+    const {
+      onActive,
+      onDBClick,
+      onContextMenu,
+      ...other
+    } = this.props;
+
+    return Immutable.cloneDeep(other);
+  }
+
   render() {
     const {
       icon = '',
@@ -79,7 +95,7 @@ class TreeNode extends React.PureComponent {
     return (
       <TreeContext.Consumer>
         {
-          ({ activeKey }) => {
+          ({ activeKey, onRenderNode }) => {
             return (
               <details
                 className={`${selectorPrefix} ${leaf ? 'Leaf' : ''} ${activeKey && activeKey === id ? 'Active' : ''}`}
@@ -119,7 +135,7 @@ class TreeNode extends React.PureComponent {
                     }}
                   >
                     {icon ? (<span className={`${selectorPrefix}-Icon ${icon}`} />) : null}
-                    <span className={`${selectorPrefix}-Name`}>{name}</span>
+                    <span className={`${selectorPrefix}-Name`}>{onRenderNode ? onRenderNode(this.getOther()) : name}</span>
                   </div>
                 </summary>
                 {
