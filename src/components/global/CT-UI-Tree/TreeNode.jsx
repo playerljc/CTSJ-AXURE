@@ -4,9 +4,10 @@ import uuidv1 from 'uuid/v1';
 
 import { TreeContext } from './Context';
 import Click from '../../../util/Click';
+import { Immutable } from '../../../util/CTMobile-UI-Util';
 
 import './TreeNode.less';
-import { Immutable } from '../../../util/CTMobile-UI-Util';
+
 
 const selectorPrefix = 'CT-UI-TreeNode';
 

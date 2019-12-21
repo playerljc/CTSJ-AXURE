@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import uuid from 'uuid/v1';
 
 import { Immutable } from '../../../util/CTMobile-UI-Util';
+import { getMaxLevelNumber } from '../../library/component/ComponentBaseHOC';
 import FontAwesomeFreePicker from '../../global/CT-UI-FontAwesomeFree/FontAwesomeFreePicker';
 import TreeTextFieldEditor from '../../global/CT-UI-Tree/TreeTextFieldEditor';
 import Tree from '../CT-UI-Tree/Tree';
 import Modal from '../CT-UI-Modal/modal';
 
 import './TreeSetting.less';
-import { getMaxLevelNumber } from '../../library/component/ComponentBaseHOC';
-
 
 const selectorPrefix = 'CT-UI-TreeSettingPicker';
 
