@@ -3,14 +3,14 @@
   .CT-UI-TextShadowPicker-Item{
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
+    border: 1px solid @common-promary-disabled-color;
     box-sizing: border-box;
     padding: 5px;
     background-color: #fff;
 
     &:hover {
       background-color: rgba(0, 122, 255, .5);
-      border-color: #007aff;
+      border-color: @common-promary-active-color;
     }
 
     > .CT-UI-TextShadowPicker-Color {
@@ -22,7 +22,7 @@
     }
 
     > .CT-UI-TextShadowPicker-Arrow {
-      color: #ccc;
+      color: @common-promary-disabled-color;
       font-size: 14px;
       transform: rotate(90deg);
     }

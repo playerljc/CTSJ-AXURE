@@ -1,7 +1,7 @@
 .CT-UI-ColorPicker {
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
+  border: 1px solid @common-promary-disabled-color;
   box-sizing: border-box;
   padding: 5px;
   background-color: #fff;
@@ -12,19 +12,19 @@
 
   &:hover {
     background-color: rgba(0, 122, 255, .5);
-    border-color: #007aff;
+    border-color: @common-promary-active-color;
   }
 
   > .CT-UI-ColorPicker-Color {
     width: 20px;
     height: 20px;
     box-sizing: border-box;
-    border: 1px solid #000;
+    border: 1px solid @common-primary-color;
     margin-right: 10px;
   }
 
   > .CT-UI-ColorPicker-Arrow {
-    color: #ccc;
+    color: @common-promary-disabled-color;
     font-size: 14px;
     transform: rotate(90deg);
   }

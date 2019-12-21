@@ -118,7 +118,7 @@ class TreeNode extends React.PureComponent {
                       });
                     }}
                   >
-                    {icon ? (<span className={`${selectorPrefix}-Icon far fa-${icon}`} />) : null}
+                    {icon ? (<span className={`${selectorPrefix}-Icon ${icon}`} />) : null}
                     <span className={`${selectorPrefix}-Name`}>{name}</span>
                   </div>
                 </summary>

@@ -1,25 +1,11 @@
-.CT-UI-TableSettingPicker {
-  > .CT-UI-TableSettingPicker-ToolGlobal {
-    margin-bottom: 15px;
-
-    > .g-flex {
-      margin-bottom: 10px;
-
-      > .CT-UI-Form-Field {
-        width: 50px;
-        margin-right: 15px;
-      }
-    }
-  }
-
-  > .CT-UI-TableSettingPicker-ColumnTool,
-  > .CT-UI-TableSettingPicker-RowTool {
+.CT-UI-TreeSettingPicker {
+  > .CT-UI-TreeSettingPicker-Tool {
     margin-bottom: 15px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
 
-    > .fa {
+    > .fa,.far,.fas {
       width: 20px;
       height: 20px;
       font-size: 20px;
@@ -27,7 +13,7 @@
       text-align: center;
 
       &.disable {
-        color: #ccc;
+        color: @common-promary-disabled-color;
       }
     }
   }

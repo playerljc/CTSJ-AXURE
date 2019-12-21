@@ -1,0 +1,98 @@
+.CT-UI-FontAwesomeFree {
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  > .CT-UI-FontAwesomeFree-Search {
+    padding: 15px;
+    position: relative;
+    flex-shrink: 0;
+
+    > .CT-UI-FontAwesomeFree-Search-Input {
+      width: 100%;
+      border-radius: 6px;
+      padding: 15px 30px 15px 20px;
+      border: 1px solid #d9d9d9;
+      outline: 0;
+      transition: all .1s ease-in-out;
+      font-size: 20px;
+    }
+
+    > .CT-UI-FontAwesomeFree-Search-Icon {
+      position: absolute;
+      right: 23px;
+      width: 23px;
+      height: 23px;
+      top: 50%;
+      transform: translate3d(0, -50%, 0);
+      display: block;
+      color: @common-promary-disabled-color;
+      font-size: 23px;
+    }
+  }
+
+  > .CT-UI-FontAwesomeFree-Inner {
+    flex-grow: 1;
+    min-height: 0;
+    overflow-y: auto;
+    > .CT-UI-FontAwesomeFree-Categorie {
+      margin: 0;
+
+      > .CT-UI-FontAwesomeFree-Categorie-Label {
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+        padding: 15px;
+        text-align: left;
+        font-size: 25px;
+        font-weight: bold;
+      }
+
+      > .CT-UI-FontAwesomeFree-Categorie-IconsWrap {
+        margin: 0;
+        > .CT-UI-FontAwesomeFree-Categorie-Icons {
+          list-style: none;
+          padding: 10px;
+          margin: 0;
+          display: flex;
+          flex-wrap: wrap;
+
+          > .CT-UI-FontAwesomeFree-Categorie-Icon-Wrap {
+            //width: 20%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 20px;
+            color: #495057;
+
+            //max-width: 20%;
+            &:hover {
+              color: @common-promary-active-color;
+            }
+            &.active {
+              color: @common-promary-active-color;
+            }
+
+            > .CT-UI-FontAwesomeFree-Categorie-Icon {
+              font-size: 48px;
+              text-align: center;
+              margin-top: 20px;
+            }
+            > .CT-UI-FontAwesomeFree-Categorie-Icon-Label {
+              margin: 25px 0;
+              text-align: center;
+              font-size: 14px;
+              color: @common-promary-disabled-color;
+            }
+          }
+
+        }
+      }
+    }
+  }
+}
+
+.CT-UI-FontAwesomeFree-Modal {
+  display: flex;
+  overflow: hidden;
+}

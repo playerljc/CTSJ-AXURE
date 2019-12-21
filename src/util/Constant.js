@@ -45,10 +45,10 @@ export const PAST_XPOSITION_STEP = 10;
 export const PAST_YPOSITION_STEP = 10;
 
 // 页面在Tree上的icon
-export const PAGE_TREE_ICON = 'file';
+export const PAGE_TREE_ICON = 'far fa-file';
 
 // 目录在Tree上的icon
-export const FOLDER_TREE_ICON = 'folder-open';
+export const FOLDER_TREE_ICON = 'far fa-folder-open';
 
 
 // 缩放的数组

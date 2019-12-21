@@ -4,7 +4,7 @@
   .CT-UI-BorderShadowPicker-InSetItem {
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
+    border: 1px solid @common-promary-disabled-color;
     box-sizing: border-box;
     padding: 5px;
     background-color: #fff;
@@ -15,7 +15,7 @@
 
     &:hover {
       background-color: rgba(0, 122, 255, .5);
-      border-color: #007aff;
+      border-color: @common-promary-active-color;
     }
 
     > .CT-UI-BorderShadowPicker-Color {
@@ -26,7 +26,7 @@
     }
 
     > .CT-UI-BorderShadowPicker-Arrow {
-      color: #ccc;
+      color: @common-promary-disabled-color;
       font-size: 14px;
       transform: rotate(90deg);
     }
@@ -35,14 +35,14 @@
   .CT-UI-BorderShadowPicker-OutSetItem {
     > .CT-UI-BorderShadowPicker-Color {
       background-color: gray;
-      box-shadow: 2px 2px 2px #ccc;
+      box-shadow: 2px 2px 2px @common-promary-disabled-color;
     }
   }
 
   .CT-UI-BorderShadowPicker-InSetItem {
     > .CT-UI-BorderShadowPicker-Color {
-      background-color: #007aff;
-      box-shadow: inset 2px 2px 2px #ccc;
+      background-color: @common-promary-active-color;
+      box-shadow: inset 2px 2px 2px @common-promary-disabled-color;
     }
   }
 

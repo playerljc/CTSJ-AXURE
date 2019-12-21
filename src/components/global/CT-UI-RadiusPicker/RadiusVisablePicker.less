@@ -1,7 +1,7 @@
 .CT-UI-RadiusPicker-RadiusVisablePicker {
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
+  border: 1px solid @common-promary-disabled-color;
   box-sizing: border-box;
   padding: 5px;
   background-color: #fff;
@@ -12,7 +12,7 @@
 
   &:hover {
     background-color: rgba(0, 122, 255, .5);
-    border-color: #007aff;
+    border-color: @common-promary-active-color;
   }
 
   > .CT-UI-RadiusPicker-RadiusVisablePicker-Inner {
@@ -26,12 +26,12 @@
     align-items: center;
     padding: 3px;
     position: relative;
-    border: 1px solid #000;
+    border: 1px solid @common-primary-color;
     border-top-left-radius: 10px;
   }
 
   > .CT-UI-RadiusPicker-RadiusVisablePicker-Arrow {
-    color: #ccc;
+    color: @common-promary-disabled-color;
     font-size: 14px;
     transform: rotate(90deg);
   }
@@ -44,7 +44,7 @@
   width: 100px;
   height: 100px;
   margin: 10px auto;
-  border: 1px solid #000;
+  border: 1px solid @common-primary-color;
   box-sizing: border-box;
 
   > .CT-UI-RadiusPicker-RadiusVisablePicker-Modal-LeftTop,
@@ -58,12 +58,12 @@
     height: 40%;
 
     &.active {
-      outline: 1px solid #007aff;
+      outline: 1px solid @common-promary-active-color;
       background-color: rgba(0, 122, 255, 0.3);
     }
 
     &:hover {
-      outline: 1px solid #007aff;
+      outline: 1px solid @common-promary-active-color;
       background-color: rgba(0, 122, 255, 0.5);
     }
   }

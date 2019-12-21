@@ -32,7 +32,7 @@ export default (Component) => {
     };
 
     render() {
-      const { onFocus, onBlur,className, ...props } = this.props;
+      const { onFocus, onBlur, className, ...props } = this.props;
       const { active = false } = this.state;
 
       return (

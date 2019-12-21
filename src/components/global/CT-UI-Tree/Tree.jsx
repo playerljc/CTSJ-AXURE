@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import uuidv1 from 'uuid/v1';
+
 import TreeNode from './TreeNode';
 import { TreeContext } from './Context';
+
 import './Tree.less';
+
 
 const selectorPrefix = 'CT-UI-Tree';
 
