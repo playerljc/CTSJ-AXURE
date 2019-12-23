@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import ComponentPropertyHOC from '../../ComponentPropertyHOC';
 
-import Text from '../../propertyfield/text/Text';
+// import Text from '../../propertyfield/text/Text';
 import ToolTip from '../../propertyfield/tooltip/ToolTip';
 
 import './IconProperty.less';
@@ -26,7 +26,7 @@ class IconProperty extends React.PureComponent {
     } = this.props;
 
     const {
-      text,
+      // text,
       tooltip,
     } = shape.getProperty().prop;
 
@@ -36,20 +36,20 @@ class IconProperty extends React.PureComponent {
         name: 'Interaction',
         Component: null,
       },
-      {
-        key: 'Text',
-        name: 'Text',
-        Component: (
-          <Text
-            value={text}
-            onChange={(value) => {
-              const prop = shape.getProperty().prop;
-              prop.text = value;
-              shape.setPropertyByProps('prop', prop);
-            }}
-          />
-        ),
-      },
+      // {
+      //   key: 'Text',
+      //   name: 'Text',
+      //   Component: (
+      //     <Text
+      //       value={text}
+      //       onChange={(value) => {
+      //         const prop = shape.getProperty().prop;
+      //         prop.text = value;
+      //         shape.setPropertyByProps('prop', prop);
+      //       }}
+      //     />
+      //   ),
+      // },
       {
         key: 'ToolTip',
         name: 'ToolTip',
