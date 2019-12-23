@@ -247,7 +247,13 @@ class RangeSelect {
     const pTop = this.el.offsetTop;
 
     ClipBoard.set(pageId, changeEls.map((el) => {
-      const { groupkey: groupKey, componentkey: componentKey, componentid: componentId } = el.dataset;
+      const {
+        groupkey: groupKey,
+        componentkey: componentKey,
+        componentid: componentId,
+        attribute,
+      } = el.dataset;
+
       const property = Immutable.cloneDeep(ShapeModel.getShape({ pageId, componentId }).getProperty());
       const left = pLeft + parseFloat(el.style.left.replace('px', ''));
       const top = pTop + parseFloat(el.style.top.replace('px', ''));
@@ -258,6 +264,7 @@ class RangeSelect {
       return {
         groupKey,
         componentKey,
+        attribute,
         pageId,
         property,
         left,

@@ -547,6 +547,7 @@ class App extends React.PureComponent {
       const {
         groupKey,
         componentKey,
+        attribute,
         pageId,
         componentId,
         property,
@@ -562,6 +563,7 @@ class App extends React.PureComponent {
       handler.call(this, {
         groupKey,
         componentKey,
+        attribute,
         pageId,
         componentId,
         property,

@@ -358,12 +358,13 @@ export default (Component, { groupKey, componentKey }) => {
      * copy
      */
     copy() {
-      const { pageId } = this.props;
+      const { pageId, attribute } = this.props;
       const { property } = this.state;
       const el = this.getEl();
       ClipBoard.set(pageId, [{
         groupKey,
         componentKey,
+        attribute,
         pageId,
         // componentId: uuid(),
         property: Immutable.cloneDeep(property),
@@ -403,6 +404,7 @@ export default (Component, { groupKey, componentKey }) => {
           data-componentkey={componentKey}
           data-pageid={pageId}
           data-componentid={componentId}
+          data-attribute={attribute}
         >
           {active ? this.renderActiveIndicatorPointer() : null}
           <Component

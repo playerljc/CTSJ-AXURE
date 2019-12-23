@@ -11,7 +11,7 @@ export default (Component, { groupKey, componentKey }) => {
     render() {
       const {
         name,
-        attribute,
+        attribute = '{}',
       } = this.props;
 
       const attrJSON = JSON.parse(attribute);

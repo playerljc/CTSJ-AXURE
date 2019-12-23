@@ -14,7 +14,7 @@ class IconTool extends React.PureComponent {
   render() {
     const {
       selectorPrefix,
-      attribute,
+      attribute = '{}',
     } = this.props;
 
     const attrJSON = JSON.parse(attribute);
