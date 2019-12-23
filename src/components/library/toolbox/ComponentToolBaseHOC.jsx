@@ -9,12 +9,21 @@ const selectorPrefix = `${DRSPREFIX}-tool`;
 export default (Component, { groupKey, componentKey }) => {
   return class extends React.PureComponent {
     render() {
-      const { name } = this.props;
+      const { name, attribute } = this.props;
+
+      const props = {
+        className: `${selectorPrefix} ct-droppable-source`,
+        'data-groupkey': groupKey,
+        'data-componentkey': componentKey,
+      };
+
+      if (attribute) {
+        props['data-attribute'] = JSON.stringify(attribute);
+      }
+
       return (
         <div
-          className={`${selectorPrefix} ct-droppable-source`}
-          data-groupkey={groupKey}
-          data-componentkey={componentKey}
+          {...props}
         >
           <div className={`${selectorPrefix}-pattern`}>
             <div className={`${selectorPrefix}-pattern-inner`}>

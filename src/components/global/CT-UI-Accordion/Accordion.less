@@ -20,6 +20,7 @@
       }
 
       > .CT-UI-AccordionItem-Trigger {
+        justify-content: normal;
         height: 30px;
         // close
         &:before {
@@ -31,7 +32,10 @@
           font-weight: bold;
         }
 
-        .CT-UI-AccordionItem-Trigger-Name {
+        > .CT-UI-AccordionItem-Trigger-Name {
+          position: static;
+          left: initial;
+          transform: initial;
           font-size: 14px;
           height: auto;
         }

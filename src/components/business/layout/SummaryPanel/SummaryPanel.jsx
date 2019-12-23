@@ -127,12 +127,19 @@ class SummaryPanel extends Component {
         const Shape = shapes[i];
         const componentKey = Shape.getComponentKey();
         const groupKey = Shape.getGroupKey();
+        const attribute = Shape.getAttribute();
         const Component = Register.get(groupKey).get(componentKey);
         const name = Shape.getProperty().prop.name;
         const isActive = Shape.isActive() || Shape.isRangeSelectActive();
 
         childrendata.push({
-          name: <Component.SummaryTool name={name} />,
+          // TODO: 初始化SummaryTool
+          name: (
+            <Component.SummaryTool
+              name={name}
+              attribute={attribute}
+            />
+          ),
           leaf: true,
           id: Shape.getComponentId(),
           active: isActive,

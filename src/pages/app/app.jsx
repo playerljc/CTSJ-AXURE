@@ -331,6 +331,7 @@ class App extends React.PureComponent {
    * createShape - 创建一个Shape
    * @param {String} - groupKey
    * @param {String} - componentKey
+   * @param {String} - attribute
    * @param {String} - pageId
    * @param {String} - componentId
    * @param {Object} - property
@@ -339,6 +340,7 @@ class App extends React.PureComponent {
   createShape({
     groupKey,
     componentKey,
+    attribute,
     pageId,
     componentId,
     property,
@@ -349,17 +351,20 @@ class App extends React.PureComponent {
 
     const el = Dom6.createElement(`<div class="${DRSWRAPPREFIX}"></div>`);
     const Component = Register.get(groupKey).get(componentKey);
+
     ReactDOM.render(
       <Component.Component
         pageId={pageId}
         componentId={componentId}
+        attribute={attribute}
         // number={ShapeModel.getShapesByPage(pageId).length + 1}
         property={property}
         getInstance={(ins) => {
           ShapeModel.add(ins);
           renderHandler(el/* el.firstElementChild */);
         }}
-      />, el
+      />
+      , el
     );
 
     // renderHandler(el/* el.firstElementChild */);

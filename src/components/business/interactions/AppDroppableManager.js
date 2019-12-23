@@ -34,7 +34,12 @@ function onPutSuccess({
   // sourceEl,
   targetEls,
 }) {
-  const { groupkey: groupKey, componentkey: componentKey } = cloneSourceEl.dataset;
+  const {
+    groupkey: groupKey,
+    componentkey: componentKey,
+    attribute,
+  } = cloneSourceEl.dataset;
+
   const componentId = uuidv1();
   const pageId = App.getCurPageId();
   const property = Register.get(groupKey).get(componentKey).propertyDefaultConfig();
@@ -44,6 +49,7 @@ function onPutSuccess({
   App.createActiveShape({
     groupKey,
     componentKey,
+    attribute,
     pageId,
     componentId,
     property,
@@ -74,6 +80,7 @@ function onPutSuccess({
 function onDragClone(sourceEl, scale) {
   const groupKey = sourceEl.dataset.groupkey;
   const componentKey = sourceEl.dataset.componentkey;
+  const attribute = sourceEl.dataset.attribute;
   const el = Dom6.createElement('<div></div>');
   const ShapePropertyDefaultConfig = Register.get(groupKey).get(componentKey).propertyDefaultConfig();
   const { style: { width, height } } = ShapePropertyDefaultConfig;
@@ -81,7 +88,10 @@ function onDragClone(sourceEl, scale) {
   ShapePropertyDefaultConfig.style.height = height * scale;
   const Component = ComponentToolDragBaseHOC({ groupKey, componentKey });
   ReactDOM.render(
-    <Component property={ShapePropertyDefaultConfig} />, el
+    <Component
+      property={ShapePropertyDefaultConfig}
+      attribute={attribute}
+    />, el
   );
   return el.firstElementChild;
 }

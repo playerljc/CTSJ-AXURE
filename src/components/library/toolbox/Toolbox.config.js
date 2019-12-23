@@ -1,3 +1,28 @@
+import { FontAwesoneFreeCategories } from '../../global/CT-UI-FontAwesomeFree/FontAwesomeFree';
+
+/**
+ * getIconsGroupsConfig
+ * @return {Array}
+ */
+function getIconsGroupsConfig() {
+  return Object.getOwnPropertyNames(FontAwesoneFreeCategories).map((c, index) => {
+    const { icons, label } = FontAwesoneFreeCategories[c];
+    return {
+      groupName: `Icons > ${label}`,
+      key: 'icons',
+      components: icons.map(t => {
+        return {
+          name: t,
+          key: 'Icon',
+          attribute: {
+            value: t,
+          },
+        };
+      }),
+    };
+  });
+}
+
 export default
 [
   {
@@ -130,4 +155,6 @@ export default
       },
     ],
   },
-];
+].concat(
+  getIconsGroupsConfig(),
+);

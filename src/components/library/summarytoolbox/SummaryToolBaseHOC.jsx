@@ -9,7 +9,13 @@ const selectorPrefix = `${SUMMARYPREFIX}-tool`;
 export default (Component, { groupKey, componentKey }) => {
   return class extends React.PureComponent {
     render() {
-      const { name } = this.props;
+      const {
+        name,
+        attribute,
+      } = this.props;
+
+      const attrJSON = JSON.parse(attribute);
+
       return (
         <div
           className={`${selectorPrefix}`}
@@ -19,7 +25,7 @@ export default (Component, { groupKey, componentKey }) => {
           <div className={`${selectorPrefix}-share`}>
             <Component {...this.props} selectorPrefix={selectorPrefix} />
           </div>
-          <div className={`${selectorPrefix}-name`}>{name}</div>
+          <div className={`${selectorPrefix}-name`}>{name ? name : attrJSON.value}</div>
         </div>
       );
     }

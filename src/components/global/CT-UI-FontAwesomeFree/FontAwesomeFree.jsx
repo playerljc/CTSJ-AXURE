@@ -8,6 +8,8 @@ import './FontAwesomeFree.less';
 
 const selectorPrefix = 'CT-UI-FontAwesomeFree';
 
+export { FontAwesoneFreeCategories };
+
 /**
  * FontAwesomeFree
  * @class FontAwesomeFree

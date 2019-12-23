@@ -14,6 +14,7 @@ import {
 
 import OpenPageModel from '../../../../model/OpenPageModel';
 import PageModel from '../../../../model/PageModel';
+import { getMaxLevelNumber } from '../../../library/component/ComponentBaseHOC';
 
 import './PagePanel.less';
 
@@ -481,6 +482,7 @@ class PagePanel extends Component {
    */
   onContextMenufolder(menuItemAttribute, node) {
     Modal.prompt({
+      zIndex: window.parseInt(getMaxLevelNumber()) + 1,
       content: 'folder name',
       defaultValue: 'folder',
       success: (value) => {
@@ -502,6 +504,7 @@ class PagePanel extends Component {
    */
   onContextMenuaddpageabove(menuItemAttribute, node) {
     Modal.prompt({
+      zIndex: window.parseInt(getMaxLevelNumber()) + 1,
       content: 'page name',
       defaultValue: 'page',
       success: (value) => {
@@ -523,6 +526,7 @@ class PagePanel extends Component {
    */
   onContextMenuaddpagebelow(menuItemAttribute, node) {
     Modal.prompt({
+      zIndex: window.parseInt(getMaxLevelNumber()) + 1,
       content: 'page name',
       defaultValue: 'page',
       success: (value) => {
@@ -544,6 +548,7 @@ class PagePanel extends Component {
    */
   onContextMenusubpage(menuItemAttribute, node) {
     Modal.prompt({
+      zIndex: window.parseInt(getMaxLevelNumber()) + 1,
       content: 'page name',
       defaultValue: 'page',
       success: (value) => {
@@ -746,6 +751,7 @@ class PagePanel extends Component {
     }
 
     Modal.prompt({
+      zIndex: window.parseInt(getMaxLevelNumber()) + 1,
       content: 'rename',
       defaultValue: node.name,
       success: (value) => {

@@ -198,6 +198,15 @@ export default (Component, { groupKey, componentKey }) => {
     }
 
     /**
+     * getAttribute
+     * @return {String}
+     */
+    getAttribute() {
+      const { attribute } = this.props;
+      return attribute;
+    }
+
+    /**
      * renderActiveIndicatorPointer
      */
     renderActiveIndicatorPointer() {
@@ -374,6 +383,7 @@ export default (Component, { groupKey, componentKey }) => {
       const {
         pageId = '',
         componentId = '',
+        attribute,
       } = this.props;
 
       const {
@@ -408,6 +418,7 @@ export default (Component, { groupKey, componentKey }) => {
             selectorPrefix={selectorPrefix}
             groupKey={groupKey}
             componentKey={componentKey}
+            attribute={attribute}
             ref={(ins) => {
               this.ins = ins;
             }}
