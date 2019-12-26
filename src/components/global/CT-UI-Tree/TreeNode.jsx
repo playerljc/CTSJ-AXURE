@@ -17,6 +17,20 @@ const selectorPrefix = 'CT-UI-TreeNode';
  * @classdesc TreeNode
  */
 class TreeNode extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.onClickAdapter = Click((count) => {
+      if (count === 1) this.onClick();
+      if (count === 2) this.onDoubleClick();
+    }, (e) => {
+      e.preventDefault();
+    });
+  }
+
+  /**
+   * onClick
+   */
   onClick() {
     const { id, onActive, attributes } = this.props;
     if (onActive) {
@@ -27,6 +41,9 @@ class TreeNode extends React.PureComponent {
     }
   }
 
+  /**
+   * onDoubleClick
+   */
   onDoubleClick() {
     const {
       name = '',
@@ -54,17 +71,138 @@ class TreeNode extends React.PureComponent {
     }
   }
 
-  renderChildren() {
-    const { childrendata = [], onActive, onDBClick, onContextMenu } = this.props;
-    return childrendata.map((t) => {
-      return (<TreeNode
-        key={uuidv1()}
-        onActive={onActive}
-        onDBClick={onDBClick}
-        onContextMenu={onContextMenu}
-        {...t}
-      />);
+  /**
+   * onContextMenuCapture
+   * @param {Event} - e
+   */
+  onContextMenuCapture(e) {
+    const {
+      icon = '',
+      name = '',
+      leaf = false,
+      id,
+      attributes,
+      onContextMenu,
+    } = this.props;
+
+    e.preventDefault();
+    onContextMenu(e, {
+      icon,
+      name,
+      leaf,
+      id,
+      attributes,
     });
+  }
+
+  /**
+   * onRenderNode
+   * @param {Function} - onRenderNode
+   * @return {ReactElement}
+   */
+  renderSummary(onRenderNode) {
+    const {
+      active = false,
+    } = this.props;
+
+    return (
+      <summary className={`${selectorPrefix}-Summary ${active ? 'active' : ''}`}>
+        {this.renderBcHook()}
+        {this.renderInner(onRenderNode)}
+      </summary>
+    );
+  }
+
+  /**
+   * renderBcHook
+   * @return {ReactElement | null}
+   */
+  renderBcHook() {
+    const {
+      active = false,
+    } = this.props;
+
+    return active ? (
+      <div
+        className={`${selectorPrefix}-Summary-bcHook`}
+        ref={(el) => {
+          if (el && el.parentElement) {
+            el.style.top = `${el.parentElement.offsetTop}px`;
+            el.style.height = `${el.parentElement.offsetHeight}px`;
+          }
+        }}
+      />
+    ) : null;
+  }
+
+  /**
+   * onRenderNode
+   * @param {Function} - onRenderNode
+   * @return {ReactElement}
+   */
+  renderInner(onRenderNode) {
+    const {
+      icon = '',
+    } = this.props;
+
+    return (
+      <div
+        className={`${selectorPrefix}-Summary-Inner`}
+        onClick={this.onClickAdapter}
+        onContextMenuCapture={::this.onContextMenuCapture}
+      >
+        {icon ? (<span className={`${selectorPrefix}-Icon ${icon}`} />) : null}
+        <span className={`${selectorPrefix}-Name`}>{this.renderName(onRenderNode)}</span>
+      </div>
+    );
+  }
+
+  /**
+   * renderName
+   * @param {Function} - onRenderNode
+   * @return {ReactElement}
+   */
+  renderName(onRenderNode) {
+    const {
+      name = '',
+    } = this.props;
+
+    return (
+      onRenderNode ? onRenderNode(this.getOther()) : name
+    );
+  }
+
+  /**
+   * renderChildren
+   * @return {ReactElement | null}
+   */
+  renderChildren() {
+    const {
+      leaf = false,
+      childrendata = [],
+      onActive,
+      onDBClick,
+      onContextMenu,
+    } = this.props;
+
+    return !leaf ?
+      (
+        <div className={`${selectorPrefix}-Children`}>
+          {
+            childrendata.map((t) => {
+              return (
+                <TreeNode
+                  key={uuidv1()}
+                  onActive={onActive}
+                  onDBClick={onDBClick}
+                  onContextMenu={onContextMenu}
+                  {...t}
+                />
+              );
+            })
+          }
+        </div>
+      ) : null;
   }
 
   /**
@@ -84,13 +222,8 @@ class TreeNode extends React.PureComponent {
 
   render() {
     const {
-      icon = '',
-      name = '',
       leaf = false,
       id,
-      active = false,
-      attributes,
-      onContextMenu,
     } = this.props;
 
     return (
@@ -102,47 +235,8 @@ class TreeNode extends React.PureComponent {
                 className={`${selectorPrefix} ${leaf ? 'Leaf' : ''} ${activeKey && activeKey === id ? 'Active' : ''}`}
                 open
               >
-                <summary className={`${selectorPrefix}-Summary ${active ? 'active' : ''}`}>
-                  {active ? (
-                    <div
-                      className={`${selectorPrefix}-Summary-bcHook`}
-                      ref={(el) => {
-                        if (el && el.parentElement) {
-                          el.style.top = `${el.parentElement.offsetTop}px`;
-                          el.style.height = `${el.parentElement.offsetHeight}px`;
-                        }
-                      }}
-                    />
-                  ) : null}
-                  <div
-                    className={`${selectorPrefix}-Summary-Inner`}
-                    onClick={
-                      Click((count) => {
-                        if (count === 1) this.onClick();
-                        if (count === 2) this.onDoubleClick();
-                      }, (e) => {
-                        e.preventDefault();
-                      })
-                    }
-                    onContextMenuCapture={(e) => {
-                      e.preventDefault();
-                      onContextMenu(e, {
-                        icon,
-                        name,
-                        leaf,
-                        id,
-                        attributes,
-                      });
-                    }}
-                  >
-                    {icon ? (<span className={`${selectorPrefix}-Icon ${icon}`} />) : null}
-                    <span className={`${selectorPrefix}-Name`}>{onRenderNode ? onRenderNode(this.getOther()) : name}</span>
-                  </div>
-                </summary>
-                {
-                  !leaf ?
-                    (<div className={`${selectorPrefix}-Children`}>{this.renderChildren()}</div>) : null
-                }
+                {this.renderSummary(onRenderNode)}
+                {this.renderChildren()}
               </details>
             );
           }

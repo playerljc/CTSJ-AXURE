@@ -7,7 +7,7 @@ export default () => ({
     },
     /* ---尺寸--- */
     dimension: {
-      width: 200,
+      width: 'auto',
       height: 'auto',
     },
     /* --- 填充 ---*/
@@ -59,7 +59,7 @@ export default () => ({
       // fontFamily 字体
       fontFamily: '',
       // fontSize 大小
-      fontSize: 0,
+      fontSize: 12,
       // fontWeight 加粗
       fontWeight: false,
       // fontStyle 倾斜
@@ -67,7 +67,7 @@ export default () => ({
       // textDecoration 下划线
       textDecoration: false,
       // color 颜色
-      color: '',
+      color: '#000',
       // 阴影
       textShadow: {
         // 是否启用
@@ -183,5 +183,19 @@ export default () => ({
   prop: {
     // 组件的名字
     name: 'Vertical Menu',
+    tooltip: '',
+    vmenu: {
+      data: [
+        // {
+        //   name - {String} 名字
+        //   icon - {String} 图标
+        //   id - {String} 唯一的id
+        //   disabled - {Boolean} 不可用
+        //   separation - {Bolean} 分割线
+        //   attribute - {Object} 自定义属性
+        //   children - {Array<Object> 孩子
+        // }
+      ],
+    },
   },
 });

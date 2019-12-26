@@ -24,7 +24,7 @@
   .CT-UI-TreeNode-Summary {
     display: flex;
     align-items: center;
-    outline:0;
+    outline: 0;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -44,6 +44,16 @@
       background-color: @active-color;
     }
 
+    &.separation {
+      &:before {
+        content: '';
+      }
+    }
+
+    &.disabled {
+      color: #ccc;
+    }
+
     .CT-UI-TreeNode-Summary-bcHook {
       position: absolute;
       left: 0;
@@ -54,8 +64,9 @@
 
     .CT-UI-TreeNode-Summary-Inner {
       width: 100%;
+
       .CT-UI-TreeNode-Icon {
-        margin:0 10px 0 5px;
+        margin: 0 10px 0 5px;
         font-size: 14px;
         width: 16px;
         text-align: right;
@@ -89,6 +100,7 @@
         font-size: 0;
         margin: 0;
       }
+
       .CT-UI-TreeNode-Icon {
         margin-left: 6px;
       }
@@ -100,6 +112,13 @@
       font-size: 0;
       float: left;
     }
+  }
+
+  .CT-UI-TreeNode-Separation {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, .1);
+    margin: 10px 0;
   }
 }
 

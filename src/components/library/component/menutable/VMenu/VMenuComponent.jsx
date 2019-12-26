@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import ComponentBaseHOC from '../../ComponentBaseHOC';
 import DRSHOC from '../../DRSHOC';
 
+import MenuTree from '../../../../global/CT-UI-Tree/MenuTree';
+
 import './VMenuComponent.less';
 
 /**
@@ -12,33 +14,32 @@ import './VMenuComponent.less';
  * @classdesc VMenuComponent
  */
 class VMenuComponent extends React.PureComponent {
-  /**
-   * getStyle
-   * @return {Object}
-   */
-  getStyle() {
+  render() {
     const {
+      selectorPrefix,
+      groupKey,
+      componentKey,
       property: {
-        style: {
-          fill: {
-            backgroundColor,
-          },
+        prop: {
+          tooltip = '',
+          vmenu,
         },
       },
     } = this.props;
 
-    return {
-      backgroundColor,
-    };
-  }
-
-  render() {
-    const { selectorPrefix, groupKey, componentKey } = this.props;
     return (
       <div
         className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={this.getStyle()}
-      >VMenu
+        title={tooltip}
+      >
+        <MenuTree
+          {...Object.assign(vmenu, {
+            data: vmenu.data.map(t => (Object.assign(t, {
+              leaf: t.separation || !(t.children && t.children.length !== 0),
+              childrendata: t.children,
+            }))),
+          })}
+        />
       </div>
     );
   }

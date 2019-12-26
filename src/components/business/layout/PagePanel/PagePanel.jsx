@@ -400,6 +400,9 @@ class PagePanel extends Component {
       menudata,
       {
         width: 200,
+        x: e.clientX,
+        y: e.clientY,
+        maskClosable: true,
         handler: (id, attribute) => {
           // folder 添加目录
           // addpageabove 向上添加页面
@@ -410,9 +413,6 @@ class PagePanel extends Component {
           // rename 重命名
           this[`onContextMenu${id}`](attribute, node);
         },
-        x: e.clientX,
-        y: e.clientY,
-        maskClosable: true,
       });
   }
 

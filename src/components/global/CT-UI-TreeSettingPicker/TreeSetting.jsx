@@ -16,7 +16,7 @@ const selectorPrefix = 'CT-UI-TreeSettingPicker';
 /**
  * TreeSetting
  * @class TreeSetting
- * @classdesc 表格的设置
+ * @classdesc 树的设置
  */
 class TreeSetting extends React.PureComponent {
   constructor(props) {
@@ -445,6 +445,27 @@ class TreeSetting extends React.PureComponent {
   }
 
   /**
+   * renderTree
+   * @return {ReactElement}
+   */
+  renderTree() {
+    const props = {
+      ...this.state,
+      onActive: ::this.onTreeActive,
+      // 编辑完成时
+      onEditorModify: ::this.onEditorModify,
+      // 节点渲染
+      onRenderNode: ::this.onRenderNode,
+    };
+
+    return (
+      <Tree
+        {...props}
+      />
+    );
+  }
+
+  /**
    * getToolDisable
    * move
    *  上移(第一个节点不能上移)
@@ -582,6 +603,8 @@ class TreeSetting extends React.PureComponent {
         attributes: {
           type,
         },
+        separation: false,
+        disabled: false,
       };
 
       if (curNode) {
@@ -589,9 +612,11 @@ class TreeSetting extends React.PureComponent {
         curNode.childrendata = curNode.childrendata || [];
         const index = curNode.childrendata.findIndex(({ id }) => id === nodeId);
         curNode.childrendata.splice(index + (direction === 'top' ? 0 : 1), 0, newNode);
-      } else {
+      } else if (nodeId) {
         const index = data.findIndex(({ id }) => id === nodeId);
         data.splice(index + (direction === 'top' ? 0 : 1), 0, newNode);
+      } else {
+        data.push(newNode);
       }
 
       this.setState({
@@ -677,15 +702,6 @@ class TreeSetting extends React.PureComponent {
   }
 
   render() {
-    const props = {
-      ...this.state,
-      onActive: ::this.onTreeActive,
-      // 编辑完成时
-      onEditorModify: ::this.onEditorModify,
-      // 节点渲染
-      onRenderNode: ::this.onRenderNode,
-    };
-
     return (
       <div className={`${selectorPrefix}`}>
 
@@ -694,9 +710,7 @@ class TreeSetting extends React.PureComponent {
         </div>
 
         <div className={`${selectorPrefix}-Inner`}>
-          <Tree
-            {...props}
-          />
+          {this.renderTree()}
         </div>
       </div>
     );
