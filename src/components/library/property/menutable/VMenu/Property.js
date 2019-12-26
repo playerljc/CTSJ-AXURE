@@ -187,13 +187,17 @@ export default () => ({
     vmenu: {
       data: [
         // {
-        //   name - {String} 名字
-        //   icon - {String} 图标
-        //   id - {String} 唯一的id
+        //   name: PropTypes.node,
+        //   leaf: PropTypes.bool,
+        //   icon: PropTypes.string,
+        //   childrendata: PropTypes.array,
+        //   open: PropTypes.bool,
+        //   active: PropTypes.bool,
+        //   id: PropTypes.string,
+        //   attributes: PropTypes.object,
+
         //   disabled - {Boolean} 不可用
         //   separation - {Bolean} 分割线
-        //   attribute - {Object} 自定义属性
-        //   children - {Array<Object> 孩子
         // }
       ],
     },

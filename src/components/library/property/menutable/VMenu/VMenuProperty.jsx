@@ -28,9 +28,7 @@ class VMenuProperty extends React.PureComponent {
 
     const {
       tooltip = '',
-      vmenu: {
-        data,
-      },
+      vmenu,
     } = shape.getProperty().prop;
 
     return [
@@ -58,15 +56,9 @@ class VMenuProperty extends React.PureComponent {
         name: 'VMenu',
         Component: (
           <VMenuTree
-            value={{
-              data: data.map(t => (Object.assign(t, {
-                leaf: t.separation || !(t.children && t.children.length !== 0),
-                childrendata: t.children,
-              }))),
-            }}
+            value={vmenu}
             onChange={(v) => {
               const prop = shape.getProperty().prop;
-              debugger
               prop.vmenu = v;
               shape.setPropertyByProps('prop', prop);
             }}

@@ -33,12 +33,7 @@ class VMenuComponent extends React.PureComponent {
         title={tooltip}
       >
         <MenuTree
-          {...Object.assign(vmenu, {
-            data: vmenu.data.map(t => (Object.assign(t, {
-              leaf: t.separation || !(t.children && t.children.length !== 0),
-              childrendata: t.children,
-            }))),
-          })}
+          {...vmenu}
         />
       </div>
     );
