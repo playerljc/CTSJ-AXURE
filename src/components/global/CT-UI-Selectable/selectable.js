@@ -145,17 +145,23 @@ class Selectable {
     self.baseY = ev.clientY - (self.elRect.top - self.scrollEl.scrollTop);
 
     // 获取
-    self.itemEls = Array.from(self.el.querySelectorAll(`.${selectorPrefix}-item`)).map((itemEl) => {
-      const xa1 = itemEl.offsetLeft;
-      const ya1 = itemEl.offsetTop;
-      return {
+    const itemEls = self.el.querySelectorAll(`.${selectorPrefix}-item`);
+    self.itemEls = [];
+    let itemEl;
+    let xa1;
+    let ya1;
+    for (let i = 0; i < itemEls.length; i++) {
+      itemEl = itemEls[i];
+      xa1 = itemEl.offsetLeft;
+      ya1 = itemEl.offsetTop;
+      self.itemEls.push({
         xa1,
         xa2: xa1 + itemEl.offsetWidth,
         ya1,
         ya2: ya1 + itemEl.offsetHeight,
         itemEl,
-      };
-    });
+      });
+    }
 
     // 创建区域dom
     const tel = document.createElement('div');
@@ -263,9 +269,8 @@ class Selectable {
       self.cloneEl = null;
     }
 
-
     if (self.isdown && self.ismove && self.config.upInclude) {
-      self.config.upInclude([].concat(self.includeEls));
+      self.config.upInclude(self.includeEls);
     }
 
     const { onEnd, onClick } = self.config;
@@ -453,22 +458,24 @@ class Selectable {
         itemEl,
       } = self.itemEls[i];
 
+      const id = itemEl.getAttribute('id');
+
       if (
         (Math.abs(xb2 + xb1 - xa2 - xa1) <= (xa2 - xa1 + xb2 - xb1)) &&
         (Math.abs(yb2 + yb1 - ya2 - ya1) <= (ya2 - ya1 + yb2 - yb1))
       ) {
-        self.includeEls.push(itemEl);
+        self.includeEls.push(id);
       } else {
-        self.excludeEls.push(itemEl);
+        self.excludeEls.push(id);
       }
     }
 
     if (self.config.moveInclude) {
-      self.config.moveInclude([].concat(self.includeEls));
+      self.config.moveInclude(self.includeEls);
     }
 
     if (self.config.moveExclude) {
-      self.config.moveExclude([].concat(self.excludeEls));
+      self.config.moveExclude(self.excludeEls);
     }
   }
 

@@ -16,6 +16,12 @@ import AppSplitManager from './AppSplitManager';
 let drag;
 let App;
 
+/**
+ * onStart
+ * @param el
+ * @param sourceEl
+ * @return {boolean}
+ */
 function onStart(el, sourceEl) {
 // console.log('Drag Start');
   if (!el || !sourceEl) return false;

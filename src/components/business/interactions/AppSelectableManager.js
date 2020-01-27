@@ -10,18 +10,18 @@ let App;
 
 /**
  * 选取中包含的节点
- * @param {Array<HTMLElement>} - els
+ * @param {Array<String>} - ids
  */
-function moveInclude(els) {
-  App.rangeSelectActive(els);
+function moveInclude(ids) {
+  App.rangeSelectActive(ids);
 }
 
 /**
  * 选取中不包含的节点
- * @param {Array<HTMLElement>} - els
+ * @param {Array<String>} - ids
  */
-function moveExclude(els) {
-  App.unRangeSelectActive(els);
+function moveExclude(ids) {
+  App.unRangeSelectActive(ids);
 }
 
 /**

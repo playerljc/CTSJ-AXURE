@@ -130,6 +130,7 @@ function onChange(curEl,
     });
   }
 }
+
 export default {
   init({ canvasEl, App: AppIns }) {
     App = AppIns;

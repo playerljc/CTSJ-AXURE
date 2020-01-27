@@ -101,6 +101,8 @@ export default (Component, { groupKey, componentKey }) => {
      * 这个reangeSelectActive不带有Resizeable操作
      */
     rangeSelectActive() {
+      if (this.state.rangeSelectActive) return false;
+
       this.setState({
         rangeSelectActive: true,
       }, () => {
@@ -116,7 +118,7 @@ export default (Component, { groupKey, componentKey }) => {
      * unRangeSelectActive
      */
     unRangeSelectActive() {
-      if (this.isUnmount) return false;
+      if (this.isUnmount || !this.state.rangeSelectActive) return false;
 
       this.setState({
         rangeSelectActive: false,
@@ -405,6 +407,7 @@ export default (Component, { groupKey, componentKey }) => {
           data-pageid={pageId}
           data-componentid={componentId}
           data-attribute={attribute}
+          id={componentId}
         >
           {active ? this.renderActiveIndicatorPointer() : null}
           <Component

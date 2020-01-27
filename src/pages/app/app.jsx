@@ -202,32 +202,52 @@ class App extends React.PureComponent {
 
   /**
    * rangeSelectActive
-   * @param {Array<HTMLElement>} - els
+   * @param {Array<String>} - ids
    */
-  rangeSelectActive(els) {
-    console.log('选取包含的节点:', els.length);
-    Array.from(els).forEach((el) => {
+  rangeSelectActive(ids) {
+    // console.log('选取包含的节点:', ids.length);
+    let el;
+    for (let i = 0; i < ids.length; i++) {
+      el = document.getElementById(ids[i]);
       const { pageid: pageId, componentid: componentId } = el.dataset;
       const shape = ShapeModel.getShape({ pageId, componentId });
       if (shape) {
         shape.rangeSelectActive();
       }
-    });
+    }
+
+    // Array.from(els).forEach((el) => {
+    //   const { pageid: pageId, componentid: componentId } = el.dataset;
+    //   const shape = ShapeModel.getShape({ pageId, componentId });
+    //   if (shape) {
+    //     shape.rangeSelectActive();
+    //   }
+    // });
   }
 
   /**
    * unRangeSelectActive
-   * @param {Array<HTMLElement>} - els
+   * @param {Array<String>} - ids
    */
-  unRangeSelectActive(els) {
-    // console.log('选取不包含的节点:', els.length);
-    Array.from(els).forEach((el) => {
+  unRangeSelectActive(ids) {
+    let el;
+    for (let i = 0; i < ids.length; i++) {
+      el = document.getElementById(ids[i]);
       const { pageid: pageId, componentid: componentId } = el.dataset;
       const shape = ShapeModel.getShape({ pageId, componentId });
       if (shape) {
         shape.unRangeSelectActive();
       }
-    });
+    }
+
+    // console.log('选取不包含的节点:', els.length);
+    // Array.from(els).forEach((el) => {
+    //   const { pageid: pageId, componentid: componentId } = el.dataset;
+    //   const shape = ShapeModel.getShape({ pageId, componentId });
+    //   if (shape) {
+    //     shape.unRangeSelectActive();
+    //   }
+    // });
   }
 
   /**
@@ -394,25 +414,28 @@ class App extends React.PureComponent {
 
   /**
    * createRangeSelect
-   * @param {Array<HTMLElement>} - els
+   * @param {Array<String>} - ids
    * @return {boolean}
    */
-  createRangeSelect(els) {
-    if (!els || els.length === 0) return false;
+  createRangeSelect(ids) {
+    if (!ids || ids.length === 0) return false;
 
     // 如果只选择了一个节点
-    if (els.length === 1) {
-      const { pageid: pageId, componentid: componentId } = els[0].dataset;
+    if (ids.length === 1) {
+      const { pageid: pageId, componentid: componentId } = document.getElementById(ids[0]).dataset;
       this.componentActive({ pageId, componentId });
       return false;
     }
 
-    const elsArr = Array.from(els);
-    elsArr.forEach((el) => {
+    const els = [];
+    for (let i = 0; i < ids.length; i++) {
+      const el = document.getElementById(ids[i]);
+      els.push(el);
       const { pageid: pageId, componentid: componentId } = el.dataset;
       const shape = ShapeModel.getShape({ pageId, componentId });
       ActiveShapeManager.setShape({ pageId, shape });
-    });
+    }
+
     // console.log('选取结束包含的节点:', els.length);
 
 
@@ -592,13 +615,13 @@ class App extends React.PureComponent {
 
   /**
    * onSelectAll
-   * @param {Array<HTMLElement>} - els
+   * @param {Array<String>} - ids
    */
-  onSelectAll(els) {
+  onSelectAll(ids) {
     this.clearRangeSelect();
     this.clearCurPageActiveShape();
-    this.rangeSelectActive(els);
-    this.createRangeSelect(els);
+    this.rangeSelectActive(ids);
+    this.createRangeSelect(ids);
   }
 
   /**

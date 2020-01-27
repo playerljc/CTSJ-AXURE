@@ -68,10 +68,10 @@ class CanvasTabPanelKeyBoard {
     console.log('Ctrl + a');
     // const els = this.innerEl.querySelectorAll(`.${DRSPREFIX}`);
     const pageId = this[pageIns].getPageId();
-    const els = ShapeModel.getShapesByPage(pageId).map(shape => shape.getEl());
+    const ids = ShapeModel.getShapesByPage(pageId).map(shape => shape.getEl().getAttribute('id'));
     Emitter.trigger(
       Actions.components.business.canvaspanel.selectall,
-      els
+      ids
     );
   }
 }
