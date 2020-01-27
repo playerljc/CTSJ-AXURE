@@ -95,13 +95,7 @@ class Selectable {
 
     this.setScale(this.config.scale || 1);
 
-    // if (this.config.infinite) {
     this.scrollEl = this.el.parentElement;
-    this.scrollElWidth = this.scrollEl.offsetWidth;
-    this.scrollElHeight = this.scrollEl.offsetHeight;
-    this.scrollElRect = this.scrollEl.getBoundingClientRect();
-    // }
-    this.elRect = this.el.getBoundingClientRect();
 
     this.isdown = false;
     // 是移动
@@ -127,6 +121,11 @@ class Selectable {
     const { disable = false } = self;
 
     if (disable) return false;
+
+    // this.scrollElWidth = this.scrollEl.offsetWidth;
+    // this.scrollElHeight = this.scrollEl.offsetHeight;
+    this.scrollElRect = this.scrollEl.getBoundingClientRect();
+    this.elRect = this.el.getBoundingClientRect();
 
     self.isdown = true;
 
@@ -169,8 +168,8 @@ class Selectable {
         }
       });
     }
-    self.cloneEl.style.left = `${self.baseX / self.scale}px`;
-    self.cloneEl.style.top = `${self.baseY / self.scale}px`;
+    self.cloneEl.style.left = `${self.baseX / self.scale + document.body.scrollLeft}px`;
+    self.cloneEl.style.top = `${self.baseY / self.scale + document.body.scrollTop}px`;
 
     self.el.appendChild(self.cloneEl);
   }
@@ -303,35 +302,26 @@ class Selectable {
       self.cloneEl.style.height = '0';
       if (self.baseX > curX) {
         // console.log('水平左');
-        // self.cloneEl.style.left = `${curX}px`;
-        // self.cloneEl.style.right = `${self.baseX}px`;
-        // self.cloneEl.style.top = `${curY}px`;
         left = curX;
         right = self.baseX;
         top = curY;
       } else if (self.baseX < curX) {
         // 水平右
         // console.log('水平右');
-        // self.cloneEl.style.left = `${self.baseX}px`;
-        // self.cloneEl.style.right = `${curX}px`;
-        // self.cloneEl.style.top = `${self.baseY}px`;
         left = self.baseX;
         right = curX;
         top = self.baseY;
       } else {
         // 重合了
         // console.log('重合了');
-        // self.cloneEl.style.left = `${self.baseX}px`;
-        // self.cloneEl.style.right = `${self.baseX}px`;
-        // self.cloneEl.style.top = `${self.baseY}px`;
         left = self.baseX;
         right = self.baseX;
         top = self.baseY;
       }
 
-      self.cloneEl.style.left = `${left / self.scale}px`;
+      self.cloneEl.style.left = `${left / self.scale + document.body.scrollLeft}px`;
       self.cloneEl.style.right = `${right / self.scale}px`;
-      self.cloneEl.style.top = `${top / self.scale}px`;
+      self.cloneEl.style.top = `${top / self.scale + document.body.scrollTop}px`;
     } else if (self.baseX === curX) {
       let left;
       let top;
@@ -340,39 +330,33 @@ class Selectable {
       self.cloneEl.style.width = '0';
       if (curY < self.baseY) {
         // console.log('垂直上');
-        // self.cloneEl.style.left = `${self.baseX}px`;
-        // self.cloneEl.style.top = `${curY}px`;
-        // self.cloneEl.style.bottom = `${self.baseY}px`;
         left = self.baseX;
         top = curY;
         bottom = self.baseY;
       } else if (curY > self.baseY) {
         // 垂直下
         // console.log('垂直下');
-        // self.cloneEl.style.left = `${self.baseX}px`;
-        // self.cloneEl.style.top = `${self.baseY}px`;
-        // self.cloneEl.style.bottom = `${curY}px`;
         left = self.baseX;
         top = self.baseY;
         bottom = curY;
       } else {
         // 重合了
         // console.log('重合了');
-        // self.cloneEl.style.left = `${self.baseX}px`;
-        // self.cloneEl.style.right = `${self.baseX}px`;
-        // self.cloneEl.style.top = `${self.baseY}px`;
         left = self.baseX;
-        top = self.baseX;
+        top = self.baseY;
         bottom = self.baseY;
       }
 
-      self.cloneEl.style.left = `${left / self.scale}px`;
-      self.cloneEl.style.top = `${top / self.scale}px`;
+      self.cloneEl.style.left = `${left / self.scale + document.body.scrollLeft}px`;
+      self.cloneEl.style.top = `${top / self.scale + document.body.scrollTop}px`;
       self.cloneEl.style.bottom = `${bottom / self.scale}px`;
     } else {
       // 带有角度
       const width = Math.abs(self.baseX - curX);
       const height = Math.abs(self.baseY - curY);
+
+      // console.log('width', width);
+      // console.log('height', height);
 
       let left;
       let right;
@@ -426,9 +410,9 @@ class Selectable {
 
       self.cloneEl.style.width = `${width / self.scale}px`;
       self.cloneEl.style.height = `${height / self.scale}px`;
-      self.cloneEl.style.left = `${left / self.scale}px`;
+      self.cloneEl.style.left = `${left / self.scale + document.body.scrollLeft}px`;
       self.cloneEl.style.right = `${right / self.scale}px`;
-      self.cloneEl.style.top = `${top / self.scale}px`;
+      self.cloneEl.style.top = `${top / self.scale + document.body.scrollTop}px`;
       self.cloneEl.style.bottom = `${bottom / self.scale}px`;
 
       // console.log('width:', width, 'height:', height, 'left:', left, 'right:', right, 'top:', top, 'bottom:', bottom);

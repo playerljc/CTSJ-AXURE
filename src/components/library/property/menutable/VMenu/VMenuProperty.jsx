@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ComponentPropertyHOC from '../../ComponentPropertyHOC';
 
 import ToolTip from '../../propertyfield/tooltip/ToolTip';
-import VMenuTree from '../../propertyfield/vmenutree/VMenuTree';
+import VMenu from '../../propertyfield/vmenu/VMenu';
 
 import './VMenuProperty.less';
 
@@ -55,7 +55,7 @@ class VMenuProperty extends React.PureComponent {
         key: 'VMenu',
         name: 'VMenu',
         Component: (
-          <VMenuTree
+          <VMenu
             value={vmenu}
             onChange={(v) => {
               const prop = shape.getProperty().prop;

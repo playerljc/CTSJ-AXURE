@@ -205,7 +205,7 @@ class App extends React.PureComponent {
    * @param {Array<HTMLElement>} - els
    */
   rangeSelectActive(els) {
-    // console.log('选取包含的节点:', els.length);
+    console.log('选取包含的节点:', els.length);
     Array.from(els).forEach((el) => {
       const { pageid: pageId, componentid: componentId } = el.dataset;
       const shape = ShapeModel.getShape({ pageId, componentId });

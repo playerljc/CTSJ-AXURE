@@ -2,18 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { getMaxLevelNumber } from '../../../component/ComponentBaseHOC';
-import VMenuTreeSettingPicker from '../../../../../components/global/CT-UI-TreeSettingPicker/VMenuTreeSettingPicker';
+import HMenuSettingPicker from '../../../../../components/global/CT-UI-HMenuSettingPicker/HMenuSettingPicker';
 
-import './VMenuTree.less';
+import './HMenu.less';
 
-const selectorPrefix = 'ComponentPropertyPropertyTab-VMenuTree';
+const selectorPrefix = 'ComponentPropertyPropertyTab-HMenu';
 
 /**
- * VMenuTree
- * @class VMenuTree
+ * HMenu
+ * @class HMenu
  * @classdesc 菜单树
  */
-class VMenuTree extends React.PureComponent {
+class HMenu extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -36,11 +36,11 @@ class VMenuTree extends React.PureComponent {
     });
   }
 
-  onVMenuTreeSetting() {
+  onHMenuSetting() {
     const { onChange } = this.props;
     const { value } = this.state;
 
-    VMenuTreeSettingPicker.open({
+    HMenuSettingPicker.open({
       zIndex: window.parseInt(getMaxLevelNumber()) + 10,
       value,
       onSuccess: (result) => {
@@ -61,17 +61,17 @@ class VMenuTree extends React.PureComponent {
       <div className={`${selectorPrefix}`}>
         <a
           className={`${selectorPrefix}-Link`}
-          onClick={::this.onVMenuTreeSetting}
-        >vmenu setting
+          onClick={::this.onHMenuSetting}
+        >hmenu setting
         </a>
       </div>
     );
   }
 }
 
-VMenuTree.propTypes = {
+HMenu.propTypes = {
   value: PropTypes.object,
   onChange: PropTypes.func,
 };
 
-export default VMenuTree;
+export default HMenu;

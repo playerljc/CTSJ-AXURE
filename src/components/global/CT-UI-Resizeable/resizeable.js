@@ -132,6 +132,8 @@ class Resizeable {
    * @return {boolean}
    */
   onMouseMove(e) {
+    console.log('resize1');
+
     const self = this;
     const { disable } = self;
 
@@ -436,6 +438,8 @@ class ResizeableGroup {
    * @return {boolean}
    */
   onMouseMove(e) {
+    console.log('resize2');
+
     const self = this;
 
     const { disable = false } = self;

@@ -7,7 +7,7 @@ export default () => ({
     },
     /* ---尺寸--- */
     dimension: {
-      width: 200,
+      width: 'auto',
       height: 'auto',
     },
     /* --- 填充 ---*/
@@ -59,7 +59,7 @@ export default () => ({
       // fontFamily 字体
       fontFamily: '',
       // fontSize 大小
-      fontSize: 0,
+      fontSize: 12,
       // fontWeight 加粗
       fontWeight: false,
       // fontStyle 倾斜
@@ -67,7 +67,7 @@ export default () => ({
       // textDecoration 下划线
       textDecoration: false,
       // color 颜色
-      color: '',
+      color: '#000',
       // 阴影
       textShadow: {
         // 是否启用
@@ -183,5 +183,19 @@ export default () => ({
   prop: {
     // 组件的名字
     name: 'Horizontal Menu',
+    tooltip: '',
+    hmenu: {
+      data: [
+        // {
+        //   key: '',
+        //   title: '',
+        //   menudata: [
+        //     {
+        //
+        //     },
+        //   ],
+        // },
+      ],
+    },
   },
 });

@@ -614,6 +614,8 @@ class Droppable {
    * @return {boolean}
    */
   onContainerMousemove(ev) {
+    console.log('drop1');
+
     const self = this;
 
     const { disable = false } = self;
