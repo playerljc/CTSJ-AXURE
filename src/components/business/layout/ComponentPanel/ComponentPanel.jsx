@@ -1,5 +1,6 @@
 import React from 'react';
 import ToolBox from '../../../library/toolbox/ToolBox';
+
 import './ComponentPanel.less';
 
 const { Component } = React;

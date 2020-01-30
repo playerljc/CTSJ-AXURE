@@ -10,23 +10,14 @@
     width: 100%;
     // 列头
     > .CT-UI-Table-Header {
-      //display: flex;
-      //align-items: center;
-      //flex-wrap: nowrap;
-
       display: table-row;
       width: 100%;
 
       // 列头项
       > .CT-UI-Table-Header-Item {
-        //display: flex;
-        //align-items: center;
-        //flex-shrink: 0;
-
         display: table-cell;
-
         background: #fafafa;
-        border-bottom: 1px solid #e8e8e8;
+        border-bottom: 1px solid @common-promary-border-color;
         padding: 15px 10px;
         font-weight: 500;
         box-sizing: border-box;
@@ -39,17 +30,14 @@
 
       // 列头Cell的对其方式
       > .CT-UI-Table-Header-Item.align-left {
-        //justify-content: flex-start;
         text-align: left;
       }
 
       > .CT-UI-Table-Header-Item.align-center {
-        //justify-content: center;
         text-align: center;
       }
 
       > .CT-UI-Table-Header-Item.align-right {
-        //justify-content: flex-end;
         text-align: right;
       }
 
@@ -70,21 +58,13 @@
 
       // 行
       > .CT-UI-Table-Body-Row {
-        //display: flex;
-        //align-items: center;
-
         display: table-row;
 
-        border-bottom: 1px solid #e8e8e8;
+        border-bottom: 1px solid @common-promary-border-color;
         transition: background-color .2s linear;
         // 单元格
         > .CT-UI-Table-Cell {
-          //display: flex;
-          //align-items: center;
-          //flex-shrink: 0;
-
           display: table-cell;
-
           padding: 10px;
           word-break: break-word;
           box-sizing: border-box;
@@ -92,17 +72,14 @@
 
         // 单元格的对其方式
         > .CT-UI-Table-Cell.align-left {
-          //justify-content: flex-start;
           text-align: left;
         }
 
         > .CT-UI-Table-Cell.align-center {
-          //justify-content: center;
           text-align: center;
         }
 
         > .CT-UI-Table-Cell.align-right {
-          //justify-content: flex-end;
           text-align: right;
         }
 

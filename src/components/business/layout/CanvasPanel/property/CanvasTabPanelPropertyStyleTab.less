@@ -1,3 +1,5 @@
+@import "../define";
+
 .CanvasTabPanelPropertyStyleTab {
   padding: 0 20px;
   > .CanvasTabPanelPropertyStyleTab-GridList {
@@ -8,7 +10,7 @@
     > tbody {
       > tr {
         &:not(:last-child) {
-          border-bottom:solid 1px #d0dee5;
+          border-bottom:solid 1px @canvaspanel-property-canvastabpanel-property-style-tab-table-not-children;
         }
       }
     }

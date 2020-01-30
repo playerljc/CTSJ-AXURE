@@ -1,10 +1,15 @@
+@import "./define";
+
 .FunctionalPanel {
   height: 100%;
+
   .FunctionalPanel-Item {
     position: relative;
+
     .CT-UI-AccordionItem-Trigger {
-      height: 30px;
+      height: @functional-panel-accordionitem-trigger-height;
     }
+
     .CT-UI-AccordionItem-Content {
       overflow: auto;
     }
@@ -27,7 +32,7 @@
 
   .FunctionalPanel-Item.PagePanelGroup {
     > .CT-UI-AccordionItem-Content {
-      max-height: 150px;
+      max-height: @functional-panel-accordionitem-content-max-height;
     }
   }
 
@@ -37,7 +42,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      top: 30px;
+      top: @functional-panel-accordionitem-trigger-height;
       bottom: 0;
     }
   }
