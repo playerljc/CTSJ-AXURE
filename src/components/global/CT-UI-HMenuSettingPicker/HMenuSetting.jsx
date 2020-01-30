@@ -1,346 +1,372 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import uuid from 'uuid/v1';
 
 import { Immutable } from '../../../util/CTMobile-UI-Util';
+import TableTextFieldEditor from '../CT-UI-Table/TableTextFieldEditor';
 import Table from '../CT-UI-Table/Table';
 import Modal from '../CT-UI-Modal/modal';
 
 import './HMenuSetting.less';
+
 
 const selectorPrefix = 'CT-UI-HMenuSetting';
 
 /**
  * HMenuSetting
  * @class HMenuSetting
- * @classdesc HMenu的设置
+ * @classdesc HMenuSetting
  */
 class HMenuSetting extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      ...props.value,
+      selectedColumnKey: '',
+      columns: this.cloneColumns(props.value.columns),
     };
 
-    this.initToolConfig();
+    this.initColumnToolConfig();
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      ...nextProps.value,
+      selectedColumnKey: '',
+      columns: this.cloneColumns(nextProps.value.columns),
     });
   }
 
   /**
-   * initToolConfig
-   *   加节点
-   *   加多个节点
-   *  上方添加节点
-   *  下方添加节点
-   *  删除节点
-   *  上移
-   *  下移
+   * initColumnToolConfig
    */
-  initToolConfig() {
-    this.toolConfig = [
-      // 加节点
+  initColumnToolConfig() {
+    this.columnToolConfig = [
+      // 添加列
       {
-        key: 'addNode',
+        key: 'addColumn',
         className: () => 'fa fa-plus',
-        title: 'add node',
+        title: 'add column',
         onClick: () => {
-          this.addNode({
-            nodeId: '',
-            name: 'New Node',
-            icon: 'far fa-file',
-            type: 'file',
-            direction: 'bottom',
+          const { columns = []} = this.state;
+          this.addColumn({
+            name: 'NewColumn',
+            index: columns.length,
           });
         },
       },
-      // 加节点(加多个节点)
+      // 左侧加列
       {
-        key: 'addMulitNode',
-        className: () => 'fa fa-server',
-        title: 'add mulit node',
+        key: 'addLeftColumn',
+        className: () => `fa fa-outdent ${this.columnToolConfig.find(t => t.key === 'addLeftColumn').disable() ? 'disable' : ''}`,
+        title: 'add left column',
         onClick: () => {
+          const disabled = this.columnToolConfig.find(t => t.key === 'addLeftColumn').disable();
+          if (disabled) return false;
+
+          const { selectedColumnKey = '', columns = []} = this.state;
+          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          this.addColumn({
+            name: 'NewColumn',
+            index,
+          });
+        },
+        disable: () => {
+          const { selectedColumnKey = '' } = this.state;
+          return !selectedColumnKey;
+        },
+      },
+      // 右侧加列
+      {
+        key: 'addRightColumn',
+        className: () => `fa fa-indent ${this.columnToolConfig.find(t => t.key === 'addRightColumn').disable() ? 'disable' : ''}`,
+        title: 'add right column',
+        onClick: () => {
+          const disabled = this.columnToolConfig.find(t => t.key === 'addRightColumn').disable();
+          if (disabled) return false;
+
+          const { selectedColumnKey = '', columns = []} = this.state;
+          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          this.addColumn({
+            name: 'NewColumn',
+            index: index + 1,
+          });
+        },
+        disable: () => {
+          const { selectedColumnKey = '' } = this.state;
+          return !selectedColumnKey;
+        },
+      },
+      // 删除列
+      {
+        key: 'removeColumn',
+        className: () => `fa fa-window-close ${this.columnToolConfig.find(t => t.key === 'removeColumn').disable() ? 'disable' : ''}`,
+        title: 'remove column',
+        onClick: () => {
+          const disabled = this.columnToolConfig.find(t => t.key === 'removeColumn').disable();
+          if (disabled) return false;
+
+          const { selectedColumnKey = '', columns = []} = this.state;
+          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          const columnsClone = this.cloneColumns();
+          columnsClone.splice(index, 1);
+
+          this.setState({
+            columns: columnsClone,
+            selectedColumnKey: '',
+          });
+        },
+        disable: () => {
+          const { selectedColumnKey = '' } = this.state;
+          return !selectedColumnKey;
+        },
+      },
+      // 列左移动
+      {
+        key: 'moveLeftColumn',
+        className: () => `fa fa-arrow-left ${this.columnToolConfig.find(t => t.key === 'moveLeftColumn').disable() ? 'disable' : ''}`,
+        title: 'move left column',
+        onClick: () => {
+          const disabled = this.columnToolConfig.find(t => t.key === 'moveLeftColumn').disable();
+          if (disabled) return false;
+
+          const { selectedColumnKey = '', columns = []} = this.state;
+          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          const columnsClone = this.cloneColumns();
+
+          const t = columnsClone[index - 1];
+          columnsClone[index - 1] = columnsClone[index];
+          columnsClone[index] = t;
+          this.setState({
+            columns: columnsClone,
+          });
+        },
+        disable: () => {
+          const { selectedColumnKey = '', columns = []} = this.state;
+          if (!selectedColumnKey) return true;
+          else {
+            const index = columns.findIndex(t => t.key === selectedColumnKey);
+            if (index === 0) return true;
+            else return false;
+          }
+        },
+      },
+      // 列右移动
+      {
+        key: 'moveRightColumn',
+        className: () => `fa fa-arrow-right ${this.columnToolConfig.find(t => t.key === 'moveRightColumn').disable() ? 'disable' : ''}`,
+        title: 'move right column',
+        onClick: () => {
+          const disabled = this.columnToolConfig.find(t => t.key === 'moveRightColumn').disable();
+          if (disabled) return false;
+
+          const { selectedColumnKey = '', columns = []} = this.state;
+          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          const columnsClone = this.cloneColumns();
+
+          const t = columnsClone[index + 1];
+          columnsClone[index + 1] = columnsClone[index];
+          columnsClone[index] = t;
+          this.setState({
+            columns: columnsClone,
+          });
+        },
+        disable: () => {
+          const { selectedColumnKey = '', columns = []} = this.state;
+          if (!selectedColumnKey) return true;
+          else {
+            const index = columns.findIndex(t => t.key === selectedColumnKey);
+            if (index === columns.length - 1) return true;
+            else return false;
+          }
+        },
+      },
+      // 列的对其方式
+      {
+        key: 'columnAlign',
+        className: () => `fa fa-align-justify ${this.columnToolConfig.find(t => t.key === 'columnAlign').disable() ? 'disable' : ''}`,
+        title: 'column align',
+        onClick: () => {
+          const disabled = this.columnToolConfig.find(t => t.key === 'columnAlign').disable();
+          if (disabled) return false;
+
           const { zIndex } = this.props;
 
-          Modal.prompt({
-            content: 'add mulit node',
-            type: 'number',
-            defaultValue: 1,
+          const { selectedColumnKey = '', columns = []} = this.state;
+          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          const columnsClone = this.cloneColumns();
+
+          Modal.promptSelect({
+            content: 'column align',
+            defaultValue: columnsClone[index].align,
+            required: false,
+            data: [{ label: 'left', value: 'left' }, { label: 'center', value: 'center' }, { label: 'right', value: 'right' }],
             zIndex: zIndex + 10,
-            success: (rowCount) => {
+            success: (columnAlign) => {
               return new Promise((resolve) => {
-                rowCount = window.parseInt(rowCount);
-                if (!Number.isNaN(rowCount) && (rowCount > 0)) {
-                  this.appendMulitNode(rowCount).then(() => {
-                    resolve();
-                  });
-                }
+                columnsClone[index].align = columnAlign;
+                this.setState({
+                  columns: columnsClone,
+                }, () => { resolve(); });
               });
             },
           });
         },
+        disable: () => {
+          const { selectedColumnKey = '' } = this.state;
+          return !selectedColumnKey;
+        },
       },
-      // 上方添加节点
+      // 列的宽度
       {
-        key: 'addNodeAbove',
-        className: () => `far fa-caret-square-up ${this.toolConfig.find(t => t.key === 'addNodeAbove').disable() ? 'disable' : ''}`,
-        title: 'Add node above',
+        key: 'columnWidth',
+        className: () => `fa fa-th ${this.columnToolConfig.find(t => t.key === 'columnWidth').disable() ? 'disable' : ''}`,
+        title: 'column width',
         onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'addNodeAbove').disable();
+          const disabled = this.columnToolConfig.find(t => t.key === 'columnWidth').disable();
           if (disabled) return false;
 
-          const { activeKey } = this.state;
+          const { zIndex } = this.props;
 
-          this.addNode({
-            nodeId: activeKey,
-            name: 'New Node',
-            icon: 'far fa-file',
-            type: 'file',
-            direction: 'top',
+          const { selectedColumnKey = '', columns = []} = this.state;
+          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          const columnsClone = this.cloneColumns();
+
+          Modal.prompt({
+            content: 'column width',
+            defaultValue: columnsClone[index].width,
+            zIndex: zIndex + 10,
+            required: false,
+            success: (columnWidth) => {
+              return new Promise((resolve) => {
+                columnsClone[index].width = columnWidth;
+                this.setState({
+                  columns: columnsClone,
+                }, () => { resolve(); });
+              });
+            },
           });
         },
         disable: () => {
-          const { activeKey = '' } = this.state;
-          return !activeKey;
-        },
-      },
-      // 下方添加节点
-      {
-        key: 'addNodeBelow',
-        className: () => `far fa-caret-square-down ${this.toolConfig.find(t => t.key === 'addNodeBelow').disable() ? 'disable' : ''}`,
-        title: 'Add node below',
-        onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'addNodeBelow').disable();
-          if (disabled) return false;
-
-          const { activeKey } = this.state;
-
-          this.addNode({
-            nodeId: activeKey,
-            name: 'New Node',
-            icon: 'far fa-file',
-            type: 'file',
-            direction: 'bottom',
-          });
-        },
-        disable: () => {
-          const { activeKey = '' } = this.state;
-          return !activeKey;
-        },
-      },
-      // 删除节点
-      {
-        key: 'removeNode',
-        className: () => `fa fa-window-close ${this.toolConfig.find(t => t.key === 'removeNode').disable() ? 'disable' : ''}`,
-        title: 'remove node',
-        onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'removeNode').disable();
-          if (disabled) return false;
-
-          const { activeKey, data } = this.state;
-
-          // 删除菜单项
-          const cloneData = Immutable.cloneDeep(data);
-          const parentNode = this.findParentById({
-            childrendata: cloneData,
-          }, activeKey);
-
-          let children;
-          if (parentNode) {
-            children = parentNode.childrendata;
-          } else {
-            children = cloneData;
-          }
-          const index = children.findIndex(({ id }) => id === activeKey);
-          children.splice(index, 1);
-          if (parentNode && children.length === 0) {
-            parentNode.leaf = true;
-          }
-
-          this.setState({
-            data: cloneData,
-          });
-        },
-        disable: () => {
-          const { activeKey = '' } = this.state;
-          return !activeKey;
-        },
-      },
-      // 上移
-      {
-        key: 'moveUp',
-        className: () => `fa fa-arrow-up ${this.toolConfig.find(t => t.key === 'moveUp').disable() ? 'disable' : ''}`,
-        title: 'move up',
-        onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'moveUp').disable();
-          if (disabled) return false;
-
-          const { activeKey, data } = this.state;
-          const cloneData = Immutable.cloneDeep(data);
-          const parentNode = this.findParentById({
-            childrendata: cloneData,
-          }, activeKey);
-
-          let children;
-          if (parentNode) {
-            children = parentNode.childrendata;
-          } else {
-            children = cloneData;
-          }
-
-          const index = children.findIndex(({ id }) => id === activeKey);
-          children.splice(index - 1, 0, children[index]);
-          children.splice(index + 1, 1);
-          this.setState({
-            data: cloneData,
-          });
-        },
-        disable: () => {
-          const { activeKey } = this.state;
-          return this.getToolDisable(activeKey).moveup;
-        },
-      },
-      // 下移
-      {
-        key: 'moveDown',
-        className: () => `fa fa-arrow-down ${this.toolConfig.find(t => t.key === 'moveDown').disable() ? 'disable' : ''}`,
-        title: 'move down',
-        onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'moveDown').disable();
-          if (disabled) return false;
-
-          const { activeKey, data } = this.state;
-          const cloneData = Immutable.cloneDeep(data);
-          const parentNode = this.findParentById({
-            childrendata: cloneData,
-          }, activeKey);
-
-          let children;
-          if (parentNode) {
-            children = parentNode.childrendata;
-          } else {
-            children = cloneData;
-          }
-
-          const index = children.findIndex(({ id }) => id === activeKey);
-          children.splice(index, 0, children[index + 1]);
-          children.splice(index + 2, 1);
-          this.setState({
-            data: cloneData,
-          });
-        },
-        disable: () => {
-          const { activeKey } = this.state;
-          return this.getToolDisable(activeKey).movedown;
+          const { selectedColumnKey = '' } = this.state;
+          return !selectedColumnKey;
         },
       },
     ];
   }
 
   /**
-   * renderTool
+   * renderColumnTool
    * @return {*[]}
    */
-  renderTool() {
-    return this.toolConfig.map(({ key, className, title, onClick }) => {
+  renderColumnTool() {
+    return this.columnToolConfig.map(({ key, className, title, onClick }) => {
       return (
         <span
           key={key}
           className={className()}
           title={title}
-          onClick={() => {
-            onClick();
-          }}
+          onClick={() => { onClick(); }}
         />
       );
     });
   }
 
   /**
-   * renderInner
-   * @return {ReactElement}
+   * cloneColumns
+   * @param {Array} - columns
+   * @return {Array}
    */
-  renderInner() {
-    const props = {
-      columns,
-      data,
-      rowKey: 'id',
-      rowSelection,
-      onEditorModify,
-      isDisplayHead: false,
-    };
+  cloneColumns(columns = this.state.columns) {
+    // const { columns = [] } = this.state;
+    const cloneColumns = Immutable.cloneDeep(columns.map(({ render, ...other }) => {
+      return other;
+    }));
 
-    return (
-      <Table
-        {...props}
-      />
-    );
+    return cloneColumns.map((t) => {
+      return Object.assign(t, {
+        render: (record, rowValue, rowIndex, dataIndex) => {
+          return (
+            <TableTextFieldEditor
+              type="text"
+              value={rowValue}
+              index={rowIndex}
+              dataIndex={dataIndex}
+            />);
+        },
+      });
+    });
   }
 
   /**
-   * getToolDisable
-   * move
-   *  上移(第一个节点不能上移)
-   *  下移(最后一个节点不能下移)
-   *  升级(和父亲平级)(没有父亲不能升级)
-   *  降级(成为前一个兄弟的孩子)(没有前一个兄弟不能降级)
-   * @param {String} - nodeId
+   * addColumn
+   * @param {String} - name
+   * @param {Number} - index
    */
-  getToolDisable(nodeId) {
-    if (!nodeId) {
-      return {
-        // 上移
-        moveup: true,
-        // 降级
-        downgrade: true,
-        // 下移
-        movedown: true,
-        // 升级
-        upgrade: true,
-      };
-    }
-
-    const parentNode = this.findParentById(
-      {
-        childrendata: Immutable.cloneDeep(this.state.data),
+  addColumn({ name, index }) {
+    const { zIndex } = this.props;
+    Modal.prompt({
+      content: 'column name',
+      defaultValue: name,
+      zIndex: zIndex + 10,
+      success: (columnName) => {
+        return new Promise((resolve) => {
+          const columns = this.cloneColumns();
+          const id = uuid();
+          columns.splice(index, 0, {
+            title: columnName,
+            key: id,
+            align: 'center',
+            dataIndex: id,
+            render: (record, rowValue, rowIndex, dataIndex) => {
+              return (
+                <TableTextFieldEditor
+                  type="text"
+                  value={rowValue}
+                  index={rowIndex}
+                  dataIndex={dataIndex}
+                />);
+            },
+          });
+          this.setState({
+            columns,
+          }, () => {
+            resolve();
+          });
+        });
       },
-      nodeId);
-    let children;
-    if (parentNode) {
-      children = parentNode.childrendata;
-    } else {
-      children = this.state.data;
-    }
-    children = Immutable.cloneDeep(children);
+    });
+  }
 
-    const index = children.findIndex(({ id }) => id === nodeId);
+  /**
+   * getTableColumnsConfig
+   * @return {Array<ColumnConfig>}
+   * */
+  getTableColumnsConfig() {
+    const {
+      columns = [],
+    } = this.state;
+
+    return columns;
+  }
+
+  getTableColumnSelection() {
+    const {
+      selectedColumnKey,
+    } = this.state;
 
     return {
-      // 上移
-      moveup: index === 0,
-      // 降级
-      downgrade: index === 0,
-      // 下移
-      movedown: index === children.length - 1,
-      // 升级
-      upgrade: !parentNode,
+      selectedColumnKey,
+      /**
+       * onChange
+       * 点击了列的某一项
+       * @param {Object} - columnItem
+       */
+      onChange: (columnItem) => {
+        this.setState({
+          selectedColumnKey: columnItem.key,
+        });
+      },
     };
-
-    // // 上移 降级
-    // if (index === 0) {
-    //   // 上移
-    //   menudata[1].children[0].disabled = true;
-    //   // 降级
-    //   menudata[1].children[3].disabled = true;
-    // }
-    // // 下移
-    // if (index === children.length - 1) menudata[1].children[1].disabled = true;
-    // // 升级
-    // if (!parentNode) menudata[1].children[2].disabled = true;
   }
 
   /**
@@ -348,19 +374,28 @@ class HMenuSetting extends React.PureComponent {
    * @return {Object}
    */
   getValue() {
-    return Immutable.cloneDeep(this.state);
+    return Immutable.cloneDeep(Object.assign(this.state, {
+      columns: this.state.columns.map(({ render, ...other }) => other),
+    }));
   }
 
   render() {
+    const props = {
+      rowKey: 'id',
+      columns: this.getTableColumnsConfig(),
+      columnSelection: this.getTableColumnSelection(),
+    };
+
     return (
       <div className={`${selectorPrefix}`}>
-
-        <div className={`${selectorPrefix}-Tool`}>
-          {this.renderTool()}
+        <div className={`${selectorPrefix}-ColumnTool`}>
+          {this.renderColumnTool()}
         </div>
 
         <div className={`${selectorPrefix}-Inner`}>
-          {this.renderInner()}
+          <Table
+            {...props}
+          />
         </div>
       </div>
     );

@@ -342,7 +342,7 @@ class Split {
 
     if (disable) return false;
 
-    e.preventDefault();
+    // e.preventDefault();
 
     if (!self.isCanResize) {
       return false;
@@ -377,7 +377,7 @@ class Split {
    * @param {MouseEvent} - e
    */
   onMainMouseMove(e) {
-    e.preventDefault();
+    // e.preventDefault();
     const self = this;
     const { disable = false } = self;
 
@@ -480,7 +480,7 @@ class Split {
    * @param {MouseEvent} - e
    */
   onElMouseMove(e) {
-    console.log('split');
+    // console.log('split');
 
     // e.preventDefault();
     const self = this;

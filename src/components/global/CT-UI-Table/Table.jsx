@@ -343,15 +343,43 @@ class Table extends React.PureComponent {
 }
 
 Table.propTypes = {
-  columns: PropTypes.array,
+  columns: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.element,
+      ]),
+      key: PropTypes.string,
+      render: PropTypes.func,
+      align: PropTypes.oneOf([
+        'center',
+        'left',
+        'right',
+      ]),
+      width: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
+      dataIndex: PropTypes.string,
+    })
+  ),
   data: PropTypes.array,
   pagin: PropTypes.bool,
   rowKey: PropTypes.string,
   columnLock: PropTypes.bool,
   bodyHeight: PropTypes.string,
-  rowSelection: PropTypes.object,
-  cellSelection: PropTypes.object,
-  columnSelection: PropTypes.object,
+  rowSelection: PropTypes.shape({
+    selectedRowKey: PropTypes.string,
+    onChange: PropTypes.func,
+    onUnChange: PropTypes.func,
+  }),
+  cellSelection: PropTypes.shape({
+    onChange: PropTypes.func,
+  }),
+  columnSelection: PropTypes.shape({
+    selectedColumnKey: PropTypes.string,
+    onChange: PropTypes.func,
+  }),
   isDisplayHead: PropTypes.bool,
   onEditorModify: PropTypes.func,
 };

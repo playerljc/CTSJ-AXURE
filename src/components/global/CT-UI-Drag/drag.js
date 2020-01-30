@@ -652,7 +652,7 @@ class Drag {
    * onMousemove
    */
   onMousemove(e) {
-    console.log('drag1');
+    // console.log('drag1');
 
     const self = this;
     const { disable = false } = self;

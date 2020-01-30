@@ -38,7 +38,7 @@ class TableSetting extends React.PureComponent {
       ...nextProps.value,
       selectedRowKey: '',
       selectedColumnKey: '',
-      columns: this.cloneColumns(props.value.columns),
+      columns: this.cloneColumns(nextProps.value.columns),
     });
   }
 

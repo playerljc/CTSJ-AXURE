@@ -185,16 +185,13 @@ export default () => ({
     name: 'Horizontal Menu',
     tooltip: '',
     hmenu: {
-      data: [
+      columns: [
         // {
-        //   key: '',
-        //   title: '',
-        //   menudata: [
-        //     {
-        //
-        //     },
-        //   ],
-        // },
+        //   title
+        //   key
+        //   align
+        //   width
+        // }
       ],
     },
   },

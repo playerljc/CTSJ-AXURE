@@ -614,7 +614,7 @@ class Droppable {
    * @return {boolean}
    */
   onContainerMousemove(ev) {
-    console.log('drop1');
+    // console.log('drop1');
 
     const self = this;
 

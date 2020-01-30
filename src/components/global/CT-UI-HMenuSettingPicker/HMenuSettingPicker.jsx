@@ -19,7 +19,7 @@ export default {
     } = config;
 
     const modal = Modal.open({
-      title: 'VMenu Setting',
+      title: 'HMenu Setting',
       zIndex,
       minWidth: '250px',
       maxWidth: '80%',

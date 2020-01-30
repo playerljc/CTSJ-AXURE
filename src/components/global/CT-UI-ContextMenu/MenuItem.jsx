@@ -71,7 +71,15 @@ class MenuItem extends React.PureComponent {
 }
 
 MenuItem.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.shape({
+    id: PropTypes.string,
+    attribute: PropTypes.object,
+    children: PropTypes.array,
+    disabled: PropTypes.bool,
+    name: PropTypes.string,
+    icon: PropTypes.string,
+    separation: PropTypes.bool,
+  }),
 };
 
 export default MenuItem;
