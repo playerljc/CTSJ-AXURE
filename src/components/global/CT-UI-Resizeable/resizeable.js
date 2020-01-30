@@ -1058,7 +1058,7 @@ class ResizeableGroup {
    */
   init() {
     // this.ins.clear();
-    const els = Array.from(this.el.querySelectorAll(`.${selectorPrefix}-item`));
+    const els = this.el.querySelectorAll(`.${selectorPrefix}-item`);
     for (let i = 0; i < els.length; i++) {
       const el = els[i];
       if (!this.ins.get(el)) {
@@ -1136,7 +1136,7 @@ class ResizeableGroupManager {
    */
   init() {
     // this.resizeManager.clear();
-    const resizeableEls = Array.from(this.el.querySelectorAll(`.${selectorPrefix}`));
+    const resizeableEls = this.el.querySelectorAll(`.${selectorPrefix}`);
     for (let i = 0; i < resizeableEls.length; i++) {
       const el = resizeableEls[i];
       if (!this.resizeManager.get(el)) {

@@ -575,7 +575,7 @@ class SelectableManager {
    */
   init() {
     // this.managers.clear();
-    const els = Array.from(this.el.querySelectorAll(`.${selectorPrefix}`));
+    const els = this.el.querySelectorAll(`.${selectorPrefix}`);
     for (let i = 0; i < els.length; i++) {
       const el = els[i];
       if (!this.managers.get(el)) {
