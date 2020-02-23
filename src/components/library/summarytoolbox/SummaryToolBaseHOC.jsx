@@ -25,7 +25,7 @@ export default (Component, { groupKey, componentKey }) => {
           <div className={`${selectorPrefix}-share`}>
             <Component {...this.props} selectorPrefix={selectorPrefix} />
           </div>
-          <div className={`${selectorPrefix}-name`}>{name ? name : attrJSON.value}</div>
+          <div className={`${selectorPrefix}-name`}>{name || attrJSON.value}</div>
         </div>
       );
     }

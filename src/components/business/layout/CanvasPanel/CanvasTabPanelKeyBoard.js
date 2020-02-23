@@ -51,7 +51,7 @@ class CanvasTabPanelKeyBoard {
    */
   onCtrlV() {
     const pageId = this[pageIns].getPageId();
-    console.log('Ctrl + V:', pageId);
+    // console.log('Ctrl + V:', pageId);
     const clipBoardData = ClipBoard.get(pageId);
     if (!clipBoardData || clipBoardData.length === 0) return false;
 
@@ -65,7 +65,7 @@ class CanvasTabPanelKeyBoard {
    * onCtrlA
    */
   onCtrlA() {
-    console.log('Ctrl + a');
+    // console.log('Ctrl + a');
     // const els = this.innerEl.querySelectorAll(`.${DRSPREFIX}`);
     const pageId = this[pageIns].getPageId();
     const ids = ShapeModel.getShapesByPage(pageId).map(shape => shape.getEl().getAttribute('id'));

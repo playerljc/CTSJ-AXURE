@@ -100,7 +100,7 @@ class DRSKeyBoard {
    * onArrowUp
    */
   onArrowUp() {
-    console.log('arrowUp');
+    // console.log('arrowUp');
     this[drsIns].arrowDetail('top');
   }
 
@@ -108,7 +108,7 @@ class DRSKeyBoard {
    * onArrowDown
    */
   onArrowDown() {
-    console.log('arrowDown');
+    // console.log('arrowDown');
     this[drsIns].arrowDetail('bottom');
   }
 
@@ -116,7 +116,7 @@ class DRSKeyBoard {
    * onArrowLeft
    */
   onArrowLeft() {
-    console.log('arrowLeft');
+    // console.log('arrowLeft');
     this[drsIns].arrowDetail('left');
   }
 
@@ -124,7 +124,7 @@ class DRSKeyBoard {
    * onArrowRight
    */
   onArrowRight() {
-    console.log('arrowRight');
+    // console.log('arrowRight');
     this[drsIns].arrowDetail('right');
   }
 
@@ -132,7 +132,7 @@ class DRSKeyBoard {
    * onCtrlArrowUp
    */
   onCtrlArrowUp() {
-    console.log('ctrlArrowUp');
+    // console.log('ctrlArrowUp');
     this[drsIns].arrowDetail('top', KEYBOARD_FAST_STEP);
   }
 
@@ -140,7 +140,7 @@ class DRSKeyBoard {
    * onCtrlArrowDown
    */
   onCtrlArrowDown() {
-    console.log('ctrlArrowDown');
+    // console.log('ctrlArrowDown');
     this[drsIns].arrowDetail('bottom', KEYBOARD_FAST_STEP);
   }
 
@@ -148,7 +148,7 @@ class DRSKeyBoard {
    * onCtrlArrowLeft
    */
   onCtrlArrowLeft() {
-    console.log('ctrlArrowLeft');
+    // console.log('ctrlArrowLeft');
     this[drsIns].arrowDetail('left', KEYBOARD_FAST_STEP);
   }
 
@@ -156,7 +156,7 @@ class DRSKeyBoard {
    * onCtrlArrowRight
    */
   onCtrlArrowRight() {
-    console.log('ctrlArrowRight');
+    // console.log('ctrlArrowRight');
     this[drsIns].arrowDetail('right', KEYBOARD_FAST_STEP);
   }
 
@@ -164,7 +164,7 @@ class DRSKeyBoard {
    * onRepeatArrowUp
    */
   onRepeatArrowUp() {
-    console.log('repeatArrowUp');
+    // console.log('repeatArrowUp');
     this[drsIns].arrowDetail('top');
   }
 
@@ -172,7 +172,7 @@ class DRSKeyBoard {
    * onRepeatArrowDown
    */
   onRepeatArrowDown() {
-    console.log('repeatArrowDown');
+    // console.log('repeatArrowDown');
     this[drsIns].arrowDetail('bottom');
   }
 
@@ -180,7 +180,7 @@ class DRSKeyBoard {
    * onRepeatArrowLeft
    */
   onRepeatArrowLeft() {
-    console.log('repeatArrowLeft');
+    // console.log('repeatArrowLeft');
     this[drsIns].arrowDetail('left');
   }
 
@@ -188,7 +188,7 @@ class DRSKeyBoard {
    * onRepeatArrowRight
    */
   onRepeatArrowRight() {
-    console.log('repeatArrowRight');
+    // console.log('repeatArrowRight');
     this[drsIns].arrowDetail('right');
   }
 
@@ -196,7 +196,7 @@ class DRSKeyBoard {
    * onRepeatCtrlArrowUp
    */
   onRepeatCtrlArrowUp() {
-    console.log('repeatCtrlArrowUp');
+    // console.log('repeatCtrlArrowUp');
     this[drsIns].arrowDetail('top', KEYBOARD_FAST_STEP);
   }
 
@@ -204,7 +204,7 @@ class DRSKeyBoard {
    * onRepeatCtrlArrowDown
    */
   onRepeatCtrlArrowDown() {
-    console.log('repeatCtrlArrowDown');
+    // console.log('repeatCtrlArrowDown');
     this[drsIns].arrowDetail('bottom', KEYBOARD_FAST_STEP);
   }
 
@@ -212,7 +212,7 @@ class DRSKeyBoard {
    * onRepeatCtrlArrowLeft
    */
   onRepeatCtrlArrowLeft() {
-    console.log('repeatCtrlArrowLeft');
+    // console.log('repeatCtrlArrowLeft');
     this[drsIns].arrowDetail('left', KEYBOARD_FAST_STEP);
   }
 
@@ -220,7 +220,7 @@ class DRSKeyBoard {
    * onRepeatCtrlArrowRight
    */
   onRepeatCtrlArrowRight() {
-    console.log('repeatCtrlArrowRight');
+    // console.log('repeatCtrlArrowRight');
     this[drsIns].arrowDetail('right', KEYBOARD_FAST_STEP);
   }
 
@@ -228,7 +228,7 @@ class DRSKeyBoard {
    * onCtrlC
    */
   onCtrlC() {
-    console.log('CtrlC');
+    // console.log('CtrlC');
     this[drsIns].copy();
   }
 
@@ -236,7 +236,7 @@ class DRSKeyBoard {
    * onDelete
    */
   onDelete() {
-    console.log('Delete');
+    // console.log('Delete');
     this[drsIns].deleteSelf();
   }
 
@@ -244,7 +244,7 @@ class DRSKeyBoard {
    * onBackapace
    */
   onBackapace() {
-    console.log('Backapace');
+    // console.log('Backapace');
     this[drsIns].deleteSelf();
   }
 
@@ -252,7 +252,7 @@ class DRSKeyBoard {
    * onCtrl
    */
   onCtrl() {
-    console.log('Ctrl');
+    // console.log('Ctrl');
   }
 }
 

@@ -9,7 +9,7 @@ let splitH;
 let App;
 
 function onSplitVStart() {
-  console.log('onSplitVStart');
+  // console.log('onSplitVStart');
   splitH.setDisable(true);
   AppDroppableManager.setDisable();
   AppDragManager.setDisable();
@@ -23,7 +23,7 @@ function onSplitVSuccess() {
 }
 
 function onSplitVEnd() {
-  console.log('onSplitVEnd');
+  // console.log('onSplitVEnd');
   splitH.setDisable(false);
   AppDroppableManager.setEnable();
   AppDragManager.setEnable();
@@ -33,7 +33,7 @@ function onSplitVEnd() {
 }
 
 function onSplitHStart() {
-  console.log('onSplitHStart');
+  // console.log('onSplitHStart');
   splitV.setDisable(true);
   AppDroppableManager.setDisable();
   AppDragManager.setDisable();
@@ -47,7 +47,7 @@ function onSplitHSuccess() {
 }
 
 function onSplitHEnd() {
-  console.log('onSplitHEnd');
+  // console.log('onSplitHEnd');
   splitV.setDisable(false);
   AppDroppableManager.setEnable();
   AppDragManager.setEnable();

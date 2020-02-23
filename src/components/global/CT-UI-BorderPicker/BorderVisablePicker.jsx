@@ -91,7 +91,7 @@ class BorderVisablePickerModal extends React.PureComponent {
     const { onChange } = this.props;
 
 
-    console.log(borderTopDisable);
+    // console.log(borderTopDisable);
     this.setState({
       borderTopDisable: !borderTopDisable,
     }, () => {

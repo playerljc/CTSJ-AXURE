@@ -100,7 +100,7 @@ class RangeSelectKeyBoard {
    * onArrowUp
    */
   onArrowUp() {
-    console.log('arrowUp');
+    // console.log('arrowUp');
     this[rangeSelectIns].arrowDetail('top');
   }
 
@@ -108,7 +108,7 @@ class RangeSelectKeyBoard {
    * onArrowDown
    */
   onArrowDown() {
-    console.log('arrowDown');
+    // console.log('arrowDown');
     this[rangeSelectIns].arrowDetail('bottom');
   }
 
@@ -116,7 +116,7 @@ class RangeSelectKeyBoard {
    * onArrowLeft
    */
   onArrowLeft() {
-    console.log('arrowLeft');
+    // console.log('arrowLeft');
     this[rangeSelectIns].arrowDetail('left');
   }
 
@@ -124,7 +124,7 @@ class RangeSelectKeyBoard {
    * onArrowRight
    */
   onArrowRight() {
-    console.log('arrowRight');
+    // console.log('arrowRight');
     this[rangeSelectIns].arrowDetail('right');
   }
 
@@ -132,7 +132,7 @@ class RangeSelectKeyBoard {
    * onCtrlArrowUp
    */
   onCtrlArrowUp() {
-    console.log('ctrlArrowUp');
+    // console.log('ctrlArrowUp');
     this[rangeSelectIns].arrowDetail('top', KEYBOARD_FAST_STEP);
   }
 
@@ -140,7 +140,7 @@ class RangeSelectKeyBoard {
    * onCtrlArrowDown
    */
   onCtrlArrowDown() {
-    console.log('ctrlArrowDown');
+    // console.log('ctrlArrowDown');
     this[rangeSelectIns].arrowDetail('bottom', KEYBOARD_FAST_STEP);
   }
 
@@ -148,7 +148,7 @@ class RangeSelectKeyBoard {
    * onCtrlArrowLeft
    */
   onCtrlArrowLeft() {
-    console.log('ctrlArrowLeft');
+    // console.log('ctrlArrowLeft');
     this[rangeSelectIns].arrowDetail('left', KEYBOARD_FAST_STEP);
   }
 
@@ -156,7 +156,7 @@ class RangeSelectKeyBoard {
    * onCtrlArrowRight
    */
   onCtrlArrowRight() {
-    console.log('ctrlArrowRight');
+    // console.log('ctrlArrowRight');
     this[rangeSelectIns].arrowDetail('right', KEYBOARD_FAST_STEP);
   }
 
@@ -164,7 +164,7 @@ class RangeSelectKeyBoard {
    * onRepeatArrowUp
    */
   onRepeatArrowUp() {
-    console.log('repeatArrowUp');
+    // console.log('repeatArrowUp');
     this[rangeSelectIns].arrowDetail('top');
   }
 
@@ -172,7 +172,7 @@ class RangeSelectKeyBoard {
    * onRepeatArrowDown
    */
   onRepeatArrowDown() {
-    console.log('repeatArrowDown');
+    // console.log('repeatArrowDown');
     this[rangeSelectIns].arrowDetail('bottom');
   }
 
@@ -180,7 +180,7 @@ class RangeSelectKeyBoard {
    * onRepeatArrowLeft
    */
   onRepeatArrowLeft() {
-    console.log('repeatArrowLeft');
+    // console.log('repeatArrowLeft');
     this[rangeSelectIns].arrowDetail('left');
   }
 
@@ -188,7 +188,7 @@ class RangeSelectKeyBoard {
    * onRepeatArrowRight
    */
   onRepeatArrowRight() {
-    console.log('repeatArrowRight');
+    // console.log('repeatArrowRight');
     this[rangeSelectIns].arrowDetail('right');
   }
 
@@ -196,7 +196,7 @@ class RangeSelectKeyBoard {
    * onRepeatCtrlArrowUp
    */
   onRepeatCtrlArrowUp() {
-    console.log('repeatCtrlArrowUp');
+    // console.log('repeatCtrlArrowUp');
     this[rangeSelectIns].arrowDetail('top', KEYBOARD_FAST_STEP);
   }
 
@@ -204,7 +204,7 @@ class RangeSelectKeyBoard {
    * onRepeatCtrlArrowDown
    */
   onRepeatCtrlArrowDown() {
-    console.log('repeatCtrlArrowDown');
+    // console.log('repeatCtrlArrowDown');
     this[rangeSelectIns].arrowDetail('bottom', KEYBOARD_FAST_STEP);
   }
 
@@ -212,7 +212,7 @@ class RangeSelectKeyBoard {
    * onRepeatCtrlArrowLeft
    */
   onRepeatCtrlArrowLeft() {
-    console.log('repeatCtrlArrowLeft');
+    // console.log('repeatCtrlArrowLeft');
     this[rangeSelectIns].arrowDetail('left', KEYBOARD_FAST_STEP);
   }
 
@@ -220,7 +220,7 @@ class RangeSelectKeyBoard {
    * onRepeatCtrlArrowRight
    */
   onRepeatCtrlArrowRight() {
-    console.log('repeatCtrlArrowRight');
+    // console.log('repeatCtrlArrowRight');
     this[rangeSelectIns].arrowDetail('right', KEYBOARD_FAST_STEP);
   }
 
@@ -228,7 +228,7 @@ class RangeSelectKeyBoard {
    * onCtrlC
    */
   onCtrlC() {
-    console.log('CtrlC');
+    // console.log('CtrlC');
     this[rangeSelectIns].copy();
   }
 
@@ -236,7 +236,7 @@ class RangeSelectKeyBoard {
    * onDelete
    */
   onDelete() {
-    console.log('Delete');
+    // console.log('Delete');
     this[rangeSelectIns].deleteSelf();
   }
 
@@ -244,7 +244,7 @@ class RangeSelectKeyBoard {
    * onBackapace
    */
   onBackapace() {
-    console.log('Backapace');
+    // console.log('Backapace');
     this[rangeSelectIns].deleteSelf();
   }
 
@@ -252,7 +252,7 @@ class RangeSelectKeyBoard {
    * onCtrl
    */
   onCtrl() {
-    console.log('Ctrl');
+    // console.log('Ctrl');
   }
 }
 

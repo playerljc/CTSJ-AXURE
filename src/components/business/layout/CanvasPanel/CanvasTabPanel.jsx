@@ -83,7 +83,7 @@ class CanvasTabPanel extends React.PureComponent {
    * @param {Function} -success
    */
   setPropertyByProps(propertyName, propertyValue, success) {
-    console.log(this.props);
+    // console.log(this.props);
     const property = { ...this.state.property };
     property[propertyName] = propertyValue;
     this.setState({

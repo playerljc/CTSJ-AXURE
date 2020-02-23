@@ -254,7 +254,7 @@ class Table extends React.PureComponent {
         key={rowData[rowKey]}
         className={`${selectorPrefix}-Body-Row ${selectedRowKey === rowData[rowKey] ? 'Selected' : ''}`}
         onClickCapture={() => {
-          console.log('rowClick');
+          // console.log('rowClick');
           this.onRowClick(Immutable.cloneDeep(rowData));
         }}
       >{
