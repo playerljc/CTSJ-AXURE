@@ -33,11 +33,7 @@ const modalStyleConfig = [
   'inherit',
 ];
 
-const displayStyleConfig = [
-  'dashed',
-  'dashed',
-  'solid',
-];
+const displayStyleConfig = ['dashed', 'dashed', 'solid'];
 
 /**
  * BorderStylePickerModal
@@ -60,7 +56,7 @@ class BorderStylePickerModal extends React.PureComponent {
                 }
               }}
             >
-              {t === 'none' ? 'none' : (<div style={{ height: 0, border: `2px ${t} #000` }} />)}
+              {t === 'none' ? 'none' : <div style={{ height: 0, border: `2px ${t} #000` }} />}
             </li>
           );
         })}
@@ -73,7 +69,6 @@ BorderStylePickerModal.propTypes = {
   borderStyle: PropTypes.string,
   onChange: PropTypes.func,
 };
-
 
 /**
  * BorderStylePicker
@@ -120,47 +115,43 @@ class BorderStylePicker extends React.PureComponent {
         <BorderStylePickerModal
           borderStyle={borderStyle}
           onChange={(width) => {
-            this.setState({
-              borderStyle: width,
-            }, () => {
-              if (onChange) {
-                onChange(width);
-              }
-              Modal.close(modal);
-            });
+            this.setState(
+              {
+                borderStyle: width,
+              },
+              () => {
+                if (onChange) {
+                  onChange(width);
+                }
+                Modal.close(modal);
+              },
+            );
           }}
         />
       ),
       yscroll: false,
-      buttons: [{
-        text: 'cancel',
-        handler: () => {
-          Modal.close(modal);
+      buttons: [
+        {
+          text: 'cancel',
+          handler: () => {
+            Modal.close(modal);
+          },
         },
-      }],
+      ],
     });
   }
 
   renderInner() {
     return displayStyleConfig.map((t, index) => {
-      return (<div key={index} style={{ height: 0, border: `1px ${t} #000` }} />);
+      return <div key={index} style={{ height: 0, border: `1px ${t} #000` }} />;
     });
   }
 
   render() {
     return (
-      <div
-        className={`${selectorPrefix}`}
-        onClick={this.onArrowClick}
-      >
-        <div
-          className={`${selectorPrefix}-Inner`}
-        >
-          {this.renderInner()}
-        </div>
-        <div
-          className={`fa fa-caret-right ${selectorPrefix}-Arrow`}
-        />
+      <div className={`${selectorPrefix}`} onClick={this.onArrowClick}>
+        <div className={`${selectorPrefix}-Inner`}>{this.renderInner()}</div>
+        <div className={`fa fa-caret-right ${selectorPrefix}-Arrow`} />
       </div>
     );
   }

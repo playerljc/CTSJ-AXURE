@@ -16,9 +16,7 @@ class Opacity extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      value,
-    } = props;
+    const { value } = props;
 
     this.state = {
       value,
@@ -36,9 +34,7 @@ class Opacity extends React.PureComponent {
   // }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      value,
-    } = nextProps;
+    const { value } = nextProps;
 
     this.setState({
       value,
@@ -56,23 +52,20 @@ class Opacity extends React.PureComponent {
           value={value}
           onChange={(e) => {
             let opacity = e.target.value;
-            opacity = opacity < 0 ? 0 : (opacity > 100 ? 100 : opacity);
+            opacity = opacity < 0 ? 0 : opacity > 100 ? 100 : opacity;
             if (onChange) {
               onChange(opacity);
             }
           }}
-        />%
+        />
+        %
       </div>
     );
   }
 }
 
 Opacity.propTypes = {
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.object,
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
   onChange: PropTypes.func,
 };
 

@@ -12,24 +12,14 @@ export default {
   open(config) {
     let TableIns;
 
-    const {
-      zIndex = 9999,
-      value,
-      onSuccess,
-    } = config;
+    const { zIndex = 9999, value, onSuccess } = config;
 
     const modal = Modal.open({
       title: 'Table Setting',
       zIndex,
       minWidth: '250px',
       maxWidth: '80%',
-      component: (
-        <TableSetting
-          value={value}
-          ref={ins => TableIns = ins}
-          zIndex={zIndex}
-        />
-      ),
+      component: <TableSetting value={value} ref={(ins) => (TableIns = ins)} zIndex={zIndex} />,
       xscroll: true,
       yscroll: true,
       buttons: [

@@ -22,15 +22,9 @@ class InlineFrameProperty extends React.PureComponent {
    * @return {*[]}
    */
   getConfig() {
-    const {
-      shape,
-    } = this.props;
+    const { shape } = this.props;
 
-    const {
-      text,
-      tooltip,
-      inlineframe,
-    } = shape.getProperty().prop;
+    const { text, tooltip, inlineframe } = shape.getProperty().prop;
 
     return [
       {
@@ -45,7 +39,7 @@ class InlineFrameProperty extends React.PureComponent {
           <Text
             value={text}
             onChange={(value) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.text = value;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -59,7 +53,7 @@ class InlineFrameProperty extends React.PureComponent {
           <ToolTip
             value={tooltip}
             onChange={(value) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.tooltip = value;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -73,7 +67,7 @@ class InlineFrameProperty extends React.PureComponent {
           <InlineFrame
             value={inlineframe}
             onChange={(value) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.inlineframe = value;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -84,15 +78,9 @@ class InlineFrameProperty extends React.PureComponent {
   }
 
   render() {
-    const {
-      children,
-    } = this.props;
+    const { children } = this.props;
 
-    return (
-      <div className={selectorPrefix}>
-        {children(this.getConfig())}
-      </div>
-    );
+    return <div className={selectorPrefix}>{children(this.getConfig())}</div>;
   }
 }
 

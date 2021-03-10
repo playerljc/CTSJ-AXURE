@@ -11,11 +11,7 @@ const selectorPrefix = 'CT-UI-Form';
 class Form extends React.PureComponent {
   render() {
     const { children } = this.props;
-    return (
-      <div className={`${selectorPrefix}`}>
-        {children}
-      </div>
-    );
+    return <div className={`${selectorPrefix}`}>{children}</div>;
   }
 }
 
@@ -77,7 +73,7 @@ class FormFieldManager {
           <FieldComponent
             {...formFieldManagerProps}
             // defalutValue={formFieldManagerProps.value}
-            value={this.state.value/* || formFieldManagerProps.value */}
+            value={this.state.value /* || formFieldManagerProps.value */}
             onChange={(e) => {
               this.onChange(e, onChange);
             }}

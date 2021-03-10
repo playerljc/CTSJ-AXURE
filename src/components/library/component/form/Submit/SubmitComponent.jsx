@@ -18,15 +18,9 @@ class SubmitComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          text,
-          tooltip,
-          disabled,
-        },
+        prop: { text, tooltip, disabled },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
@@ -54,7 +48,9 @@ SubmitComponent.propTypes = {
   style: PropTypes.object,
 };
 
-export default ComponentBaseHOC(DRSHOC(SubmitComponent, {
-  groupKey: 'form',
-  componentKey: 'Submit',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(SubmitComponent, {
+    groupKey: 'form',
+    componentKey: 'Submit',
+  }),
+);

@@ -9,7 +9,6 @@ import { Immutable } from '../../../../../util/CTMobile-UI-Util';
 
 import './TableProperty.less';
 
-
 const selectorPrefix = 'TableProperty';
 
 /**
@@ -19,13 +18,9 @@ const selectorPrefix = 'TableProperty';
  */
 class TableProperty extends React.PureComponent {
   getTableValue() {
-    const {
-      shape,
-    } = this.props;
+    const { shape } = this.props;
 
-    const {
-      table,
-    } = shape.getProperty().prop;
+    const { table } = shape.getProperty().prop;
 
     const { showNumber } = table;
 
@@ -33,9 +28,9 @@ class TableProperty extends React.PureComponent {
       const cloneTable = Immutable.cloneDeep(table);
       cloneTable.columns.shift();
       return cloneTable;
-    } else {
-      return table;
     }
+      return table;
+
   }
 
   /**
@@ -43,13 +38,9 @@ class TableProperty extends React.PureComponent {
    * @return {*[]}
    */
   getConfig() {
-    const {
-      shape,
-    } = this.props;
+    const { shape } = this.props;
 
-    const {
-      tooltip = '',
-    } = shape.getProperty().prop;
+    const { tooltip = '' } = shape.getProperty().prop;
 
     return [
       {
@@ -64,7 +55,7 @@ class TableProperty extends React.PureComponent {
           <ToolTip
             value={tooltip}
             onChange={(value) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.tooltip = value;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -78,7 +69,7 @@ class TableProperty extends React.PureComponent {
           <Table
             value={this.getTableValue()}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.table = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -89,15 +80,9 @@ class TableProperty extends React.PureComponent {
   }
 
   render() {
-    const {
-      children,
-    } = this.props;
+    const { children } = this.props;
 
-    return (
-      <div className={selectorPrefix}>
-        {children(this.getConfig())}
-      </div>
-    );
+    return <div className={selectorPrefix}>{children(this.getConfig())}</div>;
   }
 }
 

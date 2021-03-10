@@ -15,7 +15,7 @@ class ListTool extends React.PureComponent {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-form-list FontAwesome`} >&#xe684;</div>
+        <div className={`${selectorPrefix}-form-list FontAwesome`}>&#xe684;</div>
       </React.Fragment>
     );
   }

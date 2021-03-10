@@ -19,10 +19,7 @@ class BorderShadowSettingPicker extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      onChange,
-      ...other
-    } = props;
+    const { onChange, ...other } = props;
 
     this.state = {
       ...other,
@@ -46,15 +43,7 @@ class BorderShadowSettingPicker extends React.PureComponent {
   }
 
   render() {
-    const {
-      type,
-      disabled,
-      offsetX,
-      offsetY,
-      blurRadius,
-      spreadRadius,
-      color,
-    } = this.state;
+    const { type, disabled, offsetX, offsetY, blurRadius, spreadRadius, color } = this.state;
 
     return (
       <div className={`${selectorPrefix}`}>
@@ -67,26 +56,32 @@ class BorderShadowSettingPicker extends React.PureComponent {
                   type="checkbox"
                   checked={!disabled}
                   onChange={(e) => {
-                  this.onChange('disabled', !e.target.checked);
-                }}
+                    this.onChange('disabled', !e.target.checked);
+                  }}
                 />
               </td>
             </tr>
             <tr>
               <td align="right">offset：</td>
               <td align="right">
-              x:<Input
-                type="number"
-                value={offsetX}
-                disabled={disabled}
-                onChange={(e) => { this.onChange('offsetX', window.parseInt(e.target.value)); }}
-              />
-              y:<Input
-                type="number"
-                value={offsetY}
-                disabled={disabled}
-                onChange={(e) => { this.onChange('offsetY', window.parseInt(e.target.value)); }}
-              />
+                x:
+                <Input
+                  type="number"
+                  value={offsetX}
+                  disabled={disabled}
+                  onChange={(e) => {
+                    this.onChange('offsetX', window.parseInt(e.target.value));
+                  }}
+                />
+                y:
+                <Input
+                  type="number"
+                  value={offsetY}
+                  disabled={disabled}
+                  onChange={(e) => {
+                    this.onChange('offsetY', window.parseInt(e.target.value));
+                  }}
+                />
               </td>
             </tr>
             <tr>
@@ -96,7 +91,9 @@ class BorderShadowSettingPicker extends React.PureComponent {
                   type="number"
                   value={blurRadius}
                   disabled={disabled}
-                  onChange={(e) => { this.onChange('blurRadius', window.parseInt(e.target.value)); }}
+                  onChange={(e) => {
+                    this.onChange('blurRadius', window.parseInt(e.target.value));
+                  }}
                 />
               </td>
             </tr>
@@ -107,7 +104,9 @@ class BorderShadowSettingPicker extends React.PureComponent {
                   type="number"
                   value={spreadRadius}
                   disabled={disabled}
-                  onChange={(e) => { this.onChange('spreadRadius', window.parseInt(e.target.value)); }}
+                  onChange={(e) => {
+                    this.onChange('spreadRadius', window.parseInt(e.target.value));
+                  }}
                 />
               </td>
             </tr>
@@ -119,11 +118,11 @@ class BorderShadowSettingPicker extends React.PureComponent {
                   color={color}
                   zIndex={window.parseInt(getMaxLevelNumber()) + 2}
                   onChange={(value) => {
-                  return new Promise((resolve) => {
-                    this.onChange('color', value);
-                    resolve();
-                  });
-                }}
+                    return new Promise((resolve) => {
+                      this.onChange('color', value);
+                      resolve();
+                    });
+                  }}
                 />
               </td>
             </tr>

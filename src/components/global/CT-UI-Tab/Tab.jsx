@@ -43,13 +43,16 @@ class Tab extends React.PureComponent {
 
   onTabItemClick(key) {
     const { onChange } = this.props;
-    this.setState({
-      activeKey: key,
-    }, () => {
-      if (onChange) {
-        onChange(key);
-      }
-    });
+    this.setState(
+      {
+        activeKey: key,
+      },
+      () => {
+        if (onChange) {
+          onChange(key);
+        }
+      },
+    );
   }
 
   onTabRemove(key) {
@@ -62,8 +65,8 @@ class Tab extends React.PureComponent {
   assignChildren() {
     let { children } = this.props;
     children = children.map((t) => {
-      const Props = Object.assign({}, t.props, { code: t.key });
-      return Object.assign({}, t, { props: Props });
+      const Props = { ...t.props, code: t.key};
+      return { ...t, props: Props};
     });
     return children;
   }
@@ -72,7 +75,10 @@ class Tab extends React.PureComponent {
     const { children = [], canRemove = true } = this.props;
     const { activeKey } = this.state;
     return children.map((t) => {
-      const { key, props: { name } } = t;
+      const {
+        key,
+        props: { name },
+      } = t;
       return (
         <div
           key={uuidv1()}
@@ -88,9 +94,7 @@ class Tab extends React.PureComponent {
           }}
         >
           <div className={`${selectorPrefix}-Bar-Item-Inner`}>{name}</div>
-          {canRemove ? (
-            <span className={`${selectorPrefix}-Bar-Item-Trigger fa fa-times`} />
-          ) : null }
+          {canRemove ? <span className={`${selectorPrefix}-Bar-Item-Trigger fa fa-times`} /> : null}
         </div>
       );
     });
@@ -105,17 +109,13 @@ class Tab extends React.PureComponent {
       <TabContext.Provider value={this.state}>
         <div className={`${selectorPrefix} ${className}`}>
           <div className={`${selectorPrefix}-Bar`}>
-            <div className={`${selectorPrefix}-Bar-Inner`}>
-              {this.renderBar()}
-            </div>
-            <div className={`${selectorPrefix}-Bar-Trigger`} >
+            <div className={`${selectorPrefix}-Bar-Inner`}>{this.renderBar()}</div>
+            <div className={`${selectorPrefix}-Bar-Trigger`}>
               <span className="fa fa-caret-down" />
             </div>
           </div>
 
-          <div className={`${selectorPrefix}-Content`}>
-            {children}
-          </div>
+          <div className={`${selectorPrefix}-Content`}>{children}</div>
         </div>
       </TabContext.Provider>
     );
@@ -138,10 +138,7 @@ Tab.propTypes = {
   onChange: PropTypes.func,
   onRemove: PropTypes.func,
   canRemove: PropTypes.bool,
-  children: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 export default Tab;

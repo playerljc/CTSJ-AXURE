@@ -16,9 +16,7 @@ class RadioComponent extends React.PureComponent {
   componentDidMount() {
     const {
       property: {
-        prop: {
-          checked = false,
-        },
+        prop: { checked = false },
       },
     } = this.props;
 
@@ -28,9 +26,7 @@ class RadioComponent extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     const {
       property: {
-        prop: {
-          checked = false,
-        },
+        prop: { checked = false },
       },
     } = nextProps;
 
@@ -43,16 +39,9 @@ class RadioComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          tooltip = '',
-          label = '',
-          disabled = false,
-          required = false,
-        },
+        prop: { tooltip = '', label = '', disabled = false, required = false },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
@@ -69,9 +58,7 @@ class RadioComponent extends React.PureComponent {
           title={tooltip}
           className={`${selectorPrefix}-${groupKey}-${componentKey}-radio`}
         />
-        <span className={`${selectorPrefix}-${groupKey}-${componentKey}-radio-label`}>
-          {label}
-        </span>
+        <span className={`${selectorPrefix}-${groupKey}-${componentKey}-radio-label`}>{label}</span>
       </div>
     );
   }
@@ -89,7 +76,9 @@ RadioComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DRSHOC(ComponentFocusHOC(RadioComponent), {
-  groupKey: 'form',
-  componentKey: 'Radio',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(ComponentFocusHOC(RadioComponent), {
+    groupKey: 'form',
+    componentKey: 'Radio',
+  }),
+);

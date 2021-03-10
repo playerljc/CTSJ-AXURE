@@ -14,9 +14,7 @@ class Checkbox extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      checked,
-    } = props;
+    const { checked } = props;
 
     this.state = { checked };
   }
@@ -32,9 +30,7 @@ class Checkbox extends React.PureComponent {
   // }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      checked,
-    } = nextProps;
+    const { checked } = nextProps;
 
     this.setState({
       checked,

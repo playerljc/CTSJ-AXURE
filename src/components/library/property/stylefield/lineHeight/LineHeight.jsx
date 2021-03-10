@@ -36,9 +36,7 @@ class LineHeight extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      value,
-    } = props;
+    const { value } = props;
 
     this.state = {
       value: value === 'normal' ? '--' : value.replace('px', ''),
@@ -56,9 +54,7 @@ class LineHeight extends React.PureComponent {
   // }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      value,
-    } = nextProps;
+    const { value } = nextProps;
 
     this.setState({
       value: value === 'normal' ? '--' : value.replace('px', ''),
@@ -82,7 +78,11 @@ class LineHeight extends React.PureComponent {
           }}
         >
           {lineHeightEnum.map((t) => {
-            return (<option key={t} value={t}>{t}</option>);
+            return (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            );
           })}
         </Select>
       </div>
@@ -91,10 +91,7 @@ class LineHeight extends React.PureComponent {
 }
 
 LineHeight.propTypes = {
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
 };
 

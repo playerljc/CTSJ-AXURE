@@ -15,7 +15,7 @@ class RadioTool extends React.PureComponent {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-form-Radio FontAwesome`} >&#xe631;</div>
+        <div className={`${selectorPrefix}-form-Radio FontAwesome`}>&#xe631;</div>
       </React.Fragment>
     );
   }

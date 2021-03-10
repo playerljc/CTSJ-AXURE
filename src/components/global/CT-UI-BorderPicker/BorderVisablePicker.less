@@ -1,35 +1,35 @@
 .CT-UI-BorderPicker-BorderVisablePicker {
   display: flex;
   align-items: center;
-  border: 1px solid @common-promary-disabled-color;
   box-sizing: border-box;
   padding: 5px;
   background-color: #fff;
+  border: 1px solid @common-promary-disabled-color;
 
   &.disabled {
     background-color: @common-promary-border-color;
   }
 
   &:hover {
-    background-color: rgba(0, 122, 255, .5);
+    background-color: rgba(0, 122, 255, 0.5);
     border-color: @common-promary-active-color;
   }
 
   > .CT-UI-BorderPicker-BorderVisablePicker-Inner {
-    width: 20px;
-    height: 20px;
-    box-sizing: border-box;
-    margin-right: 10px;
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
     padding: 3px;
-    position: relative;
-    border-left: 1px dashed @common-primary-color;
-    border-right: 1px dashed @common-primary-color;
     border-top: 1px dashed @common-primary-color;
+    border-right: 1px dashed @common-primary-color;
     border-bottom: 1px solid @common-primary-color;
+    border-left: 1px dashed @common-primary-color;
   }
 
   > .CT-UI-BorderPicker-BorderVisablePicker-Arrow {
@@ -43,54 +43,54 @@
 
 .CT-UI-BorderPicker-BorderVisablePicker-Modal {
   position: relative;
+  box-sizing: border-box;
   width: 100px;
   height: 100px;
   margin: 10px auto;
-  box-sizing: border-box;
 
   > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Left,
   > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Right,
   > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Top,
   > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Bottom {
     position: absolute;
-    outline: 1px solid gray;
     background-color: @common-promary-disabled-color;
+    outline: 1px solid gray;
     &.active {
-      outline: 1px solid @common-promary-active-color;
       background-color: rgba(0, 122, 255, 0.3);
+      outline: 1px solid @common-promary-active-color;
     }
     &:hover {
-      outline: 1px solid @common-promary-active-color;
       background-color: rgba(0, 122, 255, 0.5);
+      outline: 1px solid @common-promary-active-color;
     }
   }
 
   > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Left,
   > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Right {
+    top: 50%;
     width: @size;
     height: 80%;
-    top: 50%;
-    transform: translate3d(0,-50%,0);
+    transform: translate3d(0, -50%, 0);
   }
 
   > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Top,
   > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Bottom {
+    left: 50%;
     width: 80%;
     height: @size;
-    left: 50%;
-    transform: translate3d(-50%,0,0);
+    transform: translate3d(-50%, 0, 0);
   }
 
   > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Left {
-    left: -@size/2;
+    left: -@size / 2;
   }
   > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Right {
-    right: -@size/2;
+    right: -@size / 2;
   }
   > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Top {
-    top: -@size/2;
+    top: -@size / 2;
   }
   > .CT-UI-BorderPicker-BorderVisablePicker-Modal-Bottom {
-    bottom: -@size/2;
+    bottom: -@size / 2;
   }
 }

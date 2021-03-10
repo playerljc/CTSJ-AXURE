@@ -8,7 +8,6 @@ import TableTextFieldEditor from '../CT-UI-Table/TableTextFieldEditor';
 
 import './SelectOptions.less';
 
-
 const selectorPrefix = 'CT-UI-SelectOptionsPicker';
 
 /**
@@ -76,7 +75,8 @@ class SelectOptions extends React.PureComponent {
               value={rowValue}
               index={index}
               dataIndex={dataIndex}
-            />);
+            />
+          );
         },
       },
     ];
@@ -87,9 +87,7 @@ class SelectOptions extends React.PureComponent {
    * @return {Object}
    */
   getTableRowSelection() {
-    const {
-      selectedRowKey,
-    } = this.state;
+    const { selectedRowKey } = this.state;
 
     return {
       selectedRowKey,
@@ -111,10 +109,7 @@ class SelectOptions extends React.PureComponent {
    * @return {Boolean}
    */
   getUpDisable() {
-    const {
-      selectedRowKey,
-      data,
-    } = this.state;
+    const { selectedRowKey, data } = this.state;
 
     if (!selectedRowKey) return true;
 
@@ -126,10 +121,7 @@ class SelectOptions extends React.PureComponent {
    * @return {Boolean}
    */
   getDownDisable() {
-    const {
-      selectedRowKey,
-      data,
-    } = this.state;
+    const { selectedRowKey, data } = this.state;
 
     if (!selectedRowKey) return true;
 
@@ -162,9 +154,7 @@ class SelectOptions extends React.PureComponent {
    * onAdd
    */
   onAdd() {
-    const {
-      selectedRowKey,
-    } = this.state;
+    const { selectedRowKey } = this.state;
 
     const value = uuid();
     const data = Immutable.cloneDeep(this.state.data);
@@ -188,9 +178,7 @@ class SelectOptions extends React.PureComponent {
     const disabled = this.getUpDisable();
     if (disabled) return false;
 
-    const {
-      selectedRowKey,
-    } = this.state;
+    const { selectedRowKey } = this.state;
 
     const data = Immutable.cloneDeep(this.state.data);
     const index = data.findIndex(({ value: v }) => v === selectedRowKey);
@@ -211,9 +199,7 @@ class SelectOptions extends React.PureComponent {
     const disabled = this.getDownDisable();
     if (disabled) return false;
 
-    const {
-      selectedRowKey,
-    } = this.state;
+    const { selectedRowKey } = this.state;
 
     const data = Immutable.cloneDeep(this.state.data);
     const index = data.findIndex(({ value: v }) => v === selectedRowKey);
@@ -231,10 +217,7 @@ class SelectOptions extends React.PureComponent {
    * onDeleteRow
    */
   onDeleteRow() {
-    const {
-      value,
-      selectedRowKey,
-    } = this.state;
+    const { value, selectedRowKey } = this.state;
 
     if (!selectedRowKey) return false;
 
@@ -261,17 +244,12 @@ class SelectOptions extends React.PureComponent {
   }
 
   render() {
-    const {
-      data = [],
-    } = this.state;
+    const { data = [] } = this.state;
 
     return (
-      <div className={`${selectorPrefix}`} >
+      <div className={`${selectorPrefix}`}>
         <div className={`${selectorPrefix}-Tool`}>
-          <span
-            className="fa fa-plus"
-            onClick={::this.onAdd}
-          />
+          <span className="fa fa-plus" onClick={::this.onAdd} />
           <span
             className={`fa fa-long-arrow-alt-up ${this.getUpDisable() ? 'disable' : ''}`}
             onClick={::this.onUp}
@@ -280,17 +258,11 @@ class SelectOptions extends React.PureComponent {
             className={`fa fa-long-arrow-alt-down ${this.getDownDisable() ? 'disable' : ''}`}
             onClick={::this.onDown}
           />
-          <span
-            className="fa fa-times"
-            onClick={::this.onDeleteRow}
-          />
-          <span
-            className="fa fa-times-circle"
-            onClick={::this.onDeleteAll}
-          />
+          <span className="fa fa-times" onClick={::this.onDeleteRow} />
+          <span className="fa fa-times-circle" onClick={::this.onDeleteAll} />
         </div>
 
-        <div className={`${selectorPrefix}-Inner`} >
+        <div className={`${selectorPrefix}-Inner`}>
           <Table
             columns={this.getTableColumnsConfig()}
             data={data}

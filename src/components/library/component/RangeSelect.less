@@ -5,11 +5,11 @@
 
   &-indicator-pointer {
     position: absolute;
+    box-sizing: border-box;
     width: 8px;
     height: 8px;
-    box-sizing: border-box;
-    border: 1px solid @common-primary-color;
     background-color: #fff;
+    border: 1px solid @common-primary-color;
   }
 
   &-indicator-pointer.lefttop {
@@ -33,14 +33,14 @@
   }
 
   &-indicator-pointer.left {
-    left: -4px;
     top: 50%;
+    left: -4px;
     margin-top: -4px;
   }
 
   &-indicator-pointer.right {
-    right: -4px;
     top: 50%;
+    right: -4px;
     margin-top: -4px;
   }
 

@@ -1,16 +1,17 @@
-@import "../define";
+@import '../define';
 
 .CanvasTabPanelPropertyStyleTab {
   padding: 0 20px;
   > .CanvasTabPanelPropertyStyleTab-GridList {
-    width: 100%;
     box-sizing: border-box;
+    width: 100%;
     border-collapse: collapse;
 
     > tbody {
       > tr {
         &:not(:last-child) {
-          border-bottom:solid 1px @canvaspanel-property-canvastabpanel-property-style-tab-table-not-children;
+          border-bottom: solid 1px
+            @canvaspanel-property-canvastabpanel-property-style-tab-table-not-children;
         }
       }
     }

@@ -8,7 +8,6 @@ import HMenu from '../../propertyfield/hmenu/HMenu';
 
 import './HMenuProperty.less';
 
-
 const selectorPrefix = 'HMenuProperty';
 
 /**
@@ -22,14 +21,9 @@ class HMenuProperty extends React.PureComponent {
    * @return {*[]}
    */
   getConfig() {
-    const {
-      shape,
-    } = this.props;
+    const { shape } = this.props;
 
-    const {
-      tooltip = '',
-      hmenu,
-    } = shape.getProperty().prop;
+    const { tooltip = '', hmenu } = shape.getProperty().prop;
 
     return [
       {
@@ -44,7 +38,7 @@ class HMenuProperty extends React.PureComponent {
           <ToolTip
             value={tooltip}
             onChange={(value) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.tooltip = value;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -58,7 +52,7 @@ class HMenuProperty extends React.PureComponent {
           <HMenu
             value={hmenu}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.hmenu = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -69,15 +63,9 @@ class HMenuProperty extends React.PureComponent {
   }
 
   render() {
-    const {
-      children,
-    } = this.props;
+    const { children } = this.props;
 
-    return (
-      <div className={selectorPrefix}>
-        {children(this.getConfig())}
-      </div>
-    );
+    return <div className={selectorPrefix}>{children(this.getConfig())}</div>;
   }
 }
 

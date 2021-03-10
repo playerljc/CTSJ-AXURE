@@ -42,10 +42,7 @@ AccordionItem.propTypes = {
   className: PropTypes.string,
   name: PropTypes.string,
   extend: PropTypes.object,
-  children: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   triggerClassName: PropTypes.string,
   open: PropTypes.bool,
 };

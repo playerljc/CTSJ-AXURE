@@ -134,10 +134,7 @@ class ComponentPropertyStyleTab extends React.Component {
    * @param {String} - pageId
    * @param {String} - componentId
    */
-  onShapeStyleChange({
-    pageId,
-    componentId,
-  }) {
+  onShapeStyleChange({ pageId, componentId }) {
     this.setState({
       shape: ShapeModel.getShape({ pageId, componentId }),
     });
@@ -158,16 +155,13 @@ class ComponentPropertyStyleTab extends React.Component {
     const defaultValue = shape.getProperty().style[type];
 
     return (
-      <tr
-        className="g-listview-item"
-        key={type}
-      >
+      <tr className="g-listview-item" key={type}>
         <td className={`${selectorPrefix}-GridList-Label`}>{name}</td>
         <td className={`${selectorPrefix}-GridList-Value`}>
           <FiledComponent
             value={defaultValue}
             onChange={(value) => {
-              const style = shape.getProperty().style;
+              const {style} = shape.getProperty();
               style[type] = value;
               shape.setPropertyByProps('style', style);
             }}
@@ -187,10 +181,8 @@ class ComponentPropertyStyleTab extends React.Component {
       fieldElementArr.push(this.renderField(t));
     });
     return (
-      <table className={`${selectorPrefix}-GridList`} cellPadding={20} >
-        <tbody>
-          {fieldElementArr}
-        </tbody>
+      <table className={`${selectorPrefix}-GridList`} cellPadding={20}>
+        <tbody>{fieldElementArr}</tbody>
       </table>
     );
   }
@@ -199,11 +191,7 @@ class ComponentPropertyStyleTab extends React.Component {
     const { form } = this.props;
     form.clear();
 
-    return (
-      <div className={`${selectorPrefix}`}>
-        {this.renderFields()}
-      </div>
-    );
+    return <div className={`${selectorPrefix}`}>{this.renderFields()}</div>;
   }
 }
 

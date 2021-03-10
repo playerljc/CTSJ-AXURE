@@ -18,19 +18,12 @@ class Rect2Component extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          text,
-        },
+        prop: { text },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
     return (
-      <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={alignStyle}
-      >
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} style={alignStyle}>
         {text}
       </div>
     );
@@ -50,7 +43,9 @@ Rect2Component.propTypes = {
   style: PropTypes.object,
 };
 
-export default ComponentBaseHOC(DRSHOC(Rect2Component, {
-  groupKey: 'base',
-  componentKey: 'Rect2',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(Rect2Component, {
+    groupKey: 'base',
+    componentKey: 'Rect2',
+  }),
+);

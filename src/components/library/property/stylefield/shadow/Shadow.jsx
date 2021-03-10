@@ -25,11 +25,7 @@ class ShadowBack extends React.PureComponent {
 }
 
 ShadowBack.propTypes = {
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.object,
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
   onChange: PropTypes.func,
 };
 

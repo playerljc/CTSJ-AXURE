@@ -1,9 +1,9 @@
 .CT-UI-Table {
+  width: 100%;
+  background-color: #fff;
   border: 1px solid @common-promary-disabled-color;
   border-radius: 4px;
-  background-color: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
-  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
   > .CT-UI-Table-Inner {
     display: table;
@@ -16,12 +16,12 @@
       // 列头项
       > .CT-UI-Table-Header-Item {
         display: table-cell;
-        background: #fafafa;
-        border-bottom: 1px solid @common-promary-border-color;
+        box-sizing: border-box;
         padding: 15px 10px;
         font-weight: 500;
-        box-sizing: border-box;
         word-break: break-word;
+        background: #fafafa;
+        border-bottom: 1px solid @common-promary-border-color;
 
         &.active {
           font-weight: bold;
@@ -47,27 +47,24 @@
         //flex-shrink: 1;
         //min-width: 0;
       }
-
     }
 
     // 表格体
     > .CT-UI-Table-Body {
-
       display: table-row-group;
       width: 100%;
 
       // 行
       > .CT-UI-Table-Body-Row {
         display: table-row;
-
         border-bottom: 1px solid @common-promary-border-color;
-        transition: background-color .2s linear;
+        transition: background-color 0.2s linear;
         // 单元格
         > .CT-UI-Table-Cell {
           display: table-cell;
+          box-sizing: border-box;
           padding: 10px;
           word-break: break-word;
-          box-sizing: border-box;
         }
 
         // 单元格的对其方式
@@ -92,13 +89,13 @@
 
         // hover
         &:hover {
-          background-color: rgba(0, 122, 255, .5);
+          background-color: rgba(0, 122, 255, 0.5);
         }
       }
 
       // 行选中
       > .CT-UI-Table-Body-Row.Selected {
-        background-color: rgba(0, 0, 0, .2);
+        background-color: rgba(0, 0, 0, 0.2);
       }
     }
   }

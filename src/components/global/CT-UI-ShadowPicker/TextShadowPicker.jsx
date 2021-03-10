@@ -18,9 +18,7 @@ class TextShadowPicker extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      value,
-    } = props;
+    const { value } = props;
 
     this.state = {
       ...value,
@@ -47,22 +45,21 @@ class TextShadowPicker extends React.PureComponent {
         />
       ),
       yscroll: false,
-      buttons: [{
-        text: 'cancel',
-        handler: () => {
-          Modal.close(modal);
+      buttons: [
+        {
+          text: 'cancel',
+          handler: () => {
+            Modal.close(modal);
+          },
         },
-      }],
+      ],
     });
   };
 
   render() {
     return (
       <div className={`${selectorPrefix}`}>
-        <div
-          className={`${selectorPrefix}-Item`}
-          onClick={this.onClick}
-        >
+        <div className={`${selectorPrefix}-Item`} onClick={this.onClick}>
           <div className={`${selectorPrefix}-Color fa fa-font`} />
           <div className={`fa fa-caret-right ${selectorPrefix}-Arrow`} />
         </div>
@@ -72,11 +69,7 @@ class TextShadowPicker extends React.PureComponent {
 }
 
 TextShadowPicker.propTypes = {
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.object,
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
   onChange: PropTypes.func,
 };
 

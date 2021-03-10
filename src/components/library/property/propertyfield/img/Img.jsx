@@ -16,9 +16,7 @@ class Img extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      value,
-    } = props;
+    const { value } = props;
 
     this.state = { value };
   }
@@ -34,9 +32,7 @@ class Img extends React.PureComponent {
   // }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      value,
-    } = nextProps;
+    const { value } = nextProps;
 
     this.setState({
       value,
@@ -52,12 +48,15 @@ class Img extends React.PureComponent {
         <BackgroundImgImportPicker
           backgroundImg={value}
           onChange={(changeBackgroundImg) => {
-          this.setState({
-            value: changeBackgroundImg,
-          }, () => {
-            onChange(changeBackgroundImg);
-          });
-        }}
+            this.setState(
+              {
+                value: changeBackgroundImg,
+              },
+              () => {
+                onChange(changeBackgroundImg);
+              },
+            );
+          }}
         />
       </div>
     );

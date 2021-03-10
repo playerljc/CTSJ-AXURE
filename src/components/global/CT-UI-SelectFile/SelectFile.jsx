@@ -55,11 +55,7 @@ class SelectFile extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className={`${selectorPrefix}`}
-        onClick={this.onClick}
-        ref={el => this.el = el}
-      >
+      <div className={`${selectorPrefix}`} onClick={this.onClick} ref={(el) => (this.el = el)}>
         {this.props.children}
       </div>
     );

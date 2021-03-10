@@ -24,21 +24,20 @@ class SubMenu extends React.PureComponent {
   }
 
   render() {
-    const { data = []} = this.props;
+    const { data = [] } = this.props;
     return (
-      <ProviderContext.Consumer>{({ config }) => {
-        this.config = config;
-        return (
-          <ul
-            className={`${selectorPrefix}`}
-            style={this.getStyle()}
-          >
-            {data.map(item => <MenuItem key={item.id} data={item} />)}
-          </ul>
-        );
-      }}
+      <ProviderContext.Consumer>
+        {({ config }) => {
+          this.config = config;
+          return (
+            <ul className={`${selectorPrefix}`} style={this.getStyle()}>
+              {data.map((item) => (
+                <MenuItem key={item.id} data={item} />
+              ))}
+            </ul>
+          );
+        }}
       </ProviderContext.Consumer>
-
     );
   }
 }

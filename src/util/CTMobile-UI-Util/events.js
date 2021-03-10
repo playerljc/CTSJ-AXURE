@@ -89,11 +89,13 @@ class Events {
    * @param {Object} - params
    */
   static trigger(type, ...params) {
-    document.dispatchEvent(new CustomEvent(type, {
-      bubbles: 'true',
-      cancelable: 'true',
-      detail: params,
-    }));
+    document.dispatchEvent(
+      new CustomEvent(type, {
+        bubbles: 'true',
+        cancelable: 'true',
+        detail: params,
+      }),
+    );
   }
 }
 

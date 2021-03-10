@@ -20,21 +20,13 @@ class TreeComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          tooltip = '',
-          tree,
-        },
+        prop: { tooltip = '', tree },
       },
     } = this.props;
 
     return (
-      <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        title={tooltip}
-      >
-        <Tree
-          {...tree}
-        />
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} title={tooltip}>
+        <Tree {...tree} />
       </div>
     );
   }
@@ -52,7 +44,9 @@ TreeComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DRSHOC(TreeComponent, {
-  groupKey: 'menutable',
-  componentKey: 'Tree',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(TreeComponent, {
+    groupKey: 'menutable',
+    componentKey: 'Tree',
+  }),
+);

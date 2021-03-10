@@ -9,7 +9,6 @@ import Modal from '../CT-UI-Modal/modal';
 
 import './HMenuSetting.less';
 
-
 const selectorPrefix = 'CT-UI-HMenuSetting';
 
 /**
@@ -47,7 +46,7 @@ class HMenuSetting extends React.PureComponent {
         className: () => 'fa fa-plus',
         title: 'add column',
         onClick: () => {
-          const { columns = []} = this.state;
+          const { columns = [] } = this.state;
           this.addColumn({
             name: 'NewColumn',
             index: columns.length,
@@ -57,14 +56,17 @@ class HMenuSetting extends React.PureComponent {
       // 左侧加列
       {
         key: 'addLeftColumn',
-        className: () => `fa fa-outdent ${this.columnToolConfig.find(t => t.key === 'addLeftColumn').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-outdent ${
+            this.columnToolConfig.find((t) => t.key === 'addLeftColumn').disable() ? 'disable' : ''
+          }`,
         title: 'add left column',
         onClick: () => {
-          const disabled = this.columnToolConfig.find(t => t.key === 'addLeftColumn').disable();
+          const disabled = this.columnToolConfig.find((t) => t.key === 'addLeftColumn').disable();
           if (disabled) return false;
 
-          const { selectedColumnKey = '', columns = []} = this.state;
-          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          const { selectedColumnKey = '', columns = [] } = this.state;
+          const index = columns.findIndex((t) => t.key === selectedColumnKey);
           this.addColumn({
             name: 'NewColumn',
             index,
@@ -78,14 +80,17 @@ class HMenuSetting extends React.PureComponent {
       // 右侧加列
       {
         key: 'addRightColumn',
-        className: () => `fa fa-indent ${this.columnToolConfig.find(t => t.key === 'addRightColumn').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-indent ${
+            this.columnToolConfig.find((t) => t.key === 'addRightColumn').disable() ? 'disable' : ''
+          }`,
         title: 'add right column',
         onClick: () => {
-          const disabled = this.columnToolConfig.find(t => t.key === 'addRightColumn').disable();
+          const disabled = this.columnToolConfig.find((t) => t.key === 'addRightColumn').disable();
           if (disabled) return false;
 
-          const { selectedColumnKey = '', columns = []} = this.state;
-          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          const { selectedColumnKey = '', columns = [] } = this.state;
+          const index = columns.findIndex((t) => t.key === selectedColumnKey);
           this.addColumn({
             name: 'NewColumn',
             index: index + 1,
@@ -99,14 +104,17 @@ class HMenuSetting extends React.PureComponent {
       // 删除列
       {
         key: 'removeColumn',
-        className: () => `fa fa-window-close ${this.columnToolConfig.find(t => t.key === 'removeColumn').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-window-close ${
+            this.columnToolConfig.find((t) => t.key === 'removeColumn').disable() ? 'disable' : ''
+          }`,
         title: 'remove column',
         onClick: () => {
-          const disabled = this.columnToolConfig.find(t => t.key === 'removeColumn').disable();
+          const disabled = this.columnToolConfig.find((t) => t.key === 'removeColumn').disable();
           if (disabled) return false;
 
-          const { selectedColumnKey = '', columns = []} = this.state;
-          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          const { selectedColumnKey = '', columns = [] } = this.state;
+          const index = columns.findIndex((t) => t.key === selectedColumnKey);
           const columnsClone = this.cloneColumns();
           columnsClone.splice(index, 1);
 
@@ -123,14 +131,17 @@ class HMenuSetting extends React.PureComponent {
       // 列左移动
       {
         key: 'moveLeftColumn',
-        className: () => `fa fa-arrow-left ${this.columnToolConfig.find(t => t.key === 'moveLeftColumn').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-arrow-left ${
+            this.columnToolConfig.find((t) => t.key === 'moveLeftColumn').disable() ? 'disable' : ''
+          }`,
         title: 'move left column',
         onClick: () => {
-          const disabled = this.columnToolConfig.find(t => t.key === 'moveLeftColumn').disable();
+          const disabled = this.columnToolConfig.find((t) => t.key === 'moveLeftColumn').disable();
           if (disabled) return false;
 
-          const { selectedColumnKey = '', columns = []} = this.state;
-          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          const { selectedColumnKey = '', columns = [] } = this.state;
+          const index = columns.findIndex((t) => t.key === selectedColumnKey);
           const columnsClone = this.cloneColumns();
 
           const t = columnsClone[index - 1];
@@ -141,26 +152,31 @@ class HMenuSetting extends React.PureComponent {
           });
         },
         disable: () => {
-          const { selectedColumnKey = '', columns = []} = this.state;
+          const { selectedColumnKey = '', columns = [] } = this.state;
           if (!selectedColumnKey) return true;
-          else {
-            const index = columns.findIndex(t => t.key === selectedColumnKey);
+
+            const index = columns.findIndex((t) => t.key === selectedColumnKey);
             if (index === 0) return true;
-            else return false;
-          }
+            return false;
+
         },
       },
       // 列右移动
       {
         key: 'moveRightColumn',
-        className: () => `fa fa-arrow-right ${this.columnToolConfig.find(t => t.key === 'moveRightColumn').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-arrow-right ${
+            this.columnToolConfig.find((t) => t.key === 'moveRightColumn').disable()
+              ? 'disable'
+              : ''
+          }`,
         title: 'move right column',
         onClick: () => {
-          const disabled = this.columnToolConfig.find(t => t.key === 'moveRightColumn').disable();
+          const disabled = this.columnToolConfig.find((t) => t.key === 'moveRightColumn').disable();
           if (disabled) return false;
 
-          const { selectedColumnKey = '', columns = []} = this.state;
-          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          const { selectedColumnKey = '', columns = [] } = this.state;
+          const index = columns.findIndex((t) => t.key === selectedColumnKey);
           const columnsClone = this.cloneColumns();
 
           const t = columnsClone[index + 1];
@@ -171,42 +187,54 @@ class HMenuSetting extends React.PureComponent {
           });
         },
         disable: () => {
-          const { selectedColumnKey = '', columns = []} = this.state;
+          const { selectedColumnKey = '', columns = [] } = this.state;
           if (!selectedColumnKey) return true;
-          else {
-            const index = columns.findIndex(t => t.key === selectedColumnKey);
+
+            const index = columns.findIndex((t) => t.key === selectedColumnKey);
             if (index === columns.length - 1) return true;
-            else return false;
-          }
+            return false;
+
         },
       },
       // 列的对其方式
       {
         key: 'columnAlign',
-        className: () => `fa fa-align-justify ${this.columnToolConfig.find(t => t.key === 'columnAlign').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-align-justify ${
+            this.columnToolConfig.find((t) => t.key === 'columnAlign').disable() ? 'disable' : ''
+          }`,
         title: 'column align',
         onClick: () => {
-          const disabled = this.columnToolConfig.find(t => t.key === 'columnAlign').disable();
+          const disabled = this.columnToolConfig.find((t) => t.key === 'columnAlign').disable();
           if (disabled) return false;
 
           const { zIndex } = this.props;
 
-          const { selectedColumnKey = '', columns = []} = this.state;
-          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          const { selectedColumnKey = '', columns = [] } = this.state;
+          const index = columns.findIndex((t) => t.key === selectedColumnKey);
           const columnsClone = this.cloneColumns();
 
           Modal.promptSelect({
             content: 'column align',
             defaultValue: columnsClone[index].align,
             required: false,
-            data: [{ label: 'left', value: 'left' }, { label: 'center', value: 'center' }, { label: 'right', value: 'right' }],
+            data: [
+              { label: 'left', value: 'left' },
+              { label: 'center', value: 'center' },
+              { label: 'right', value: 'right' },
+            ],
             zIndex: zIndex + 10,
             success: (columnAlign) => {
               return new Promise((resolve) => {
                 columnsClone[index].align = columnAlign;
-                this.setState({
-                  columns: columnsClone,
-                }, () => { resolve(); });
+                this.setState(
+                  {
+                    columns: columnsClone,
+                  },
+                  () => {
+                    resolve();
+                  },
+                );
               });
             },
           });
@@ -219,16 +247,19 @@ class HMenuSetting extends React.PureComponent {
       // 列的宽度
       {
         key: 'columnWidth',
-        className: () => `fa fa-th ${this.columnToolConfig.find(t => t.key === 'columnWidth').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-th ${
+            this.columnToolConfig.find((t) => t.key === 'columnWidth').disable() ? 'disable' : ''
+          }`,
         title: 'column width',
         onClick: () => {
-          const disabled = this.columnToolConfig.find(t => t.key === 'columnWidth').disable();
+          const disabled = this.columnToolConfig.find((t) => t.key === 'columnWidth').disable();
           if (disabled) return false;
 
           const { zIndex } = this.props;
 
-          const { selectedColumnKey = '', columns = []} = this.state;
-          const index = columns.findIndex(t => t.key === selectedColumnKey);
+          const { selectedColumnKey = '', columns = [] } = this.state;
+          const index = columns.findIndex((t) => t.key === selectedColumnKey);
           const columnsClone = this.cloneColumns();
 
           Modal.prompt({
@@ -239,9 +270,14 @@ class HMenuSetting extends React.PureComponent {
             success: (columnWidth) => {
               return new Promise((resolve) => {
                 columnsClone[index].width = columnWidth;
-                this.setState({
-                  columns: columnsClone,
-                }, () => { resolve(); });
+                this.setState(
+                  {
+                    columns: columnsClone,
+                  },
+                  () => {
+                    resolve();
+                  },
+                );
               });
             },
           });
@@ -265,7 +301,9 @@ class HMenuSetting extends React.PureComponent {
           key={key}
           className={className()}
           title={title}
-          onClick={() => { onClick(); }}
+          onClick={() => {
+            onClick();
+          }}
         />
       );
     });
@@ -278,9 +316,11 @@ class HMenuSetting extends React.PureComponent {
    */
   cloneColumns(columns = this.state.columns) {
     // const { columns = [] } = this.state;
-    const cloneColumns = Immutable.cloneDeep(columns.map(({ render, ...other }) => {
-      return other;
-    }));
+    const cloneColumns = Immutable.cloneDeep(
+      columns.map(({ render, ...other }) => {
+        return other;
+      }),
+    );
 
     return cloneColumns.map((t) => {
       return Object.assign(t, {
@@ -291,7 +331,8 @@ class HMenuSetting extends React.PureComponent {
               value={rowValue}
               index={rowIndex}
               dataIndex={dataIndex}
-            />);
+            />
+          );
         },
       });
     });
@@ -324,14 +365,18 @@ class HMenuSetting extends React.PureComponent {
                   value={rowValue}
                   index={rowIndex}
                   dataIndex={dataIndex}
-                />);
+                />
+              );
             },
           });
-          this.setState({
-            columns,
-          }, () => {
-            resolve();
-          });
+          this.setState(
+            {
+              columns,
+            },
+            () => {
+              resolve();
+            },
+          );
         });
       },
     });
@@ -342,17 +387,13 @@ class HMenuSetting extends React.PureComponent {
    * @return {Array<ColumnConfig>}
    * */
   getTableColumnsConfig() {
-    const {
-      columns = [],
-    } = this.state;
+    const { columns = [] } = this.state;
 
     return columns;
   }
 
   getTableColumnSelection() {
-    const {
-      selectedColumnKey,
-    } = this.state;
+    const { selectedColumnKey } = this.state;
 
     return {
       selectedColumnKey,
@@ -374,9 +415,11 @@ class HMenuSetting extends React.PureComponent {
    * @return {Object}
    */
   getValue() {
-    return Immutable.cloneDeep(Object.assign(this.state, {
-      columns: this.state.columns.map(({ render, ...other }) => other),
-    }));
+    return Immutable.cloneDeep(
+      Object.assign(this.state, {
+        columns: this.state.columns.map(({ render, ...other }) => other),
+      }),
+    );
   }
 
   render() {
@@ -388,14 +431,10 @@ class HMenuSetting extends React.PureComponent {
 
     return (
       <div className={`${selectorPrefix}`}>
-        <div className={`${selectorPrefix}-ColumnTool`}>
-          {this.renderColumnTool()}
-        </div>
+        <div className={`${selectorPrefix}-ColumnTool`}>{this.renderColumnTool()}</div>
 
         <div className={`${selectorPrefix}-Inner`}>
-          <Table
-            {...props}
-          />
+          <Table {...props} />
         </div>
       </div>
     );

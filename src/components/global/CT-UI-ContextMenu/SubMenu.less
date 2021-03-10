@@ -1,31 +1,31 @@
-@import "MenuItem";
+@import 'MenuItem';
 
 .CT-UI-ContextMenu-SubMenu() {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   position: absolute;
   box-sizing: border-box;
-  box-shadow: 2px 2px 2px @common-promary-disabled-color;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: #fff;
   outline: 1px solid @common-promary-disabled-color;
-  background-color: #ffffff;
+  box-shadow: 2px 2px 2px @common-promary-disabled-color;
 
-  &:before {
-    content: '';
+  &::before {
     position: absolute;
     top: 0;
-    height: 100%;
     left: 0;
     width: 28px;
+    height: 100%;
     background-color: @common-promary-border-color;
     border-right: 1px solid @common-promary-disabled-color;
+    content: '';
   }
 
   > .CT-UI-ContextMenu-MenuItem {
-    .CT-UI-ContextMenu-MenuItem()
+    .CT-UI-ContextMenu-MenuItem();
   }
 
   > .CT-UI-ContextMenu-MenuItem-Separation {
-    .CT-UI-ContextMenu-MenuItem-Separation()
+    .CT-UI-ContextMenu-MenuItem-Separation();
   }
 }

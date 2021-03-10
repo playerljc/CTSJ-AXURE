@@ -18,20 +18,13 @@ class VlineComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          text,
-        },
+        prop: { text },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
-      <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={alignStyle}
-      >
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} style={alignStyle}>
         <span className={`${selectorPrefix}-${groupKey}-${componentKey}-inner`} />
         {text}
       </div>
@@ -52,7 +45,9 @@ VlineComponent.propTypes = {
   style: PropTypes.object,
 };
 
-export default ComponentBaseHOC(DRSHOC(VlineComponent, {
-  groupKey: 'base',
-  componentKey: 'Vline',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(VlineComponent, {
+    groupKey: 'base',
+    componentKey: 'Vline',
+  }),
+);

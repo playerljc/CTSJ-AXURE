@@ -18,15 +18,9 @@ class ButtonComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          text,
-          tooltip,
-          disabled,
-        },
+        prop: { text, tooltip, disabled },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
@@ -54,7 +48,9 @@ ButtonComponent.propTypes = {
   style: PropTypes.object,
 };
 
-export default ComponentBaseHOC(DRSHOC(ButtonComponent, {
-  groupKey: 'base',
-  componentKey: 'Button',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(ButtonComponent, {
+    groupKey: 'base',
+    componentKey: 'Button',
+  }),
+);

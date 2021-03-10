@@ -16,17 +16,9 @@ class DRSStyle {
       active = false,
       property: {
         style: {
-          position: {
-            left,
-            top,
-          },
-          dimension: {
-            width,
-            height,
-          },
-          fill: {
-            backgroundColor,
-          },
+          position: { left, top },
+          dimension: { width, height },
+          fill: { backgroundColor },
           opacity,
           lineheight,
           zindex,
@@ -34,9 +26,8 @@ class DRSStyle {
       },
     } = style;
 
-    return Object.assign(
-      {
-        zIndex: active ? getMaxLevelNumber() : zindex,
+    return {
+      zIndex: active ? getMaxLevelNumber() : zindex,
         width: `${width}px`,
         height: `${height}px`,
         left: `${left}px`,
@@ -45,12 +36,11 @@ class DRSStyle {
         boxShadow: this.getBoxShadowStyle(style),
         opacity: opacity / 100,
         lineHeight: lineheight,
-      },
-      this.getBorderStyle(style),
-      this.getBorderRadiusStyle(style),
-      this.getFontFamilyStyle(style),
+      ...this.getBorderStyle(style),
+      ...this.getBorderRadiusStyle(style),
+      ...this.getFontFamilyStyle(style),
       // this.getAlignStyle(style),
-    );
+    };
   }
 
   /**
@@ -62,10 +52,7 @@ class DRSStyle {
     const {
       property: {
         style: {
-          shadow: {
-            inset,
-            outset,
-          },
+          shadow: { inset, outset },
         },
       },
     } = style;
@@ -73,11 +60,15 @@ class DRSStyle {
     const boxShadow = [];
 
     if (!inset.disabled) {
-      boxShadow.push(`inset ${inset.offsetX}px ${inset.offsetY}px ${inset.blurRadius}px ${inset.spreadRadius}px ${inset.color}`);
+      boxShadow.push(
+        `inset ${inset.offsetX}px ${inset.offsetY}px ${inset.blurRadius}px ${inset.spreadRadius}px ${inset.color}`,
+      );
     }
 
     if (!outset.disabled) {
-      boxShadow.push(`${outset.offsetX}px ${outset.offsetY}px ${outset.blurRadius}px ${outset.spreadRadius}px ${outset.color}`);
+      boxShadow.push(
+        `${outset.offsetX}px ${outset.offsetY}px ${outset.blurRadius}px ${outset.spreadRadius}px ${outset.color}`,
+      );
     }
 
     return boxShadow.join(',');
@@ -105,12 +96,17 @@ class DRSStyle {
       },
     } = style;
 
-    return Object.assign({},
-      !borderLeftDisable ? { borderLeft: `${borderWidth}px ${borderStyle} ${borderColor}` } : null,
-      !borderRightDisable ? { borderRight: `${borderWidth}px ${borderStyle} ${borderColor}` } : null,
-      !borderTopDisable ? { borderTop: `${borderWidth}px ${borderStyle} ${borderColor}` } : null,
-      !borderBottomDisable ? { borderBottom: `${borderWidth}px ${borderStyle} ${borderColor}` } : null,
-    );
+    return {
+
+      ...(!borderLeftDisable ? { borderLeft: `${borderWidth}px ${borderStyle} ${borderColor}` } : null),
+      ...(!borderRightDisable
+        ? { borderRight: `${borderWidth}px ${borderStyle} ${borderColor}` }
+        : null),
+      ...(!borderTopDisable ? { borderTop: `${borderWidth}px ${borderStyle} ${borderColor}` } : null),
+      ...(!borderBottomDisable
+        ? { borderBottom: `${borderWidth}px ${borderStyle} ${borderColor}` }
+        : null),
+    };
   }
 
   /**
@@ -135,12 +131,13 @@ class DRSStyle {
 
     const value = typeof radius === 'string' ? radius : `${radius}px`;
 
-    return Object.assign({},
-      !borderLeftTopRadiusDisable ? { borderTopLeftRadius: value } : null,
-      !borderRightTopRadiusDisable ? { borderTopRightRadius: value } : null,
-      !borderLeftBottomRadiusDisable ? { borderBottomLeftRadius: value } : null,
-      !borderRightBottomRadiusDisable ? { borderBottomRightRadius: value } : null,
-    );
+    return {
+
+      ...(!borderLeftTopRadiusDisable ? { borderTopLeftRadius: value } : null),
+      ...(!borderRightTopRadiusDisable ? { borderTopRightRadius: value } : null),
+      ...(!borderLeftBottomRadiusDisable ? { borderBottomLeftRadius: value } : null),
+      ...(!borderRightBottomRadiusDisable ? { borderBottomRightRadius: value } : null),
+    };
   }
 
   /**
@@ -183,16 +180,15 @@ class DRSStyle {
       },
     } = style;
 
-    return Object.assign({
+    return {
       fontFamily,
-      fontSize: `${fontSize}px`,
-      fontWeight: fontWeight ? 'bold' : 'normal',
-      fontStyle: fontStyle ? 'italic' : 'normal',
-      textDecoration: textDecoration ? 'underline' : 'none',
-      color,
-    },
-    !disabled ? { textShadow: `${hShadow}px ${vShadow}px ${blur}px ${shadowColor}` } : null
-    );
+        fontSize: `${fontSize}px`,
+        fontWeight: fontWeight ? 'bold' : 'normal',
+        fontStyle: fontStyle ? 'italic' : 'normal',
+        textDecoration: textDecoration ? 'underline' : 'none',
+        color,
+      ...(!disabled ? { textShadow: `${hShadow}px ${vShadow}px ${blur}px ${shadowColor}` } : null),
+    };
   }
 
   /**
@@ -226,8 +222,8 @@ class DRSStyle {
 
     return {
       display: 'flex',
-      justifyContent: hleft ? 'flex-start' : (hcenter ? 'center' : 'flex-end'),
-      alignItems: vtop ? 'flex-start' : (vcenter ? 'center' : 'flex-end'),
+      justifyContent: hleft ? 'flex-start' : hcenter ? 'center' : 'flex-end',
+      alignItems: vtop ? 'flex-start' : vcenter ? 'center' : 'flex-end',
     };
   }
 }

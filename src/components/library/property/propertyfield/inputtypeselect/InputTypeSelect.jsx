@@ -16,9 +16,7 @@ class InputTypeSelect extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      value,
-    } = props;
+    const { value } = props;
 
     this.state = { value };
   }
@@ -34,9 +32,7 @@ class InputTypeSelect extends React.PureComponent {
   // }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      value,
-    } = nextProps;
+    const { value } = nextProps;
 
     this.setState({
       value,
@@ -54,32 +50,73 @@ class InputTypeSelect extends React.PureComponent {
           value={value}
           onChange={(e) => {
             const v = e.target.value.trim();
-            this.setState({
-              value: v,
-            }, () => {
-              onChange(v);
-            });
+            this.setState(
+              {
+                value: v,
+              },
+              () => {
+                onChange(v);
+              },
+            );
           }}
         >
-          <option key="text" value="text">text</option>
-          <option key="button" value="button">button</option>
-          <option key="checkbox" value="checkbox">checkbox</option>
-          <option key="color" value="color">color</option>
-          <option key="date" value="date">date</option>
-          <option key="datetime" value="datetime">datetime</option>
-          <option key="email" value="email">email</option>
-          <option key="file" value="file">file</option>
-          <option key="image" value="image">image</option>
-          <option key="month" value="month">month</option>
-          <option key="number" value="number">number</option>
-          <option key="password" value="password">password</option>
-          <option key="radio" value="radio">radio</option>
-          <option key="range" value="range">range</option>
-          <option key="reset" value="reset">reset</option>
-          <option key="search" value="search">search</option>
-          <option key="submit" value="submit">submit</option>
-          <option key="tel" value="tel">tel</option>
-          <option key="url" value="url">url</option>
+          <option key="text" value="text">
+            text
+          </option>
+          <option key="button" value="button">
+            button
+          </option>
+          <option key="checkbox" value="checkbox">
+            checkbox
+          </option>
+          <option key="color" value="color">
+            color
+          </option>
+          <option key="date" value="date">
+            date
+          </option>
+          <option key="datetime" value="datetime">
+            datetime
+          </option>
+          <option key="email" value="email">
+            email
+          </option>
+          <option key="file" value="file">
+            file
+          </option>
+          <option key="image" value="image">
+            image
+          </option>
+          <option key="month" value="month">
+            month
+          </option>
+          <option key="number" value="number">
+            number
+          </option>
+          <option key="password" value="password">
+            password
+          </option>
+          <option key="radio" value="radio">
+            radio
+          </option>
+          <option key="range" value="range">
+            range
+          </option>
+          <option key="reset" value="reset">
+            reset
+          </option>
+          <option key="search" value="search">
+            search
+          </option>
+          <option key="submit" value="submit">
+            submit
+          </option>
+          <option key="tel" value="tel">
+            tel
+          </option>
+          <option key="url" value="url">
+            url
+          </option>
         </Select>
       </div>
     );

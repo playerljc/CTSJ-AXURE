@@ -57,7 +57,7 @@ class CanvasTabPanelKeyBoard {
 
     Emitter.trigger(
       Actions.components.business.canvaspanel.paste,
-      Immutable.cloneDeep(clipBoardData.map(t => Object.assign(t, { componentId: uuid() })))
+      Immutable.cloneDeep(clipBoardData.map((t) => Object.assign(t, { componentId: uuid() }))),
     );
   }
 
@@ -68,11 +68,8 @@ class CanvasTabPanelKeyBoard {
     // console.log('Ctrl + a');
     // const els = this.innerEl.querySelectorAll(`.${DRSPREFIX}`);
     const pageId = this[pageIns].getPageId();
-    const ids = ShapeModel.getShapesByPage(pageId).map(shape => shape.getEl().getAttribute('id'));
-    Emitter.trigger(
-      Actions.components.business.canvaspanel.selectall,
-      ids
-    );
+    const ids = ShapeModel.getShapesByPage(pageId).map((shape) => shape.getEl().getAttribute('id'));
+    Emitter.trigger(Actions.components.business.canvaspanel.selectall, ids);
   }
 }
 

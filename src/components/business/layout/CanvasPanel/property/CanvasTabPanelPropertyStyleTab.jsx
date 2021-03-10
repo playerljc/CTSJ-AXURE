@@ -71,9 +71,7 @@ class CanvasTabPanelPropertyStyleTab extends React.Component {
    * onShapeStyleChange
    * @param {String} - pageId
    */
-  onShapeStyleChange({
-    pageId,
-  }) {
+  onShapeStyleChange({ pageId }) {
     this.setState({
       shape: OpenPageModel.get(pageId),
     });
@@ -94,16 +92,13 @@ class CanvasTabPanelPropertyStyleTab extends React.Component {
     const defaultValue = shape.getProperty().style[type];
 
     return (
-      <tr
-        className="g-listview-item"
-        key={type}
-      >
+      <tr className="g-listview-item" key={type}>
         <td className={`${selectorPrefix}-GridList-Label`}>{name}</td>
         <td className={`${selectorPrefix}-GridList-Value`}>
           <FiledComponent
             value={defaultValue}
             onChange={(value) => {
-              const style = shape.getProperty().style;
+              const {style} = shape.getProperty();
               style[type] = value;
               shape.setPropertyByProps('style', style);
             }}
@@ -123,10 +118,8 @@ class CanvasTabPanelPropertyStyleTab extends React.Component {
       fieldElementArr.push(this.renderField(t));
     });
     return (
-      <table className={`${selectorPrefix}-GridList`} cellPadding={20} >
-        <tbody>
-          {fieldElementArr}
-        </tbody>
+      <table className={`${selectorPrefix}-GridList`} cellPadding={20}>
+        <tbody>{fieldElementArr}</tbody>
       </table>
     );
   }
@@ -135,11 +128,7 @@ class CanvasTabPanelPropertyStyleTab extends React.Component {
     const { form } = this.props;
     form.clear();
 
-    return (
-      <div className={`${selectorPrefix}`}>
-        {this.renderFields()}
-      </div>
-    );
+    return <div className={`${selectorPrefix}`}>{this.renderFields()}</div>;
   }
 }
 

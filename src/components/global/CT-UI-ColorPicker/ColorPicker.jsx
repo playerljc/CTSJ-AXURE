@@ -54,29 +54,34 @@ class ColorPicker extends React.PureComponent {
         <SketchPicker
           color={this.state.color}
           onChangeComplete={(value) => {
-            this.setState({
-              color: value.hex,
-            }, () => {
-              const { onChange } = this.props;
-              const { color } = this.state;
-              if (onChange) {
-                onChange(color).then(() => {
+            this.setState(
+              {
+                color: value.hex,
+              },
+              () => {
+                const { onChange } = this.props;
+                const { color } = this.state;
+                if (onChange) {
+                  onChange(color).then(() => {
+                    Modal.close(modal);
+                  });
+                } else {
                   Modal.close(modal);
-                });
-              } else {
-                Modal.close(modal);
-              }
-            });
+                }
+              },
+            );
           }}
         />
       ),
       yscroll: false,
-      buttons: [{
-        text: 'cancel',
-        handler: () => {
-          Modal.close(modal);
+      buttons: [
+        {
+          text: 'cancel',
+          handler: () => {
+            Modal.close(modal);
+          },
         },
-      }],
+      ],
     });
   }
 
@@ -88,13 +93,8 @@ class ColorPicker extends React.PureComponent {
         className={`${selectorPrefix} ${disabled ? 'disabled' : ''}`}
         onClick={this.onArrowClick}
       >
-        <div
-          className={`${selectorPrefix}-Color`}
-          style={{ backgroundColor: color }}
-        />
-        <div
-          className={`fa fa-caret-right ${selectorPrefix}-Arrow`}
-        />
+        <div className={`${selectorPrefix}-Color`} style={{ backgroundColor: color }} />
+        <div className={`fa fa-caret-right ${selectorPrefix}-Arrow`} />
       </div>
     );
   }

@@ -12,17 +12,15 @@ class CanvasTabPanelStyle {
   getBackgroundPositionStyle(style) {
     const {
       property: {
-        style: {
-          fillimg,
-        },
+        style: { fillimg },
       },
     } = style;
 
     const xkey = ['left', 'hcenter', 'right'];
     const ykey = ['top', 'vcenter', 'bottom'];
     return {
-      backgroundPositionX: xkey.filter(key => fillimg[key])[0].replace('hcenter', 'center'),
-      backgroundPositionY: ykey.filter(key => fillimg[key])[0].replace('vcenter', 'center'),
+      backgroundPositionX: xkey.filter((key) => fillimg[key])[0].replace('hcenter', 'center'),
+      backgroundPositionY: ykey.filter((key) => fillimg[key])[0].replace('vcenter', 'center'),
     };
   }
 
@@ -35,9 +33,7 @@ class CanvasTabPanelStyle {
     const {
       property: {
         style: {
-          fillimg: {
-            repeat,
-          },
+          fillimg: { repeat },
         },
       },
     } = style;
@@ -46,8 +42,16 @@ class CanvasTabPanelStyle {
     const includex = ['repeat', 'repeatx'];
     const includey = ['repeat', 'repeaty'];
     return {
-      backgroundRepeatX: exclude.includes(repeat) ? 'no-repeat' : includex.includes(repeat) ? 'repeat' : 'no-repeat',
-      backgroundRepeatY: exclude.includes(repeat) ? 'no-repeat' : includey.includes(repeat) ? 'repeat' : 'no-repeat',
+      backgroundRepeatX: exclude.includes(repeat)
+        ? 'no-repeat'
+        : includex.includes(repeat)
+        ? 'repeat'
+        : 'no-repeat',
+      backgroundRepeatY: exclude.includes(repeat)
+        ? 'no-repeat'
+        : includey.includes(repeat)
+        ? 'repeat'
+        : 'no-repeat',
     };
   }
 
@@ -60,9 +64,7 @@ class CanvasTabPanelStyle {
     const {
       property: {
         style: {
-          fillimg: {
-            repeat,
-          },
+          fillimg: { repeat },
         },
       },
     } = style;
@@ -83,25 +85,19 @@ class CanvasTabPanelStyle {
     const {
       property: {
         style: {
-          fill: {
-            backgroundColor,
-          },
-          fillimg: {
-            backgroundImg,
-          },
+          fill: { backgroundColor },
+          fillimg: { backgroundImg },
         },
       },
     } = style;
 
-    return Object.assign(
-      {
-        backgroundColor,
+    return {
+      backgroundColor,
         backgroundImage: backgroundImg ? `url(${backgroundImg})` : 'none',
-      },
-      this.getBackgroundPositionStyle(style),
-      this.getBackgroundRepeatStyle(style),
-      this.getBackgroundSizeStyle(style),
-    );
+      ...this.getBackgroundPositionStyle(style),
+      ...this.getBackgroundRepeatStyle(style),
+      ...this.getBackgroundSizeStyle(style),
+    };
   }
 }
 

@@ -16,9 +16,7 @@ class TextFieldComponent extends React.PureComponent {
   componentDidMount() {
     const {
       property: {
-        prop: {
-          value = '',
-        },
+        prop: { value = '' },
       },
     } = this.props;
 
@@ -28,9 +26,7 @@ class TextFieldComponent extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     const {
       property: {
-        prop: {
-          value = '',
-        },
+        prop: { value = '' },
       },
     } = nextProps;
 
@@ -54,9 +50,7 @@ class TextFieldComponent extends React.PureComponent {
           required = false,
         },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
@@ -77,9 +71,7 @@ class TextFieldComponent extends React.PureComponent {
           autoFocus={autofocus}
           className={`${selectorPrefix}-${groupKey}-${componentKey}-input`}
         />
-        <div
-          className={`${selectorPrefix}-${groupKey}-${componentKey}-mask `}
-        />
+        <div className={`${selectorPrefix}-${groupKey}-${componentKey}-mask `} />
       </div>
     );
   }
@@ -97,7 +89,9 @@ TextFieldComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DRSHOC(ComponentFocusHOC(TextFieldComponent), {
-  groupKey: 'form',
-  componentKey: 'TextField',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(ComponentFocusHOC(TextFieldComponent), {
+    groupKey: 'form',
+    componentKey: 'TextField',
+  }),
+);

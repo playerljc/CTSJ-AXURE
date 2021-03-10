@@ -14,7 +14,6 @@ import { CanvasPanelContext } from './CanvasPanelContext';
 
 import './CanvasPanel.less';
 
-
 const { Component } = React;
 
 const selectorPrefix = 'CanvasPanel';
@@ -30,11 +29,13 @@ class CanvasPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [/* {
+      data: [
+        /* {
         name,
         id,
         property
-      } */],
+      } */
+      ],
       activeKey: '',
     };
 
@@ -67,12 +68,15 @@ class CanvasPanel extends Component {
     } else {
       activeKey = data[index].id;
     }
-    this.setState({
-      data,
-      activeKey,
-    }, () => {
-      Emitter.trigger(Actions.components.business.canvaspanel.addtab, activeKey);
-    });
+    this.setState(
+      {
+        data,
+        activeKey,
+      },
+      () => {
+        Emitter.trigger(Actions.components.business.canvaspanel.addtab, activeKey);
+      },
+    );
   }
 
   /**
@@ -80,11 +84,14 @@ class CanvasPanel extends Component {
    * @param {String} - pageId
    */
   onChange = (pageId) => {
-    this.setState({
-      activeKey: pageId,
-    }, () => {
-      Emitter.trigger(Actions.components.business.canvaspanel.changetab, pageId);
-    });
+    this.setState(
+      {
+        activeKey: pageId,
+      },
+      () => {
+        Emitter.trigger(Actions.components.business.canvaspanel.changetab, pageId);
+      },
+    );
   };
 
   /**
@@ -94,7 +101,7 @@ class CanvasPanel extends Component {
    */
   [onRemoveSymbol] = (pageId, success) => {
     const data = [...this.state.data];
-    const index = data.findIndex(t => t.id === pageId);
+    const index = data.findIndex((t) => t.id === pageId);
     data.splice(index, 1);
 
     let isChangeTab = false;
@@ -104,24 +111,27 @@ class CanvasPanel extends Component {
       isChangeTab = true;
     }
 
-    this.setState({
-      data,
-      activeKey,
-    }, () => {
-      Emitter.trigger(Actions.components.business.canvaspanel.removetab, {
-        removeKey: pageId,
-        activeKey: data.length !== 0 ? activeKey : '',
-      });
-      if (isChangeTab) {
-        Emitter.trigger(Actions.components.business.canvaspanel.changetab, activeKey);
-      }
+    this.setState(
+      {
+        data,
+        activeKey,
+      },
+      () => {
+        Emitter.trigger(Actions.components.business.canvaspanel.removetab, {
+          removeKey: pageId,
+          activeKey: data.length !== 0 ? activeKey : '',
+        });
+        if (isChangeTab) {
+          Emitter.trigger(Actions.components.business.canvaspanel.changetab, activeKey);
+        }
 
-      OpenPageModel.remove(pageId);
+        OpenPageModel.remove(pageId);
 
-      if (success) {
-        success();
-      }
-    });
+        if (success) {
+          success();
+        }
+      },
+    );
   };
 
   /**
@@ -144,13 +154,16 @@ class CanvasPanel extends Component {
     const tabData = dataClone.find(({ id }) => pageId === id);
     if (tabData) {
       tabData.name = name;
-      this.setState({
-        data: dataClone,
-      }, () => {
-        if (success) {
-          success();
-        }
-      });
+      this.setState(
+        {
+          data: dataClone,
+        },
+        () => {
+          if (success) {
+            success();
+          }
+        },
+      );
     }
   }
 
@@ -161,29 +174,24 @@ class CanvasPanel extends Component {
   renderTabPanels() {
     const { data = [], activeKey } = this.state;
 
-    return (
-      data.map((t) => {
-        const { name, id: pageId, property } = t;
-        return (
-          <TabPanel
+    return data.map((t) => {
+      const { name, id: pageId, property } = t;
+      return (
+        <TabPanel name={name} key={pageId}>
+          {/* 一个页面 start */}
+          <CanvasTabPanel
+            activePageId={activeKey}
+            pageId={pageId}
             name={name}
-            key={pageId}
-          >
-            {/* 一个页面 start */}
-            <CanvasTabPanel
-              activePageId={activeKey}
-              pageId={pageId}
-              name={name}
-              property={property || CanvasTabPanelPropertyDefaultConfig()}
-              getInstance={(ins) => {
-                OpenPageModel.add(ins);
-              }}
-            />
-            {/* 一个页面 end */}
-          </TabPanel>
-        );
-      })
-    );
+            property={property || CanvasTabPanelPropertyDefaultConfig()}
+            getInstance={(ins) => {
+              OpenPageModel.add(ins);
+            }}
+          />
+          {/* 一个页面 end */}
+        </TabPanel>
+      );
+    });
   }
 
   render() {
@@ -196,17 +204,13 @@ class CanvasPanel extends Component {
         }}
       >
         <div className={selectorPrefix}>
-          {
-            data.length === 0 ?
-              (<CanvasEmptyPanel />) :
-              <Tab
-                activeKey={activeKey}
-                onChange={this.onChange}
-                onRemove={this[onRemoveSymbol]}
-              >
-                {this.renderTabPanels()}
-              </Tab>
-          }
+          {data.length === 0 ? (
+            <CanvasEmptyPanel />
+          ) : (
+            <Tab activeKey={activeKey} onChange={this.onChange} onRemove={this[onRemoveSymbol]}>
+              {this.renderTabPanels()}
+            </Tab>
+          )}
         </div>
       </CanvasPanelContext.Provider>
     );

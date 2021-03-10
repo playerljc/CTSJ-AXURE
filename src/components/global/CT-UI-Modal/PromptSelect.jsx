@@ -30,11 +30,7 @@ class PromptSelect extends React.PureComponent {
   }
 
   render() {
-    const {
-      content,
-      required = true,
-      data = [],
-    } = this.props;
+    const { content, required = true, data = [] } = this.props;
 
     const { value } = this.state;
 
@@ -50,9 +46,15 @@ class PromptSelect extends React.PureComponent {
             });
           }}
         >
-          {data.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+          {data.map((t) => (
+            <option key={t.value} value={t.value}>
+              {t.label}
+            </option>
+          ))}
         </select>
-        {required && !value ? <div className={`${selectorPrefix}-PromptSelect-Error`}>The field is required！</div> : null}
+        {required && !value ? (
+          <div className={`${selectorPrefix}-PromptSelect-Error`}>The field is required！</div>
+        ) : null}
       </div>
     );
   }

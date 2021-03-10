@@ -110,11 +110,14 @@ class BorderPicker extends React.PureComponent {
           <BorderWidthPicker
             borderWidth={borderWidth}
             onChange={(changeBorderWidth) => {
-              this.setState({
-                borderWidth: changeBorderWidth,
-              }, () => {
-                this.refresh();
-              });
+              this.setState(
+                {
+                  borderWidth: changeBorderWidth,
+                },
+                () => {
+                  this.refresh();
+                },
+              );
             }}
           />
         </div>
@@ -122,11 +125,14 @@ class BorderPicker extends React.PureComponent {
           <BorderColorPicker
             borderColor={borderColor}
             onChange={(changeBorderColor) => {
-              this.setState({
-                borderColor: changeBorderColor,
-              }, () => {
-                this.refresh();
-              });
+              this.setState(
+                {
+                  borderColor: changeBorderColor,
+                },
+                () => {
+                  this.refresh();
+                },
+              );
             }}
           />
         </div>
@@ -134,11 +140,14 @@ class BorderPicker extends React.PureComponent {
           <BorderStylePicker
             borderStyle={borderStyle}
             onChange={(changeBorderStyle) => {
-              this.setState({
-                borderStyle: changeBorderStyle,
-              }, () => {
-                this.refresh();
-              });
+              this.setState(
+                {
+                  borderStyle: changeBorderStyle,
+                },
+                () => {
+                  this.refresh();
+                },
+              );
             }}
           />
         </div>
@@ -149,19 +158,22 @@ class BorderPicker extends React.PureComponent {
             borderTopDisable={borderTopDisable}
             borderBottomDisable={borderBottomDisable}
             onChange={({
-                         borderLeftDisable: changeBorderLeftDisable,
-                         borderRightDisable: changeBorderRightDisable,
-                         borderTopDisable: changeBorderTopDisable,
-                         borderBottomDisable: changeBorderBottomDisable,
-                       }) => {
-              this.setState({
-                borderLeftDisable: changeBorderLeftDisable,
-                borderRightDisable: changeBorderRightDisable,
-                borderTopDisable: changeBorderTopDisable,
-                borderBottomDisable: changeBorderBottomDisable,
-              }, () => {
-                this.refresh();
-              });
+              borderLeftDisable: changeBorderLeftDisable,
+              borderRightDisable: changeBorderRightDisable,
+              borderTopDisable: changeBorderTopDisable,
+              borderBottomDisable: changeBorderBottomDisable,
+            }) => {
+              this.setState(
+                {
+                  borderLeftDisable: changeBorderLeftDisable,
+                  borderRightDisable: changeBorderRightDisable,
+                  borderTopDisable: changeBorderTopDisable,
+                  borderBottomDisable: changeBorderBottomDisable,
+                },
+                () => {
+                  this.refresh();
+                },
+              );
             }}
           />
         </div>

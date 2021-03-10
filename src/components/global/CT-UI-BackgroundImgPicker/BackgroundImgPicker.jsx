@@ -17,16 +17,7 @@ class BackgroundImgPicker extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      backgroundImg,
-      repeat,
-      left,
-      hcenter,
-      right,
-      top,
-      vcenter,
-      bottom,
-    } = props;
+    const { backgroundImg, repeat, left, hcenter, right, top, vcenter, bottom } = props;
 
     this.state = {
       backgroundImg,
@@ -65,16 +56,7 @@ class BackgroundImgPicker extends React.PureComponent {
   // }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      backgroundImg,
-      repeat,
-      left,
-      hcenter,
-      right,
-      top,
-      vcenter,
-      bottom,
-    } = nextProps;
+    const { backgroundImg, repeat, left, hcenter, right, top, vcenter, bottom } = nextProps;
 
     this.setState({
       backgroundImg,
@@ -97,16 +79,7 @@ class BackgroundImgPicker extends React.PureComponent {
   }
 
   render() {
-    const {
-      backgroundImg,
-      repeat,
-      left,
-      hcenter,
-      right,
-      top,
-      vcenter,
-      bottom,
-    } = this.state;
+    const { backgroundImg, repeat, left, hcenter, right, top, vcenter, bottom } = this.state;
 
     return (
       <div className={`${selectorPrefix}`}>
@@ -114,11 +87,14 @@ class BackgroundImgPicker extends React.PureComponent {
         <BackgroundImgImportPicker
           backgroundImg={backgroundImg}
           onChange={(changeBackgroundImg) => {
-            this.setState({
-              backgroundImg: changeBackgroundImg,
-            }, () => {
-              this.refresh();
-            });
+            this.setState(
+              {
+                backgroundImg: changeBackgroundImg,
+              },
+              () => {
+                this.refresh();
+              },
+            );
           }}
         />
         {/* 图片位置 */}
@@ -139,11 +115,14 @@ class BackgroundImgPicker extends React.PureComponent {
         <BackgroundImgRepeatPicker
           repeat={repeat}
           onChange={(changeRepeat) => {
-            this.setState({
-              repeat: changeRepeat,
-            }, () => {
-              this.refresh();
-            });
+            this.setState(
+              {
+                repeat: changeRepeat,
+              },
+              () => {
+                this.refresh();
+              },
+            );
           }}
         />
       </div>

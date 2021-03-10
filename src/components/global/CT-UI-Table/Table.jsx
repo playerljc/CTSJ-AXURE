@@ -7,7 +7,6 @@ import TablePagin from './TablePagin';
 
 import './Table.less';
 
-
 const selectorPrefix = 'CT-UI-Table';
 
 /**
@@ -21,13 +20,15 @@ class Table extends React.PureComponent {
 
     this.state = {
       // 选中行的rowKey
-      selectedRowKey: props.rowSelection && props.rowSelection.selectedRowKey ?
-        props.rowSelection.selectedRowKey :
-        '',
+      selectedRowKey:
+        props.rowSelection && props.rowSelection.selectedRowKey
+          ? props.rowSelection.selectedRowKey
+          : '',
       // 选中列的columnKey
-      selectedColumnKey: props.columnSelection && props.columnSelection.selectedColumnKey ?
-        props.columnSelection.selectedColumnKey :
-        '',
+      selectedColumnKey:
+        props.columnSelection && props.columnSelection.selectedColumnKey
+          ? props.columnSelection.selectedColumnKey
+          : '',
 
       // 分页数据
       pagin: {
@@ -68,17 +69,20 @@ class Table extends React.PureComponent {
   onRowClick(rowData) {
     const { rowSelection, rowKey } = this.props;
     const selectedRowKey = rowData[rowKey];
-    this.setState({
-      selectedRowKey: this.state.selectedRowKey === selectedRowKey ? '' : selectedRowKey,
-    }, () => {
-      if (this.state.selectedRowKey) {
-        if (rowSelection && rowSelection.onChange) {
-          rowSelection.onChange(rowData[rowKey]);
+    this.setState(
+      {
+        selectedRowKey: this.state.selectedRowKey === selectedRowKey ? '' : selectedRowKey,
+      },
+      () => {
+        if (this.state.selectedRowKey) {
+          if (rowSelection && rowSelection.onChange) {
+            rowSelection.onChange(rowData[rowKey]);
+          }
+        } else if (rowSelection && rowSelection.onUnChange) {
+          rowSelection.onUnChange(rowData[rowKey]);
         }
-      } else if (rowSelection && rowSelection.onUnChange) {
-        rowSelection.onUnChange(rowData[rowKey]);
-      }
-    });
+      },
+    );
   }
 
   /**
@@ -97,17 +101,14 @@ class Table extends React.PureComponent {
    * @param {String} - key
    */
   onColumnClick(key) {
-    const {
-      columns = [],
-      columnSelection,
-    } = this.props;
+    const { columns = [], columnSelection } = this.props;
 
     this.setState({
       selectedColumnKey: key,
     });
 
     if (columnSelection && columnSelection.onChange) {
-      columnSelection.onChange(Immutable.cloneDeep(columns.find(t => t.key === key)));
+      columnSelection.onChange(Immutable.cloneDeep(columns.find((t) => t.key === key)));
     }
   }
 
@@ -117,11 +118,9 @@ class Table extends React.PureComponent {
    */
   renderHeader() {
     const { isDisplayHead = true } = this.props;
-    return (
-      isDisplayHead ?
-        (<div className={`${selectorPrefix}-Header`}>{this.renderHeaderInner()}</div>)
-        : null
-    );
+    return isDisplayHead ? (
+      <div className={`${selectorPrefix}-Header`}>{this.renderHeaderInner()}</div>
+    ) : null;
   }
 
   /**
@@ -133,7 +132,7 @@ class Table extends React.PureComponent {
     return (
       <div
         className={`${selectorPrefix}-Body`}
-        style={{ height: (columnLock && bodyHeight) ? bodyHeight : 'auto' }}
+        style={{ height: columnLock && bodyHeight ? bodyHeight : 'auto' }}
       >
         {this.renderBodyInner()}
       </div>
@@ -147,10 +146,7 @@ class Table extends React.PureComponent {
   renderPagin() {
     const { pagin, data } = this.props;
     const {
-      pagin: {
-        page,
-        pageSize,
-      },
+      pagin: { page, pageSize },
     } = this.state;
 
     return pagin ? (
@@ -183,7 +179,7 @@ class Table extends React.PureComponent {
           const v = window.parseInt(e.target.value);
           const clonePagin = Immutable.cloneDeep(this.state.pagin);
           clonePagin.pageSize = v;
-          const pageCount = window.parseInt(data.length / v) + data.length % v;
+          const pageCount = window.parseInt(data.length / v) + (data.length % v);
           if (clonePagin.page > pageCount) {
             clonePagin.page = pageCount;
           }
@@ -212,14 +208,16 @@ class Table extends React.PureComponent {
      * }
      * @type {Array<ColumnItem>}
      */
-    const { columns = []} = this.props;
+    const { columns = [] } = this.props;
     const { selectedColumnKey = '' } = this.state;
 
     const rels = [];
     columns.forEach(({ title, key, align = 'center', width }) => {
       const props = {
         key,
-        className: `${selectorPrefix}-Header-Item ${!width || width === 'auto' ? 'auto' : ''} align-${align} ${selectedColumnKey === key ? 'active' : ''}`,
+        className: `${selectorPrefix}-Header-Item ${
+          !width || width === 'auto' ? 'auto' : ''
+        } align-${align} ${selectedColumnKey === key ? 'active' : ''}`,
         onClickCapture: () => {
           this.onColumnClick(key);
         },
@@ -231,11 +229,7 @@ class Table extends React.PureComponent {
         };
       }
 
-      rels.push(
-        <div {...props}>
-          {title}
-        </div>
-      );
+      rels.push(<div {...props}>{title}</div>);
     });
     return rels;
   }
@@ -252,14 +246,15 @@ class Table extends React.PureComponent {
     return (
       <div
         key={rowData[rowKey]}
-        className={`${selectorPrefix}-Body-Row ${selectedRowKey === rowData[rowKey] ? 'Selected' : ''}`}
+        className={`${selectorPrefix}-Body-Row ${
+          selectedRowKey === rowData[rowKey] ? 'Selected' : ''
+        }`}
         onClickCapture={() => {
           // console.log('rowClick');
           this.onRowClick(Immutable.cloneDeep(rowData));
         }}
-      >{
-        columns.map(column => this.renderCell({ rowData, column, index }))
-      }
+      >
+        {columns.map((column) => this.renderCell({ rowData, column, index }))}
       </div>
     );
   }
@@ -276,7 +271,9 @@ class Table extends React.PureComponent {
 
     const props = {
       key,
-      className: `${selectorPrefix}-Cell ${!width || width === 'auto' ? 'auto' : ''} align-${align}`,
+      className: `${selectorPrefix}-Cell ${
+        !width || width === 'auto' ? 'auto' : ''
+      } align-${align}`,
       onClick: () => {
         this.onCellClick(Immutable.cloneDeep(rowData[dataIndex] ? rowData[dataIndex] : {}));
       },
@@ -290,11 +287,7 @@ class Table extends React.PureComponent {
 
     return (
       <div {...props}>
-        {
-          render ?
-            render(rowData, rowData[dataIndex], index, dataIndex) :
-            rowData[dataIndex]
-        }
+        {render ? render(rowData, rowData[dataIndex], index, dataIndex) : rowData[dataIndex]}
       </div>
     );
   }
@@ -306,10 +299,7 @@ class Table extends React.PureComponent {
   renderBodyInner() {
     const { data = [], pagin = false } = this.props;
     const {
-      pagin: {
-        page,
-        pageSize,
-      },
+      pagin: { page, pageSize },
     } = this.state;
 
     let target = data;
@@ -345,23 +335,13 @@ class Table extends React.PureComponent {
 Table.propTypes = {
   columns: PropTypes.arrayOf(
     PropTypes.shape({
-      title: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.element,
-      ]),
+      title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
       key: PropTypes.string,
       render: PropTypes.func,
-      align: PropTypes.oneOf([
-        'center',
-        'left',
-        'right',
-      ]),
-      width: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-      ]),
+      align: PropTypes.oneOf(['center', 'left', 'right']),
+      width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       dataIndex: PropTypes.string,
-    })
+    }),
   ),
   data: PropTypes.array,
   pagin: PropTypes.bool,

@@ -1,16 +1,16 @@
 /*
-* groupkey
-* componentKey
-* pageId
-*
-* property
-*
-* left
-* top
-* width
-* height
-*
-* */
+ * groupkey
+ * componentKey
+ * pageId
+ *
+ * property
+ *
+ * left
+ * top
+ * width
+ * height
+ *
+ * */
 
 const map = new Map();
 

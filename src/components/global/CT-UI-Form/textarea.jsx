@@ -4,9 +4,7 @@ import FormFieldMouseDonwCaptureHOC from './FormFieldMouseDonwCaptureHOC';
 
 class TextArea extends React.PureComponent {
   render() {
-    return (
-      <textarea {...this.props} />
-    );
+    return <textarea {...this.props} />;
   }
 }
 

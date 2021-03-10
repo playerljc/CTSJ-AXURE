@@ -12,7 +12,7 @@ const selectorPrefix = 'CT-UI-Modal';
  */
 class ModalComponent extends React.PureComponent {
   renderButtons() {
-    const { buttons = []} = this.props;
+    const { buttons = [] } = this.props;
     const result = [];
     buttons.forEach(({ text = '', handler }, index) => {
       result.push(
@@ -24,8 +24,10 @@ class ModalComponent extends React.PureComponent {
               handler();
             }
           }}
-        >{text}
-        </div>);
+        >
+          {text}
+        </div>,
+      );
     });
     return result;
   }
@@ -81,7 +83,11 @@ class ModalComponent extends React.PureComponent {
           }}
         >
           <div className={`${selectorPrefix}-Title ${titleClass}`}>{title}</div>
-          <div className={`${selectorPrefix}-Content ${xscroll ? 'XScroll' : ''} ${yscroll ? 'YScroll' : ''} ${contentClass}`}>
+          <div
+            className={`${selectorPrefix}-Content ${xscroll ? 'XScroll' : ''} ${
+              yscroll ? 'YScroll' : ''
+            } ${contentClass}`}
+          >
             {component}
           </div>
           <div className={`${selectorPrefix}-Buttons ${buttonsClass}`}>{this.renderButtons()}</div>

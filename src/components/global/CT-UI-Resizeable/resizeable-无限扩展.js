@@ -65,7 +65,7 @@ class Resizeable {
   constructor(el, config, parent, index) {
     this.el = el;
     this.id = index;
-    this.config = Object.assign({}, config);
+    this.config = { ...config};
     this.index = index;
     this.parent = parent;
     this.disable = true;
@@ -152,33 +152,37 @@ class Resizeable {
 
     const { clientX, clientY } = e;
 
-    if (clientX - edgeStep <= self.rect.left &&
+    if (
+      clientX - edgeStep <= self.rect.left &&
       clientY - edgeStep > self.rect.top &&
-      clientY + edgeStep < self.rect.bottom) {
+      clientY + edgeStep < self.rect.bottom
+    ) {
       this.triggerResizeOption('left');
-    } else if (clientX + edgeStep >= self.rect.right &&
+    } else if (
+      clientX + edgeStep >= self.rect.right &&
       clientY - edgeStep > self.rect.top &&
-      clientY + edgeStep < self.rect.bottom) {
+      clientY + edgeStep < self.rect.bottom
+    ) {
       this.triggerResizeOption('right');
-    } else if (clientX - edgeStep <= self.rect.left &&
-      clientY - edgeStep <= self.rect.top) {
+    } else if (clientX - edgeStep <= self.rect.left && clientY - edgeStep <= self.rect.top) {
       this.triggerResizeOption('lefttop');
-    } else if (clientX - edgeStep <= self.rect.left &&
-      clientY + edgeStep >= self.rect.bottom) {
+    } else if (clientX - edgeStep <= self.rect.left && clientY + edgeStep >= self.rect.bottom) {
       this.triggerResizeOption('leftbottom');
-    } else if (clientX + edgeStep >= self.rect.right &&
-      clientY - edgeStep <= self.rect.top) {
+    } else if (clientX + edgeStep >= self.rect.right && clientY - edgeStep <= self.rect.top) {
       this.triggerResizeOption('righttop');
-    } else if (clientX + edgeStep >= self.rect.right &&
-      clientY + edgeStep >= self.rect.bottom) {
+    } else if (clientX + edgeStep >= self.rect.right && clientY + edgeStep >= self.rect.bottom) {
       this.triggerResizeOption('rightbottom');
-    } else if (clientY - edgeStep <= self.rect.top &&
+    } else if (
+      clientY - edgeStep <= self.rect.top &&
       clientX - edgeStep > self.rect.left &&
-      clientX + edgeStep < self.rect.right) {
+      clientX + edgeStep < self.rect.right
+    ) {
       this.triggerResizeOption('top');
-    } else if (clientY + edgeStep >= self.rect.bottom &&
+    } else if (
+      clientY + edgeStep >= self.rect.bottom &&
       clientX - edgeStep > self.rect.left &&
-      clientX + edgeStep < self.rect.right) {
+      clientX + edgeStep < self.rect.right
+    ) {
       this.triggerResizeOption('bottom');
     } else {
       this.triggerResizeOption();
@@ -375,7 +379,6 @@ class Resizeable {
   }
 }
 
-
 /**
  * ResizeableGroup
  * @class ResizeableGroup
@@ -390,7 +393,7 @@ class ResizeableGroup {
    */
   constructor(el, config) {
     this.el = el;
-    this.config = Object.assign({}, config);
+    this.config = { ...config};
     this.ins = new Map();
     this.disable = false;
 
@@ -471,7 +474,6 @@ class ResizeableGroup {
     if (clientY >= self.scrollElRect.bottom - 20) {
       condition.bottom = true;
     }
-
 
     const incrementWidth = clientX - self.cur.baseX;
     const incrementHeight = clientY - self.cur.baseY;
@@ -664,12 +666,12 @@ class ResizeableGroup {
    */
   resizeLeftDetail({ incrementWidth, left }, isUpdateCursor = true) {
     const self = this;
-    const computeWidth = incrementWidth < self.cur.rightCritical ?
-      self.cur.baseWidth - incrementWidth :
-      minWidth;
-    const computeLeft = incrementWidth < self.cur.rightCritical ?
-      left + incrementWidth :
-      left + self.cur.rightCritical;
+    const computeWidth =
+      incrementWidth < self.cur.rightCritical ? self.cur.baseWidth - incrementWidth : minWidth;
+    const computeLeft =
+      incrementWidth < self.cur.rightCritical
+        ? left + incrementWidth
+        : left + self.cur.rightCritical;
     if (isUpdateCursor) {
       document.body.style.cursor = 'w-resize';
     }
@@ -687,9 +689,8 @@ class ResizeableGroup {
    */
   resizeRightDetail(incrementWidth, isUpdateCursor = true) {
     const self = this;
-    const computeWidth = incrementWidth > self.cur.leftCritical ?
-      self.cur.baseWidth + incrementWidth :
-      minWidth;
+    const computeWidth =
+      incrementWidth > self.cur.leftCritical ? self.cur.baseWidth + incrementWidth : minWidth;
     if (isUpdateCursor) {
       document.body.style.cursor = 'e-resize';
     }
@@ -704,12 +705,12 @@ class ResizeableGroup {
    */
   resizeTopDetail({ incrementHeight, top }, isUpdateCursor = true) {
     const self = this;
-    const computeHeight = incrementHeight < self.cur.bottomCritical ?
-      self.cur.baseHeight - incrementHeight :
-      minHeight;
-    const computeTop = incrementHeight < self.cur.bottomCritical ?
-      top + incrementHeight :
-      top + self.cur.bottomCritical;
+    const computeHeight =
+      incrementHeight < self.cur.bottomCritical ? self.cur.baseHeight - incrementHeight : minHeight;
+    const computeTop =
+      incrementHeight < self.cur.bottomCritical
+        ? top + incrementHeight
+        : top + self.cur.bottomCritical;
     if (isUpdateCursor) {
       document.body.style.cursor = 'n-resize';
     }
@@ -726,9 +727,8 @@ class ResizeableGroup {
    */
   resizeBottomDetail(incrementHeight, isUpdateCursor = true) {
     const self = this;
-    const computeHeight = incrementHeight > self.cur.topCritical ?
-      self.cur.baseHeight + incrementHeight :
-      minHeight;
+    const computeHeight =
+      incrementHeight > self.cur.topCritical ? self.cur.baseHeight + incrementHeight : minHeight;
     if (isUpdateCursor) {
       document.body.style.cursor = 's-resize';
     }
@@ -869,7 +869,7 @@ class ResizeableGroupManager {
    */
   constructor(el, config) {
     this.el = el;
-    this.config = Object.assign({}, config);
+    this.config = { ...config};
     this.resizeManager = new Map();
     this.init();
   }

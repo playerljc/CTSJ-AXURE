@@ -6,7 +6,6 @@ const pageActiveShapeMap = new Map();
  * @classdesc ActiveShapeManager
  */
 const ActiveShapeManager = {
-
   /**
    * setShape
    * @param {String} - pageId

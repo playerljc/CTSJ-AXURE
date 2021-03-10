@@ -61,7 +61,9 @@ class TreeTextFieldEditor extends React.PureComponent {
       <input
         autoFocus
         value={value}
-        onKeyDownCapture={(e) => { e.stopPropagation(); }}
+        onKeyDownCapture={(e) => {
+          e.stopPropagation();
+        }}
         onChange={this.onInputChange}
         onBlur={this.onInputBlur}
         {...otherProps}

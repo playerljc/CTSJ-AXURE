@@ -25,8 +25,8 @@ class PropertyPanel extends Component {
       <div
         className={`${selectorPrefix} ct-split`}
         ref={(el) => {
-        this.el = el;
-      }}
+          this.el = el;
+        }}
       >
         <div className="ct-split-top">
           {/* 监视 */}

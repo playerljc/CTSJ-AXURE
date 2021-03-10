@@ -1,17 +1,16 @@
 .ct-axure-shape-tool-base-hline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     flex-shrink: 0;
-    content: '';
     width: 8px;
     height: 8px;
     background-color: @common-promary-active-color;
+    content: '';
   }
 
   > .ct-axure-shape-tool-base-hline-inner {

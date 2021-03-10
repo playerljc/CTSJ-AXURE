@@ -119,11 +119,11 @@ class InteractivePanel extends Component {
     const el = shape ? shape.getEl() : null;
     const groupKey = el ? el.dataset.groupkey : null;
     const componentKey = el ? el.dataset.componentkey : null;
-    const PropertyComponent = groupKey && componentKey ?
-      Register.get(groupKey).get(componentKey) : null;
+    const PropertyComponent =
+      groupKey && componentKey ? Register.get(groupKey).get(componentKey) : null;
     let Component = null;
     if (PropertyComponent) {
-      Component = (<PropertyComponent.Property shape={shape} />);
+      Component = <PropertyComponent.Property shape={shape} />;
     }
 
     return Component;
@@ -146,7 +146,7 @@ class InteractivePanel extends Component {
           const shape = page.getActiveShape();
           if (!shape) {
             // unActiveShape
-            Component = (<CanvasTabPanelProperty page={page} />);
+            Component = <CanvasTabPanelProperty page={page} />;
           } else {
             // activeShape
             Component = this.getShapeComponent(shape);
@@ -163,11 +163,7 @@ class InteractivePanel extends Component {
   }
 
   render() {
-    return (
-      <div className={`${selectorPrefix}`}>
-        {this.renderComponent()}
-      </div>
-    );
+    return <div className={`${selectorPrefix}`}>{this.renderComponent()}</div>;
   }
 }
 

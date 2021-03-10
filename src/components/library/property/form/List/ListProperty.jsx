@@ -23,9 +23,7 @@ class ListProperty extends React.PureComponent {
    * @return {*[]}
    */
   getConfig() {
-    const {
-      shape,
-    } = this.props;
+    const { shape } = this.props;
 
     const {
       tooltip = '',
@@ -50,7 +48,7 @@ class ListProperty extends React.PureComponent {
           <ToolTip
             value={tooltip}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.tooltip = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -64,7 +62,7 @@ class ListProperty extends React.PureComponent {
           <Number
             value={size}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.size = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -81,7 +79,7 @@ class ListProperty extends React.PureComponent {
               data,
             }}
             onChange={({ value: v, data: d }) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.value = v;
               prop.data = d;
               shape.setPropertyByProps('prop', prop);
@@ -96,7 +94,7 @@ class ListProperty extends React.PureComponent {
           <ToolTip
             value={placeholder}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.placeholder = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -111,7 +109,7 @@ class ListProperty extends React.PureComponent {
             label="disabled"
             value={disabled}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.disabled = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -126,7 +124,7 @@ class ListProperty extends React.PureComponent {
             label="required"
             value={required}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.required = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -137,15 +135,9 @@ class ListProperty extends React.PureComponent {
   }
 
   render() {
-    const {
-      children,
-    } = this.props;
+    const { children } = this.props;
 
-    return (
-      <div className={selectorPrefix}>
-        {children(this.getConfig())}
-      </div>
-    );
+    return <div className={selectorPrefix}>{children(this.getConfig())}</div>;
   }
 }
 

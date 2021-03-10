@@ -22,9 +22,7 @@ export default (Component, { groupKey, componentKey }) => {
       }
 
       return (
-        <div
-          {...props}
-        >
+        <div {...props}>
           <div className={`${selectorPrefix}-pattern`}>
             <div className={`${selectorPrefix}-pattern-inner`}>
               <Component {...this.props} selectorPrefix={selectorPrefix} />

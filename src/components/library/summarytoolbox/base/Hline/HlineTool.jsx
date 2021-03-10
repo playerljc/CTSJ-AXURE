@@ -15,7 +15,7 @@ class HlineTool extends React.PureComponent {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-base-Hline`} >
+        <div className={`${selectorPrefix}-base-Hline`}>
           <span className={`${selectorPrefix}-base-Hline-inner`} />
         </div>
       </React.Fragment>

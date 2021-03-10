@@ -37,10 +37,7 @@ TabPanel.propTypes = {
   className: PropTypes.string,
   name: PropTypes.string,
   code: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 export default TabPanel;

@@ -1,5 +1,7 @@
 .idea
 
+.history
+
 node_modules
 
 dist
@@ -12,13 +14,13 @@ webpack.config.dev.js
 
 coverage
 
-package-lock.json
-
 test
 
 .DS_Store
 
 stats.json
+
+test
 
 dll/commons-manifest.json
 dll/commons.js
@@ -36,4 +38,5 @@ npm-debug
 **/.idea
 **/node_modules
 **/dist
-**/assets
+
+README.html

@@ -43,11 +43,14 @@ class BackgroundImgRepeatPicker extends React.PureComponent {
   onChange = (e) => {
     const { onChange } = this.props;
     const repeat = e.target.value;
-    this.setState({
-      repeat,
-    }, () => {
-      onChange(repeat);
-    });
+    this.setState(
+      {
+        repeat,
+      },
+      () => {
+        onChange(repeat);
+      },
+    );
   };
 
   render() {
@@ -56,7 +59,11 @@ class BackgroundImgRepeatPicker extends React.PureComponent {
     return (
       <div className={`${selectorPrefix}`}>
         <Select value={repeat} onChange={this.onChange}>
-          {repeatEnum.map(t => <option key={t} value={t}>{t}</option>)}
+          {repeatEnum.map((t) => (
+            <option key={t} value={t}>
+              {t}
+            </option>
+          ))}
         </Select>
       </div>
     );

@@ -23,10 +23,7 @@ const Modal = {
     const parentEl = document.createElement('div');
     parentEl.className = `${selectorPrefix}-Wrap`;
 
-    ReactDOM.render(
-      <ModalComponent {...config} />,
-      parentEl,
-    );
+    ReactDOM.render(<ModalComponent {...config} />, parentEl);
     document.body.appendChild(parentEl);
     return parentEl;
   },
@@ -42,15 +39,10 @@ const Modal = {
    * @param {String | ReactElement} - content
    * @param {SelectOptions} - zIndex
    */
-  alert({
-    content,
-    zIndex = 9999,
-  }) {
+  alert({ content, zIndex = 9999 }) {
     const modal = Modal.open({
       title: 'alert',
-      component: (
-        <div style={MessageDialogStyle}>{content}</div>
-      ),
+      component: <div style={MessageDialogStyle}>{content}</div>,
       minWidth: 'auto',
       zIndex,
       buttons: [
@@ -71,16 +63,10 @@ const Modal = {
    * @param {SelectOptions} - zIndex
    * @param {Function} - success
    */
-  confirm({
-    content,
-    success,
-    zIndex = 9999,
-  }) {
+  confirm({ content, success, zIndex = 9999 }) {
     const modal = Modal.open({
       title: 'confirm',
-      component: (
-        <div style={MessageDialogStyle}>{content}</div>
-      ),
+      component: <div style={MessageDialogStyle}>{content}</div>,
       minWidth: 'auto',
       zIndex,
       buttons: [
@@ -115,14 +101,7 @@ const Modal = {
    * @param {SelectOptions} - zIndex
    * @param {Function} - success
    */
-  prompt({
-    content,
-    defaultValue = '',
-    required = true,
-    success,
-    zIndex = 9999,
-    maxLength = 100,
-  }) {
+  prompt({ content, defaultValue = '', required = true, success, zIndex = 9999, maxLength = 100 }) {
     let ins;
     const modal = Modal.open({
       title: 'prompt',
@@ -132,7 +111,7 @@ const Modal = {
           content={content}
           required={required}
           maxLength={maxLength}
-          ref={self => ins = self}
+          ref={(self) => (ins = self)}
         />
       ),
       minWidth: 'auto',
@@ -172,14 +151,7 @@ const Modal = {
    * @param {SelectOptions} - zIndex
    * @param {Function} - success
    */
-  promptSelect({
-    content,
-    defaultValue = '',
-    required = true,
-    data = [],
-    success,
-    zIndex = 9999,
-  }) {
+  promptSelect({ content, defaultValue = '', required = true, data = [], success, zIndex = 9999 }) {
     let ins;
     const modal = Modal.open({
       title: 'prompt',
@@ -189,7 +161,7 @@ const Modal = {
           required={required}
           content={content}
           data={data}
-          ref={self => ins = self}
+          ref={(self) => (ins = self)}
         />
       ),
       minWidth: 'auto',
@@ -227,21 +199,12 @@ const Modal = {
    * @param {SelectOptions} - zIndex
    * @param {Function} - success
    */
-  promptCheckbox({
-    content,
-    checked = true,
-    success,
-    zIndex = 9999,
-  }) {
+  promptCheckbox({ content, checked = true, success, zIndex = 9999 }) {
     let ins;
     const modal = Modal.open({
       title: 'prompt',
       component: (
-        <PromptCheckbox
-          checked={checked}
-          content={content}
-          ref={self => ins = self}
-        />
+        <PromptCheckbox checked={checked} content={content} ref={(self) => (ins = self)} />
       ),
       minWidth: 'auto',
       zIndex,

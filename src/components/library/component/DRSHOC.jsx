@@ -8,17 +8,12 @@ import ClipBoard from '../../../util/ClipBoard';
 import Emitter from '../../../util/Emitter';
 import Actions from '../../../util/Actions';
 import { Immutable } from '../../../util/CTMobile-UI-Util';
-import {
-  DRSITEMSELECTORPREFIX,
-  KEYBOARD_NORMAL_STEP,
-  DRSPREFIX,
-} from '../../../util/Constant';
+import { DRSITEMSELECTORPREFIX, KEYBOARD_NORMAL_STEP, DRSPREFIX } from '../../../util/Constant';
 
 import DRSKeyBoard from './DRSKeyBoard';
 import DRSStyle from './DRSStyle';
 
 import './DRSHOC.less';
-
 
 const selectorPrefix = DRSPREFIX;
 
@@ -46,7 +41,7 @@ export default (Component, { groupKey, componentKey }) => {
       this.state = {
         active: false,
         rangeSelectActive: false,
-        property: Object.assign({}, props.property),
+        property: { ...props.property},
       };
     }
 
@@ -65,15 +60,18 @@ export default (Component, { groupKey, componentKey }) => {
     active() {
       // 注册当前Shape的KeyBoard操作
       this.bindKeyBoard();
-      this.setState({
-        active: true,
-      }, () => {
-        Emitter.trigger(Actions.components.library.component.active, {
-          pageId: this.getPageId(),
-          componentId: this.getComponentId(),
-          from: selectorPrefix,
-        });
-      });
+      this.setState(
+        {
+          active: true,
+        },
+        () => {
+          Emitter.trigger(Actions.components.library.component.active, {
+            pageId: this.getPageId(),
+            componentId: this.getComponentId(),
+            from: selectorPrefix,
+          });
+        },
+      );
     }
 
     /**
@@ -85,15 +83,18 @@ export default (Component, { groupKey, componentKey }) => {
 
       // 解除当前Shape的KeyBoard操作
       this.unBindKeyBoard();
-      this.setState({
-        active: false,
-      }, () => {
-        Emitter.trigger(Actions.components.library.component.unactive, {
-          pageId: this.getPageId(),
-          componentId: this.getComponentId(),
-          from: selectorPrefix,
-        });
-      });
+      this.setState(
+        {
+          active: false,
+        },
+        () => {
+          Emitter.trigger(Actions.components.library.component.unactive, {
+            pageId: this.getPageId(),
+            componentId: this.getComponentId(),
+            from: selectorPrefix,
+          });
+        },
+      );
     }
 
     /**
@@ -103,15 +104,18 @@ export default (Component, { groupKey, componentKey }) => {
     rangeSelectActive() {
       if (this.state.rangeSelectActive) return false;
 
-      this.setState({
-        rangeSelectActive: true,
-      }, () => {
-        Emitter.trigger(Actions.components.library.component.rangeselectactive, {
-          pageId: this.getPageId(),
-          componentId: this.getComponentId(),
-          from: selectorPrefix,
-        });
-      });
+      this.setState(
+        {
+          rangeSelectActive: true,
+        },
+        () => {
+          Emitter.trigger(Actions.components.library.component.rangeselectactive, {
+            pageId: this.getPageId(),
+            componentId: this.getComponentId(),
+            from: selectorPrefix,
+          });
+        },
+      );
     }
 
     /**
@@ -120,15 +124,18 @@ export default (Component, { groupKey, componentKey }) => {
     unRangeSelectActive() {
       if (this.isUnmount || !this.state.rangeSelectActive) return false;
 
-      this.setState({
-        rangeSelectActive: false,
-      }, () => {
-        Emitter.trigger(Actions.components.library.component.unrangeselectactive, {
-          pageId: this.getPageId(),
-          componentId: this.getComponentId(),
-          from: selectorPrefix,
-        });
-      });
+      this.setState(
+        {
+          rangeSelectActive: false,
+        },
+        () => {
+          Emitter.trigger(Actions.components.library.component.unrangeselectactive, {
+            pageId: this.getPageId(),
+            componentId: this.getComponentId(),
+            from: selectorPrefix,
+          });
+        },
+      );
     }
 
     /**
@@ -183,7 +190,9 @@ export default (Component, { groupKey, componentKey }) => {
       const { el } = this;
       if (!el) return '';
 
-      const { dataset: { componentkey } } = el;
+      const {
+        dataset: { componentkey },
+      } = el;
       return componentkey;
     }
 
@@ -195,7 +204,9 @@ export default (Component, { groupKey, componentKey }) => {
       const { el } = this;
       if (!el) return '';
 
-      const { dataset: { groupkey } } = el;
+      const {
+        dataset: { groupkey },
+      } = el;
       return groupkey;
     }
 
@@ -231,7 +242,7 @@ export default (Component, { groupKey, componentKey }) => {
      * @return {Object}
      */
     getProperty() {
-      return Object.assign({}, this.state.property);
+      return { ...this.state.property};
     }
 
     /**
@@ -243,13 +254,16 @@ export default (Component, { groupKey, componentKey }) => {
     setPropertyByProps(propertyName, propertyValue, success) {
       const property = { ...this.state.property };
       property[propertyName] = propertyValue;
-      this.setState({
-        property,
-      }, () => {
-        if (success) {
-          success();
-        }
-      });
+      this.setState(
+        {
+          property,
+        },
+        () => {
+          if (success) {
+            success();
+          }
+        },
+      );
     }
 
     /**
@@ -289,7 +303,7 @@ export default (Component, { groupKey, componentKey }) => {
      * @param {SelectOptions} - step
      */
     arrowDetail(direction, step = KEYBOARD_NORMAL_STEP) {
-      const styleKey = (direction === 'top' || direction === 'bottom') ? 'top' : 'left';
+      const styleKey = direction === 'top' || direction === 'bottom' ? 'top' : 'left';
       const styleUpperKey = styleKey.charAt(0).toUpperCase() + styleKey.substring(1);
 
       // if (direction === 'left' || direction === 'top') {
@@ -313,13 +327,10 @@ export default (Component, { groupKey, componentKey }) => {
         value = `${this.el[`offset${styleUpperKey}`] + step}`;
       }
 
-      const style = this.getProperty().style;
+      const {style} = this.getProperty();
       style.position[styleKey] = window.parseInt(value);
       this.setPropertyByProps('style', style, () => {
-        const {
-          pageid: pageId,
-          componentid: componentId,
-        } = this.el.dataset;
+        const { pageid: pageId, componentid: componentId } = this.el.dataset;
         const pageEl = document.getElementById(pageId).parentElement;
         const elRect = this.el.getBoundingClientRect();
         const pageRect = pageEl.getBoundingClientRect();
@@ -327,11 +338,11 @@ export default (Component, { groupKey, componentKey }) => {
         if (direction === 'left' || direction === 'top') {
           if (elRect[direction] <= pageRect[direction]) {
             if (pageEl[`scroll${styleUpperKey}`] > 0) {
-              pageEl[`scroll${styleUpperKey}`] -= (pageRect[direction] - elRect[direction]);
+              pageEl[`scroll${styleUpperKey}`] -= pageRect[direction] - elRect[direction];
             }
           }
         } else if (elRect[direction] >= pageRect[direction]) {
-          pageEl[`scroll${styleUpperKey}`] += (elRect[direction] - pageRect[direction]);
+          pageEl[`scroll${styleUpperKey}`] += elRect[direction] - pageRect[direction];
         }
 
         Emitter.trigger(Actions.components.library.component.stylechange, {
@@ -363,19 +374,21 @@ export default (Component, { groupKey, componentKey }) => {
       const { pageId, attribute } = this.props;
       const { property } = this.state;
       const el = this.getEl();
-      ClipBoard.set(pageId, [{
-        groupKey,
-        componentKey,
-        attribute,
-        pageId,
-        // componentId: uuid(),
-        property: Immutable.cloneDeep(property),
-        left: el.offsetLeft,
-        top: el.offsetTop,
-        width: el.offsetWidth,
-        height: el.offsetHeight,
-        active: true,
-      }]);
+      ClipBoard.set(pageId, [
+        {
+          groupKey,
+          componentKey,
+          attribute,
+          pageId,
+          // componentId: uuid(),
+          property: Immutable.cloneDeep(property),
+          left: el.offsetLeft,
+          top: el.offsetTop,
+          width: el.offsetWidth,
+          height: el.offsetHeight,
+          active: true,
+        },
+      ]);
     }
 
     /**
@@ -383,15 +396,9 @@ export default (Component, { groupKey, componentKey }) => {
      * @return {ReactElement}
      */
     render() {
-      const {
-        pageId = '',
-        componentId = '',
-        attribute,
-      } = this.props;
+      const { pageId = '', componentId = '', attribute } = this.props;
 
-      const {
-        active = false,
-      } = this.state;
+      const { active = false } = this.state;
 
       const stateClone = Immutable.cloneDeep(this.state);
 

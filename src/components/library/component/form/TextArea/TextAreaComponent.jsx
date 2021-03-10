@@ -16,9 +16,7 @@ class TextAreaComponent extends React.PureComponent {
   componentDidMount() {
     const {
       property: {
-        prop: {
-          value = '',
-        },
+        prop: { value = '' },
       },
     } = this.props;
 
@@ -28,9 +26,7 @@ class TextAreaComponent extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     const {
       property: {
-        prop: {
-          value = '',
-        },
+        prop: { value = '' },
       },
     } = nextProps;
 
@@ -55,9 +51,7 @@ class TextAreaComponent extends React.PureComponent {
           rows = 20,
         },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
@@ -79,9 +73,7 @@ class TextAreaComponent extends React.PureComponent {
           rows={rows}
           className={`${selectorPrefix}-${groupKey}-${componentKey}-input`}
         />
-        <div
-          className={`${selectorPrefix}-${groupKey}-${componentKey}-mask `}
-        />
+        <div className={`${selectorPrefix}-${groupKey}-${componentKey}-mask `} />
       </div>
     );
   }
@@ -99,7 +91,9 @@ TextAreaComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DRSHOC(ComponentFocusHOC(TextAreaComponent), {
-  groupKey: 'form',
-  componentKey: 'TextArea',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(ComponentFocusHOC(TextAreaComponent), {
+    groupKey: 'form',
+    componentKey: 'TextArea',
+  }),
+);

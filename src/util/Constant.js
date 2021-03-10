@@ -2,10 +2,7 @@ export const DRAGITEMSELECTORPREFIX = 'ct-drag-item';
 export const RESIZEITEMSELECTORPREFIX = 'ct-resizeable-item';
 export const SELECTABLEITEMSELECTORPREFIX = 'ct-selectable-item';
 
-export const DRITEMSELECTORPREFIX = [
-  DRAGITEMSELECTORPREFIX,
-  RESIZEITEMSELECTORPREFIX,
-];
+export const DRITEMSELECTORPREFIX = [DRAGITEMSELECTORPREFIX, RESIZEITEMSELECTORPREFIX];
 
 export const DRSITEMSELECTORPREFIX = [
   DRAGITEMSELECTORPREFIX,
@@ -50,7 +47,6 @@ export const PAGE_TREE_ICON = 'far fa-file';
 // 目录在Tree上的icon
 export const FOLDER_TREE_ICON = 'far fa-folder-open';
 
-
 // 缩放的数组
 /**
  * 400% 4
@@ -68,20 +64,4 @@ export const FOLDER_TREE_ICON = 'far fa-folder-open';
  * 25%  0.25
  * 10%  0.1
  */
-export const SCALECOLLECTION = [
-  4,
-  3.5,
-  3,
-  2.5,
-  2,
-  1.5,
-  1.25,
-  1,
-  0.8,
-  0.65,
-  0.5,
-  0.33,
-  0.25,
-  0.1,
-];
-
+export const SCALECOLLECTION = [4, 3.5, 3, 2.5, 2, 1.5, 1.25, 1, 0.8, 0.65, 0.5, 0.33, 0.25, 0.1];

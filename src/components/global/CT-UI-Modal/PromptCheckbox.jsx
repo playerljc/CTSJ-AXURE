@@ -30,9 +30,7 @@ class PromptCheckbox extends React.PureComponent {
   }
 
   render() {
-    const {
-      content,
-    } = this.props;
+    const { content } = this.props;
 
     const { checked } = this.state;
 

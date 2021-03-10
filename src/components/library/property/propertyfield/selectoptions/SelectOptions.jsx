@@ -17,9 +17,7 @@ class SelectOptions extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      value,
-    } = props;
+    const { value } = props;
 
     this.state = { ...value };
   }
@@ -35,9 +33,7 @@ class SelectOptions extends React.PureComponent {
   // }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      value,
-    } = nextProps;
+    const { value } = nextProps;
 
     this.setState({
       ...value,
@@ -45,10 +41,7 @@ class SelectOptions extends React.PureComponent {
   }
 
   onListItemClick() {
-    const {
-      data,
-      value,
-    } = this.state;
+    const { data, value } = this.state;
 
     const { onChange } = this.props;
 
@@ -68,10 +61,7 @@ class SelectOptions extends React.PureComponent {
   }
 
   renderLabel() {
-    const {
-      value = '',
-      data = [],
-    } = this.state;
+    const { value = '', data = [] } = this.state;
 
     const item = data.find(({ value: v }) => v === value);
     return item ? item.label : '';
@@ -80,10 +70,8 @@ class SelectOptions extends React.PureComponent {
   render() {
     return (
       <div className={`${selectorPrefix}`}>
-        <a
-          className={`${selectorPrefix}-Link`}
-          onClick={::this.onListItemClick}
-        >List Item
+        <a className={`${selectorPrefix}-Link`} onClick={::this.onListItemClick}>
+          List Item
         </a>
         <p>{this.renderLabel()}</p>
       </div>

@@ -23,21 +23,21 @@
         justify-content: normal;
         height: 30px;
         // close
-        &:before {
-          font-family: 'Font Awesome 5 Free';
-          content: '\f105';
-          font-size: 21px;
+        &::before {
           margin-left: 10px;
           color: @common-promary-disabled-color;
           font-weight: bold;
+          font-size: 21px;
+          font-family: 'Font Awesome 5 Free';
+          content: '\f105';
         }
 
         > .CT-UI-AccordionItem-Trigger-Name {
           position: static;
           left: initial;
-          transform: initial;
-          font-size: 14px;
           height: auto;
+          font-size: 14px;
+          transform: initial;
         }
       }
 
@@ -51,13 +51,13 @@
         > .CT-UI-AccordionItem-Trigger {
           border-bottom: 0;
           // open
-          &:before {
-            font-family: 'Font Awesome 5 Free';
-            content: '\f107';
-            font-size: 21px;
+          &::before {
             margin-left: 10px;
             color: @common-promary-disabled-color;
             font-weight: bold;
+            font-size: 21px;
+            font-family: 'Font Awesome 5 Free';
+            content: '\f107';
           }
         }
       }

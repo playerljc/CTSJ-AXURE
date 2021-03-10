@@ -9,10 +9,7 @@ const selectorPrefix = `${SUMMARYPREFIX}-tool`;
 export default (Component, { groupKey, componentKey }) => {
   return class extends React.PureComponent {
     render() {
-      const {
-        name,
-        attribute = '{}',
-      } = this.props;
+      const { name, attribute = '{}' } = this.props;
 
       const attrJSON = JSON.parse(attribute);
 

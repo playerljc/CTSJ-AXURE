@@ -131,12 +131,14 @@ class RangeSelect {
     const changeEls = Array.from(this.el.querySelectorAll(`.${DRSPREFIX}`));
     const pLeft = this.el.offsetLeft;
     const pTop = this.el.offsetTop;
-    const { config: { children } } = this;
+    const {
+      config: { children },
+    } = this;
 
     children.forEach((el) => {
       // 同步现在数据的left, top , width, height的数据，并更新到Shape中
       const { componentid } = el.dataset;
-      const changeEl = changeEls.find(targetEl => targetEl.dataset.componentid === componentid);
+      const changeEl = changeEls.find((targetEl) => targetEl.dataset.componentid === componentid);
       if (changeEl) {
         el.style.left = `${pLeft + parseFloat(changeEl.style.left.replace('px', ''))}px`;
         el.style.top = `${pTop + parseFloat(changeEl.style.top.replace('px', ''))}px`;
@@ -153,10 +155,7 @@ class RangeSelect {
             offsetHeight: height,
             offsetLeft: left,
             offsetTop: top,
-            dataset: {
-              pageid: pageId,
-              componentid: componentId,
-            },
+            dataset: { pageid: pageId, componentid: componentId },
           } = el;
 
           const shape = ShapeModel.getShape({ pageId, componentId });
@@ -184,7 +183,7 @@ class RangeSelect {
    * @param {SelectOptions} - step
    */
   arrowDetail(direction, step = KEYBOARD_NORMAL_STEP) {
-    const styleKey = (direction === 'top' || direction === 'bottom') ? 'top' : 'left';
+    const styleKey = direction === 'top' || direction === 'bottom' ? 'top' : 'left';
     const styleUpperKey = styleKey.charAt(0).toUpperCase() + styleKey.substring(1);
 
     if (direction === 'left' || direction === 'top') {
@@ -205,11 +204,11 @@ class RangeSelect {
     if (direction === 'left' || direction === 'top') {
       if (elRect[direction] <= pageRect[direction]) {
         if (pageEl[`scroll${styleUpperKey}`] > 0) {
-          pageEl[`scroll${styleUpperKey}`] -= (pageRect[direction] - elRect[direction]);
+          pageEl[`scroll${styleUpperKey}`] -= pageRect[direction] - elRect[direction];
         }
       }
     } else if (elRect[direction] >= pageRect[direction]) {
-      pageEl[`scroll${styleUpperKey}`] += (elRect[direction] - pageRect[direction]);
+      pageEl[`scroll${styleUpperKey}`] += elRect[direction] - pageRect[direction];
     }
   }
 
@@ -217,7 +216,9 @@ class RangeSelect {
    * deleteSelf
    */
   deleteSelf() {
-    const { config: { children = [], pageId } } = this;
+    const {
+      config: { children = [], pageId },
+    } = this;
 
     children.forEach((el) => {
       const { componentid: componentId } = el.dataset;
@@ -240,47 +241,56 @@ class RangeSelect {
    * copy
    */
   copy() {
-    const { config: { pageId } } = this;
+    const {
+      config: { pageId },
+    } = this;
 
     const changeEls = Array.from(this.el.querySelectorAll(`.${DRSPREFIX}`));
     const pLeft = this.el.offsetLeft;
     const pTop = this.el.offsetTop;
 
-    ClipBoard.set(pageId, changeEls.map((el) => {
-      const {
-        groupkey: groupKey,
-        componentkey: componentKey,
-        componentid: componentId,
-        attribute,
-      } = el.dataset;
+    ClipBoard.set(
+      pageId,
+      changeEls.map((el) => {
+        const {
+          groupkey: groupKey,
+          componentkey: componentKey,
+          componentid: componentId,
+          attribute,
+        } = el.dataset;
 
-      const property = Immutable.cloneDeep(ShapeModel.getShape({ pageId, componentId }).getProperty());
-      const left = pLeft + parseFloat(el.style.left.replace('px', ''));
-      const top = pTop + parseFloat(el.style.top.replace('px', ''));
-      const width = el.offsetWidth;
-      const height = el.offsetHeight;
-      const active = false;
+        const property = Immutable.cloneDeep(
+          ShapeModel.getShape({ pageId, componentId }).getProperty(),
+        );
+        const left = pLeft + parseFloat(el.style.left.replace('px', ''));
+        const top = pTop + parseFloat(el.style.top.replace('px', ''));
+        const width = el.offsetWidth;
+        const height = el.offsetHeight;
+        const active = false;
 
-      return {
-        groupKey,
-        componentKey,
-        attribute,
-        pageId,
-        property,
-        left,
-        top,
-        width,
-        height,
-        active,
-      };
-    }));
+        return {
+          groupKey,
+          componentKey,
+          attribute,
+          pageId,
+          property,
+          left,
+          top,
+          width,
+          height,
+          active,
+        };
+      }),
+    );
   }
 
   /**
    * render
    */
   render() {
-    const { config: { children, pageId } } = this;
+    const {
+      config: { children, pageId },
+    } = this;
 
     const { width, height, left, top } = getRect(children);
     const rangeSelectEl = Dom6.createElement(
@@ -301,7 +311,7 @@ class RangeSelect {
               <span class="${selectorPrefix}-indicator-pointer leftbottom"></span>
               <span class="${selectorPrefix}-indicator-pointer righttop"></span>
               <span class="${selectorPrefix}-indicator-pointer rightbottom"></span>
-          </div>`
+          </div>`,
     );
 
     // 把children放进

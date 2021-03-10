@@ -15,9 +15,7 @@ class ListComponent extends React.PureComponent {
   componentDidMount() {
     const {
       property: {
-        prop: {
-          value = '',
-        },
+        prop: { value = '' },
       },
     } = this.props;
 
@@ -27,9 +25,7 @@ class ListComponent extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     const {
       property: {
-        prop: {
-          value = '',
-        },
+        prop: { value = '' },
       },
     } = nextProps;
 
@@ -39,13 +35,15 @@ class ListComponent extends React.PureComponent {
   renderOptions() {
     const {
       property: {
-        prop: {
-          data = [],
-        },
+        prop: { data = [] },
       },
     } = this.props;
 
-    return data.map(({ label, value }) => <option key={value} value={value}>{label}</option>);
+    return data.map(({ label, value }) => (
+      <option key={value} value={value}>
+        {label}
+      </option>
+    ));
   }
 
   render() {
@@ -54,17 +52,9 @@ class ListComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          tooltip = '',
-          placeholder = '',
-          disabled = false,
-          required = false,
-          size = 20,
-        },
+        prop: { tooltip = '', placeholder = '', disabled = false, required = false, size = 20 },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
@@ -84,9 +74,7 @@ class ListComponent extends React.PureComponent {
         >
           {this.renderOptions()}
         </select>
-        <div
-          className={`${selectorPrefix}-${groupKey}-${componentKey}-mask `}
-        />
+        <div className={`${selectorPrefix}-${groupKey}-${componentKey}-mask `} />
       </div>
     );
   }
@@ -104,7 +92,9 @@ ListComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DRSHOC(ListComponent, {
-  groupKey: 'form',
-  componentKey: 'List',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(ListComponent, {
+    groupKey: 'form',
+    componentKey: 'List',
+  }),
+);

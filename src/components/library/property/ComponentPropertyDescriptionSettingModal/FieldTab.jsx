@@ -60,26 +60,25 @@ class FieldTab extends React.PureComponent {
    * @return {Array<ColumnConfig>}
    * */
   getTableColumnsConfig() {
-    return [{
-      title: 'Field',
-      key: 'Field',
-      align: 'left',
-      dataIndex: 'name',
-      render: (record, value, index, dataIndex) => {
-        return (
-          <TableTextFieldEditor
-            type="text"
-            value={value}
-            index={index}
-            dataIndex={dataIndex}
-          />);
+    return [
+      {
+        title: 'Field',
+        key: 'Field',
+        align: 'left',
+        dataIndex: 'name',
+        render: (record, value, index, dataIndex) => {
+          return (
+            <TableTextFieldEditor type="text" value={value} index={index} dataIndex={dataIndex} />
+          );
+        },
       },
-    }, {
-      title: 'Type',
-      key: 'Type',
-      align: 'left',
-      dataIndex: 'type',
-    }];
+      {
+        title: 'Type',
+        key: 'Type',
+        align: 'left',
+        dataIndex: 'type',
+      },
+    ];
   }
 
   /**
@@ -96,15 +95,18 @@ class FieldTab extends React.PureComponent {
       type: e.target.value,
     });
 
-    this.setState({
-      fieldSelectValue: e.target.value,
-      data,
-      selectedRowKey: id,
-    }, () => {
-      if (onAddField) {
-        onAddField(Immutable.cloneDeep(data));
-      }
-    });
+    this.setState(
+      {
+        fieldSelectValue: e.target.value,
+        data,
+        selectedRowKey: id,
+      },
+      () => {
+        if (onAddField) {
+          onAddField(Immutable.cloneDeep(data));
+        }
+      },
+    );
   }
 
   /**
@@ -112,17 +114,17 @@ class FieldTab extends React.PureComponent {
    * 上移
    */
   onUpField() {
-    const { selectedRowKey, data = []} = this.state;
+    const { selectedRowKey, data = [] } = this.state;
 
     let index;
     if (!selectedRowKey) {
       return false;
-    } else {
-      index = data.findIndex(t => t.id === selectedRowKey);
+    }
+      index = data.findIndex((t) => t.id === selectedRowKey);
       if (index === 0) {
         return false;
       }
-    }
+
 
     const cloneData = [...data];
     const curTemp = cloneData[index];
@@ -138,16 +140,16 @@ class FieldTab extends React.PureComponent {
    * 下移
    */
   onDownField() {
-    const { selectedRowKey, data = []} = this.state;
+    const { selectedRowKey, data = [] } = this.state;
     let index;
     if (!selectedRowKey) {
       return false;
-    } else {
-      index = data.findIndex(t => t.id === selectedRowKey);
+    }
+      index = data.findIndex((t) => t.id === selectedRowKey);
       if (index === data.length - 1) {
         return false;
       }
-    }
+
 
     const cloneData = [...data];
     const curTemp = cloneData[index];
@@ -164,10 +166,10 @@ class FieldTab extends React.PureComponent {
    */
   onDeleteField() {
     const { onDeleteField } = this.props;
-    const { selectedRowKey, data = []} = this.state;
+    const { selectedRowKey, data = [] } = this.state;
     if (!selectedRowKey) return false;
 
-    const index = data.findIndex(t => t.id === selectedRowKey);
+    const index = data.findIndex((t) => t.id === selectedRowKey);
     if (index === -1) {
       return false;
     }
@@ -176,17 +178,20 @@ class FieldTab extends React.PureComponent {
 
     const cloneData = [...data];
     cloneData.splice(index, 1);
-    this.setState({
-      data: cloneData,
-      selectedRowKey: '',
-    }, () => {
-      if (onDeleteField) {
-        onDeleteField({
-          field: Immutable.cloneDeep(cloneData),
-          fieldId: deleteField.id,
-        });
-      }
-    });
+    this.setState(
+      {
+        data: cloneData,
+        selectedRowKey: '',
+      },
+      () => {
+        if (onDeleteField) {
+          onDeleteField({
+            field: Immutable.cloneDeep(cloneData),
+            fieldId: deleteField.id,
+          });
+        }
+      },
+    );
   }
 
   /**
@@ -209,7 +214,7 @@ class FieldTab extends React.PureComponent {
    */
   onSelectOptionsValueChange(e) {
     const index = this.getSelectRowIndex();
-    const value = e.target.value;
+    const {value} = e.target;
     const cloneData = [...this.state.data];
 
     if (index !== -1) {
@@ -236,21 +241,24 @@ class FieldTab extends React.PureComponent {
     return {
       selectedRowKey,
       onChange: (key) => {
-        this.setState({
-          selectedRowKey: key,
-        }, () => {
-          const type = this.getSelectRowProperty('type');
+        this.setState(
+          {
+            selectedRowKey: key,
+          },
+          () => {
+            const type = this.getSelectRowProperty('type');
 
-          let selectOptionsValue = '';
-          if (type === 'select') {
-            const options = this.getSelectRowProperty('options');
-            selectOptionsValue = options.join('\n');
-          }
+            let selectOptionsValue = '';
+            if (type === 'select') {
+              const options = this.getSelectRowProperty('options');
+              selectOptionsValue = options.join('\n');
+            }
 
-          this.setState({
-            selectOptionsValue,
-          });
-        });
+            this.setState({
+              selectOptionsValue,
+            });
+          },
+        );
       },
       onUnChange: () => {
         this.setState({
@@ -266,12 +274,12 @@ class FieldTab extends React.PureComponent {
    * @return {String}
    */
   renderUpFieldClass() {
-    const { selectedRowKey, data = []} = this.state;
+    const { selectedRowKey, data = [] } = this.state;
     let className = '';
     if (!selectedRowKey) {
       className = 'Disable';
     } else {
-      const index = data.findIndex(t => t.id === selectedRowKey);
+      const index = data.findIndex((t) => t.id === selectedRowKey);
       if (index === 0) {
         className = 'Disable';
       }
@@ -283,12 +291,12 @@ class FieldTab extends React.PureComponent {
    * renderDownFieldClass
    */
   renderDownFieldClass() {
-    const { selectedRowKey, data = []} = this.state;
+    const { selectedRowKey, data = [] } = this.state;
     let className = '';
     if (!selectedRowKey) {
       className = 'Disable';
     } else {
-      const index = data.findIndex(t => t.id === selectedRowKey);
+      const index = data.findIndex((t) => t.id === selectedRowKey);
       if (index === data.length - 1) {
         className = 'Disable';
       }
@@ -310,13 +318,13 @@ class FieldTab extends React.PureComponent {
    * @return {String}
    */
   getSelectRowProperty(property) {
-    const { selectedRowKey, data = []} = this.state;
-    const entry = data.find(t => t.id === selectedRowKey);
+    const { selectedRowKey, data = [] } = this.state;
+    const entry = data.find((t) => t.id === selectedRowKey);
     if (entry) {
       return entry[property];
-    } else {
-      return '';
     }
+      return '';
+
   }
 
   /**
@@ -324,8 +332,8 @@ class FieldTab extends React.PureComponent {
    * @return {SelectOptions}
    */
   getSelectRowIndex() {
-    const { selectedRowKey, data = []} = this.state;
-    return data.findIndex(t => t.id === selectedRowKey);
+    const { selectedRowKey, data = [] } = this.state;
+    return data.findIndex((t) => t.id === selectedRowKey);
   }
 
   /**
@@ -337,11 +345,7 @@ class FieldTab extends React.PureComponent {
   }
 
   render() {
-    const {
-      fieldSelectValue,
-      data = [],
-      selectOptionsValue = '',
-    } = this.state;
+    const { fieldSelectValue, data = [], selectOptionsValue = '' } = this.state;
     return (
       <div className={`${selectPrefix}-FieldTab`}>
         {/* 自定义字段 */}
@@ -350,12 +354,12 @@ class FieldTab extends React.PureComponent {
           {/* Field 添加的选择范围 */}
           <div className={`${selectPrefix}-FieldTab-FieldSet-ToolBar g-flex horizontal vcenter`}>
             <div className="g-flex-auto">
-              <Select
-                style={{ height: 30 }}
-                value={fieldSelectValue}
-                onChange={this.onAddField}
-              >
-                {DescriptionField.map(({ name, type }, index) => <option key={index + 1} value={type}>{name}</option>)}
+              <Select style={{ height: 30 }} value={fieldSelectValue} onChange={this.onAddField}>
+                {DescriptionField.map(({ name, type }, index) => (
+                  <option key={index + 1} value={type}>
+                    {name}
+                  </option>
+                ))}
               </Select>
             </div>
             <span
@@ -391,7 +395,9 @@ class FieldTab extends React.PureComponent {
               disabled={this.getSelectRowProperty('type') !== 'select'}
               value={selectOptionsValue}
               onChange={this.onSelectOptionsValueChange}
-              onKeyDownCapture={(e) => { e.stopPropagation(); }}
+              onKeyDownCapture={(e) => {
+                e.stopPropagation();
+              }}
             />
           </div>
         </fieldset>

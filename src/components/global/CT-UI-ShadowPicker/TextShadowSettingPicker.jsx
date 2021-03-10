@@ -19,10 +19,7 @@ class TextShadowSettingPicker extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      onChange,
-      ...other
-    } = props;
+    const { onChange, ...other } = props;
 
     this.state = {
       ...other,
@@ -46,14 +43,7 @@ class TextShadowSettingPicker extends React.PureComponent {
   }
 
   render() {
-    const {
-      type,
-      disabled,
-      hShadow,
-      vShadow,
-      blur,
-      color,
-    } = this.state;
+    const { type, disabled, hShadow, vShadow, blur, color } = this.state;
 
     return (
       <div className={`${selectorPrefix}`}>
@@ -66,25 +56,31 @@ class TextShadowSettingPicker extends React.PureComponent {
                   type="checkbox"
                   checked={!disabled}
                   onChange={(e) => {
-                  this.onChange('disabled', !e.target.checked);
-                }}
+                    this.onChange('disabled', !e.target.checked);
+                  }}
                 />
               </td>
             </tr>
             <tr>
               <td align="right">offset：</td>
               <td align="right">
-                hShadow:<Input
+                hShadow:
+                <Input
                   type="number"
                   value={hShadow}
                   disabled={disabled}
-                  onChange={(e) => { this.onChange('hShadow', window.parseInt(e.target.value)); }}
+                  onChange={(e) => {
+                    this.onChange('hShadow', window.parseInt(e.target.value));
+                  }}
                 />
-                vShadow:<Input
+                vShadow:
+                <Input
                   type="number"
                   value={vShadow}
                   disabled={disabled}
-                  onChange={(e) => { this.onChange('vShadow', window.parseInt(e.target.value)); }}
+                  onChange={(e) => {
+                    this.onChange('vShadow', window.parseInt(e.target.value));
+                  }}
                 />
               </td>
             </tr>
@@ -95,7 +91,9 @@ class TextShadowSettingPicker extends React.PureComponent {
                   type="number"
                   value={blur}
                   disabled={disabled}
-                  onChange={(e) => { this.onChange('blur', window.parseInt(e.target.value)); }}
+                  onChange={(e) => {
+                    this.onChange('blur', window.parseInt(e.target.value));
+                  }}
                 />
               </td>
             </tr>
@@ -107,11 +105,11 @@ class TextShadowSettingPicker extends React.PureComponent {
                   color={color}
                   zIndex={window.parseInt(getMaxLevelNumber()) + 2}
                   onChange={(value) => {
-                  return new Promise((resolve) => {
-                    this.onChange('color', value);
-                    resolve();
-                  });
-                }}
+                    return new Promise((resolve) => {
+                      this.onChange('color', value);
+                      resolve();
+                    });
+                  }}
                 />
               </td>
             </tr>
@@ -126,20 +124,11 @@ TextShadowSettingPicker.propTypes = {
   // 是否启用
   disabled: PropTypes.bool,
   // 水平阴影的位置
-  hShadow: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
+  hShadow: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   // 垂直阴影的位置
-  vShadow: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
+  vShadow: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   // 模糊的距离
-  blur: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
+  blur: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   // 颜色
   color: PropTypes.string,
   onChange: PropTypes.func,

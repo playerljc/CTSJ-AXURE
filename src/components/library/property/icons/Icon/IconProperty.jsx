@@ -21,9 +21,7 @@ class IconProperty extends React.PureComponent {
    * @return {*[]}
    */
   getConfig() {
-    const {
-      shape,
-    } = this.props;
+    const { shape } = this.props;
 
     const {
       // text,
@@ -57,7 +55,7 @@ class IconProperty extends React.PureComponent {
           <ToolTip
             value={tooltip}
             onChange={(value) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.tooltip = value;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -68,15 +66,9 @@ class IconProperty extends React.PureComponent {
   }
 
   render() {
-    const {
-      children,
-    } = this.props;
+    const { children } = this.props;
 
-    return (
-      <div className={selectorPrefix}>
-        {children(this.getConfig())}
-      </div>
-    );
+    return <div className={selectorPrefix}>{children(this.getConfig())}</div>;
   }
 }
 

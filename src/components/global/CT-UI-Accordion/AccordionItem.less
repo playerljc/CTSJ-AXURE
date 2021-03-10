@@ -8,14 +8,14 @@
 
   &[open] {
     > .CT-UI-AccordionItem-Trigger {
-      &:before {
-        font-family: 'Font Awesome 5 Free';
-        content: '\f103';
-        font-size: 18px;
+      &::before {
         margin: 0 5px 0 10px;
         color: gray;
-        transform: rotate(0deg);
         font-weight: bold;
+        font-size: 18px;
+        font-family: 'Font Awesome 5 Free';
+        transform: rotate(0deg);
+        content: '\f103';
       }
     }
   }
@@ -23,29 +23,29 @@
   > .CT-UI-AccordionItem-Trigger {
     position: relative;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    outline: 0;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    outline: 0;
 
-    &:before {
-      font-family: 'Font Awesome 5 Free';
-      content: '\f102';
-      font-size: 18px;
+    &::before {
       margin: 0 5px 0 10px;
       color: gray;
-      transform: rotate(0deg);
       font-weight: bold;
+      font-size: 18px;
+      font-family: 'Font Awesome 5 Free';
+      transform: rotate(0deg);
+      content: '\f102';
     }
 
     > .CT-UI-AccordionItem-Trigger-Name {
       position: absolute;
       left: 50%;
-      transform: translateX(-50%);
       height: 100%;
+      transform: translateX(-50%);
     }
   }
 }

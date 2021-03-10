@@ -95,12 +95,15 @@ class RadiusPicker extends React.PureComponent {
             type="text"
             value={radius}
             onChange={(e) => {
-              const value = e.target.value;
-              this.setState({
-                radius: value.endsWith('%') ? value : window.parseInt(value),
-              }, () => {
-                this.refresh();
-              });
+              const {value} = e.target;
+              this.setState(
+                {
+                  radius: value.endsWith('%') ? value : window.parseInt(value),
+                },
+                () => {
+                  this.refresh();
+                },
+              );
             }}
           />
         </div>
@@ -111,19 +114,22 @@ class RadiusPicker extends React.PureComponent {
             borderLeftBottomRadiusDisable={borderLeftBottomRadiusDisable}
             borderRightBottomRadiusDisable={borderRightBottomRadiusDisable}
             onChange={({
-                         borderLeftTopRadiusDisable: changeLeftTopRadiusDisable,
-                         borderRightTopRadiusDisable: changeRightTopRadiusDisable,
-                         borderLeftBottomRadiusDisable: changeLeftBottomRadiusDisable,
-                         borderRightBottomRadiusDisable: changeRightBottomRadiusDisable,
-                       }) => {
-              this.setState({
-                borderLeftTopRadiusDisable: changeLeftTopRadiusDisable,
-                borderRightTopRadiusDisable: changeRightTopRadiusDisable,
-                borderLeftBottomRadiusDisable: changeLeftBottomRadiusDisable,
-                borderRightBottomRadiusDisable: changeRightBottomRadiusDisable,
-              }, () => {
-                this.refresh();
-              });
+              borderLeftTopRadiusDisable: changeLeftTopRadiusDisable,
+              borderRightTopRadiusDisable: changeRightTopRadiusDisable,
+              borderLeftBottomRadiusDisable: changeLeftBottomRadiusDisable,
+              borderRightBottomRadiusDisable: changeRightBottomRadiusDisable,
+            }) => {
+              this.setState(
+                {
+                  borderLeftTopRadiusDisable: changeLeftTopRadiusDisable,
+                  borderRightTopRadiusDisable: changeRightTopRadiusDisable,
+                  borderLeftBottomRadiusDisable: changeLeftBottomRadiusDisable,
+                  borderRightBottomRadiusDisable: changeRightBottomRadiusDisable,
+                },
+                () => {
+                  this.refresh();
+                },
+              );
             }}
           />
         </div>
@@ -137,10 +143,7 @@ RadiusPicker.propTypes = {
   borderRightTopRadiusDisable: PropTypes.bool,
   borderLeftBottomRadiusDisable: PropTypes.bool,
   borderRightBottomRadiusDisable: PropTypes.bool,
-  radius: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
+  radius: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
 };
 

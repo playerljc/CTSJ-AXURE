@@ -31,7 +31,7 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
     const { shape } = this.props;
 
     const property = Immutable.cloneDeep(shape.getProperty().description);
-    const { group = []} = property;
+    const { group = [] } = property;
 
     this.state = {
       property,
@@ -44,15 +44,19 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
    * @return {<Select>}
    */
   renderGroupSelect() {
-    const { property: { group = []}, groupSelectValue } = this.state;
+    const {
+      property: { group = [] },
+      groupSelectValue,
+    } = this.state;
     return (
-      <Select
-        onChange={this.onGroupSelectChange}
-        value={groupSelectValue}
-      >
+      <Select onChange={this.onGroupSelectChange} value={groupSelectValue}>
         {group.map((g) => {
           const { name = '', id = '' } = g;
-          return (<option key={id} value={id}>{name}</option>);
+          return (
+            <option key={id} value={id}>
+              {name}
+            </option>
+          );
         })}
       </Select>
     );
@@ -67,11 +71,13 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
 
     if (!groupSelectValue) return null;
 
-    const { property: { group = []} } = this.state;
+    const {
+      property: { group = [] },
+    } = this.state;
 
     if (group.length === 0) return null;
 
-    const curGroup = group.find(t => t.id === groupSelectValue);
+    const curGroup = group.find((t) => t.id === groupSelectValue);
     if (!curGroup) return null;
 
     const fieldElementArr = [];
@@ -89,8 +95,10 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
    */
   renderField(groupId, fieldConfig) {
     const { fieldId } = fieldConfig;
-    const { property: { field = []} } = this.state;
-    const fieldEntry = field.find(t => t.id === fieldId);
+    const {
+      property: { field = [] },
+    } = this.state;
+    const fieldEntry = field.find((t) => t.id === fieldId);
     if (!fieldEntry) return null;
 
     const { type } = fieldEntry;
@@ -180,11 +188,13 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
    */
   renderSelectField(groupId, { id, fieldId, value = '' }) {
     const { form } = this.props;
-    const { property: { field = []} } = this.state;
+    const {
+      property: { field = [] },
+    } = this.state;
     const FiledComponent = form.createField(Select, id);
 
     let options = [];
-    const fieldEntry = field.find(t => t.id === fieldId);
+    const fieldEntry = field.find((t) => t.id === fieldId);
     if (fieldEntry) {
       options = fieldEntry.options || [];
     }
@@ -197,7 +207,11 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
           this.propertyChange({ groupId, fieldId: id, value: { value: e.target.value } });
         }}
       >
-        {options.map((t, index) => (<option key={index + 1} value={t}>{t}</option>))}
+        {options.map((t, index) => (
+          <option key={index + 1} value={t}>
+            {t}
+          </option>
+        ))}
       </FiledComponent>
     );
   }
@@ -211,10 +225,10 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
   propertyChange({ groupId, fieldId, value }) {
     const { shape } = this.props;
     const property = Immutable.cloneDeep(this.state.property);
-    const { group = []} = property;
-    const groupEntry = group.find(t => t.id === groupId);
+    const { group = [] } = property;
+    const groupEntry = group.find((t) => t.id === groupId);
     if (groupEntry) {
-      const fieldEntry = groupEntry.fields.find(t => t.id === fieldId);
+      const fieldEntry = groupEntry.fields.find((t) => t.id === fieldId);
       if (fieldEntry) {
         Object.assign(fieldEntry, value);
         shape.setPropertyByProps('description', property);
@@ -250,26 +264,32 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
         />
       ),
       yscroll: false,
-      buttons: [{
-        text: 'ok',
-        handler: () => {
-          // 获取改变的数据
-          const data = this.propertyDescriptionSettingIns.getData();
-          // 更新shape数据
-          const { shape } = this.props;
-          shape.setPropertyByProps('description', data);
-          this.setState({
-            property: data,
-          }, () => {
+      buttons: [
+        {
+          text: 'ok',
+          handler: () => {
+            // 获取改变的数据
+            const data = this.propertyDescriptionSettingIns.getData();
+            // 更新shape数据
+            const { shape } = this.props;
+            shape.setPropertyByProps('description', data);
+            this.setState(
+              {
+                property: data,
+              },
+              () => {
+                Modal.close(modal);
+              },
+            );
+          },
+        },
+        {
+          text: 'cancel',
+          handler: () => {
             Modal.close(modal);
-          });
+          },
         },
-      }, {
-        text: 'cancel',
-        handler: () => {
-          Modal.close(modal);
-        },
-      }],
+      ],
     });
   }
 
@@ -277,22 +297,15 @@ class ComponentPropertyDescriptionTab extends React.PureComponent {
     this.props.form.clear();
     return (
       <div className={`${selectorPrefix}`}>
-
         {/* 组的选择Select */}
-        <div className={`${selectorPrefix}-GroupSelect`}>
-          {this.renderGroupSelect()}
-        </div>
+        <div className={`${selectorPrefix}-GroupSelect`}>{this.renderGroupSelect()}</div>
 
         <div className={`${selectorPrefix}-Tool`}>
-          <span onClick={this.onOpenCustomProperty}>customProperty
-          </span>
+          <span onClick={this.onOpenCustomProperty}>customProperty</span>
           <span>clearAll</span>
         </div>
 
-        <div className={`${selectorPrefix}-Fields`}>
-          {this.renderFields()}
-        </div>
-
+        <div className={`${selectorPrefix}-Fields`}>{this.renderFields()}</div>
       </div>
     );
   }

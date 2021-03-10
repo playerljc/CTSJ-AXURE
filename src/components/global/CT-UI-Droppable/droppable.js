@@ -102,130 +102,140 @@ function initDragSourceEvent() {
     const handlerEntry = {};
 
     // 点击 mousedown
-    sourceEl.addEventListener('mousedown', (() => {
-      function createCloneEl() {
-        const cloneEl = sourceEl.cloneNode(true);
-        if (dragSourceExtendClasses) {
-          cloneEl.className += ` ${dragSourceExtendClasses.join(' ')}`;
-        } else {
-          cloneEl.style.border = '1px dashed black';
-        }
-        return cloneEl;
-      }
-
-      const handler = (ev) => {
-        const { disable = false } = self;
-
-        if (disable) return false;
-
-        const { onStart } = self.config;
-        if (onStart) {
-          onStart();
-        }
-
-        self.isdown = true;
-        self.sourceEl = sourceEl;
-
-        // create CloneNode
-        if (onDragClone) {
-          self.cloneEl = onDragClone(sourceEl, self.scale);
-          if (!self.cloneEl) {
-            self.cloneEl = createCloneEl();
+    sourceEl.addEventListener(
+      'mousedown',
+      (() => {
+        function createCloneEl() {
+          const cloneEl = sourceEl.cloneNode(true);
+          if (dragSourceExtendClasses) {
+            cloneEl.className += ` ${dragSourceExtendClasses.join(' ')}`;
+          } else {
+            cloneEl.style.border = '1px dashed black';
           }
-        } else {
-          self.cloneEl = createCloneEl();
+          return cloneEl;
         }
 
-        self.cloneEl.style.position = 'fixed';
-        self.cloneEl.style.zIndex = `${window.parseInt(getMaxLevelNumber()) + 2}`;
-        self.cloneEl.style.margin = '0';
-        self.cloneEl.addEventListener('mouseup', () => {
-          if (!self.ismove) {
-            reset.call(self);
-            return false;
+        const handler = (ev) => {
+          const { disable = false } = self;
+
+          if (disable) return false;
+
+          const { onStart } = self.config;
+          if (onStart) {
+            onStart();
           }
 
-          const moveInTargetEls = getMoveInTargetEls.call(self);
-          const targetEls = [].concat(moveInTargetEls.section, moveInTargetEls.complete);
-          if (moveInTargetEls.complete.length > 0) {
-            // 可以放
-            // target和source可能是包含关系，target包含source
-            // 如果是包含关系可以放
-            if (inclusionRelation) {
-              Put.call(self, sourceEl, moveInTargetEls);
-            } else {
-              const completeTargetEls = moveInTargetEls.complete;
-              let flag = false;
-              for (let i = 0; i < completeTargetEls.length; i++) {
-                const index = Array.from(completeTargetEls[i].querySelectorAll(`.${selectorPrefix}source`)).findIndex((el) => {
-                  return el === sourceEl;
-                });
+          self.isdown = true;
+          self.sourceEl = sourceEl;
 
-                // 是兄弟的关系
-                if (index === -1) {
-                  flag = true;
-                  break;
-                }
-              }
-
-              // 有兄弟
-              if (flag) {
-                Put.call(self, sourceEl, moveInTargetEls);
-              } else {
-                // 全是爸爸
-                goBack.call(self, sourceEl, targetEls);
-              }
+          // create CloneNode
+          if (onDragClone) {
+            self.cloneEl = onDragClone(sourceEl, self.scale);
+            if (!self.cloneEl) {
+              self.cloneEl = createCloneEl();
             }
           } else {
-            // 不可以放
-            goBack.call(self, sourceEl, targetEls);
+            self.cloneEl = createCloneEl();
           }
-        });
 
+          self.cloneEl.style.position = 'fixed';
+          self.cloneEl.style.zIndex = `${window.parseInt(getMaxLevelNumber()) + 2}`;
+          self.cloneEl.style.margin = '0';
+          self.cloneEl.addEventListener('mouseup', () => {
+            if (!self.ismove) {
+              reset.call(self);
+              return false;
+            }
 
-        // append CloneNode
-        self.el.appendChild(self.cloneEl);
+            const moveInTargetEls = getMoveInTargetEls.call(self);
+            const targetEls = [].concat(moveInTargetEls.section, moveInTargetEls.complete);
+            if (moveInTargetEls.complete.length > 0) {
+              // 可以放
+              // target和source可能是包含关系，target包含source
+              // 如果是包含关系可以放
+              if (inclusionRelation) {
+                Put.call(self, sourceEl, moveInTargetEls);
+              } else {
+                const completeTargetEls = moveInTargetEls.complete;
+                let flag = false;
+                for (let i = 0; i < completeTargetEls.length; i++) {
+                  const index = Array.from(
+                    completeTargetEls[i].querySelectorAll(`.${selectorPrefix}source`),
+                  ).findIndex((el) => {
+                    return el === sourceEl;
+                  });
 
-        self.cloneElWidth = self.cloneEl.offsetWidth;
-        self.cloneElHeight = self.cloneEl.offsetHeight;
+                  // 是兄弟的关系
+                  if (index === -1) {
+                    flag = true;
+                    break;
+                  }
+                }
 
-        self.cloneEl.style.left = `${ev.pageX - Math.floor(self.cloneElWidth / 2)}px`;
-        self.cloneEl.style.top = `${ev.pageY - Math.floor(self.cloneElHeight / 2)}px`;
-      };
-      handlerEntry.mousedown = handler;
-      return handler;
-    })());
+                // 有兄弟
+                if (flag) {
+                  Put.call(self, sourceEl, moveInTargetEls);
+                } else {
+                  // 全是爸爸
+                  goBack.call(self, sourceEl, targetEls);
+                }
+              }
+            } else {
+              // 不可以放
+              goBack.call(self, sourceEl, targetEls);
+            }
+          });
+
+          // append CloneNode
+          self.el.appendChild(self.cloneEl);
+
+          self.cloneElWidth = self.cloneEl.offsetWidth;
+          self.cloneElHeight = self.cloneEl.offsetHeight;
+
+          self.cloneEl.style.left = `${ev.pageX - Math.floor(self.cloneElWidth / 2)}px`;
+          self.cloneEl.style.top = `${ev.pageY - Math.floor(self.cloneElHeight / 2)}px`;
+        };
+        handlerEntry.mousedown = handler;
+        return handler;
+      })(),
+    );
 
     // 进入 mouseenter
-    sourceEl.addEventListener('mouseenter', (() => {
-      const handler = () => {
-        const { disable = false } = self;
+    sourceEl.addEventListener(
+      'mouseenter',
+      (() => {
+        const handler = () => {
+          const { disable = false } = self;
 
-        if (disable) return false;
+          if (disable) return false;
 
-        sourceEl.style.cursor = 'move';
-        if (onSourceEnter) {
-          onSourceEnter(sourceEl);
-        }
-      };
-      handlerEntry.mouseenter = handler;
-      return handler;
-    })());
+          sourceEl.style.cursor = 'move';
+          if (onSourceEnter) {
+            onSourceEnter(sourceEl);
+          }
+        };
+        handlerEntry.mouseenter = handler;
+        return handler;
+      })(),
+    );
 
     // 移出 mouseleave
-    sourceEl.addEventListener('mouseleave', (() => {
-      const handler = () => {
-        const { disable = false } = self;
+    sourceEl.addEventListener(
+      'mouseleave',
+      (() => {
+        const handler = () => {
+          const { disable = false } = self;
 
-        if (disable) return false;
-        sourceEl.style.cursor = 'default';
-        if (onSourceLeave) {
-          onSourceLeave(sourceEl);
-        }
-      };
-      handlerEntry.mouseover = handler;
-      return handler;
-    })());
+          if (disable) return false;
+          sourceEl.style.cursor = 'default';
+          if (onSourceLeave) {
+            onSourceLeave(sourceEl);
+          }
+        };
+        handlerEntry.mouseover = handler;
+        return handler;
+      })(),
+    );
 
     // 记录mousedonw,mouseenter,mouseover事件的句柄
     self.sourceEventHanlder.set(sourceEl, handlerEntry);
@@ -268,7 +278,6 @@ function Put(sourceEl, moveInTargetEls) {
       },
     });
 
-
     if (isPut) {
       // 放了
       if (!isDragSourceExist) {
@@ -297,7 +306,7 @@ function getMoveInTargetEls() {
 
   const cloneElRect = this.cloneEl.getBoundingClientRect();
 
-  const { dragTargetExtendClasses = []} = this.config;
+  const { dragTargetExtendClasses = [] } = this.config;
 
   const { targetEls } = this;
   for (let i = 0; i < targetEls.length; i++) {
@@ -306,14 +315,10 @@ function getMoveInTargetEls() {
 
     // 进入了target
     if (
-      (
-        (cloneElRect.left >= rect.left && cloneElRect.left <= rect.right) ||
-        (cloneElRect.right >= rect.left && cloneElRect.right <= rect.right)
-      ) &&
-      (
-        (cloneElRect.top >= rect.top && cloneElRect.top <= rect.bottom) ||
-        (cloneElRect.bottom >= rect.top && cloneElRect.bottom <= rect.bottom)
-      )
+      ((cloneElRect.left >= rect.left && cloneElRect.left <= rect.right) ||
+        (cloneElRect.right >= rect.left && cloneElRect.right <= rect.right)) &&
+      ((cloneElRect.top >= rect.top && cloneElRect.top <= rect.bottom) ||
+        (cloneElRect.bottom >= rect.top && cloneElRect.bottom <= rect.bottom))
     ) {
       if (dragTargetExtendClasses) {
         dragTargetExtendClasses.forEach((Class) => {
@@ -327,14 +332,14 @@ function getMoveInTargetEls() {
       }
 
       if (
-        (
-          (cloneElRect.left >= rect.left && cloneElRect.left <= rect.right) &&
-          (cloneElRect.right >= rect.left && cloneElRect.right <= rect.right)
-        ) &&
-        (
-          (cloneElRect.top >= rect.top && cloneElRect.top <= rect.bottom) &&
-          (cloneElRect.bottom >= rect.top && cloneElRect.bottom <= rect.bottom)
-        )
+        cloneElRect.left >= rect.left &&
+        cloneElRect.left <= rect.right &&
+        cloneElRect.right >= rect.left &&
+        cloneElRect.right <= rect.right &&
+        cloneElRect.top >= rect.top &&
+        cloneElRect.top <= rect.bottom &&
+        cloneElRect.bottom >= rect.top &&
+        cloneElRect.bottom <= rect.bottom
       ) {
         // 完全进入
         completeResult.push(targetEl);
@@ -351,7 +356,6 @@ function getMoveInTargetEls() {
     } else {
       targetEl.style.border = '0';
     }
-
 
     // 不管进不进入target都去走边缘检查
     // 只有完全进入的才进行边缘检测
@@ -433,7 +437,7 @@ function goBack(sourceEl, targetEls) {
  */
 function reset(targetEls) {
   const self = this;
-  const { dragTargetExtendClasses = []} = this.config;
+  const { dragTargetExtendClasses = [] } = this.config;
 
   if (self.boundaryDetectionHandler) {
     cancelAnimationFrame(self.boundaryDetectionHandler);
@@ -465,7 +469,6 @@ function reset(targetEls) {
   self.ismovecanput = false;
   self.cloneElWidth = null;
   self.cloneElHeight = null;
-
 
   const { onEnd } = self.config;
   if (onEnd) {
@@ -586,7 +589,7 @@ class Droppable {
    */
   constructor(el, config) {
     this.el = el;
-    this.config = Object.assign({}, config);
+    this.config = { ...config};
 
     this.onContainerMousemove = this.onContainerMousemove.bind(this);
     this.onContainerMouseleave = this.onContainerMouseleave.bind(this);
@@ -674,9 +677,7 @@ class Droppable {
           bottom: false,
         };
 
-        if (left < rect.left ||
-          left + self.cloneElWidth > rect.right
-        ) {
+        if (left < rect.left || left + self.cloneElWidth > rect.right) {
           if (left < rect.left) {
             self.cloneEl.style.left = `${rect.left}px`;
             condition.left = true;
@@ -690,10 +691,7 @@ class Droppable {
           self.cloneEl.style.left = `${left}px`;
         }
 
-
-        if (top < rect.top ||
-          top + self.cloneElHeight > rect.bottom
-        ) {
+        if (top < rect.top || top + self.cloneElHeight > rect.bottom) {
           if (top < rect.top) {
             self.cloneEl.style.top = `${rect.top}px`;
             condition.top = true;

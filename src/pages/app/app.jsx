@@ -33,11 +33,7 @@ import Actions from '../../util/Actions';
 import Emitter from '../../util/Emitter';
 import { Dom6 } from '../../util/CTMobile-UI-Util';
 import ClipBoard from '../../util/ClipBoard';
-import {
-  PAST_XPOSITION_STEP,
-  PAST_YPOSITION_STEP,
-  DRSWRAPPREFIX,
-} from '../../util/Constant';
+import { PAST_XPOSITION_STEP, PAST_YPOSITION_STEP, DRSWRAPPREFIX } from '../../util/Constant';
 
 import ShapeModel from '../../model/ShapeModel';
 import OpenPageModel from '../../model/OpenPageModel';
@@ -357,15 +353,7 @@ class App extends React.PureComponent {
    * @param {Object} - property
    * @param {Function} - renderHandler
    */
-  createShape({
-    groupKey,
-    componentKey,
-    attribute,
-    pageId,
-    componentId,
-    property,
-    renderHandler,
-  }) {
+  createShape({ groupKey, componentKey, attribute, pageId, componentId, property, renderHandler }) {
     // preShape进行unActive的操作
     this.acitveShapeUnActive(pageId);
 
@@ -381,10 +369,10 @@ class App extends React.PureComponent {
         property={property}
         getInstance={(ins) => {
           ShapeModel.add(ins);
-          renderHandler(el/* el.firstElementChild */);
+          renderHandler(el /* el.firstElementChild */);
         }}
-      />
-      , el
+      />,
+      el,
     );
 
     // renderHandler(el/* el.firstElementChild */);
@@ -437,7 +425,6 @@ class App extends React.PureComponent {
     }
 
     // console.log('选取结束包含的节点:', els.length);
-
 
     // 1.根据els计算出一个Rect
     // 2.赋值Rect的4个值,left,top,width,height

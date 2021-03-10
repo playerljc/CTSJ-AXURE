@@ -15,7 +15,7 @@ class VlineTool extends React.PureComponent {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-base-Vline`} >
+        <div className={`${selectorPrefix}-base-Vline`}>
           <span className={`${selectorPrefix}-base-Vline-inner`} />
         </div>
       </React.Fragment>

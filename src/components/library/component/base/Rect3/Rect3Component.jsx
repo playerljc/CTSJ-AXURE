@@ -18,20 +18,13 @@ class Rect3Component extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          text,
-        },
+        prop: { text },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
-      <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={alignStyle}
-      >
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} style={alignStyle}>
         {text}
       </div>
     );
@@ -51,7 +44,9 @@ Rect3Component.propTypes = {
   style: PropTypes.object,
 };
 
-export default ComponentBaseHOC(DRSHOC(Rect3Component, {
-  groupKey: 'base',
-  componentKey: 'Rect3',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(Rect3Component, {
+    groupKey: 'base',
+    componentKey: 'Rect3',
+  }),
+);

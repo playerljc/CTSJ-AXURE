@@ -11,7 +11,6 @@ import ComponentPropertyStyleTab from './ComponentPropertyStyleTab';
 
 import './ComponentPropertyHOC.less';
 
-
 const selectorPrefix = 'ComponentPropertyHOC';
 
 /**
@@ -58,11 +57,8 @@ export default (PropertyTabComponent) => {
                 return (
                   <Accordion className="Fresh">
                     {config.map(({ key, name, Component }) => (
-                      <AccordionItem
-                        key={key}
-                        name={name}
-                        open
-                      >{Component}
+                      <AccordionItem key={key} name={name} open>
+                        {Component}
                       </AccordionItem>
                     ))}
                   </Accordion>

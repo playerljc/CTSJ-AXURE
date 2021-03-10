@@ -5,7 +5,6 @@ import FontAwesoneFreeCategories from '@fortawesome/fontawesome-free/metadata/ca
 
 import './FontAwesomeFree.less';
 
-
 const selectorPrefix = 'CT-UI-FontAwesomeFree';
 
 export { FontAwesoneFreeCategories };
@@ -64,36 +63,34 @@ class FontAwesomeFree extends React.PureComponent {
         return !search ? true : i.includes(search);
       });
 
-      return (
-        data.length === 0 ? null :
-          (
-            <dl key={index} className={`${selectorPrefix}-Categorie`}>
-              <dt className={`${selectorPrefix}-Categorie-Label`}>{label}</dt>
-              <dd className={`${selectorPrefix}-Categorie-IconsWrap`}>
-                <div className={`${selectorPrefix}-Categorie-Icons`}>
-                  {icons.filter((i) => {
-                    return !search ? true : i.includes(search);
-                  }).map((i) => {
-                    return (
-                      <div
-                        key={i}
-                        className={`${selectorPrefix}-Categorie-Icon-Wrap ${value === i ? 'active' : ''} `}
-                        onClick={() => {
-                          this.onChooes(i);
-                        }}
-                      >
-                        <i
-                          className={`fas fa-${i} ${selectorPrefix}-Categorie-Icon`}
-                          title={i}
-                        />
-                        <span className={`${selectorPrefix}-Categorie-Icon-Label`}>{i}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </dd>
-            </dl>
-          )
+      return data.length === 0 ? null : (
+        <dl key={index} className={`${selectorPrefix}-Categorie`}>
+          <dt className={`${selectorPrefix}-Categorie-Label`}>{label}</dt>
+          <dd className={`${selectorPrefix}-Categorie-IconsWrap`}>
+            <div className={`${selectorPrefix}-Categorie-Icons`}>
+              {icons
+                .filter((i) => {
+                  return !search ? true : i.includes(search);
+                })
+                .map((i) => {
+                  return (
+                    <div
+                      key={i}
+                      className={`${selectorPrefix}-Categorie-Icon-Wrap ${
+                        value === i ? 'active' : ''
+                      } `}
+                      onClick={() => {
+                        this.onChooes(i);
+                      }}
+                    >
+                      <i className={`fas fa-${i} ${selectorPrefix}-Categorie-Icon`} title={i} />
+                      <span className={`${selectorPrefix}-Categorie-Icon-Label`}>{i}</span>
+                    </div>
+                  );
+                })}
+            </div>
+          </dd>
+        </dl>
       );
     });
   }
@@ -122,9 +119,7 @@ class FontAwesomeFree extends React.PureComponent {
           />
           <i className={`fa fa-search ${selectorPrefix}-Search-Icon`} />
         </div>
-        <div className={`${selectorPrefix}-Inner`}>
-          {this.renderInner()}
-        </div>
+        <div className={`${selectorPrefix}-Inner`}>{this.renderInner()}</div>
       </div>
     );
   }

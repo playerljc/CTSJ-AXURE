@@ -12,24 +12,14 @@ export default {
   open(config) {
     let TableIns;
 
-    const {
-      zIndex = 9999,
-      value,
-      onSuccess,
-    } = config;
+    const { zIndex = 9999, value, onSuccess } = config;
 
     const modal = Modal.open({
       title: 'VMenu Setting',
       zIndex,
       minWidth: '250px',
       maxWidth: '80%',
-      component: (
-        <VMenuTreeSetting
-          value={value}
-          ref={ins => TableIns = ins}
-          zIndex={zIndex}
-        />
-      ),
+      component: <VMenuTreeSetting value={value} ref={(ins) => (TableIns = ins)} zIndex={zIndex} />,
       xscroll: true,
       yscroll: true,
       buttons: [

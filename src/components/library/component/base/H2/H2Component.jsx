@@ -18,20 +18,13 @@ class H2Component extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          text,
-        },
+        prop: { text },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
-      <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={alignStyle}
-      >
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} style={alignStyle}>
         {text}
       </div>
     );
@@ -51,7 +44,9 @@ H2Component.propTypes = {
   style: PropTypes.object,
 };
 
-export default ComponentBaseHOC(DRSHOC(H2Component, {
-  groupKey: 'base',
-  componentKey: 'H2',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(H2Component, {
+    groupKey: 'base',
+    componentKey: 'H2',
+  }),
+);

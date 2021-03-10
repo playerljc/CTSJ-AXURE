@@ -7,10 +7,7 @@ import ContextMenu from '../../../global/CT-UI-ContextMenu/ContextMenu';
 import Actions from '../../../../util/Actions';
 import Emitter from '../../../../util/Emitter';
 import { Immutable } from '../../../../util/CTMobile-UI-Util';
-import {
-  PAGE_TREE_ICON,
-  FOLDER_TREE_ICON,
-} from '../../../../util/Constant';
+import { PAGE_TREE_ICON, FOLDER_TREE_ICON } from '../../../../util/Constant';
 
 import OpenPageModel from '../../../../model/OpenPageModel';
 import PageModel from '../../../../model/PageModel';
@@ -243,7 +240,7 @@ class PagePanel extends Component {
         break;
       }
 
-      const { childrendata = []} = n;
+      const { childrendata = [] } = n;
       node = this.findNodeById(childrendata, id);
       if (node) break;
     }
@@ -259,7 +256,7 @@ class PagePanel extends Component {
    */
   findParentById(parent, id) {
     let node;
-    const { childrendata = []} = parent;
+    const { childrendata = [] } = parent;
     for (let i = 0; i < childrendata.length; i++) {
       const n = childrendata[i];
       if (n.id === id) {
@@ -283,13 +280,7 @@ class PagePanel extends Component {
    * @param {String} - direction 节点的方向[top | bottom]
    * @return {Promise<any>}
    */
-  addNode({
-    nodeId,
-    name,
-    icon,
-    type,
-    direction,
-  }) {
+  addNode({ nodeId, name, icon, type, direction }) {
     return new Promise((resolve, reject) => {
       const data = Immutable.cloneDeep(this.state.data);
 
@@ -317,11 +308,14 @@ class PagePanel extends Component {
         data.splice(index + (direction === 'top' ? 0 : 1), 0, newNode);
       }
 
-      this.setState({
-        data,
-      }, () => {
-        resolve();
-      });
+      this.setState(
+        {
+          data,
+        },
+        () => {
+          resolve();
+        },
+      );
     });
   }
 
@@ -335,15 +329,13 @@ class PagePanel extends Component {
    * @param {Array<Object>} - menudata
    * @param {Object} - node
    */
-  setDisableContextMenu({
-    menudata,
-    node,
-  }) {
+  setDisableContextMenu({ menudata, node }) {
     const parentNode = this.findParentById(
       {
         childrendata: Immutable.cloneDeep(this.state.data),
       },
-      node.id);
+      node.id,
+    );
     let children;
     if (parentNode) {
       children = parentNode.childrendata;
@@ -396,24 +388,22 @@ class PagePanel extends Component {
       node,
     });
 
-    ContextMenu.open(
-      menudata,
-      {
-        width: 200,
-        x: e.clientX,
-        y: e.clientY,
-        maskClosable: true,
-        handler: (id, attribute) => {
-          // folder 添加目录
-          // addpageabove 向上添加页面
-          // addpagebelow 向下添加页面
-          // subpage 添加子页面
+    ContextMenu.open(menudata, {
+      width: 200,
+      x: e.clientX,
+      y: e.clientY,
+      maskClosable: true,
+      handler: (id, attribute) => {
+        // folder 添加目录
+        // addpageabove 向上添加页面
+        // addpagebelow 向下添加页面
+        // subpage 添加子页面
 
-          // delete 删除
-          // rename 重命名
-          this[`onContextMenu${id}`](attribute, node);
-        },
-      });
+        // delete 删除
+        // rename 重命名
+        this[`onContextMenu${id}`](attribute, node);
+      },
+    });
   }
 
   /**
@@ -432,7 +422,9 @@ class PagePanel extends Component {
    * @return {boolean}
    */
   onDBClick(t) {
-    const { attributes: { type } } = t;
+    const {
+      attributes: { type },
+    } = t;
     if (type === 'folder') return false;
     Emitter.trigger(Actions.components.business.pagepanel.dbclick, t);
   }
@@ -567,11 +559,14 @@ class PagePanel extends Component {
               type: 'file',
             },
           });
-          this.setState({
-            data,
-          }, () => {
-            resolve();
-          });
+          this.setState(
+            {
+              data,
+            },
+            () => {
+              resolve();
+            },
+          );
         });
       },
     });
@@ -584,9 +579,12 @@ class PagePanel extends Component {
    */
   onContextMenumoveup(menuItemAttribute, node) {
     const stateClone = Immutable.cloneDeep(this.state.data);
-    const parentNode = this.findParentById({
-      childrendata: stateClone,
-    }, node.id);
+    const parentNode = this.findParentById(
+      {
+        childrendata: stateClone,
+      },
+      node.id,
+    );
 
     let children;
     if (parentNode) {
@@ -610,9 +608,12 @@ class PagePanel extends Component {
    */
   onContextMenumovedown(menuItemAttribute, node) {
     const stateClone = Immutable.cloneDeep(this.state.data);
-    const parentNode = this.findParentById({
-      childrendata: stateClone,
-    }, node.id);
+    const parentNode = this.findParentById(
+      {
+        childrendata: stateClone,
+      },
+      node.id,
+    );
 
     let children;
     if (parentNode) {
@@ -636,9 +637,12 @@ class PagePanel extends Component {
    */
   onContextMenuupgrade(menuItemAttribute, node) {
     const stateClone = Immutable.cloneDeep(this.state.data);
-    const parentNode = this.findParentById({
-      childrendata: stateClone,
-    }, node.id);
+    const parentNode = this.findParentById(
+      {
+        childrendata: stateClone,
+      },
+      node.id,
+    );
 
     let children = parentNode.childrendata;
     let index = children.findIndex(({ id }) => id === node.id);
@@ -647,9 +651,12 @@ class PagePanel extends Component {
       parentNode.leaf = true;
     }
 
-    const ppNode = this.findParentById({
-      childrendata: stateClone,
-    }, parentNode.id);
+    const ppNode = this.findParentById(
+      {
+        childrendata: stateClone,
+      },
+      parentNode.id,
+    );
 
     if (ppNode) {
       children = ppNode.childrendata;
@@ -672,9 +679,12 @@ class PagePanel extends Component {
    */
   onContextMenudowngrade(menuItemAttribute, node) {
     const stateClone = Immutable.cloneDeep(this.state.data);
-    const parentNode = this.findParentById({
-      childrendata: stateClone,
-    }, node.id);
+    const parentNode = this.findParentById(
+      {
+        childrendata: stateClone,
+      },
+      node.id,
+    );
 
     const children = parentNode.childrendata;
     const index = children.findIndex(({ id }) => id === node.id) - 1;
@@ -698,9 +708,12 @@ class PagePanel extends Component {
     function deleteMenu() {
       // 删除菜单项
       const stateClone = Immutable.cloneDeep(this.state.data);
-      const parentNode = this.findParentById({
-        childrendata: stateClone,
-      }, node.id);
+      const parentNode = this.findParentById(
+        {
+          childrendata: stateClone,
+        },
+        node.id,
+      );
 
       let children;
       if (parentNode) {
@@ -742,11 +755,14 @@ class PagePanel extends Component {
         const stateClone = Immutable.cloneDeep(this.state.data);
         const curNode = this.findNodeById(stateClone, node.id);
         curNode.name = value;
-        this.setState({
-          data: stateClone,
-        }, () => {
-          resolve();
-        });
+        this.setState(
+          {
+            data: stateClone,
+          },
+          () => {
+            resolve();
+          },
+        );
       });
     }
 
@@ -758,14 +774,17 @@ class PagePanel extends Component {
         return new Promise((resolve) => {
           const page = OpenPageModel.get(node.id);
           if (page) {
-            page.setName({
-              pageId: node.id,
-              name: value,
-            }, () => {
-              rename.call(this, value).then(() => {
-                resolve();
-              });
-            });
+            page.setName(
+              {
+                pageId: node.id,
+                name: value,
+              },
+              () => {
+                rename.call(this, value).then(() => {
+                  resolve();
+                });
+              },
+            );
           } else {
             rename.call(this, value).then(() => {
               resolve();
@@ -783,11 +802,7 @@ class PagePanel extends Component {
    * @param {Function} - onSearch
    * @return {ReactElement}
    */
-  static extendComponent({
-    onAddFile,
-    onAddFolder,
-    onSearch,
-  }) {
+  static extendComponent({ onAddFile, onAddFolder, onSearch }) {
     return (
       <div className={`${selectorPrefix}-ExtendBar`}>
         <span

@@ -27,16 +27,20 @@ export default {
           {
             fieldId: 'id1',
             value: '222',
-          }, {
+          },
+          {
             fieldId: 'id2',
             value: 123,
-          }, {
+          },
+          {
             fieldId: 'id3',
             value: 2010012312301230,
-          }, {
+          },
+          {
             fieldId: 'id4',
             value: '123',
-          }],
+          },
+        ],
       },
       {
         id: 'g2',
@@ -45,16 +49,20 @@ export default {
           {
             fieldId: 'id1',
             value: '222',
-          }, {
+          },
+          {
             fieldId: 'id2',
             value: 123,
-          }, {
+          },
+          {
             fieldId: 'id3',
             value: 2010012312301230,
-          }, {
+          },
+          {
             fieldId: 'id4',
             value: '456',
-          }],
+          },
+        ],
       },
     ],
     field: [
@@ -77,11 +85,7 @@ export default {
         id: 'id4',
         name: '说明4',
         type: 'select',
-        options: [
-          '111',
-          '222',
-          '333',
-        ],
+        options: ['111', '222', '333'],
       },
     ],
   },

@@ -53,14 +53,17 @@ export default (Component) => {
       const { id } = this.state;
       const { onEditorModify } = context;
 
-      this.setState({
-        editorable: false,
-        value,
-      }, () => {
-        if (onEditorModify) {
-          onEditorModify({ value, id });
-        }
-      });
+      this.setState(
+        {
+          editorable: false,
+          value,
+        },
+        () => {
+          if (onEditorModify) {
+            onEditorModify({ value, id });
+          }
+        },
+      );
     }
 
     /**
@@ -75,31 +78,26 @@ export default (Component) => {
     render() {
       const { editorable = false, value } = this.state;
       return (
-        <TreeContext.Consumer>{
-          (context) => {
+        <TreeContext.Consumer>
+          {(context) => {
             return (
               <div className={`${selectorPrefix}`}>
-                {
-                  editorable ?
-                    <Component
-                      {...this.getOtherProps()}
-                      context={context}
-                      onBlur={(editorValue) => {
-                        this.onBlur({ value: editorValue, context });
-                      }}
-                    /> :
-                    (
-                      <div
-                        className={`${selectorPrefix}-Wrap`}
-                        onClick={this.onCellClick}
-                      >{value}
-                      </div>
-                    )
-                }
+                {editorable ? (
+                  <Component
+                    {...this.getOtherProps()}
+                    context={context}
+                    onBlur={(editorValue) => {
+                      this.onBlur({ value: editorValue, context });
+                    }}
+                  />
+                ) : (
+                  <div className={`${selectorPrefix}-Wrap`} onClick={this.onCellClick}>
+                    {value}
+                  </div>
+                )}
               </div>
             );
-          }
-        }
+          }}
         </TreeContext.Consumer>
       );
     }

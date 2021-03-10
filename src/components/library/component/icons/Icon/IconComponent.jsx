@@ -20,20 +20,15 @@ class IconComponent extends React.PureComponent {
       property: {
         prop: {},
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
       attribute = '{}',
     } = this.props;
 
     const attrJSON = JSON.parse(attribute);
 
     return (
-      <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={alignStyle}
-      >
-        {attrJSON.value ? (<i className={`fas fa-${attrJSON.value}`} />) : null}
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} style={alignStyle}>
+        {attrJSON.value ? <i className={`fas fa-${attrJSON.value}`} /> : null}
       </div>
     );
   }
@@ -52,7 +47,9 @@ IconComponent.propTypes = {
   style: PropTypes.object,
 };
 
-export default ComponentBaseHOC(DRSHOC(IconComponent, {
-  groupKey: 'icons',
-  componentKey: 'Icon',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(IconComponent, {
+    groupKey: 'icons',
+    componentKey: 'Icon',
+  }),
+);

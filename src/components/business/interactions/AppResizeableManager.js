@@ -35,7 +35,7 @@ function onEnd() {
 
   const rangeSelect = RangeSelectManager.get(App.getCurPageId());
   if (rangeSelect) {
-    const { children = []} = rangeSelect;
+    const { children = [] } = rangeSelect;
     rangeSelect.children = children.map((t) => {
       const { el } = t;
       return Object.assign(t, {
@@ -57,25 +57,13 @@ function onEnd() {
  * @param {Function} - callback
  * @return {boolean}
  */
-function onChange(curEl,
-  {
-    incrementWidth,
-    incrementHeight,
-    condition,
-  },
-  {
-    handler,
-    context,
-  }) {
+function onChange(curEl, { incrementWidth, incrementHeight, condition }, { handler, context }) {
   const {
     offsetWidth: width,
     offsetHeight: height,
     offsetLeft: left,
     offsetTop: top,
-    dataset: {
-      pageid: pageId,
-      componentid: componentId,
-    },
+    dataset: { pageid: pageId, componentid: componentId },
   } = curEl;
 
   const rangeSelect = RangeSelectManager.get(App.getCurPageId());
@@ -99,22 +87,18 @@ function onChange(curEl,
     });
   } else {
     // 对rangeSelect进行处理
-    const { children = []} = rangeSelect;
+    const { children = [] } = rangeSelect;
     children.forEach((entry) => {
       const { el, baseWidth, baseHeight, clientX, clientY } = entry;
 
-      handler.call(
-        context,
-        el,
-        {
-          baseWidth,
-          baseHeight,
-          clientX,
-          clientY,
-          incrementWidth,
-          incrementHeight,
-        }
-      );
+      handler.call(context, el, {
+        baseWidth,
+        baseHeight,
+        clientX,
+        clientY,
+        incrementWidth,
+        incrementHeight,
+      });
 
       if (condition.left || condition.right || condition.top || condition.bottom) {
         if (condition.left || condition.right) {

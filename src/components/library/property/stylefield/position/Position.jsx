@@ -51,16 +51,19 @@ class Position extends React.PureComponent {
    * @param {Event} - e
    */
   onChangeX(e) {
-    this.setState({
-      left: Math.floor(e.target.value),
-    }, () => {
-      const { onChange } = this.props;
-      if (onChange) {
-        onChange({
-          ...this.state,
-        });
-      }
-    });
+    this.setState(
+      {
+        left: Math.floor(e.target.value),
+      },
+      () => {
+        const { onChange } = this.props;
+        if (onChange) {
+          onChange({
+            ...this.state,
+          });
+        }
+      },
+    );
   }
 
   /**
@@ -68,16 +71,19 @@ class Position extends React.PureComponent {
    * @param {Event} - e
    */
   onChangeY(e) {
-    this.setState({
-      top: Math.floor(e.target.value),
-    }, () => {
-      const { onChange } = this.props;
-      if (onChange) {
-        onChange({
-          ...this.state,
-        });
-      }
-    });
+    this.setState(
+      {
+        top: Math.floor(e.target.value),
+      },
+      () => {
+        const { onChange } = this.props;
+        if (onChange) {
+          onChange({
+            ...this.state,
+          });
+        }
+      },
+    );
   }
 
   render() {
@@ -85,19 +91,11 @@ class Position extends React.PureComponent {
     return (
       <div className={`${selectorPrefix}`}>
         <div className={`${selectorPrefix}-item`}>
-          <Input
-            type="number"
-            value={left}
-            onChange={this.onChangeX}
-          />
+          <Input type="number" value={left} onChange={this.onChangeX} />
           <div>X:</div>
         </div>
         <div className={`${selectorPrefix}-item`}>
-          <Input
-            type="number"
-            value={top}
-            onChange={this.onChangeY}
-          />
+          <Input type="number" value={top} onChange={this.onChangeY} />
           <div>Y:</div>
         </div>
       </div>
@@ -113,11 +111,7 @@ Position.propTypes = {
    *   top
    * }
    */
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.object,
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
   /**
    * onChange
    */

@@ -54,14 +54,17 @@ export default (Component) => {
       const { index, dataIndex } = this.state;
       const { onEditorModify } = context.props;
 
-      this.setState({
-        editorable: false,
-        value,
-      }, () => {
-        if (onEditorModify) {
-          onEditorModify({ value, index, dataIndex });
-        }
-      });
+      this.setState(
+        {
+          editorable: false,
+          value,
+        },
+        () => {
+          if (onEditorModify) {
+            onEditorModify({ value, index, dataIndex });
+          }
+        },
+      );
     }
 
     /**
@@ -69,45 +72,38 @@ export default (Component) => {
      * @return {Object}
      */
     getOtherProps() {
-      const {
-        index,
-        dataIndex,
-        editorable,
-        ...otherProps
-      } = this.state;
+      const { index, dataIndex, editorable, ...otherProps } = this.state;
       return Immutable.cloneDeep(otherProps);
     }
 
     render() {
       const { editorable = false, value } = this.state;
       return (
-        <TableContext.Consumer>{
-          (context) => {
+        <TableContext.Consumer>
+          {(context) => {
             return (
               <div className={`${selectorPrefix}`}>
-                {
-                  editorable ?
-                    <Component
-                      {...this.getOtherProps()}
-                      context={context}
-                      onBlur={(editorValue) => {
-                        this.onBlur({ value: editorValue, context });
-                      }}
-                    /> :
-                    (
-                      <div
-                        className={`${selectorPrefix}-Wrap`}
-                        onClickCapture={() => {
-                          this.onCellClick();
-                        }}
-                      >{value}
-                      </div>
-                    )
-                }
+                {editorable ? (
+                  <Component
+                    {...this.getOtherProps()}
+                    context={context}
+                    onBlur={(editorValue) => {
+                      this.onBlur({ value: editorValue, context });
+                    }}
+                  />
+                ) : (
+                  <div
+                    className={`${selectorPrefix}-Wrap`}
+                    onClickCapture={() => {
+                      this.onCellClick();
+                    }}
+                  >
+                    {value}
+                  </div>
+                )}
               </div>
             );
-          }
-        }
+          }}
         </TableContext.Consumer>
       );
     }

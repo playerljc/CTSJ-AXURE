@@ -30,4 +30,3 @@ const ActivePageMouseWheelBind = {
 };
 
 export default ActivePageMouseWheelBind;
-

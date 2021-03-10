@@ -21,14 +21,9 @@ class ImageProperty extends React.PureComponent {
    * @return {*[]}
    */
   getConfig() {
-    const {
-      shape,
-    } = this.props;
+    const { shape } = this.props;
 
-    const {
-      base64,
-      tooltip,
-    } = shape.getProperty().prop;
+    const { base64, tooltip } = shape.getProperty().prop;
 
     return [
       {
@@ -43,7 +38,7 @@ class ImageProperty extends React.PureComponent {
           <Img
             value={base64}
             onChange={(value) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.base64 = value;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -57,7 +52,7 @@ class ImageProperty extends React.PureComponent {
           <ToolTip
             value={tooltip}
             onChange={(value) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.tooltip = value;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -68,21 +63,13 @@ class ImageProperty extends React.PureComponent {
   }
 
   render() {
-    const {
-      children,
-    } = this.props;
+    const { children } = this.props;
 
-    return (
-      <div className={selectorPrefix}>
-        {children(this.getConfig())}
-      </div>
-    );
+    return <div className={selectorPrefix}>{children(this.getConfig())}</div>;
   }
 }
 
-ImageProperty.defaultProps = {
-
-};
+ImageProperty.defaultProps = {};
 
 ImageProperty.propTypes = {
   shape: PropTypes.object,

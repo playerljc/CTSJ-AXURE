@@ -18,20 +18,13 @@ class EllipseComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          text,
-        },
+        prop: { text },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
-      <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={alignStyle}
-      >
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} style={alignStyle}>
         {text}
       </div>
     );
@@ -51,7 +44,9 @@ EllipseComponent.propTypes = {
   style: PropTypes.object,
 };
 
-export default ComponentBaseHOC(DRSHOC(EllipseComponent, {
-  groupKey: 'base',
-  componentKey: 'Ellipse',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(EllipseComponent, {
+    groupKey: 'base',
+    componentKey: 'Ellipse',
+  }),
+);

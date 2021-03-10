@@ -16,14 +16,7 @@ class AlignPicker extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      hleft,
-      hright,
-      hcenter,
-      vtop,
-      vcenter,
-      vbottom,
-    } = props;
+    const { hleft, hright, hcenter, vtop, vcenter, vbottom } = props;
 
     this.state = {
       hleft,
@@ -56,14 +49,7 @@ class AlignPicker extends React.PureComponent {
   // }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      hleft,
-      hright,
-      hcenter,
-      vtop,
-      vcenter,
-      vbottom,
-    } = nextProps;
+    const { hleft, hright, hcenter, vtop, vcenter, vbottom } = nextProps;
 
     this.setState({
       hleft,
@@ -77,69 +63,86 @@ class AlignPicker extends React.PureComponent {
 
   onHLeftClick = () => {
     const { hleft } = this.state;
-    this.setState({
-      hleft: !hleft,
-      hright: hleft,
-      hcenter: hleft,
-    }, () => {
-      this.refresh();
-    });
+    this.setState(
+      {
+        hleft: !hleft,
+        hright: hleft,
+        hcenter: hleft,
+      },
+      () => {
+        this.refresh();
+      },
+    );
   };
 
   onHCenterClick = () => {
     const { hcenter } = this.state;
-    this.setState({
-      hleft: hcenter,
-      hcenter: !hcenter,
-      hright: hcenter,
-    }, () => {
-      this.refresh();
-    });
+    this.setState(
+      {
+        hleft: hcenter,
+        hcenter: !hcenter,
+        hright: hcenter,
+      },
+      () => {
+        this.refresh();
+      },
+    );
   };
 
   onHRightClick = () => {
     const { hright } = this.state;
-    this.setState({
-      hleft: hright,
-      hright: !hright,
-      hcenter: hright,
-    }, () => {
-      this.refresh();
-    });
+    this.setState(
+      {
+        hleft: hright,
+        hright: !hright,
+        hcenter: hright,
+      },
+      () => {
+        this.refresh();
+      },
+    );
   };
-
 
   onVTopClick = () => {
     const { vtop } = this.state;
-    this.setState({
-      vtop: !vtop,
-      vcenter: vtop,
-      vbottom: vtop,
-    }, () => {
-      this.refresh();
-    });
+    this.setState(
+      {
+        vtop: !vtop,
+        vcenter: vtop,
+        vbottom: vtop,
+      },
+      () => {
+        this.refresh();
+      },
+    );
   };
 
   onVCenterClick = () => {
     const { vcenter } = this.state;
-    this.setState({
-      vtop: vcenter,
-      vcenter: !vcenter,
-      vbottom: vcenter,
-    }, () => {
-      this.refresh();
-    });
+    this.setState(
+      {
+        vtop: vcenter,
+        vcenter: !vcenter,
+        vbottom: vcenter,
+      },
+      () => {
+        this.refresh();
+      },
+    );
   };
 
   onVBottomClick = () => {
     const { vbottom } = this.state;
-    this.setState({
-      vtop: vbottom,
-      vbottom: !vbottom,
-      vcenter: vbottom,
-    }, () => {
-      this.refresh();
-    });
+    this.setState(
+      {
+        vtop: vbottom,
+        vbottom: !vbottom,
+        vcenter: vbottom,
+      },
+      () => {
+        this.refresh();
+      },
+    );
   };
 
   refresh() {
@@ -151,26 +154,43 @@ class AlignPicker extends React.PureComponent {
   }
 
   render() {
-    const {
-      hleft,
-      hright,
-      hcenter,
-      vtop,
-      vcenter,
-      vbottom,
-    } = this.state;
+    const { hleft, hright, hcenter, vtop, vcenter, vbottom } = this.state;
 
     return (
       <div className={`${selectorPrefix}`}>
         <div className={`${selectorPrefix} g-grid-list column3`}>
-          <div className={`g-grid-list-item fa fa-align-left hleft ${hleft ? 'active' : ''}`} title="horizontal left" onClick={this.onHLeftClick} />
-          <div className={`g-grid-list-item fa fa-align-center hcenter ${hcenter ? 'active' : ''}`} title="horizontal center" onClick={this.onHCenterClick} />
-          <div className={`g-grid-list-item fa fa-align-right hright ${hright ? 'active' : ''}`} title="horizontal right" onClick={this.onHRightClick} />
+          <div
+            className={`g-grid-list-item fa fa-align-left hleft ${hleft ? 'active' : ''}`}
+            title="horizontal left"
+            onClick={this.onHLeftClick}
+          />
+          <div
+            className={`g-grid-list-item fa fa-align-center hcenter ${hcenter ? 'active' : ''}`}
+            title="horizontal center"
+            onClick={this.onHCenterClick}
+          />
+          <div
+            className={`g-grid-list-item fa fa-align-right hright ${hright ? 'active' : ''}`}
+            title="horizontal right"
+            onClick={this.onHRightClick}
+          />
         </div>
         <div className={`${selectorPrefix} g-grid-list column3`}>
-          <div className={`g-grid-list-item fa fa-dedent vtop ${vtop ? 'active' : ''}`} title="vertical left" onClick={this.onVTopClick} />
-          <div className={`g-grid-list-item fa fa-align-justify vcenter ${vcenter ? 'active' : ''}`} title="vertical center" onClick={this.onVCenterClick} />
-          <div className={`g-grid-list-item fa fa-indent vbottom ${vbottom ? 'active' : ''}`} title="vertical right" onClick={this.onVBottomClick} />
+          <div
+            className={`g-grid-list-item fa fa-dedent vtop ${vtop ? 'active' : ''}`}
+            title="vertical left"
+            onClick={this.onVTopClick}
+          />
+          <div
+            className={`g-grid-list-item fa fa-align-justify vcenter ${vcenter ? 'active' : ''}`}
+            title="vertical center"
+            onClick={this.onVCenterClick}
+          />
+          <div
+            className={`g-grid-list-item fa fa-indent vbottom ${vbottom ? 'active' : ''}`}
+            title="vertical right"
+            onClick={this.onVBottomClick}
+          />
         </div>
       </div>
     );

@@ -81,7 +81,7 @@ class TreeSetting extends React.PureComponent {
             success: (rowCount) => {
               return new Promise((resolve) => {
                 rowCount = window.parseInt(rowCount);
-                if (!Number.isNaN(rowCount) && (rowCount > 0)) {
+                if (!Number.isNaN(rowCount) && rowCount > 0) {
                   this.appendMulitNode(rowCount).then(() => {
                     resolve();
                   });
@@ -94,10 +94,13 @@ class TreeSetting extends React.PureComponent {
       // 上方添加节点
       {
         key: 'addNodeAbove',
-        className: () => `far fa-caret-square-up ${this.toolConfig.find(t => t.key === 'addNodeAbove').disable() ? 'disable' : ''}`,
+        className: () =>
+          `far fa-caret-square-up ${
+            this.toolConfig.find((t) => t.key === 'addNodeAbove').disable() ? 'disable' : ''
+          }`,
         title: 'Add node above',
         onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'addNodeAbove').disable();
+          const disabled = this.toolConfig.find((t) => t.key === 'addNodeAbove').disable();
           if (disabled) return false;
 
           const { activeKey } = this.state;
@@ -118,10 +121,13 @@ class TreeSetting extends React.PureComponent {
       // 下方添加节点
       {
         key: 'addNodeBelow',
-        className: () => `far fa-caret-square-down ${this.toolConfig.find(t => t.key === 'addNodeBelow').disable() ? 'disable' : ''}`,
+        className: () =>
+          `far fa-caret-square-down ${
+            this.toolConfig.find((t) => t.key === 'addNodeBelow').disable() ? 'disable' : ''
+          }`,
         title: 'Add node below',
         onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'addNodeBelow').disable();
+          const disabled = this.toolConfig.find((t) => t.key === 'addNodeBelow').disable();
           if (disabled) return false;
 
           const { activeKey } = this.state;
@@ -142,10 +148,13 @@ class TreeSetting extends React.PureComponent {
       // 添加子节点
       {
         key: 'addChildNode',
-        className: () => `fa fa-indent ${this.toolConfig.find(t => t.key === 'addChildNode').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-indent ${
+            this.toolConfig.find((t) => t.key === 'addChildNode').disable() ? 'disable' : ''
+          }`,
         title: 'Add child node',
         onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'addChildNode').disable();
+          const disabled = this.toolConfig.find((t) => t.key === 'addChildNode').disable();
           if (disabled) return false;
 
           const { activeKey, data } = this.state;
@@ -176,19 +185,25 @@ class TreeSetting extends React.PureComponent {
       // 删除节点
       {
         key: 'removeNode',
-        className: () => `fa fa-window-close ${this.toolConfig.find(t => t.key === 'removeNode').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-window-close ${
+            this.toolConfig.find((t) => t.key === 'removeNode').disable() ? 'disable' : ''
+          }`,
         title: 'remove node',
         onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'removeNode').disable();
+          const disabled = this.toolConfig.find((t) => t.key === 'removeNode').disable();
           if (disabled) return false;
 
           const { activeKey, data } = this.state;
 
           // 删除菜单项
           const cloneData = Immutable.cloneDeep(data);
-          const parentNode = this.findParentById({
-            childrendata: cloneData,
-          }, activeKey);
+          const parentNode = this.findParentById(
+            {
+              childrendata: cloneData,
+            },
+            activeKey,
+          );
 
           let children;
           if (parentNode) {
@@ -214,17 +229,23 @@ class TreeSetting extends React.PureComponent {
       // 上移
       {
         key: 'moveUp',
-        className: () => `fa fa-arrow-up ${this.toolConfig.find(t => t.key === 'moveUp').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-arrow-up ${
+            this.toolConfig.find((t) => t.key === 'moveUp').disable() ? 'disable' : ''
+          }`,
         title: 'move up',
         onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'moveUp').disable();
+          const disabled = this.toolConfig.find((t) => t.key === 'moveUp').disable();
           if (disabled) return false;
 
           const { activeKey, data } = this.state;
           const cloneData = Immutable.cloneDeep(data);
-          const parentNode = this.findParentById({
-            childrendata: cloneData,
-          }, activeKey);
+          const parentNode = this.findParentById(
+            {
+              childrendata: cloneData,
+            },
+            activeKey,
+          );
 
           let children;
           if (parentNode) {
@@ -248,17 +269,23 @@ class TreeSetting extends React.PureComponent {
       // 下移
       {
         key: 'moveDown',
-        className: () => `fa fa-arrow-down ${this.toolConfig.find(t => t.key === 'moveDown').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-arrow-down ${
+            this.toolConfig.find((t) => t.key === 'moveDown').disable() ? 'disable' : ''
+          }`,
         title: 'move down',
         onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'moveDown').disable();
+          const disabled = this.toolConfig.find((t) => t.key === 'moveDown').disable();
           if (disabled) return false;
 
           const { activeKey, data } = this.state;
           const cloneData = Immutable.cloneDeep(data);
-          const parentNode = this.findParentById({
-            childrendata: cloneData,
-          }, activeKey);
+          const parentNode = this.findParentById(
+            {
+              childrendata: cloneData,
+            },
+            activeKey,
+          );
 
           let children;
           if (parentNode) {
@@ -282,17 +309,23 @@ class TreeSetting extends React.PureComponent {
       // 升级
       {
         key: 'upgrade',
-        className: () => `fa fa-arrow-right ${this.toolConfig.find(t => t.key === 'upgrade').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-arrow-right ${
+            this.toolConfig.find((t) => t.key === 'upgrade').disable() ? 'disable' : ''
+          }`,
         title: 'upgrade',
         onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'upgrade').disable();
+          const disabled = this.toolConfig.find((t) => t.key === 'upgrade').disable();
           if (disabled) return false;
 
           const { activeKey, data } = this.state;
           const cloneData = Immutable.cloneDeep(data);
-          const parentNode = this.findParentById({
-            childrendata: cloneData,
-          }, activeKey);
+          const parentNode = this.findParentById(
+            {
+              childrendata: cloneData,
+            },
+            activeKey,
+          );
 
           let children = parentNode.childrendata;
           let index = children.findIndex(({ id }) => id === activeKey);
@@ -301,9 +334,12 @@ class TreeSetting extends React.PureComponent {
             parentNode.leaf = true;
           }
 
-          const ppNode = this.findParentById({
-            childrendata: cloneData,
-          }, parentNode.id);
+          const ppNode = this.findParentById(
+            {
+              childrendata: cloneData,
+            },
+            parentNode.id,
+          );
 
           if (ppNode) {
             children = ppNode.childrendata;
@@ -326,17 +362,23 @@ class TreeSetting extends React.PureComponent {
       // 降级
       {
         key: 'downgrade',
-        className: () => `fa fa-arrow-left ${this.toolConfig.find(t => t.key === 'downgrade').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-arrow-left ${
+            this.toolConfig.find((t) => t.key === 'downgrade').disable() ? 'disable' : ''
+          }`,
         title: 'downgrade',
         onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'downgrade').disable();
+          const disabled = this.toolConfig.find((t) => t.key === 'downgrade').disable();
           if (disabled) return false;
 
           const { activeKey, data } = this.state;
           const cloneData = Immutable.cloneDeep(data);
-          const parentNode = this.findParentById({
-            childrendata: cloneData,
-          }, activeKey);
+          const parentNode = this.findParentById(
+            {
+              childrendata: cloneData,
+            },
+            activeKey,
+          );
 
           const children = parentNode.childrendata;
           const index = children.findIndex(({ id }) => id === activeKey) - 1;
@@ -356,10 +398,13 @@ class TreeSetting extends React.PureComponent {
       // 展开/收缩
       {
         key: 'expand-collapse',
-        className: () => `fas fa-angle-double-up ${this.toolConfig.find(t => t.key === 'expand-collapse').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fas fa-angle-double-up ${
+            this.toolConfig.find((t) => t.key === 'expand-collapse').disable() ? 'disable' : ''
+          }`,
         title: 'expand or collapse',
         onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'expand-collapse').disable();
+          const disabled = this.toolConfig.find((t) => t.key === 'expand-collapse').disable();
           if (disabled) return false;
 
           const { zIndex } = this.props;
@@ -375,11 +420,14 @@ class TreeSetting extends React.PureComponent {
             success: (checked) => {
               return new Promise((resolve) => {
                 node.open = checked;
-                this.setState({
-                  data: cloneData,
-                }, () => {
-                  resolve();
-                });
+                this.setState(
+                  {
+                    data: cloneData,
+                  },
+                  () => {
+                    resolve();
+                  },
+                );
               });
             },
           });
@@ -392,10 +440,13 @@ class TreeSetting extends React.PureComponent {
       // 图标
       {
         key: 'icon',
-        className: () => `fa fa-file-image ${this.toolConfig.find(t => t.key === 'icon').disable() ? 'disable' : ''}`,
+        className: () =>
+          `fa fa-file-image ${
+            this.toolConfig.find((t) => t.key === 'icon').disable() ? 'disable' : ''
+          }`,
         title: 'icon',
         onClick: () => {
-          const disabled = this.toolConfig.find(t => t.key === 'icon').disable();
+          const disabled = this.toolConfig.find((t) => t.key === 'icon').disable();
           if (disabled) return false;
 
           const { activeKey, data } = this.state;
@@ -408,11 +459,14 @@ class TreeSetting extends React.PureComponent {
             onSuccess: (v) => {
               return new Promise((resolve) => {
                 node.icon = v;
-                this.setState({
-                  data: cloneData,
-                }, () => {
-                  resolve();
-                });
+                this.setState(
+                  {
+                    data: cloneData,
+                  },
+                  () => {
+                    resolve();
+                  },
+                );
               });
             },
           });
@@ -458,11 +512,7 @@ class TreeSetting extends React.PureComponent {
       onRenderNode: ::this.onRenderNode,
     };
 
-    return (
-      <Tree
-        {...props}
-      />
-    );
+    return <Tree {...props} />;
   }
 
   /**
@@ -492,7 +542,8 @@ class TreeSetting extends React.PureComponent {
       {
         childrendata: Immutable.cloneDeep(this.state.data),
       },
-      nodeId);
+      nodeId,
+    );
     let children;
     if (parentNode) {
       children = parentNode.childrendata;
@@ -542,7 +593,7 @@ class TreeSetting extends React.PureComponent {
         break;
       }
 
-      const { childrendata = []} = n;
+      const { childrendata = [] } = n;
       node = this.findNodeById(childrendata, id);
       if (node) break;
     }
@@ -558,7 +609,7 @@ class TreeSetting extends React.PureComponent {
    */
   findParentById(parent, id) {
     let node;
-    const { childrendata = []} = parent;
+    const { childrendata = [] } = parent;
     for (let i = 0; i < childrendata.length; i++) {
       const n = childrendata[i];
       if (n.id === id) {
@@ -582,13 +633,7 @@ class TreeSetting extends React.PureComponent {
    * @param {String} - direction 节点的方向[top | bottom]
    * @return {Promise<any>}
    */
-  addNode({
-    nodeId,
-    name,
-    icon,
-    type,
-    direction,
-  }) {
+  addNode({ nodeId, name, icon, type, direction }) {
     return new Promise((resolve) => {
       const data = Immutable.cloneDeep(this.state.data);
 
@@ -619,11 +664,14 @@ class TreeSetting extends React.PureComponent {
         data.push(newNode);
       }
 
-      this.setState({
-        data,
-      }, () => {
-        resolve();
-      });
+      this.setState(
+        {
+          data,
+        },
+        () => {
+          resolve();
+        },
+      );
     });
   }
 
@@ -633,7 +681,7 @@ class TreeSetting extends React.PureComponent {
    */
   appendMulitNode(rowCount) {
     return new Promise((resolve) => {
-      const { data = []} = this.state;
+      const { data = [] } = this.state;
       const cloneData = Immutable.cloneDeep(data);
 
       for (let i = 0; i < rowCount; i++) {
@@ -649,11 +697,14 @@ class TreeSetting extends React.PureComponent {
         });
       }
 
-      this.setState({
-        data: cloneData,
-      }, () => {
-        resolve();
-      });
+      this.setState(
+        {
+          data: cloneData,
+        },
+        () => {
+          resolve();
+        },
+      );
     });
   }
 
@@ -696,22 +747,15 @@ class TreeSetting extends React.PureComponent {
    * @return {Object}
    */
   onRenderNode(nodeConfig) {
-    return (
-      <TreeTextFieldEditor {...nodeConfig} value={nodeConfig.name} />
-    );
+    return <TreeTextFieldEditor {...nodeConfig} value={nodeConfig.name} />;
   }
 
   render() {
     return (
       <div className={`${selectorPrefix}`}>
+        <div className={`${selectorPrefix}-Tool`}>{this.renderTool()}</div>
 
-        <div className={`${selectorPrefix}-Tool`}>
-          {this.renderTool()}
-        </div>
-
-        <div className={`${selectorPrefix}-Inner`}>
-          {this.renderTree()}
-        </div>
+        <div className={`${selectorPrefix}-Inner`}>{this.renderTree()}</div>
       </div>
     );
   }

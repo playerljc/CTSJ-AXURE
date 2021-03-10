@@ -16,14 +16,7 @@ class BackgroundImgPositionPicker extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      left,
-      hcenter,
-      right,
-      top,
-      vcenter,
-      bottom,
-    } = props;
+    const { left, hcenter, right, top, vcenter, bottom } = props;
 
     this.state = {
       left,
@@ -56,14 +49,7 @@ class BackgroundImgPositionPicker extends React.PureComponent {
   // }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      left,
-      hcenter,
-      right,
-      top,
-      vcenter,
-      bottom,
-    } = nextProps;
+    const { left, hcenter, right, top, vcenter, bottom } = nextProps;
 
     this.setState({
       left,
@@ -81,11 +67,7 @@ class BackgroundImgPositionPicker extends React.PureComponent {
   }
 
   onXClick(value) {
-    const {
-      left,
-      hcenter,
-      right,
-    } = this.state;
+    const { left, hcenter, right } = this.state;
 
     const x = {
       left,
@@ -106,11 +88,7 @@ class BackgroundImgPositionPicker extends React.PureComponent {
   }
 
   onYClick(value) {
-    const {
-      top,
-      vcenter,
-      bottom,
-    } = this.state;
+    const { top, vcenter, bottom } = this.state;
 
     const y = {
       top,
@@ -131,14 +109,7 @@ class BackgroundImgPositionPicker extends React.PureComponent {
   }
 
   render() {
-    const {
-      left,
-      hcenter,
-      right,
-      top,
-      vcenter,
-      bottom,
-    } = this.state;
+    const { left, hcenter, right, top, vcenter, bottom } = this.state;
 
     return (
       <div className={`${selectorPrefix}`}>
@@ -148,39 +119,39 @@ class BackgroundImgPositionPicker extends React.PureComponent {
               <td width={50}>X:</td>
               <td align="right">
                 <div>
-                left
+                  left
                   <input
                     type="radio"
                     name="x"
                     value="left"
                     checked={!!left}
                     onChange={() => {
-                    this.onXClick('left');
-                  }}
+                      this.onXClick('left');
+                    }}
                   />
                 </div>
                 <div>
-                center
+                  center
                   <input
                     type="radio"
                     name="x"
                     value="hcenter"
                     checked={!!hcenter}
                     onChange={() => {
-                    this.onXClick('hcenter');
-                  }}
+                      this.onXClick('hcenter');
+                    }}
                   />
                 </div>
                 <div>
-                right
+                  right
                   <input
                     type="radio"
                     name="x"
                     value="right"
                     checked={!!right}
                     onChange={() => {
-                    this.onXClick('right');
-                  }}
+                      this.onXClick('right');
+                    }}
                   />
                 </div>
               </td>
@@ -193,39 +164,39 @@ class BackgroundImgPositionPicker extends React.PureComponent {
               <td width={50}>Y:</td>
               <td align="right">
                 <div>
-                top
+                  top
                   <input
                     type="radio"
                     name="y"
                     value="top"
                     checked={!!top}
                     onChange={() => {
-                    this.onYClick('top');
-                  }}
+                      this.onYClick('top');
+                    }}
                   />
                 </div>
                 <div>
-                center
+                  center
                   <input
                     type="radio"
                     name="y"
                     value="vcenter"
                     checked={!!vcenter}
                     onChange={() => {
-                    this.onYClick('vcenter');
-                  }}
+                      this.onYClick('vcenter');
+                    }}
                   />
                 </div>
                 <div>
-                bottom
+                  bottom
                   <input
                     type="radio"
                     name="y"
                     value="bottom"
                     checked={!!bottom}
                     onChange={() => {
-                    this.onYClick('bottom');
-                  }}
+                      this.onYClick('bottom');
+                    }}
                   />
                 </div>
               </td>

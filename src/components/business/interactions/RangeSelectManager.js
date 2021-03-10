@@ -6,7 +6,6 @@ const rangeSelectMap = new Map();
  * @classdesc RangeSelectManager
  */
 const RangeSelectManager = {
-
   /**
    * set
    * @param {String} - pageId

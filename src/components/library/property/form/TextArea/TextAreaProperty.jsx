@@ -22,9 +22,7 @@ class TextAreaProperty extends React.PureComponent {
    * @return {*[]}
    */
   getConfig() {
-    const {
-      shape,
-    } = this.props;
+    const { shape } = this.props;
 
     const {
       tooltip = '',
@@ -52,7 +50,7 @@ class TextAreaProperty extends React.PureComponent {
           <ToolTip
             value={tooltip}
             onChange={(value) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.tooltip = value;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -67,7 +65,7 @@ class TextAreaProperty extends React.PureComponent {
           <ToolTip
             value={value}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.value = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -81,7 +79,7 @@ class TextAreaProperty extends React.PureComponent {
           <ToolTip
             value={placeholder}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.placeholder = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -95,7 +93,7 @@ class TextAreaProperty extends React.PureComponent {
           <Number
             value={maxlength}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.maxlength = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -111,7 +109,7 @@ class TextAreaProperty extends React.PureComponent {
             label="autofocus"
             value={autofocus}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.autofocus = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -126,7 +124,7 @@ class TextAreaProperty extends React.PureComponent {
             label="readonly"
             value={readonly}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.readonly = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -141,7 +139,7 @@ class TextAreaProperty extends React.PureComponent {
             label="disabled"
             value={disabled}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.disabled = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -156,7 +154,7 @@ class TextAreaProperty extends React.PureComponent {
             label="required"
             value={required}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.required = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -171,7 +169,7 @@ class TextAreaProperty extends React.PureComponent {
           <Number
             value={cols}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.cols = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -185,7 +183,7 @@ class TextAreaProperty extends React.PureComponent {
           <Number
             value={rows}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.rows = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -196,15 +194,9 @@ class TextAreaProperty extends React.PureComponent {
   }
 
   render() {
-    const {
-      children,
-    } = this.props;
+    const { children } = this.props;
 
-    return (
-      <div className={selectorPrefix}>
-        {children(this.getConfig())}
-      </div>
-    );
+    return <div className={selectorPrefix}>{children(this.getConfig())}</div>;
   }
 }
 

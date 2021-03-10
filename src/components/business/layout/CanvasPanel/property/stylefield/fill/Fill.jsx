@@ -29,17 +29,20 @@ class Fill extends React.PureComponent {
         color={backgroundColor}
         onChange={(value) => {
           return new Promise((resolve) => {
-            this.setState({
-              backgroundColor: value,
-            }, () => {
-              const { onChange } = this.props;
-              if (onChange) {
-                onChange({
-                  ...this.state,
-                });
-              }
-              resolve();
-            });
+            this.setState(
+              {
+                backgroundColor: value,
+              },
+              () => {
+                const { onChange } = this.props;
+                if (onChange) {
+                  onChange({
+                    ...this.state,
+                  });
+                }
+                resolve();
+              },
+            );
           });
         }}
       />
@@ -48,11 +51,7 @@ class Fill extends React.PureComponent {
 }
 
 Fill.propTypes = {
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.object,
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
   onChange: PropTypes.func,
 };
 

@@ -4,7 +4,6 @@ import uuidv1 from 'uuid/v1';
 
 import TreeNode from './TreeNode';
 
-
 const selectorPrefix = 'CT-UI-TreeNode';
 
 /**
@@ -19,14 +18,14 @@ class MenuTreeNode extends TreeNode {
    * @return {ReactElement}
    */
   renderSummary(onRenderNode) {
-    const {
-      disabled,
-      separation,
-      active = false,
-    } = this.props;
+    const { disabled, separation, active = false } = this.props;
 
     return (
-      <summary className={`${selectorPrefix}-Summary ${active ? 'active' : ''} ${separation ? 'separation' : ''} ${disabled ? 'disabled' : ''} `}>
+      <summary
+        className={`${selectorPrefix}-Summary ${active ? 'active' : ''} ${
+          separation ? 'separation' : ''
+        } ${disabled ? 'disabled' : ''} `}
+      >
         {this.renderBcHook()}
         {this.renderInner(onRenderNode)}
       </summary>
@@ -34,18 +33,13 @@ class MenuTreeNode extends TreeNode {
   }
 
   renderName(onRenderNode) {
-    const {
-      disabled,
-      name = '',
-    } = this.props;
+    const { disabled, name = '' } = this.props;
 
     return disabled ? name : super.renderName(onRenderNode);
   }
 
   onClickAdapter() {
-    const {
-      disabled,
-    } = this.props;
+    const { disabled } = this.props;
 
     if (!disabled) {
       super.onClickAdapter();
@@ -63,10 +57,10 @@ class MenuTreeNode extends TreeNode {
       separation,
     } = this.props;
 
-    return (
-      separation ? (
-        <div className={`${selectorPrefix}-Separation`} />
-      ) : super.renderInner(onRenderNode)
+    return separation ? (
+      <div className={`${selectorPrefix}-Separation`} />
+    ) : (
+      super.renderInner(onRenderNode)
     );
   }
 
@@ -75,32 +69,23 @@ class MenuTreeNode extends TreeNode {
    * @return {ReactElement | null}
    */
   renderChildren() {
-    const {
-      leaf = false,
-      childrendata = [],
-      onActive,
-      onDBClick,
-      onContextMenu,
-    } = this.props;
+    const { leaf = false, childrendata = [], onActive, onDBClick, onContextMenu } = this.props;
 
-    return !leaf ?
-      (
-        <div className={`${selectorPrefix}-Children`}>
-          {
-            childrendata.map((t) => {
-              return (
-                <MenuTreeNode
-                  key={uuidv1()}
-                  onActive={onActive}
-                  onDBClick={onDBClick}
-                  onContextMenu={onContextMenu}
-                  {...t}
-                />
-              );
-            })
-          }
-        </div>
-      ) : null;
+    return !leaf ? (
+      <div className={`${selectorPrefix}-Children`}>
+        {childrendata.map((t) => {
+          return (
+            <MenuTreeNode
+              key={uuidv1()}
+              onActive={onActive}
+              onDBClick={onDBClick}
+              onContextMenu={onContextMenu}
+              {...t}
+            />
+          );
+        })}
+      </div>
+    ) : null;
   }
 }
 

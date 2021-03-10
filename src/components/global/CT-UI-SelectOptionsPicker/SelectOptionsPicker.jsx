@@ -30,7 +30,7 @@ export default {
         <SelectOptions
           data={data}
           value={value}
-          ref={ins => SelectOptionsIns = ins}
+          ref={(ins) => (SelectOptionsIns = ins)}
           zIndex={zIndex}
         />
       ),

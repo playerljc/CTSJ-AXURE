@@ -6,7 +6,9 @@ export default (Component) => {
       return (
         <Component
           {...this.props}
-          onKeyDownCapture={(e) => { e.stopPropagation(); }}
+          onKeyDownCapture={(e) => {
+            e.stopPropagation();
+          }}
         />
       );
     }

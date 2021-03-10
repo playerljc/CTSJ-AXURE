@@ -85,7 +85,7 @@ class Selectable {
    */
   constructor(el, config) {
     this.el = el;
-    this.config = Object.assign({}, config);
+    this.config = { ...config};
 
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
@@ -450,19 +450,13 @@ class Selectable {
     // }
 
     for (let i = 0; i < self.itemEls.length; i++) {
-      const {
-        xa1,
-        xa2,
-        ya1,
-        ya2,
-        itemEl,
-      } = self.itemEls[i];
+      const { xa1, xa2, ya1, ya2, itemEl } = self.itemEls[i];
 
       const id = itemEl.getAttribute('id');
 
       if (
-        (Math.abs(xb2 + xb1 - xa2 - xa1) <= (xa2 - xa1 + xb2 - xb1)) &&
-        (Math.abs(yb2 + yb1 - ya2 - ya1) <= (ya2 - ya1 + yb2 - yb1))
+        Math.abs(xb2 + xb1 - xa2 - xa1) <= xa2 - xa1 + xb2 - xb1 &&
+        Math.abs(yb2 + yb1 - ya2 - ya1) <= ya2 - ya1 + yb2 - yb1
       ) {
         self.includeEls.push(id);
       } else {
@@ -553,7 +547,6 @@ class Selectable {
   }
 }
 
-
 /**
  * SelectableManager
  * @class SelectableManager
@@ -565,7 +558,7 @@ class SelectableManager {
    */
   constructor(el, config) {
     this.el = el;
-    this.config = Object.assign({}, config);
+    this.config = { ...config};
     this.managers = new Map();
     this.init();
   }

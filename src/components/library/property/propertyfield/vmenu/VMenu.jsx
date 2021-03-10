@@ -17,9 +17,7 @@ class VMenu extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      value,
-    } = props;
+    const { value } = props;
 
     this.state = {
       value,
@@ -27,9 +25,7 @@ class VMenu extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      value,
-    } = nextProps;
+    const { value } = nextProps;
 
     this.setState({
       value,
@@ -45,12 +41,15 @@ class VMenu extends React.PureComponent {
       value,
       onSuccess: (result) => {
         return new Promise((resolve) => {
-          this.setState({
-            value: result,
-          }, () => {
-            onChange(result);
-            resolve();
-          });
+          this.setState(
+            {
+              value: result,
+            },
+            () => {
+              onChange(result);
+              resolve();
+            },
+          );
         });
       },
     });
@@ -59,10 +58,8 @@ class VMenu extends React.PureComponent {
   render() {
     return (
       <div className={`${selectorPrefix}`}>
-        <a
-          className={`${selectorPrefix}-Link`}
-          onClick={::this.onVMenuTreeSetting}
-        >vmenu setting
+        <a className={`${selectorPrefix}-Link`} onClick={::this.onVMenuTreeSetting}>
+          vmenu setting
         </a>
       </div>
     );

@@ -1,112 +1,117 @@
-const path = require('path');
-const HappyPack = require('happypack');
-const modifyVars = require('./system/modifyVars');
+const modifyVars = require('./themes/default/vars');
+
+function isDev(mode) {
+  return mode === 'development';
+}
+
+function isProd(mode) {
+  return mode === 'production';
+}
 
 module.exports = {
-  getConfig({ webpack, curModule, plugins }) {
-    if (curModule.mode === 'development') {
-      curModule.devServer.port = 8006;
-    }
-    curModule.entry.index = path.join(__dirname, 'src', 'index.jsx');
+  getTheme() {
+    return modifyVars;
+  },
+  getConfig({ webpackConfig, webpack, plugins }) {
 
-    const { LessPluginCleanCSS, LessPluginAutoPrefix } = plugins;
+    // 这块只有需要主题切换的时候才能用到
+    const MiniCssExtractPluginIndex = isProd(webpackConfig.mode) ? 3 : 2;
+    webpackConfig.plugins[MiniCssExtractPluginIndex] = new plugins.MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[name].css',
+      ignoreOrder: false,
+    });
 
-    curModule.plugins.splice(6, 1);
-    // Less
-    curModule.plugins.push(
-      new HappyPack({
-        id: 'less',
-        loaders: [
-          'cache-loader',
-          'css-loader',
-          {
-            loader: 'less-loader',
-            query: {
-              javascriptEnabled: true,
-              modifyVars,
-              plugins: [
-                new LessPluginCleanCSS({ advanced: true }),
-                new LessPluginAutoPrefix({ add: false, remove: false, browsers: ['last 2 versions']}),
-              ],
-            },
-          },
-        ],
+    // 变量的引入
+    webpackConfig.plugins.push(
+      new webpack.DefinePlugin({
+        CustomEvnVars: {
+          mode: JSON.stringify(process.env.mode),
+          skin: JSON.stringify(modifyVars),
+          environment: JSON.stringify(process.env.environment),
+        },
       }),
     );
 
-    // Define
-    curModule.plugins.push(new webpack.DefinePlugin({
-      process: {
-        skin: JSON.stringify(modifyVars),
-      },
-    }));
+    webpackConfig.module.rules[2].include.push(/font-awesome.min.css/,'ol.css');
 
-    curModule.optimization.splitChunks = {
-      chunks: 'all',
-      minSize: 30000,
-      maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
-      automaticNameDelimiter: '~',
-      automaticNameMaxLength: 30,
-      name: true,
-      cacheGroups: {
-        static: {
-          test: /[\\/]node_modules[\\/](_cookie_js|_moment)/,
-          priority: 1,
-          enforce: true,
+    if (webpackConfig.mode === 'production') {
+      webpackConfig.optimization.splitChunks = {
+        // chunks: 'all',
+        // minSize: 30000,
+        // maxSize: 0,
+        // minChunks: 1,
+        // maxAsyncRequests: 5,
+        // maxInitialRequests: 3,
+        // automaticNameDelimiter: '~',
+        // automaticNameMaxLength: 30,
+        // name: true,
+        chunks: 'all',
+        minSize: 20000,
+        maxSize: 0,
+        minChunks: 1,
+        maxAsyncRequests: 30,
+        maxInitialRequests: 30,
+        automaticNameDelimiter: '~',
+        enforceSizeThreshold: 50000,
+        cacheGroups: {
+          antdesigncompatible: {
+            test: /[\\/]node_modules[\\/](@ant-design[\\/]compatible|_@ant-design_compatible)/,
+            priority: 1,
+            enforce: true,
+          },
+          antdesignicons: {
+            test: /[\\/]node_modules[\\/](@ant-design[\\/]icons|_@ant-design_icons)/,
+            priority: 1,
+            enforce: true,
+          },
+          echart: {
+            test: /[\\/]node_modules[\\/](echarts-for-react|_echarts-for-react|echarts|_echarts)/,
+            priority: 4,
+            enforce: true,
+          },
+          ol: {
+            test: /[\\/]node_modules[\\/](ol|_ol|ol-ext|_ol-ext)/,
+            priority: 1,
+            enforce: true,
+          },
+          ctsj: {
+            test: /[\\/]node_modules[\\/](@ctsj)/,
+            priority: 1,
+            enforce: true,
+          },
+          react: {
+            test: /[\\/]node_modules[\\/](react-intl-universal|_react-intl-universal|react|_react|react-dom|_react-dom|react-router|_react-router|prop-types|_prop-types|history|_history)/,
+            priority: 1,
+            enforce: true,
+          },
+          antd: {
+            test: /[\\/]node_modules[\\/](antd|_antd|rc|_rc)/,
+            priority: 1,
+            enforce: true,
+          },
+          static: {
+            test: /[\\/]node_modules[\\/](lodash|_lodash|js-md5|_js-md5|classnames|_classnames|uuid|_uuid|qs|_qs|moment|axios|_axios|_cookie_js|_moment|swiper|_swiper)/,
+            priority: 1,
+            enforce: true,
+          },
+          lib: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: 0,
+            enforce: true,
+          },
+          defaultVendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            reuseExistingChunk: true,
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
         },
-        react: {
-          test: /[\\/]node_modules[\\/](_react|_react-dom|_react-router|_prop-types|_history)/,
-          priority: 1,
-          enforce: true,
-        },
-        antd: {
-          test: /[\\/]node_modules[\\/](_antd|_rc)/,
-          priority: 1,
-          enforce: true,
-        },
-        lib: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: 0,
-          enforce: true,
-        },
-        common: {
-          priority: 4,
-          minChunks: 2,
-          reuseExistingChunk: true,
-        },
-
-        uiwebbusiness: {
-          test: /[\\/]UIWeb[\\/]Business[\\/]/,
-          priority: 2,
-          enforce: true,
-        },
-        uiwebcomponents: {
-          test: /[\\/]UIWeb[\\/]Components[\\/]/,
-          priority: 2,
-          enforce: true,
-        },
-        uiweblayout: {
-          test: /[\\/]UIWeb[\\/]Layout[\\/]/,
-          priority: 2,
-          enforce: true,
-        },
-        uiwebutil: {
-          test: /[\\/]UIWeb[\\/]Util[\\/]/,
-          priority: 2,
-          enforce: true,
-        },
-        uiweb: {
-          test: /[\\/]UIWeb[\\/]/,
-          priority: 1,
-          enforce: true,
-        },
-
-        vendors: false,
-        default: false,
-      },
-    };
+      };
+    }
   },
 };

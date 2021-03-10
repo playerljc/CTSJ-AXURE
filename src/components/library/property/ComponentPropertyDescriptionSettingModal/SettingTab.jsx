@@ -71,12 +71,8 @@ class SettingTab extends React.Component {
         dataIndex: 'name',
         render: (record, value, index, dataIndex) => {
           return (
-            <TableTextFieldEditor
-              type="text"
-              value={value}
-              index={index}
-              dataIndex={dataIndex}
-            />);
+            <TableTextFieldEditor type="text" value={value} index={index} dataIndex={dataIndex} />
+          );
         },
       },
     ];
@@ -139,17 +135,17 @@ class SettingTab extends React.Component {
    * onUpGroup
    */
   onUpGroup() {
-    const { groupTableSelectedRowKey, groupData = []} = this.state;
+    const { groupTableSelectedRowKey, groupData = [] } = this.state;
 
     let index;
     if (!groupTableSelectedRowKey) {
       return false;
-    } else {
-      index = groupData.findIndex(t => t.id === groupTableSelectedRowKey);
+    }
+      index = groupData.findIndex((t) => t.id === groupTableSelectedRowKey);
       if (index === 0) {
         return false;
       }
-    }
+
 
     const cloneData = Immutable.cloneDeep(groupData);
     const curTemp = cloneData[index];
@@ -164,16 +160,16 @@ class SettingTab extends React.Component {
    * onDownGroup
    */
   onDownGroup() {
-    const { groupTableSelectedRowKey, groupData = []} = this.state;
+    const { groupTableSelectedRowKey, groupData = [] } = this.state;
     let index;
     if (!groupTableSelectedRowKey) {
       return false;
-    } else {
-      index = groupData.findIndex(t => t.id === groupTableSelectedRowKey);
+    }
+      index = groupData.findIndex((t) => t.id === groupTableSelectedRowKey);
       if (index === groupData.length - 1) {
         return false;
       }
-    }
+
 
     const cloneData = Immutable.cloneDeep(groupData);
     const curTemp = cloneData[index];
@@ -188,10 +184,10 @@ class SettingTab extends React.Component {
    * onDeleteGroup
    */
   onDeleteGroup() {
-    const { groupTableSelectedRowKey, groupData = []} = this.state;
+    const { groupTableSelectedRowKey, groupData = [] } = this.state;
     if (!groupTableSelectedRowKey) return false;
 
-    const index = groupData.findIndex(t => t.id === groupTableSelectedRowKey);
+    const index = groupData.findIndex((t) => t.id === groupTableSelectedRowKey);
     if (index === -1) {
       return false;
     }
@@ -208,12 +204,12 @@ class SettingTab extends React.Component {
    * renderUpGroupClass
    */
   renderUpGroupClass() {
-    const { groupTableSelectedRowKey, groupData = []} = this.state;
+    const { groupTableSelectedRowKey, groupData = [] } = this.state;
     let className = '';
     if (!groupTableSelectedRowKey) {
       className = 'Disable';
     } else {
-      const index = groupData.findIndex(t => t.id === groupTableSelectedRowKey);
+      const index = groupData.findIndex((t) => t.id === groupTableSelectedRowKey);
       if (index === 0) {
         className = 'Disable';
       }
@@ -225,12 +221,12 @@ class SettingTab extends React.Component {
    * renderDownGroupClass
    */
   renderDownGroupClass() {
-    const { groupTableSelectedRowKey, groupData = []} = this.state;
+    const { groupTableSelectedRowKey, groupData = [] } = this.state;
     let className = '';
     if (!groupTableSelectedRowKey) {
       className = 'Disable';
     } else {
-      const index = groupData.findIndex(t => t.id === groupTableSelectedRowKey);
+      const index = groupData.findIndex((t) => t.id === groupTableSelectedRowKey);
       if (index === groupData.length - 1) {
         className = 'Disable';
       }
@@ -246,21 +242,23 @@ class SettingTab extends React.Component {
     return !groupTableSelectedRowKey ? 'Disable' : '';
   }
 
-
   /* ---------------------------------------右侧--------------------------------------*/
 
   getFieldTableColumnsConfig() {
-    return [{
-      title: 'FieldName',
-      key: 'FieldName',
-      align: 'left',
-      dataIndex: 'name',
-    }, {
-      title: 'FieldType',
-      key: 'FieldType',
-      align: 'left',
-      dataIndex: 'type',
-    }];
+    return [
+      {
+        title: 'FieldName',
+        key: 'FieldName',
+        align: 'left',
+        dataIndex: 'name',
+      },
+      {
+        title: 'FieldType',
+        key: 'FieldType',
+        align: 'left',
+        dataIndex: 'type',
+      },
+    ];
   }
 
   getFieldTableRowSelection() {
@@ -281,9 +279,9 @@ class SettingTab extends React.Component {
   }
 
   onSelectField(e) {
-    const { groupData = [], fieldData = []} = this.state;
+    const { groupData = [], fieldData = [] } = this.state;
     const fieldId = e.target.value;
-    const { type } = fieldData.find(t => t.id === fieldId);
+    const { type } = fieldData.find((t) => t.id === fieldId);
     const { fields = [], index: groupIndex } = this.getActiveGroupFields();
     const cloneData = Immutable.cloneDeep(fields);
     cloneData.push({
@@ -302,8 +300,10 @@ class SettingTab extends React.Component {
   }
 
   getActiveGroupFields() {
-    const { groupTableSelectedRowKey = '', groupData = []} = this.state;
-    const index = !groupTableSelectedRowKey ? -1 : groupData.findIndex(t => t.id === groupTableSelectedRowKey);
+    const { groupTableSelectedRowKey = '', groupData = [] } = this.state;
+    const index = !groupTableSelectedRowKey
+      ? -1
+      : groupData.findIndex((t) => t.id === groupTableSelectedRowKey);
     return {
       index,
       fields: index === -1 ? [] : groupData[index].fields,
@@ -320,8 +320,8 @@ class SettingTab extends React.Component {
     } else if (!fieldTableSelectedRowKey) {
       className = 'Disable';
     } else {
-      const { fields = []} = this.getActiveGroupFields();
-      const index = fields.findIndex(t => t.id === fieldTableSelectedRowKey);
+      const { fields = [] } = this.getActiveGroupFields();
+      const index = fields.findIndex((t) => t.id === fieldTableSelectedRowKey);
       if (index === 0) {
         className = 'Disable';
       }
@@ -338,8 +338,8 @@ class SettingTab extends React.Component {
     } else if (!fieldTableSelectedRowKey) {
       className = 'Disable';
     } else {
-      const { fields = []} = this.getActiveGroupFields();
-      const index = fields.findIndex(t => t.id === fieldTableSelectedRowKey);
+      const { fields = [] } = this.getActiveGroupFields();
+      const index = fields.findIndex((t) => t.id === fieldTableSelectedRowKey);
       if (index === fields.length - 1) {
         className = 'Disable';
       }
@@ -353,19 +353,19 @@ class SettingTab extends React.Component {
   }
 
   onUpField() {
-    const { fieldTableSelectedRowKey, groupTableSelectedRowKey = '', groupData = []} = this.state;
+    const { fieldTableSelectedRowKey, groupTableSelectedRowKey = '', groupData = [] } = this.state;
 
     let index;
     if (!groupTableSelectedRowKey) {
       return false;
-    } else if (!fieldTableSelectedRowKey) {
+    } if (!fieldTableSelectedRowKey) {
       return false;
-    } else {
+    }
       const { fields = [], index: groupIndex } = this.getActiveGroupFields();
-      index = fields.findIndex(t => t.id === fieldTableSelectedRowKey);
+      index = fields.findIndex((t) => t.id === fieldTableSelectedRowKey);
       if (index === 0) {
         return false;
-      } else {
+      }
         const cloneData = Immutable.cloneDeep(fields);
         const curTemp = cloneData[index];
         cloneData[index] = cloneData[index - 1];
@@ -374,24 +374,24 @@ class SettingTab extends React.Component {
         this.setState({
           groupData,
         });
-      }
-    }
+
+
   }
 
   onDownField() {
-    const { fieldTableSelectedRowKey, groupTableSelectedRowKey = '', groupData = []} = this.state;
+    const { fieldTableSelectedRowKey, groupTableSelectedRowKey = '', groupData = [] } = this.state;
     let index;
 
     if (!groupTableSelectedRowKey) {
       return false;
-    } else if (!fieldTableSelectedRowKey) {
+    } if (!fieldTableSelectedRowKey) {
       return false;
-    } else {
+    }
       const { fields = [], index: groupIndex } = this.getActiveGroupFields();
-      index = fields.findIndex(t => t.id === fieldTableSelectedRowKey);
+      index = fields.findIndex((t) => t.id === fieldTableSelectedRowKey);
       if (index === fields.length - 1) {
         return false;
-      } else {
+      }
         const cloneData = Immutable.cloneDeep(fields);
         const curTemp = cloneData[index];
         cloneData[index] = cloneData[index + 1];
@@ -400,21 +400,21 @@ class SettingTab extends React.Component {
         this.setState({
           groupData,
         });
-      }
-    }
+
+
   }
 
   onDeleteField() {
-    const { fieldTableSelectedRowKey, groupTableSelectedRowKey = [], groupData = []} = this.state;
+    const { fieldTableSelectedRowKey, groupTableSelectedRowKey = [], groupData = [] } = this.state;
     if (!groupTableSelectedRowKey) return false;
     if (!fieldTableSelectedRowKey) return false;
 
     const { fields = [], index: groupIndex } = this.getActiveGroupFields();
 
-    const index = fields.findIndex(t => t.id === fieldTableSelectedRowKey);
+    const index = fields.findIndex((t) => t.id === fieldTableSelectedRowKey);
     if (index === -1) {
       return false;
-    } else {
+    }
       const cloneData = Immutable.cloneDeep(fields);
       cloneData.splice(index, 1);
       groupData[groupIndex].fields = cloneData;
@@ -422,14 +422,14 @@ class SettingTab extends React.Component {
         groupData,
         fieldTableSelectedRowKey: '',
       });
-    }
+
   }
 
   getFields() {
-    const { fieldData = []} = this.state;
-    const { fields = []} = this.getActiveGroupFields();
+    const { fieldData = [] } = this.state;
+    const { fields = [] } = this.getActiveGroupFields();
     return fields.map((t) => {
-      const { name, type } = fieldData.find(ft => ft.id === t.fieldId);
+      const { name, type } = fieldData.find((ft) => ft.id === t.fieldId);
       return Object.assign(t, {
         name,
         type,
@@ -442,12 +442,10 @@ class SettingTab extends React.Component {
    * file和group
    */
   getSelectFieldOptions() {
-    const {
-      fieldData = [],
-    } = this.state;
+    const { fieldData = [] } = this.state;
 
     // 当前激活的group的fields
-    const { fields = []} = this.getActiveGroupFields();
+    const { fields = [] } = this.getActiveGroupFields();
 
     return fieldData.filter(({ id }) => {
       return fields.findIndex(({ fieldId }) => id === fieldId) === -1;
@@ -463,10 +461,7 @@ class SettingTab extends React.Component {
   }
 
   render() {
-    const {
-      groupData = [],
-      fieldSelectValue = '',
-    } = this.state;
+    const { groupData = [], fieldSelectValue = '' } = this.state;
 
     const fields = this.getFields();
     const selectFieldOptions = this.getSelectFieldOptions();
@@ -478,10 +473,7 @@ class SettingTab extends React.Component {
         <fieldset className={`${selectPrefix}-SettingTab-GroupSet`}>
           <legend>CustomSetting</legend>
           <div className={`${selectPrefix}-SettingTab-GroupSet-ToolBar g-flex horizontal vcenter`}>
-            <span
-              className="g-flex-fixed fa fa-plus AddGroupBtn"
-              onClick={this.onAddGroup}
-            />
+            <span className="g-flex-fixed fa fa-plus AddGroupBtn" onClick={this.onAddGroup} />
             <span
               className={`g-flex-fixed fa fa-long-arrow-alt-up UpGroupBtn ${this.renderUpGroupClass()}`}
               onClick={this.onUpGroup}
@@ -508,7 +500,9 @@ class SettingTab extends React.Component {
         {/* 组中的fiels维护 */}
         <fieldset className={`${selectPrefix}-SettingTab-GroupFieldsSet`}>
           <legend>FieldSetting:{name}</legend>
-          <div className={`${selectPrefix}-SettingTab-GroupFieldsSet-ToolBar g-flex horizontal vcenter`}>
+          <div
+            className={`${selectPrefix}-SettingTab-GroupFieldsSet-ToolBar g-flex horizontal vcenter`}
+          >
             <div className="g-flex-auto">
               <Select
                 style={{ height: 30 }}
@@ -516,7 +510,11 @@ class SettingTab extends React.Component {
                 onChange={this.onSelectField}
                 onSelect={this.onSelectField}
               >
-                {selectFieldOptions.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
+                {selectFieldOptions.map(({ id, name }) => (
+                  <option key={id} value={id}>
+                    {name}
+                  </option>
+                ))}
               </Select>
             </div>
             <span

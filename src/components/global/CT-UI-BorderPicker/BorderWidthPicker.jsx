@@ -31,7 +31,7 @@ class BorderWidthPickerModal extends React.PureComponent {
                 }
               }}
             >
-              {t === 0 ? 'none' : (<div style={{ height: `${t}px` }} />)}
+              {t === 0 ? 'none' : <div style={{ height: `${t}px` }} />}
             </li>
           );
         })}
@@ -44,7 +44,6 @@ BorderWidthPickerModal.propTypes = {
   borderWidth: PropTypes.number,
   onChange: PropTypes.func,
 };
-
 
 /**
  * BorderWidthPicker
@@ -91,24 +90,29 @@ class BorderWidthPicker extends React.PureComponent {
         <BorderWidthPickerModal
           borderWidth={borderWidth}
           onChange={(width) => {
-            this.setState({
-              borderWidth: width,
-            }, () => {
-              if (onChange) {
-                onChange(width);
-              }
-              Modal.close(modal);
-            });
+            this.setState(
+              {
+                borderWidth: width,
+              },
+              () => {
+                if (onChange) {
+                  onChange(width);
+                }
+                Modal.close(modal);
+              },
+            );
           }}
         />
       ),
       yscroll: false,
-      buttons: [{
-        text: 'cancel',
-        handler: () => {
-          Modal.close(modal);
+      buttons: [
+        {
+          text: 'cancel',
+          handler: () => {
+            Modal.close(modal);
+          },
         },
-      }],
+      ],
     });
   }
 
@@ -122,18 +126,9 @@ class BorderWidthPicker extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className={`${selectorPrefix}`}
-        onClick={this.onArrowClick}
-      >
-        <div
-          className={`${selectorPrefix}-Inner`}
-        >
-          {this.renderInner()}
-        </div>
-        <div
-          className={`fa fa-caret-right ${selectorPrefix}-Arrow`}
-        />
+      <div className={`${selectorPrefix}`} onClick={this.onArrowClick}>
+        <div className={`${selectorPrefix}-Inner`}>{this.renderInner()}</div>
+        <div className={`fa fa-caret-right ${selectorPrefix}-Arrow`} />
       </div>
     );
   }

@@ -18,20 +18,13 @@ class H1Component extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          text,
-        },
+        prop: { text },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
-      <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={alignStyle}
-      >
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} style={alignStyle}>
         {text}
       </div>
     );
@@ -51,7 +44,9 @@ H1Component.propTypes = {
   style: PropTypes.object,
 };
 
-export default ComponentBaseHOC(DRSHOC(H1Component, {
-  groupKey: 'base',
-  componentKey: 'H1',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(H1Component, {
+    groupKey: 'base',
+    componentKey: 'H1',
+  }),
+);

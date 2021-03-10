@@ -30,4 +30,3 @@ const ActivePageKeyBoardBind = {
 };
 
 export default ActivePageKeyBoardBind;
-

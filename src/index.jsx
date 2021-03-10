@@ -10,11 +10,6 @@ import './index.less';
 // console.log(_);
 // console.log($);
 
-const {
-  render,
-} = ReactDOM;
+const { render } = ReactDOM;
 
-render(
-  <App />,
-  document.getElementById('app')
-);
+render(<App />, document.getElementById('app'));

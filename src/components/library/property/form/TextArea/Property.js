@@ -115,19 +115,23 @@ export default () => ({
             id: 'i1',
             fieldId: 'id1',
             value: 'TextAreaGroup1Text',
-          }, {
+          },
+          {
             id: 'i2',
             fieldId: 'id2',
             value: 1999,
-          }, {
+          },
+          {
             id: 'i3',
             fieldId: 'id3',
             value: '2019-01-01',
-          }, {
+          },
+          {
             id: 'i4',
             fieldId: 'id4',
             value: 'TextAreaGroup1TextArea1',
-          }],
+          },
+        ],
       },
       {
         id: 'g2',
@@ -137,19 +141,23 @@ export default () => ({
             id: 'i5',
             fieldId: 'id1',
             value: 'TextAreaGroup2Text',
-          }, {
+          },
+          {
             id: 'i6',
             fieldId: 'id2',
             value: 2000,
-          }, {
+          },
+          {
             id: 'i7',
             fieldId: 'id3',
             value: '2019-06-06',
-          }, {
+          },
+          {
             id: 'i8',
             fieldId: 'id4',
             value: 'TextAreaGroup2TextArea1',
-          }],
+          },
+        ],
       },
     ],
     field: [
@@ -172,11 +180,7 @@ export default () => ({
         id: 'id4',
         name: 'TextArea说明4',
         type: 'select',
-        options: [
-          '111',
-          '222',
-          '333',
-        ],
+        options: ['111', '222', '333'],
       },
     ],
   },

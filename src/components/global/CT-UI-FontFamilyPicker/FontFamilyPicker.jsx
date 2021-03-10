@@ -12,9 +12,7 @@ import './FontFamilyPicker.less';
 
 const selectorPrefix = 'CT-UI-FontFamilyPicker';
 
-const fontSizeEnum = [
-  6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 20, 28, 36, 48, 72,
-];
+const fontSizeEnum = [6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 20, 28, 36, 48, 72];
 
 const fontFamilyEnum = [
   'serif',
@@ -128,28 +126,42 @@ class FontFamilyPicker extends React.PureComponent {
             <Select
               value={fontFamily}
               onChange={(e) => {
-                this.setState({
-                  fontFamily: e.target.value,
-                }, () => {
-                  this.refresh();
-                });
+                this.setState(
+                  {
+                    fontFamily: e.target.value,
+                  },
+                  () => {
+                    this.refresh();
+                  },
+                );
               }}
             >
-              {fontFamilyEnum.map(t => <option key={`${t}`} value={t}>{t}</option>)}
+              {fontFamilyEnum.map((t) => (
+                <option key={`${t}`} value={t}>
+                  {t}
+                </option>
+              ))}
             </Select>
           </div>
           <div className="g-grid-list-item">
             <Select
               value={fontSize}
               onChange={(e) => {
-                this.setState({
-                  fontSize: e.target.value,
-                }, () => {
-                  this.refresh();
-                });
+                this.setState(
+                  {
+                    fontSize: e.target.value,
+                  },
+                  () => {
+                    this.refresh();
+                  },
+                );
               }}
             >
-              {fontSizeEnum.map(t => <option key={`${t}`} value={t}>{t}</option>)}
+              {fontSizeEnum.map((t) => (
+                <option key={`${t}`} value={t}>
+                  {t}
+                </option>
+              ))}
             </Select>
           </div>
         </div>
@@ -160,17 +172,20 @@ class FontFamilyPicker extends React.PureComponent {
             fontStyle={fontStyle}
             textDecoration={textDecoration}
             onChange={({
-                         fontWeight: changeFontWeight,
-                         fontStyle: changeFontStyle,
-                         textDecoration: changeTextDecoration,
-                       }) => {
-              this.setState({
-                fontWeight: changeFontWeight,
-                fontStyle: changeFontStyle,
-                textDecoration: changeTextDecoration,
-              }, () => {
-                this.refresh();
-              });
+              fontWeight: changeFontWeight,
+              fontStyle: changeFontStyle,
+              textDecoration: changeTextDecoration,
+            }) => {
+              this.setState(
+                {
+                  fontWeight: changeFontWeight,
+                  fontStyle: changeFontStyle,
+                  textDecoration: changeTextDecoration,
+                },
+                () => {
+                  this.refresh();
+                },
+              );
             }}
           />
         </div>
@@ -182,12 +197,15 @@ class FontFamilyPicker extends React.PureComponent {
               zIndex={window.parseInt(getMaxLevelNumber()) + 1}
               onChange={(changeColor) => {
                 return new Promise((resolve, reject) => {
-                  this.setState({
-                    color: changeColor,
-                  }, () => {
-                    this.refresh();
-                    resolve();
-                  });
+                  this.setState(
+                    {
+                      color: changeColor,
+                    },
+                    () => {
+                      this.refresh();
+                      resolve();
+                    },
+                  );
                 });
               }}
             />
@@ -196,11 +214,14 @@ class FontFamilyPicker extends React.PureComponent {
             <TextShadowPicker
               value={textShadow}
               onChange={(changeTextShadow) => {
-                this.setState({
-                  textShadow: changeTextShadow,
-                }, () => {
-                  this.refresh();
-                });
+                this.setState(
+                  {
+                    textShadow: changeTextShadow,
+                  },
+                  () => {
+                    this.refresh();
+                  },
+                );
               }}
             />
           </div>

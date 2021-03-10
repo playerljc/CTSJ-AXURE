@@ -29,7 +29,7 @@
   }
 
   &:hover {
-    background-color: rgba(0, 122, 255, .5);
+    background-color: rgba(0, 122, 255, 0.5);
     border-color: @common-promary-active-color;
 
     > .CT-UI-ContextMenu-SubMenu {
@@ -38,10 +38,10 @@
   }
 
   > .CT-UI-ContextMenu-MenuItem-Icon {
-    flex-shrink: 0;
     display: flex;
-    justify-content: center;
+    flex-shrink: 0;
     align-items: center;
+    justify-content: center;
     width: 20px;
     height: 100%;
     margin-right: 10px;
@@ -50,27 +50,27 @@
   > .CT-UI-ContextMenu-MenuItem-Name {
     flex-grow: 1;
     min-width: 0;
-    white-space: nowrap;
     overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
   }
 
   > .CT-UI-ContextMenu-MenuItem-More {
     flex-shrink: 0;
-    font-size: 12px;
-    color: @common-primary-color;
     margin-right: 5px;
+    color: @common-primary-color;
+    font-size: 12px;
   }
 
   > .CT-UI-ContextMenu-SubMenu {
-    display: none;
     top: 0;
     left: 100%;
+    display: none;
   }
 }
 
 .CT-UI-ContextMenu-MenuItem-Separation() {
   height: 1px;
-  background-color: @common-promary-border-color;
   margin: 5px 0;
+  background-color: @common-promary-border-color;
 }

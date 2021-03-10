@@ -32,7 +32,7 @@ export default {
           target={target}
           url={url}
           page={page}
-          ref={ins => chooseTargetIns = ins}
+          ref={(ins) => (chooseTargetIns = ins)}
           zIndex={zIndex}
         />
       ),

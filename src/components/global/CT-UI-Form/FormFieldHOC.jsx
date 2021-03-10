@@ -12,23 +12,29 @@ export default (Component) => {
     }
 
     onFocus = (e, onFocus) => {
-      this.setState({
-        active: true,
-      }, () => {
-        if (onFocus) {
-          onFocus(e);
-        }
-      });
+      this.setState(
+        {
+          active: true,
+        },
+        () => {
+          if (onFocus) {
+            onFocus(e);
+          }
+        },
+      );
     };
 
     onBlur = (e, onBlur) => {
-      this.setState({
-        active: false,
-      }, () => {
-        if (onBlur) {
-          onBlur(e);
-        }
-      });
+      this.setState(
+        {
+          active: false,
+        },
+        () => {
+          if (onBlur) {
+            onBlur(e);
+          }
+        },
+      );
     };
 
     render() {

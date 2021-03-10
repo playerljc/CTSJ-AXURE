@@ -7,7 +7,7 @@
   cloneClasses: mode为clone时移动节点的样式
   showMap: [Boolean] 是否显示地图
   moveStep: [number] 移动的步进 默认值1
-  showGuide: [Boolean] 是否显示辅助线 (没实现)
+  showGuide: [Boolean] 是否显示辅助线
   showStaff: [Boolean] 是否显示标尺 (没实现)
   infinite: [Boolean] 是否是无限拖动
   scale: [Number] 0.25 缩放比例
@@ -68,9 +68,11 @@ function getDragTarget(el) {
  */
 function createCloneEl(sourceEl) {
   const self = this;
-  const { cloneClasses = []} = self.config;
+  const { cloneClasses = [] } = self.config;
   const cloneClassNames = cloneClasses.join(' ');
-  self.sourceEl = Dom6.createElement(`<div class="${selectorPrefix}-clone ${cloneClassNames}"></div>`);
+  self.sourceEl = Dom6.createElement(
+    `<div class="${selectorPrefix}-clone ${cloneClassNames}"></div>`,
+  );
   self.sourceEl.style.width = `${sourceEl.offsetWidth}px`;
   self.sourceEl.style.height = `${sourceEl.offsetHeight}px`;
   const computedStyle = window.getComputedStyle(sourceEl);
@@ -99,7 +101,7 @@ function createMapEl() {
  * @param {number} - height
  * @param {Boolean} - isRightEdge
  */
-function setMapPosition(/* { left, top, width, height } */config, isRightEdge = false) {
+function setMapPosition(/* { left, top, width, height } */ config, isRightEdge = false) {
   const { left, top, width, height } = config;
 
   if ('left' in config && 'top' in config && 'width' in config && 'height' in config) {
@@ -191,7 +193,7 @@ function mouseupDetail() {
   const { mode = 'normal', showMap = false } = self.config;
   // 如果model是clone时
   if (mode === 'clone' && self.srcEl && self.sourceEl) {
-    if (self.ismove && (self.endTime - self.startTime >= 200)) {
+    if (self.ismove && self.endTime - self.startTime >= 200) {
       self.srcEl.style.left = self.sourceEl.style.left;
       self.srcEl.style.top = self.sourceEl.style.top;
     }
@@ -222,7 +224,7 @@ function boundaryDetectionScroll(condition) {
         self.scrollEl.scrollTop = 0;
       } else {
         self.scrollEl.scrollTop -= scrollStep;
-        const scrollTop = self.scrollEl.scrollTop;
+        const {scrollTop} = self.scrollEl;
         self.sourceEl.style.top = `${self.scrollEl.scrollTop / self.scale}px`;
         if (showMap) {
           setMapPosition.call(self, {
@@ -258,7 +260,7 @@ function boundaryDetectionScroll(condition) {
         self.scrollEl.scrollLeft = 0;
       } else {
         self.scrollEl.scrollLeft -= scrollStep;
-        const scrollLeft = self.scrollEl.scrollLeft;
+        const {scrollLeft} = self.scrollEl;
         self.sourceEl.style.left = `${scrollLeft / self.scale}px`;
         if (showMap) {
           setMapPosition.call(self, {
@@ -279,10 +281,14 @@ function boundaryDetectionScroll(condition) {
         const scrollElWidth = self.scrollEl.scrollLeft + self.scrollElWidth;
         self.sourceEl.style.left = `${scrollElWidth / self.scale - self.sourceElWidth}px`;
         if (showMap) {
-          setMapPosition.call(self, {
-            left: scrollElWidth / self.scale - self.sourceElWidth,
-            width: self.sourceElWidth,
-          }, true);
+          setMapPosition.call(
+            self,
+            {
+              left: scrollElWidth / self.scale - self.sourceElWidth,
+              width: self.sourceElWidth,
+            },
+            true,
+          );
         }
       }
     }
@@ -393,128 +399,150 @@ function createGuide() {
    * 下对齐
    * 中线对齐
    */
-  this.elsPosition.forEach(({
-    left: curLeft,
-    right: curRight,
-    top: curTop,
-    bottom: curBottom,
-    width: curWidth,
-    height: curHeight,
-  }) => {
-    if (curLeft === left) {
-      alignLeft = true;
+  this.elsPosition.forEach(
+    ({
+      left: curLeft,
+      right: curRight,
+      top: curTop,
+      bottom: curBottom,
+      width: curWidth,
+      height: curHeight,
+    }) => {
+      if (curLeft === left) {
+        alignLeft = true;
 
-      if (curTop < alignLeftMinTop) {
-        alignLeftMinTop = curTop;
+        if (curTop < alignLeftMinTop) {
+          alignLeftMinTop = curTop;
+        }
+
+        if (curTop + curHeight > alignLeftMaxBottom) {
+          alignLeftMaxBottom = curTop + curHeight;
+        }
       }
 
-      if (curTop + curHeight > alignLeftMaxBottom) {
-        alignLeftMaxBottom = curTop + curHeight;
-      }
-    }
+      if (curRight === left + width) {
+        alignRight = true;
+        if (curTop < alignRightMinTop) {
+          alignRightMinTop = curTop;
+        }
 
-    if (curRight === left + width) {
-      alignRight = true;
-      if (curTop < alignRightMinTop) {
-        alignRightMinTop = curTop;
-      }
-
-      if (curTop + curHeight > alignRightMaxBottom) {
-        alignRightMaxBottom = curTop + curHeight;
-      }
-    }
-
-    if (Math.floor(curLeft + curWidth / 2) === Math.floor(left + width / 2)) {
-      alignVMiddle = true;
-      if (curTop < alignMiddleMinTop) {
-        alignMiddleMinTop = curTop;
+        if (curTop + curHeight > alignRightMaxBottom) {
+          alignRightMaxBottom = curTop + curHeight;
+        }
       }
 
-      if (curTop + curHeight > alignMiddleMaxBottom) {
-        alignMiddleMaxBottom = curTop + curHeight;
-      }
-    }
+      if (Math.floor(curLeft + curWidth / 2) === Math.floor(left + width / 2)) {
+        alignVMiddle = true;
+        if (curTop < alignMiddleMinTop) {
+          alignMiddleMinTop = curTop;
+        }
 
-
-    if (curTop === top) {
-      alignTop = true;
-      if (curLeft < alignTopMinLeft) {
-        alignTopMinLeft = curLeft;
-      }
-
-      if (curLeft + curWidth > alignTopMaxRight) {
-        alignTopMaxRight = curLeft + curWidth;
-      }
-    }
-
-    if (curBottom === top + height) {
-      alignBottom = true;
-      if (curLeft < alignBottomMinLeft) {
-        alignBottomMinLeft = curLeft;
+        if (curTop + curHeight > alignMiddleMaxBottom) {
+          alignMiddleMaxBottom = curTop + curHeight;
+        }
       }
 
-      if (curLeft + curWidth > alignBottomMaxRight) {
-        alignBottomMaxRight = curLeft + curWidth;
-      }
-    }
+      if (curTop === top) {
+        alignTop = true;
+        if (curLeft < alignTopMinLeft) {
+          alignTopMinLeft = curLeft;
+        }
 
-    if (Math.floor(curTop + curHeight / 2) === Math.floor(top + height / 2)) {
-      alignHMiddle = true;
-      if (curLeft < alignMiddleMinLeft) {
-        alignMiddleMinLeft = curLeft;
+        if (curLeft + curWidth > alignTopMaxRight) {
+          alignTopMaxRight = curLeft + curWidth;
+        }
       }
 
-      if (curLeft + curWidth > alignMiddleMaxRight) {
-        alignMiddleMaxRight = curLeft + curWidth;
-      }
-    }
-  });
+      if (curBottom === top + height) {
+        alignBottom = true;
+        if (curLeft < alignBottomMinLeft) {
+          alignBottomMinLeft = curLeft;
+        }
 
-  if (
-    alignTop ||
-    alignBottom ||
-    alignLeft ||
-    alignRight ||
-    alignVMiddle ||
-    alignHMiddle
-  ) {
+        if (curLeft + curWidth > alignBottomMaxRight) {
+          alignBottomMaxRight = curLeft + curWidth;
+        }
+      }
+
+      if (Math.floor(curTop + curHeight / 2) === Math.floor(top + height / 2)) {
+        alignHMiddle = true;
+        if (curLeft < alignMiddleMinLeft) {
+          alignMiddleMinLeft = curLeft;
+        }
+
+        if (curLeft + curWidth > alignMiddleMaxRight) {
+          alignMiddleMaxRight = curLeft + curWidth;
+        }
+      }
+    },
+  );
+
+  if (alignTop || alignBottom || alignLeft || alignRight || alignVMiddle || alignHMiddle) {
     this.guideEl = Dom6.createElement('<div></div>');
 
     const zIndex = getMaxLevelNumber() + 2;
 
     if (alignLeft) {
       this.guideEl.appendChild(
-        Dom6.createElement(`<div class="${selectorPrefix}-guide-v" style="left: ${left - 1}px;top:${alignLeftMinTop}px;height:${alignLeftMaxBottom - alignLeftMinTop}px;z-index:${zIndex}"></div>`)
+        Dom6.createElement(
+          `<div class="${selectorPrefix}-guide-v" style="left: ${
+            left - 1
+          }px;top:${alignLeftMinTop}px;height:${
+            alignLeftMaxBottom - alignLeftMinTop
+          }px;z-index:${zIndex}"></div>`,
+        ),
       );
     }
 
     if (alignRight) {
       this.guideEl.appendChild(
-        Dom6.createElement(`<div class="${selectorPrefix}-guide-v" style="left: ${left + width}px;top:${alignRightMinTop}px;height:${alignRightMaxBottom - alignRightMinTop}px;z-index:${zIndex}"></div>`)
+        Dom6.createElement(
+          `<div class="${selectorPrefix}-guide-v" style="left: ${
+            left + width
+          }px;top:${alignRightMinTop}px;height:${
+            alignRightMaxBottom - alignRightMinTop
+          }px;z-index:${zIndex}"></div>`,
+        ),
       );
     }
 
     if (alignVMiddle) {
       this.guideEl.appendChild(
-        Dom6.createElement(`<div class="${selectorPrefix}-guide-v" style="top:${alignMiddleMinTop}px;height:${alignMiddleMaxBottom - alignMiddleMinTop}px;left: ${Math.floor(left + width / 2)}px;z-index:${zIndex}"></div>`)
+        Dom6.createElement(
+          `<div class="${selectorPrefix}-guide-v" style="top:${alignMiddleMinTop}px;height:${
+            alignMiddleMaxBottom - alignMiddleMinTop
+          }px;left: ${Math.floor(left + width / 2)}px;z-index:${zIndex}"></div>`,
+        ),
       );
     }
 
     if (alignTop) {
       this.guideEl.appendChild(
-        Dom6.createElement(`<div class="${selectorPrefix}-guide-h" style="left:${alignTopMinLeft}px;width:${alignTopMaxRight - alignTopMinLeft}px;top: ${top - 1}px;z-index:${zIndex}"></div>`)
+        Dom6.createElement(
+          `<div class="${selectorPrefix}-guide-h" style="left:${alignTopMinLeft}px;width:${
+            alignTopMaxRight - alignTopMinLeft
+          }px;top: ${top - 1}px;z-index:${zIndex}"></div>`,
+        ),
       );
     }
 
     if (alignBottom) {
       this.guideEl.appendChild(
-        Dom6.createElement(`<div class="${selectorPrefix}-guide-h" style="left:${alignBottomMinLeft}px;width:${alignBottomMaxRight - alignBottomMinLeft}px;top: ${top + height}px;z-index:${zIndex}"></div>`)
+        Dom6.createElement(
+          `<div class="${selectorPrefix}-guide-h" style="left:${alignBottomMinLeft}px;width:${
+            alignBottomMaxRight - alignBottomMinLeft
+          }px;top: ${top + height}px;z-index:${zIndex}"></div>`,
+        ),
       );
     }
 
     if (alignHMiddle) {
       this.guideEl.appendChild(
-        Dom6.createElement(`<div class="${selectorPrefix}-guide-h" style="left:${alignMiddleMinLeft}px;width:${alignMiddleMaxRight - alignMiddleMinLeft}px;top: ${Math.floor(top + height / 2)}px;z-index:${zIndex}"></div>`)
+        Dom6.createElement(
+          `<div class="${selectorPrefix}-guide-h" style="left:${alignMiddleMinLeft}px;width:${
+            alignMiddleMaxRight - alignMiddleMinLeft
+          }px;top: ${Math.floor(top + height / 2)}px;z-index:${zIndex}"></div>`,
+        ),
       );
     }
 
@@ -536,7 +564,7 @@ class Drag {
    */
   constructor(el, config) {
     this.el = el;
-    this.config = Object.assign({}, config);
+    this.config = { ...config};
 
     this.disable = false;
 
@@ -588,30 +616,27 @@ class Drag {
     e.preventDefault();
     e.stopPropagation();
 
-    const {
-      onStart,
-      infinite = false,
-      showGuide = true,
-    } = self.config;
-
+    const { onStart, infinite = false, showGuide = true } = self.config;
 
     if (showGuide) {
-      self.elsPosition = Array.from(self.el.querySelectorAll(`.${selectorPrefix}-item`)).filter(el => el !== sourceEl).map((el) => {
-        const left = el.offsetLeft;
-        const width = el.offsetWidth;
-        const top = el.offsetTop;
-        const height = el.offsetHeight;
-        const right = left + width;
-        const bottom = top + height;
-        return {
-          left,
-          right,
-          top,
-          bottom,
-          width,
-          height,
-        };
-      });
+      self.elsPosition = Array.from(self.el.querySelectorAll(`.${selectorPrefix}-item`))
+        .filter((el) => el !== sourceEl)
+        .map((el) => {
+          const left = el.offsetLeft;
+          const width = el.offsetWidth;
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          const right = left + width;
+          const bottom = top + height;
+          return {
+            left,
+            right,
+            top,
+            bottom,
+            width,
+            height,
+          };
+        });
     }
 
     if (onStart) {
@@ -636,10 +661,9 @@ class Drag {
 
     // 在parent里移动
     const sourceElRect = sourceEl.getBoundingClientRect();
-    const containerElReact =
-      !infinite ?
-        self.el.getBoundingClientRect() :
-        self.scrollEl.getBoundingClientRect();
+    const containerElReact = !infinite
+      ? self.el.getBoundingClientRect()
+      : self.scrollEl.getBoundingClientRect();
     self.baseX = sourceElRect.left - containerElReact.left;
     self.baseY = sourceElRect.top - containerElReact.top;
     self.firstX = e.pageX;
@@ -706,11 +730,7 @@ class Drag {
     let computeLeft;
     let computeTop;
 
-    const {
-      infinite = false,
-      showGuide = true,
-    } = self.config;
-
+    const { infinite = false, showGuide = true } = self.config;
 
     if (!infinite) {
       computeLeft = left;
@@ -732,7 +752,8 @@ class Drag {
 
       const { clientX, clientY } = e;
 
-      if (clientX <= self.scrollElRect.left + edgeWidth ||
+      if (
+        clientX <= self.scrollElRect.left + edgeWidth ||
         clientX >= self.scrollElRect.right - (edgeWidth + scrollWidth)
       ) {
         if (clientX <= self.scrollElRect.left + edgeWidth) {
@@ -748,7 +769,8 @@ class Drag {
         computeLeft = self.scrollEl.scrollLeft + left;
       }
 
-      if (clientY <= self.scrollElRect.top + edgeWidth ||
+      if (
+        clientY <= self.scrollElRect.top + edgeWidth ||
         clientY >= self.scrollElRect.bottom - (edgeWidth + scrollWidth)
       ) {
         if (clientY <= self.scrollElRect.top + edgeWidth) {
@@ -861,7 +883,6 @@ class Drag {
   }
 }
 
-
 /**
  * DragManager
  * @class DragManager
@@ -873,7 +894,7 @@ class DragManager {
    */
   constructor(el, config) {
     this.el = el;
-    this.config = Object.assign({}, config);
+    this.config = { ...config};
     this.managers = new Map();
     this.init();
   }

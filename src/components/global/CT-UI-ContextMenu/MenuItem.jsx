@@ -18,12 +18,7 @@ class MenuItem extends React.PureComponent {
   onClick = (e) => {
     e.stopPropagation();
     const {
-      data: {
-        id,
-        attribute,
-        children,
-        disabled,
-      },
+      data: { id, attribute, children, disabled },
     } = this.props;
 
     const { handler } = this.config;
@@ -38,33 +33,30 @@ class MenuItem extends React.PureComponent {
 
   render() {
     const {
-      data: {
-        name,
-        icon,
-        separation,
-        children,
-        disabled = false,
-      },
+      data: { name, icon, separation, children, disabled = false },
     } = this.props;
 
     return (
-      <ProviderContext.Consumer>{({ config, el }) => {
-        this.config = config;
-        this.el = el;
-        return (
-          separation ?
-            <li className={`${selectorPrefix}-Separation`} /> :
+      <ProviderContext.Consumer>
+        {({ config, el }) => {
+          this.config = config;
+          this.el = el;
+          return separation ? (
+            <li className={`${selectorPrefix}-Separation`} />
+          ) : (
             <li
               className={`${selectorPrefix} ${disabled ? 'disabled' : ''}`}
               onClick={this.onClick}
             >
               <span className={`${selectorPrefix}-Icon ${icon}`} />
               <span className={`${selectorPrefix}-Name`}>{name}</span>
-              {children.length !== 0 ? <span className={`${selectorPrefix}-More fa fa-caret-right`} /> : null}
+              {children.length !== 0 ? (
+                <span className={`${selectorPrefix}-More fa fa-caret-right`} />
+              ) : null}
               {children.length !== 0 ? <SubMenu data={children} /> : null}
             </li>
-        );
-      }}
+          );
+        }}
       </ProviderContext.Consumer>
     );
   }

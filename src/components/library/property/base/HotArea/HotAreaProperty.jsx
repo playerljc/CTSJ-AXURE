@@ -21,14 +21,9 @@ class HotAreaProperty extends React.PureComponent {
    * @return {*[]}
    */
   getConfig() {
-    const {
-      shape,
-    } = this.props;
+    const { shape } = this.props;
 
-    const {
-      text,
-      tooltip,
-    } = shape.getProperty().prop;
+    const { text, tooltip } = shape.getProperty().prop;
 
     return [
       {
@@ -43,7 +38,7 @@ class HotAreaProperty extends React.PureComponent {
           <Text
             value={text}
             onChange={(value) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.text = value;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -57,7 +52,7 @@ class HotAreaProperty extends React.PureComponent {
           <ToolTip
             value={tooltip}
             onChange={(value) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.tooltip = value;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -68,15 +63,9 @@ class HotAreaProperty extends React.PureComponent {
   }
 
   render() {
-    const {
-      children,
-    } = this.props;
+    const { children } = this.props;
 
-    return (
-      <div className={selectorPrefix}>
-        {children(this.getConfig())}
-      </div>
-    );
+    return <div className={selectorPrefix}>{children(this.getConfig())}</div>;
   }
 }
 

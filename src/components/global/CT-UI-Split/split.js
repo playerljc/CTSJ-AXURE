@@ -225,7 +225,9 @@ function initEvents() {
  */
 function createSeparator() {
   const { direction = 'horizontal' } = this.config;
-  this.separatorEl = Dom6.createElement(`<div class="${selectorPrefix}-separator ${direction}"></div>`);
+  this.separatorEl = Dom6.createElement(
+    `<div class="${selectorPrefix}-separator ${direction}"></div>`,
+  );
   this.mainEl.appendChild(this.separatorEl);
 }
 
@@ -279,19 +281,21 @@ function getMoveValue({ min, max, val }) {
   const { minBlankWidth = minWidth, minBlankHeight = minHeight } = this.config;
   const { direction = 'horizontal' } = this.config;
   const { direction: selfDirection = '' } = this;
-  return val <= min ?
-    min + (
-      selfDirection === 'left' || selfDirection === 'top' ?
-        (direction === 'horizontal' ? minBlankWidth : minBlankHeight) : 0
-    )
-    : (
-      val >= max ?
-        max - (
-          selfDirection === 'right' || selfDirection === 'bottom' ?
-            (direction === 'horizontal' ? minBlankWidth : minBlankHeight) : 0
-        ) :
-        val
-    );
+  return val <= min
+    ? min +
+        (selfDirection === 'left' || selfDirection === 'top'
+          ? direction === 'horizontal'
+            ? minBlankWidth
+            : minBlankHeight
+          : 0)
+    : val >= max
+    ? max -
+      (selfDirection === 'right' || selfDirection === 'bottom'
+        ? direction === 'horizontal'
+          ? minBlankWidth
+          : minBlankHeight
+        : 0)
+    : val;
 }
 
 /**
@@ -308,10 +312,11 @@ class Split {
    */
   constructor(el, config) {
     this.el = el;
-    this.config = Object.assign({
+    this.config = {
       minBlankWidth: minWidth,
-      minBlankHeight: minHeight,
-    }, config);
+        minBlankHeight: minHeight,
+      ...config,
+    };
     this.disable = false;
 
     this.onMainMouseDown = this.onMainMouseDown.bind(this);
@@ -397,9 +402,11 @@ class Split {
 
     const { clientX, clientY } = e;
 
-    if (clientX - edgeStep <= self.mainRect.left &&
+    if (
+      clientX - edgeStep <= self.mainRect.left &&
       clientY - edgeStep > self.mainRect.top &&
-      clientY + edgeStep < self.mainRect.bottom) {
+      clientY + edgeStep < self.mainRect.bottom
+    ) {
       if (direction === 'horizontal') {
         e.stopPropagation();
         if (!self.leftEl) return false;
@@ -409,9 +416,11 @@ class Split {
         if (onCanMove) onCanMove(self.direction);
         // console.log(direction, 'left');
       }
-    } else if (clientX + edgeStep >= self.mainRect.right &&
+    } else if (
+      clientX + edgeStep >= self.mainRect.right &&
       clientY - edgeStep > self.mainRect.top &&
-      clientY + edgeStep < self.mainRect.bottom) {
+      clientY + edgeStep < self.mainRect.bottom
+    ) {
       if (direction === 'horizontal') {
         e.stopPropagation();
         if (!self.rightEl) return false;
@@ -421,9 +430,11 @@ class Split {
         if (onCanMove) onCanMove(self.direction);
         // console.log(direction, 'right');
       }
-    } else if (clientY - edgeStep <= self.mainRect.top &&
+    } else if (
+      clientY - edgeStep <= self.mainRect.top &&
       clientX - edgeStep > self.mainRect.left &&
-      clientX + edgeStep < self.mainRect.right) {
+      clientX + edgeStep < self.mainRect.right
+    ) {
       if (direction === 'vertical') {
         e.stopPropagation();
         if (!self.topEl) return false;
@@ -433,9 +444,11 @@ class Split {
         if (onCanMove) onCanMove(self.direction);
         // console.log(direction, 'top', document.body.style.cursor);
       }
-    } else if (clientY + edgeStep >= self.mainRect.bottom &&
+    } else if (
+      clientY + edgeStep >= self.mainRect.bottom &&
       clientX - edgeStep > self.mainRect.left &&
-      clientX + edgeStep < self.mainRect.right) {
+      clientX + edgeStep < self.mainRect.right
+    ) {
       if (direction === 'vertical') {
         e.stopPropagation();
         if (!self.bottomEl) return false;
@@ -596,7 +609,8 @@ class Split {
       const moveValue = getMoveValue.call(self, {
         min: -self.leftEl.offsetWidth,
         max: self.mainEl.offsetWidth - minBlankWidth,
-        val: self.moveValue });
+        val: self.moveValue,
+      });
       self.leftEl.style.width = `${self.leftEl.offsetWidth + moveValue}px`;
     } else if (self.direction === 'right') {
       // moveValue min 0 max mainWidth + rightWidth
@@ -605,7 +619,9 @@ class Split {
         max: self.mainEl.offsetWidth + self.rightEl.offsetWidth,
         val: self.moveValue,
       });
-      self.rightEl.style.width = `${self.rightEl.offsetWidth - (moveValue - self.mainEl.offsetWidth)}px`;
+      self.rightEl.style.width = `${
+        self.rightEl.offsetWidth - (moveValue - self.mainEl.offsetWidth)
+      }px`;
     } else if (self.direction === 'top') {
       // moveValue min -topElHeight   max +mainHeight
       const moveValue = getMoveValue.call(self, {
@@ -621,7 +637,9 @@ class Split {
         max: self.mainEl.offsetHeight + self.bottomEl.offsetHeight,
         val: self.moveValue,
       });
-      self.bottomEl.style.height = `${self.bottomEl.offsetHeight - (moveValue - self.mainEl.offsetHeight)}px`;
+      self.bottomEl.style.height = `${
+        self.bottomEl.offsetHeight - (moveValue - self.mainEl.offsetHeight)
+      }px`;
     }
 
     reset.call(self);
@@ -641,7 +659,6 @@ class Split {
     this.disable = disable;
   }
 }
-
 
 /**
  * SplitFactory

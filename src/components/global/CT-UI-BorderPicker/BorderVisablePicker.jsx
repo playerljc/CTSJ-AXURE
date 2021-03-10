@@ -68,46 +68,57 @@ class BorderVisablePickerModal extends React.PureComponent {
     const { borderLeftDisable } = this.state;
     const { onChange } = this.props;
 
-    this.setState({
-      borderLeftDisable: !borderLeftDisable,
-    }, () => {
-      onChange(this.state);
-    });
+    this.setState(
+      {
+        borderLeftDisable: !borderLeftDisable,
+      },
+      () => {
+        onChange(this.state);
+      },
+    );
   };
 
   onRightClick = () => {
     const { borderRightDisable } = this.state;
     const { onChange } = this.props;
 
-    this.setState({
-      borderRightDisable: !borderRightDisable,
-    }, () => {
-      onChange(this.state);
-    });
+    this.setState(
+      {
+        borderRightDisable: !borderRightDisable,
+      },
+      () => {
+        onChange(this.state);
+      },
+    );
   };
 
   onTopClick = () => {
     const { borderTopDisable } = this.state;
     const { onChange } = this.props;
 
-
     // console.log(borderTopDisable);
-    this.setState({
-      borderTopDisable: !borderTopDisable,
-    }, () => {
-      onChange(this.state);
-    });
+    this.setState(
+      {
+        borderTopDisable: !borderTopDisable,
+      },
+      () => {
+        onChange(this.state);
+      },
+    );
   };
 
   onBottomClick = () => {
     const { borderBottomDisable } = this.state;
     const { onChange } = this.props;
 
-    this.setState({
-      borderBottomDisable: !borderBottomDisable,
-    }, () => {
-      onChange(this.state);
-    });
+    this.setState(
+      {
+        borderBottomDisable: !borderBottomDisable,
+      },
+      () => {
+        onChange(this.state);
+      },
+    );
   };
 
   render() {
@@ -126,11 +137,23 @@ class BorderVisablePickerModal extends React.PureComponent {
     };
 
     return (
-      <div className={`${selectorPrefix}-Modal`} style={style} >
-        <span className={`${selectorPrefix}-Modal-Left ${!borderLeftDisable ? 'active' : ''}`} onClick={this.onLeftClick} />
-        <span className={`${selectorPrefix}-Modal-Right ${!borderRightDisable ? 'active' : ''}`} onClick={this.onRightClick} />
-        <span className={`${selectorPrefix}-Modal-Top ${!borderTopDisable ? 'active' : ''}`} onClick={this.onTopClick} />
-        <span className={`${selectorPrefix}-Modal-Bottom ${!borderBottomDisable ? 'active' : ''}`} onClick={this.onBottomClick} />
+      <div className={`${selectorPrefix}-Modal`} style={style}>
+        <span
+          className={`${selectorPrefix}-Modal-Left ${!borderLeftDisable ? 'active' : ''}`}
+          onClick={this.onLeftClick}
+        />
+        <span
+          className={`${selectorPrefix}-Modal-Right ${!borderRightDisable ? 'active' : ''}`}
+          onClick={this.onRightClick}
+        />
+        <span
+          className={`${selectorPrefix}-Modal-Top ${!borderTopDisable ? 'active' : ''}`}
+          onClick={this.onTopClick}
+        />
+        <span
+          className={`${selectorPrefix}-Modal-Bottom ${!borderBottomDisable ? 'active' : ''}`}
+          onClick={this.onBottomClick}
+        />
       </div>
     );
   }
@@ -144,7 +167,6 @@ BorderVisablePickerModal.propTypes = {
   onChange: PropTypes.func,
 };
 
-
 /**
  * BorderVisablePicker
  * @class BorderVisablePicker
@@ -154,12 +176,7 @@ class BorderVisablePicker extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      borderLeftDisable,
-      borderRightDisable,
-      borderTopDisable,
-      borderBottomDisable,
-    } = props;
+    const { borderLeftDisable, borderRightDisable, borderTopDisable, borderBottomDisable } = props;
 
     this.state = {
       borderLeftDisable,
@@ -204,11 +221,7 @@ class BorderVisablePicker extends React.PureComponent {
   }
 
   onArrowClick() {
-    const {
-      zIndex = window.parseInt(getMaxLevelNumber()) + 10,
-      onChange,
-      ...other
-    } = this.props;
+    const { zIndex = window.parseInt(getMaxLevelNumber()) + 10, onChange, ...other } = this.props;
 
     const modal = Modal.open({
       title: 'borderVisableSetting',
@@ -218,32 +231,34 @@ class BorderVisablePicker extends React.PureComponent {
         <BorderVisablePickerModal
           {...other}
           onChange={(value) => {
-            this.setState({
-              ...value,
-            }, () => {
-              if (onChange) {
-                onChange(value);
-              }
-            });
+            this.setState(
+              {
+                ...value,
+              },
+              () => {
+                if (onChange) {
+                  onChange(value);
+                }
+              },
+            );
           }}
         />
       ),
       yscroll: false,
-      buttons: [{
-        text: 'cancel',
-        handler: () => {
-          Modal.close(modal);
+      buttons: [
+        {
+          text: 'cancel',
+          handler: () => {
+            Modal.close(modal);
+          },
         },
-      }],
+      ],
     });
   }
 
   render() {
     return (
-      <div
-        className={`${selectorPrefix}`}
-        onClick={this.onArrowClick}
-      >
+      <div className={`${selectorPrefix}`} onClick={this.onArrowClick}>
         <div className={`${selectorPrefix}-Inner`} />
         <div className={`fa fa-caret-right ${selectorPrefix}-Arrow`} />
       </div>

@@ -16,9 +16,7 @@ class Text extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      value,
-    } = props;
+    const { value } = props;
 
     this.state = { value };
   }
@@ -34,9 +32,7 @@ class Text extends React.PureComponent {
   // }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      value,
-    } = nextProps;
+    const { value } = nextProps;
 
     this.setState({
       value,
@@ -53,11 +49,14 @@ class Text extends React.PureComponent {
           value={value}
           onChange={(e) => {
             const v = e.target.value.trim();
-            this.setState({
-              value: v,
-            }, () => {
-              onChange(v);
-            });
+            this.setState(
+              {
+                value: v,
+              },
+              () => {
+                onChange(v);
+              },
+            );
           }}
         />
       </div>

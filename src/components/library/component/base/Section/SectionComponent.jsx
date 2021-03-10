@@ -18,20 +18,13 @@ class SectionComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          text,
-        },
+        prop: { text },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
-      <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={alignStyle}
-      >
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} style={alignStyle}>
         {text}
       </div>
     );
@@ -51,7 +44,9 @@ SectionComponent.propTypes = {
   style: PropTypes.object,
 };
 
-export default ComponentBaseHOC(DRSHOC(SectionComponent, {
-  groupKey: 'base',
-  componentKey: 'Section',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(SectionComponent, {
+    groupKey: 'base',
+    componentKey: 'Section',
+  }),
+);

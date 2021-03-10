@@ -27,22 +27,23 @@ class FunctionalPanel extends Component {
 
   render() {
     return (
-      <Accordion
-        className={`ct-split ${selectorPrefix}`}
-        id="FunctionalPanel"
-      >
+      <Accordion className={`ct-split ${selectorPrefix}`} id="FunctionalPanel">
         <CardAccordionItem
           className={`ct-split-top ${selectorPrefix}-Item PagePanelGroup`}
           name="page"
           open
           extend={PagePanel.extendComponent({
-            onAddFile: () => { this.pagePanelIns.activeNodeInsertFileAfter(); },
-            onAddFolder: () => { this.pagePanelIns.activeNodeInsertFolderAfter(); },
+            onAddFile: () => {
+              this.pagePanelIns.activeNodeInsertFileAfter();
+            },
+            onAddFolder: () => {
+              this.pagePanelIns.activeNodeInsertFolderAfter();
+            },
             onSearch: () => {},
           })}
         >
           {/* 页面 */}
-          <PagePanel ref={ins => this.pagePanelIns = ins} />
+          <PagePanel ref={(ins) => (this.pagePanelIns = ins)} />
         </CardAccordionItem>
         <CardAccordionItem
           className={`ct-split-main ${selectorPrefix}-Item ComponentGroup`}

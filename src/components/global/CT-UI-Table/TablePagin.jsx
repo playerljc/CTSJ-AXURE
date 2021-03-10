@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Input, Select,
-} from '../CT-UI-Form/index';
+import { Input, Select } from '../CT-UI-Form/index';
 
 import './TablePagin.less';
 
@@ -13,9 +11,7 @@ const selectorPrefix = 'CT-UI-Table-Pagin';
  * SizeChanger
  * @type {number[]}
  */
-const SizeChangerOptions = [
-  10, 20, 30, 40,
-];
+const SizeChangerOptions = [10, 20, 30, 40];
 
 /**
  * TablePagin
@@ -61,13 +57,10 @@ class TablePagin extends React.PureComponent {
    * @return {number}
    */
   getPageCount() {
-    const {
-      total = 0,
-      pageSize = 10,
-    } = this.props;
+    const { total = 0, pageSize = 10 } = this.props;
 
     // 一共多少页
-    return window.parseInt(total / pageSize) + total % pageSize;
+    return window.parseInt(total / pageSize) + (total % pageSize);
   }
 
   /**
@@ -120,30 +113,40 @@ class TablePagin extends React.PureComponent {
     const pageCount = this.getPageCount();
 
     return (
-      <div
-        className={`${selectorPrefix}`}
-      >
-        <div className={`${selectorPrefix}-Total`}>Total<span style={{ margin: '0 10px' }}>{total}</span>Items</div>
+      <div className={`${selectorPrefix}`}>
+        <div className={`${selectorPrefix}-Total`}>
+          Total<span style={{ margin: '0 10px' }}>{total}</span>Items
+        </div>
 
-        <div className={`${selectorPrefix}-Indicat`} >
-          <span className={`fa fa-angle-left ${selectorPrefix}-Indicat-Pre ${this.getPreDisable() ? 'disabled' : ''}`} onClick={onPre} />
+        <div className={`${selectorPrefix}-Indicat`}>
+          <span
+            className={`fa fa-angle-left ${selectorPrefix}-Indicat-Pre ${
+              this.getPreDisable() ? 'disabled' : ''
+            }`}
+            onClick={onPre}
+          />
           <div className={`${selectorPrefix}-Indicat-Inner`}>
             <Input
               type="number"
               value={page}
               onChange={::this.onQuickJumperChange}
               onKeyDown={::this.onQuickJumperKeyDown}
-            /> / {pageCount}
+            />{' '}
+            / {pageCount}
           </div>
-          <span className={`fa fa-angle-right ${selectorPrefix}-Indicat-Next ${this.getNextDisable() ? 'disabled' : ''}`} onClick={onNext} />
+          <span
+            className={`fa fa-angle-right ${selectorPrefix}-Indicat-Next ${
+              this.getNextDisable() ? 'disabled' : ''
+            }`}
+            onClick={onNext}
+          />
         </div>
 
         <div className={`${selectorPrefix}-SizeChanger`}>
-          <Select
-            value={pageSize}
-            onChange={onSizeChanger}
-          >
-            {SizeChangerOptions.map(t => <option key={t} value={t}>{`${t}/page`}</option>)}
+          <Select value={pageSize} onChange={onSizeChanger}>
+            {SizeChangerOptions.map((t) => (
+              <option key={t} value={t}>{`${t}/page`}</option>
+            ))}
           </Select>
         </div>
       </div>

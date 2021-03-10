@@ -8,7 +8,6 @@ import VMenu from '../../propertyfield/vmenu/VMenu';
 
 import './VMenuProperty.less';
 
-
 const selectorPrefix = 'VMenuProperty';
 
 /**
@@ -22,14 +21,9 @@ class VMenuProperty extends React.PureComponent {
    * @return {*[]}
    */
   getConfig() {
-    const {
-      shape,
-    } = this.props;
+    const { shape } = this.props;
 
-    const {
-      tooltip = '',
-      vmenu,
-    } = shape.getProperty().prop;
+    const { tooltip = '', vmenu } = shape.getProperty().prop;
 
     return [
       {
@@ -44,7 +38,7 @@ class VMenuProperty extends React.PureComponent {
           <ToolTip
             value={tooltip}
             onChange={(value) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.tooltip = value;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -58,7 +52,7 @@ class VMenuProperty extends React.PureComponent {
           <VMenu
             value={vmenu}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.vmenu = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -69,15 +63,9 @@ class VMenuProperty extends React.PureComponent {
   }
 
   render() {
-    const {
-      children,
-    } = this.props;
+    const { children } = this.props;
 
-    return (
-      <div className={selectorPrefix}>
-        {children(this.getConfig())}
-      </div>
-    );
+    return <div className={selectorPrefix}>{children(this.getConfig())}</div>;
   }
 }
 

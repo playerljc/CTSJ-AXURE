@@ -19,10 +19,7 @@ class TableComponent extends React.PureComponent {
     const {
       property: {
         prop: {
-          table: {
-            showNumber = true,
-            columns,
-          },
+          table: { showNumber = true, columns },
         },
       },
     } = this.props;
@@ -36,13 +33,13 @@ class TableComponent extends React.PureComponent {
         width: '20px',
         align: 'center',
         render: (record, rowValue, rowIndex) => {
-          return (rowIndex + 1);
+          return rowIndex + 1;
         },
       });
       return cloneColumns;
-    } else {
-      return columns;
     }
+      return columns;
+
   }
 
   render() {
@@ -72,14 +69,8 @@ class TableComponent extends React.PureComponent {
     };
 
     return (
-      <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        title={tooltip}
-      >
-        <Table
-          {...props}
-          columns={this.getColumns()}
-        />
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} title={tooltip}>
+        <Table {...props} columns={this.getColumns()} />
       </div>
     );
   }
@@ -97,7 +88,9 @@ TableComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DRSHOC(TableComponent, {
-  groupKey: 'menutable',
-  componentKey: 'Table',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(TableComponent, {
+    groupKey: 'menutable',
+    componentKey: 'Table',
+  }),
+);

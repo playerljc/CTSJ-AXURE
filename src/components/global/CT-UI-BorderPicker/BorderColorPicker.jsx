@@ -29,17 +29,20 @@ class BorderColorPicker extends React.PureComponent {
         color={borderColor}
         onChange={(value) => {
           return new Promise((resolve) => {
-            this.setState({
-              borderColor: value,
-            }, () => {
-              const { onChange } = this.props;
-              if (onChange) {
+            this.setState(
+              {
+                borderColor: value,
+              },
+              () => {
+                const { onChange } = this.props;
                 if (onChange) {
-                  onChange(value);
+                  if (onChange) {
+                    onChange(value);
+                  }
                 }
-              }
-              resolve();
-            });
+                resolve();
+              },
+            );
           });
         }}
       />

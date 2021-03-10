@@ -8,7 +8,6 @@ import { Immutable } from '../../../util/CTMobile-UI-Util';
 
 import './TreeNode.less';
 
-
 const selectorPrefix = 'CT-UI-TreeNode';
 
 /**
@@ -20,12 +19,15 @@ class TreeNode extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.onClickAdapter = Click((count) => {
-      if (count === 1) this.onClick();
-      if (count === 2) this.onDoubleClick();
-    }, (e) => {
-      e.preventDefault();
-    });
+    this.onClickAdapter = Click(
+      (count) => {
+        if (count === 1) this.onClick();
+        if (count === 2) this.onDoubleClick();
+      },
+      (e) => {
+        e.preventDefault();
+      },
+    );
   }
 
   /**
@@ -45,14 +47,7 @@ class TreeNode extends React.PureComponent {
    * onDoubleClick
    */
   onDoubleClick() {
-    const {
-      name = '',
-      leaf = false,
-      id,
-      attributes,
-      onActive,
-      onDBClick,
-    } = this.props;
+    const { name = '', leaf = false, id, attributes, onActive, onDBClick } = this.props;
 
     if (onActive) {
       onActive({
@@ -76,14 +71,7 @@ class TreeNode extends React.PureComponent {
    * @param {Event} - e
    */
   onContextMenuCapture(e) {
-    const {
-      icon = '',
-      name = '',
-      leaf = false,
-      id,
-      attributes,
-      onContextMenu,
-    } = this.props;
+    const { icon = '', name = '', leaf = false, id, attributes, onContextMenu } = this.props;
 
     e.preventDefault();
     onContextMenu(e, {
@@ -101,9 +89,7 @@ class TreeNode extends React.PureComponent {
    * @return {ReactElement}
    */
   renderSummary(onRenderNode) {
-    const {
-      active = false,
-    } = this.props;
+    const { active = false } = this.props;
 
     return (
       <summary className={`${selectorPrefix}-Summary ${active ? 'active' : ''}`}>
@@ -118,9 +104,7 @@ class TreeNode extends React.PureComponent {
    * @return {ReactElement | null}
    */
   renderBcHook() {
-    const {
-      active = false,
-    } = this.props;
+    const { active = false } = this.props;
 
     return active ? (
       <div
@@ -141,9 +125,7 @@ class TreeNode extends React.PureComponent {
    * @return {ReactElement}
    */
   renderInner(onRenderNode) {
-    const {
-      icon = '',
-    } = this.props;
+    const { icon = '' } = this.props;
 
     return (
       <div
@@ -151,7 +133,7 @@ class TreeNode extends React.PureComponent {
         onClick={this.onClickAdapter}
         onContextMenuCapture={::this.onContextMenuCapture}
       >
-        {icon ? (<span className={`${selectorPrefix}-Icon ${icon}`} />) : null}
+        {icon ? <span className={`${selectorPrefix}-Icon ${icon}`} /> : null}
         <span className={`${selectorPrefix}-Name`}>{this.renderName(onRenderNode)}</span>
       </div>
     );
@@ -163,13 +145,9 @@ class TreeNode extends React.PureComponent {
    * @return {ReactElement}
    */
   renderName(onRenderNode) {
-    const {
-      name = '',
-    } = this.props;
+    const { name = '' } = this.props;
 
-    return (
-      onRenderNode ? onRenderNode(this.getOther()) : name
-    );
+    return onRenderNode ? onRenderNode(this.getOther()) : name;
   }
 
   /**
@@ -177,32 +155,23 @@ class TreeNode extends React.PureComponent {
    * @return {ReactElement | null}
    */
   renderChildren() {
-    const {
-      leaf = false,
-      childrendata = [],
-      onActive,
-      onDBClick,
-      onContextMenu,
-    } = this.props;
+    const { leaf = false, childrendata = [], onActive, onDBClick, onContextMenu } = this.props;
 
-    return !leaf ?
-      (
-        <div className={`${selectorPrefix}-Children`}>
-          {
-            childrendata.map((t) => {
-              return (
-                <TreeNode
-                  key={uuidv1()}
-                  onActive={onActive}
-                  onDBClick={onDBClick}
-                  onContextMenu={onContextMenu}
-                  {...t}
-                />
-              );
-            })
-          }
-        </div>
-      ) : null;
+    return !leaf ? (
+      <div className={`${selectorPrefix}-Children`}>
+        {childrendata.map((t) => {
+          return (
+            <TreeNode
+              key={uuidv1()}
+              onActive={onActive}
+              onDBClick={onDBClick}
+              onContextMenu={onContextMenu}
+              {...t}
+            />
+          );
+        })}
+      </div>
+    ) : null;
   }
 
   /**
@@ -210,37 +179,29 @@ class TreeNode extends React.PureComponent {
    * @return {Object}
    */
   getOther() {
-    const {
-      onActive,
-      onDBClick,
-      onContextMenu,
-      ...other
-    } = this.props;
+    const { onActive, onDBClick, onContextMenu, ...other } = this.props;
 
     return Immutable.cloneDeep(other);
   }
 
   render() {
-    const {
-      leaf = false,
-      id,
-    } = this.props;
+    const { leaf = false, id } = this.props;
 
     return (
       <TreeContext.Consumer>
-        {
-          ({ activeKey, onRenderNode }) => {
-            return (
-              <details
-                className={`${selectorPrefix} ${leaf ? 'Leaf' : ''} ${activeKey && activeKey === id ? 'Active' : ''}`}
-                open
-              >
-                {this.renderSummary(onRenderNode)}
-                {this.renderChildren()}
-              </details>
-            );
-          }
-        }
+        {({ activeKey, onRenderNode }) => {
+          return (
+            <details
+              className={`${selectorPrefix} ${leaf ? 'Leaf' : ''} ${
+                activeKey && activeKey === id ? 'Active' : ''
+              }`}
+              open
+            >
+              {this.renderSummary(onRenderNode)}
+              {this.renderChildren()}
+            </details>
+          );
+        }}
       </TreeContext.Consumer>
     );
   }
@@ -257,7 +218,6 @@ TreeNode.defaultProps = {
   id: '',
   attributes: {},
 };
-
 
 TreeNode.propTypes = {
   name: PropTypes.node,

@@ -1,16 +1,16 @@
 .ct-axure-shape-form-Checkbox {
+  display: flex;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
   padding: 5px;
-  display: flex;
   word-break: break-word;
 
-  &.require:before {
-    content: '*';
+  &.require::before {
     flex-shrink: 0;
-    color: red;
     margin: 0 10px;
+    color: red;
+    content: '*';
   }
 
   .ct-axure-shape-form-Checkbox-checkbox {

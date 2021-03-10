@@ -20,21 +20,13 @@ class VMenuComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          tooltip = '',
-          vmenu,
-        },
+        prop: { tooltip = '', vmenu },
       },
     } = this.props;
 
     return (
-      <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        title={tooltip}
-      >
-        <MenuTree
-          {...vmenu}
-        />
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} title={tooltip}>
+        <MenuTree {...vmenu} />
       </div>
     );
   }
@@ -52,7 +44,9 @@ VMenuComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DRSHOC(VMenuComponent, {
-  groupKey: 'menutable',
-  componentKey: 'VMenu',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(VMenuComponent, {
+    groupKey: 'menutable',
+    componentKey: 'VMenu',
+  }),
+);

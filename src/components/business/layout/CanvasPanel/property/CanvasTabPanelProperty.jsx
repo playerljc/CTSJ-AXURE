@@ -91,4 +91,3 @@ CanvasTabPanelProperty.propTypes = {
 };
 
 export default CanvasTabPanelProperty;
-

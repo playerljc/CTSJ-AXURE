@@ -1,26 +1,26 @@
 .ct-split {
   position: relative;
-  -webkit-touch-callout: none; /* iOS Safari */
+  display: flex;
+  box-sizing: border-box;
   -webkit-user-select: none; /* Chrome/Safari/Opera */
   -khtml-user-select: none; /* Konqueror */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
-  box-sizing: border-box;
-  display: flex;
+  -webkit-touch-callout: none; /* iOS Safari */
 
   .ct-split-main {
-    box-sizing: border-box;
+    position: relative;
     flex-grow: 1;
+    box-sizing: border-box;
     min-width: 30px;
     min-height: 30px;
-    position: relative;
 
     .ct-split-separator {
       position: absolute;
-      background-color: rgba(0, 0, 0, .6);
-      display: none;
       z-index: 199999;
+      display: none;
+      background-color: rgba(0, 0, 0, 0.6);
     }
 
     .ct-split-separator.horizontal {
@@ -30,8 +30,8 @@
     }
 
     .ct-split-separator.vertical {
-      left: 0;
       right: 0;
+      left: 0;
       height: 3px;
     }
   }
@@ -42,5 +42,4 @@
   .ct-split-right {
     flex-shrink: 0;
   }
-
 }

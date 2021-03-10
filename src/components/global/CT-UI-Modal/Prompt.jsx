@@ -36,12 +36,7 @@ class Prompt extends React.PureComponent {
   }
 
   render() {
-    const {
-      content,
-      required = true,
-      maxLength,
-      type = 'text',
-    } = this.props;
+    const { content, required = true, maxLength, type = 'text' } = this.props;
 
     const { value } = this.state;
 
@@ -53,24 +48,25 @@ class Prompt extends React.PureComponent {
           type={type}
           value={value}
           maxLength={maxLength}
-          onKeyDownCapture={(e) => { e.stopPropagation(); }}
+          onKeyDownCapture={(e) => {
+            e.stopPropagation();
+          }}
           onChange={(e) => {
             this.setState({
               value: e.target.value.trim(),
             });
           }}
         />
-        {required && !value ? <div className={`${selectorPrefix}-Prompt-Error`}>The field is required！</div> : null}
+        {required && !value ? (
+          <div className={`${selectorPrefix}-Prompt-Error`}>The field is required！</div>
+        ) : null}
       </div>
     );
   }
 }
 
 Prompt.propTypes = {
-  defaultValue: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   content: PropTypes.node,
   required: PropTypes.bool,
   maxLength: PropTypes.number,

@@ -23,7 +23,7 @@ let App;
  * @return {boolean}
  */
 function onStart(el, sourceEl) {
-// console.log('Drag Start');
+  // console.log('Drag Start');
   if (!el || !sourceEl) return false;
   // drag点击
   AppSplitManager.setDisable();
@@ -44,7 +44,7 @@ function onEnd(e, el, sourceEl) {
   AppDroppableManager.setEnable();
   AppSelectableManager.setEnable();
 
-  const { shiftKey = false, path = []} = e;
+  const { shiftKey = false, path = [] } = e;
   const pageId = App.getCurPageId();
 
   let curEl = sourceEl;
@@ -54,7 +54,7 @@ function onEnd(e, el, sourceEl) {
   if (shiftKey) {
     const isRangeSelectShape = sourceEl.classList.contains(RANGESELECTPREFIX);
     if (isRangeSelectShape) {
-      const index = path.findIndex(el => el === sourceEl);
+      const index = path.findIndex((el) => el === sourceEl);
       if (index !== -1) {
         curEl = path[index - 1];
       }
@@ -68,17 +68,19 @@ function onEnd(e, el, sourceEl) {
     let els;
     if (index !== -1) {
       // 当前节点是激活节点
-      els = shapes.map(shape => shape.getEl());
+      els = shapes.map((shape) => shape.getEl());
       index = els.findIndex((el) => {
-        return el.dataset.pageid === curEl.dataset.pageid &&
-          el.dataset.componentid === curEl.dataset.componentid;
+        return (
+          el.dataset.pageid === curEl.dataset.pageid &&
+          el.dataset.componentid === curEl.dataset.componentid
+        );
       });
       if (index !== -1) {
         els.splice(index, 1);
       }
     } else {
       // 当前节点不是激活节点
-      els = shapes.map(shape => shape.getEl());
+      els = shapes.map((shape) => shape.getEl());
       els.push(curEl);
     }
 
@@ -128,10 +130,10 @@ export default {
       infinite: true,
       showGuide: true,
       onStart,
-      onEnd, /* ,
+      onEnd /* ,
       onChange({ left, top }) {
 
-      }, */
+      }, */,
     });
   },
   setDisable() {

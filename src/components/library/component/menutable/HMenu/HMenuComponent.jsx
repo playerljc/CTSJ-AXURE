@@ -20,21 +20,13 @@ class HMenuComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          tooltip = '',
-          hmenu,
-        },
+        prop: { tooltip = '', hmenu },
       },
     } = this.props;
 
     return (
-      <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        title={tooltip}
-      >
-        <HMenu
-          {...hmenu}
-        />
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} title={tooltip}>
+        <HMenu {...hmenu} />
       </div>
     );
   }
@@ -52,7 +44,9 @@ HMenuComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DRSHOC(HMenuComponent, {
-  groupKey: 'menutable',
-  componentKey: 'HMenu',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(HMenuComponent, {
+    groupKey: 'menutable',
+    componentKey: 'HMenu',
+  }),
+);

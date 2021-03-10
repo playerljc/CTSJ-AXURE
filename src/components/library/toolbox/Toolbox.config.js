@@ -10,7 +10,7 @@ function getIconsGroupsConfig() {
     return {
       groupName: `Icons > ${label}`,
       key: 'icons',
-      components: icons.map(t => {
+      components: icons.map((t) => {
         return {
           name: t,
           key: 'Icon',
@@ -23,8 +23,7 @@ function getIconsGroupsConfig() {
   });
 }
 
-export default
-[
+export default [
   {
     groupName: 'Base Component',
     key: 'base',
@@ -155,6 +154,4 @@ export default
       },
     ],
   },
-].concat(
-  getIconsGroupsConfig(),
-);
+].concat(getIconsGroupsConfig());

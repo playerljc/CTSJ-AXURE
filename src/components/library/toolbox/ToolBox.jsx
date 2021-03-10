@@ -19,33 +19,23 @@ class ToolBox extends React.PureComponent {
   renderInner() {
     const result = [];
     ToolBoxConfig.forEach((group) => {
-      const {
-        groupName,
-        key: groupKey,
-        components,
-      } = group;
+      const { groupName, key: groupKey, components } = group;
 
       // 分类名
       result.push(
-        <AccordionItem
-          key={uuidv1()}
-          name={groupName}
-          open
-        >
+        <AccordionItem key={uuidv1()} name={groupName} open>
           <div className="g-grid-list column2">
-            {
-              components.map(({ name: comName, key: componentKey, attribute = {} }) => {
-                const Component = Register.get(groupKey).get(componentKey);
-                return (
-                  <div key={uuidv1()} className="g-grid-list-item">
-                    {/* TODO:初始化Tool */}
-                    <Component.Tool name={comName} attribute={attribute} />
-                  </div>
-                );
-              })
-            }
+            {components.map(({ name: comName, key: componentKey, attribute = {} }) => {
+              const Component = Register.get(groupKey).get(componentKey);
+              return (
+                <div key={uuidv1()} className="g-grid-list-item">
+                  {/* TODO:初始化Tool */}
+                  <Component.Tool name={comName} attribute={attribute} />
+                </div>
+              );
+            })}
           </div>
-        </AccordionItem>
+        </AccordionItem>,
       );
     });
     return result;
@@ -53,10 +43,8 @@ class ToolBox extends React.PureComponent {
 
   render() {
     return (
-      <div className={`${selectorPrefix}`} >
-        <Accordion className="Fresh">
-          {this.renderInner()}
-        </Accordion>
+      <div className={`${selectorPrefix}`}>
+        <Accordion className="Fresh">{this.renderInner()}</Accordion>
       </div>
     );
   }

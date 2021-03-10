@@ -20,9 +20,7 @@ class ImageComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          base64,
-        },
+        prop: { base64 },
       },
     } = this.props;
 
@@ -47,7 +45,9 @@ ImageComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DRSHOC(ImageComponent, {
-  groupKey: 'base',
-  componentKey: 'Image',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(ImageComponent, {
+    groupKey: 'base',
+    componentKey: 'Image',
+  }),
+);

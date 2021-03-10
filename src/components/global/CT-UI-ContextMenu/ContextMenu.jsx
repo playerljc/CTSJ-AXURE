@@ -19,9 +19,7 @@ class ContextMenuComponent extends React.PureComponent {
   render() {
     const { data = [], config, el } = this.props;
     return (
-      <ProviderContext.Provider
-        value={{ config, el }}
-      >
+      <ProviderContext.Provider value={{ config, el }}>
         <div
           className={`${selectorPrefix}`}
           style={{ zIndex: getMaxLevelNumber() * 2 }}
@@ -76,18 +74,11 @@ const ContextMenu = {
    * @return {HTMLDivElement}
    */
   open(data, config) {
-    config = Object.assign({ width: 200, maskClosable: true }, config);
+    config = {width: 200, maskClosable: true, ...config};
 
     const parentEl = document.createElement('div');
 
-    ReactDOM.render(
-      <ContextMenuComponent
-        data={data}
-        config={config}
-        el={parentEl}
-      />,
-      parentEl,
-    );
+    ReactDOM.render(<ContextMenuComponent data={data} config={config} el={parentEl} />, parentEl);
 
     document.body.appendChild(parentEl);
 

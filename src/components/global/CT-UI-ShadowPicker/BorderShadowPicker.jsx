@@ -19,9 +19,7 @@ class BorderShadowPicker extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      value,
-    } = props;
+    const { value } = props;
 
     this.state = {
       ...value,
@@ -54,12 +52,14 @@ class BorderShadowPicker extends React.PureComponent {
         />
       ),
       yscroll: false,
-      buttons: [{
-        text: 'cancel',
-        handler: () => {
-          Modal.close(modal);
+      buttons: [
+        {
+          text: 'cancel',
+          handler: () => {
+            Modal.close(modal);
+          },
         },
-      }],
+      ],
     });
   }
 
@@ -73,36 +73,23 @@ class BorderShadowPicker extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className={`${selectorPrefix}`}
-      >
-        <div
-          className={`${selectorPrefix}-OutSetItem`}
-          onClick={this.onOutSetClick}
-        >
+      <div className={`${selectorPrefix}`}>
+        <div className={`${selectorPrefix}-OutSetItem`} onClick={this.onOutSetClick}>
           <div className={`${selectorPrefix}-Color`} />
           <div className={`fa fa-caret-right ${selectorPrefix}-Arrow`} />
         </div>
 
-        <div
-          className={`${selectorPrefix}-InSetItem`}
-          onClick={this.onInSetClick}
-        >
+        <div className={`${selectorPrefix}-InSetItem`} onClick={this.onInSetClick}>
           <div className={`${selectorPrefix}-Color`} />
           <div className={`fa fa-caret-right ${selectorPrefix}-Arrow`} />
         </div>
-
       </div>
     );
   }
 }
 
 BorderShadowPicker.propTypes = {
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.object,
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
   onChange: PropTypes.func,
 };
 

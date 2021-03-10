@@ -31,82 +31,92 @@ class VMenuTreeSetting extends TreeSetting {
    */
   initToolConfig() {
     super.initToolConfig();
-    this.toolConfig = this.toolConfig.concat(
-      [
-        // 是否是分割线
-        {
-          key: 'separation',
-          className: () => `fas fa-grip-lines ${this.toolConfig.find(t => t.key === 'separation').disable() ? 'disable' : ''}`,
-          title: 'separation',
-          onClick: () => {
-            const disabled = this.toolConfig.find(t => t.key === 'separation').disable();
-            if (disabled) return false;
+    this.toolConfig = this.toolConfig.concat([
+      // 是否是分割线
+      {
+        key: 'separation',
+        className: () =>
+          `fas fa-grip-lines ${
+            this.toolConfig.find((t) => t.key === 'separation').disable() ? 'disable' : ''
+          }`,
+        title: 'separation',
+        onClick: () => {
+          const disabled = this.toolConfig.find((t) => t.key === 'separation').disable();
+          if (disabled) return false;
 
-            const { zIndex } = this.props;
+          const { zIndex } = this.props;
 
-            const { activeKey, data } = this.state;
-            const cloneData = Immutable.cloneDeep(data);
-            const node = this.findNodeById(cloneData, activeKey);
+          const { activeKey, data } = this.state;
+          const cloneData = Immutable.cloneDeep(data);
+          const node = this.findNodeById(cloneData, activeKey);
 
-            Modal.promptCheckbox({
-              content: 'separation',
-              checked: node.separation,
-              zIndex: zIndex + 10,
-              success: (checked) => {
-                return new Promise((resolve) => {
-                  node.separation = checked;
-                  this.setState({
+          Modal.promptCheckbox({
+            content: 'separation',
+            checked: node.separation,
+            zIndex: zIndex + 10,
+            success: (checked) => {
+              return new Promise((resolve) => {
+                node.separation = checked;
+                this.setState(
+                  {
                     data: cloneData,
-                  }, () => {
+                  },
+                  () => {
                     resolve();
-                  });
-                });
-              },
-            });
-          },
-          disable: () => {
-            const { activeKey = '' } = this.state;
-            return !activeKey;
-          },
+                  },
+                );
+              });
+            },
+          });
         },
-        // 是否是disabled
-        {
-          key: 'disabled',
-          className: () => `far fa-eye-slash ${this.toolConfig.find(t => t.key === 'disabled').disable() ? 'disable' : ''}`,
-          title: 'Add node above',
-          onClick: () => {
-            const disabled = this.toolConfig.find(t => t.key === 'disabled').disable();
-            if (disabled) return false;
+        disable: () => {
+          const { activeKey = '' } = this.state;
+          return !activeKey;
+        },
+      },
+      // 是否是disabled
+      {
+        key: 'disabled',
+        className: () =>
+          `far fa-eye-slash ${
+            this.toolConfig.find((t) => t.key === 'disabled').disable() ? 'disable' : ''
+          }`,
+        title: 'Add node above',
+        onClick: () => {
+          const disabled = this.toolConfig.find((t) => t.key === 'disabled').disable();
+          if (disabled) return false;
 
-            const { zIndex } = this.props;
+          const { zIndex } = this.props;
 
-            const { activeKey, data } = this.state;
-            const cloneData = Immutable.cloneDeep(data);
-            const node = this.findNodeById(cloneData, activeKey);
+          const { activeKey, data } = this.state;
+          const cloneData = Immutable.cloneDeep(data);
+          const node = this.findNodeById(cloneData, activeKey);
 
-            Modal.promptCheckbox({
-              content: 'disabled',
-              checked: node.disabled,
-              zIndex: zIndex + 10,
-              success: (checked) => {
-                return new Promise((resolve) => {
-                  node.disabled = checked;
-                  this.setState({
+          Modal.promptCheckbox({
+            content: 'disabled',
+            checked: node.disabled,
+            zIndex: zIndex + 10,
+            success: (checked) => {
+              return new Promise((resolve) => {
+                node.disabled = checked;
+                this.setState(
+                  {
                     data: cloneData,
-                  }, () => {
+                  },
+                  () => {
                     resolve();
-                  });
-                });
-              },
-            });
-          },
-          disable: () => {
-            const { activeKey = '' } = this.state;
-            return !activeKey;
-          },
+                  },
+                );
+              });
+            },
+          });
         },
-      ]
-    );
+        disable: () => {
+          const { activeKey = '' } = this.state;
+          return !activeKey;
+        },
+      },
+    ]);
   }
 
   /**
@@ -123,11 +133,7 @@ class VMenuTreeSetting extends TreeSetting {
       onRenderNode: ::this.onRenderNode,
     };
 
-    return (
-      <MenuTree
-        {...props}
-      />
-    );
+    return <MenuTree {...props} />;
   }
 }
 

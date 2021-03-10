@@ -34,11 +34,7 @@ function onPutSuccess({
   // sourceEl,
   targetEls,
 }) {
-  const {
-    groupkey: groupKey,
-    componentkey: componentKey,
-    attribute,
-  } = cloneSourceEl.dataset;
+  const { groupkey: groupKey, componentkey: componentKey, attribute } = cloneSourceEl.dataset;
 
   const componentId = uuidv1();
   const pageId = App.getCurPageId();
@@ -54,11 +50,7 @@ function onPutSuccess({
     componentId,
     property,
     renderHandler: (el) => {
-      const position = naturalRelease.fn.call(
-        naturalRelease.context,
-        App.getPageEl(pageId),
-        el
-      );
+      const position = naturalRelease.fn.call(naturalRelease.context, App.getPageEl(pageId), el);
 
       const shape = ShapeModel.getShape({ pageId, componentId });
       const { style } = shape.getProperty();
@@ -80,30 +72,25 @@ function onPutSuccess({
 function onDragClone(sourceEl, scale) {
   const groupKey = sourceEl.dataset.groupkey;
   const componentKey = sourceEl.dataset.componentkey;
-  const attribute = sourceEl.dataset.attribute;
+  const {attribute} = sourceEl.dataset;
   const el = Dom6.createElement('<div></div>');
-  const ShapePropertyDefaultConfig = Register.get(groupKey).get(componentKey).propertyDefaultConfig();
-  const { style: { width, height } } = ShapePropertyDefaultConfig;
+  const ShapePropertyDefaultConfig = Register.get(groupKey)
+    .get(componentKey)
+    .propertyDefaultConfig();
+  const {
+    style: { width, height },
+  } = ShapePropertyDefaultConfig;
   ShapePropertyDefaultConfig.style.width = width * scale;
   ShapePropertyDefaultConfig.style.height = height * scale;
   const Component = ComponentToolDragBaseHOC({ groupKey, componentKey });
-  ReactDOM.render(
-    <Component
-      property={ShapePropertyDefaultConfig}
-      attribute={attribute}
-    />, el
-  );
+  ReactDOM.render(<Component property={ShapePropertyDefaultConfig} attribute={attribute} />, el);
   return el.firstElementChild;
 }
 
 /**
  * 触碰边缘的时候触发,并且滚动
  */
-function onBoundaryDetection({
-  condition,
-  scroll,
-  targetEls,
-}) {
+function onBoundaryDetection({ condition, scroll, targetEls }) {
   scroll(condition, targetEls[0]);
 }
 

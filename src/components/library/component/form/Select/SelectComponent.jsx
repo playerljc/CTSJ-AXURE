@@ -15,9 +15,7 @@ class SelectComponent extends React.PureComponent {
   componentDidMount() {
     const {
       property: {
-        prop: {
-          value = '',
-        },
+        prop: { value = '' },
       },
     } = this.props;
 
@@ -27,9 +25,7 @@ class SelectComponent extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     const {
       property: {
-        prop: {
-          value = '',
-        },
+        prop: { value = '' },
       },
     } = nextProps;
 
@@ -39,13 +35,15 @@ class SelectComponent extends React.PureComponent {
   renderOptions() {
     const {
       property: {
-        prop: {
-          data = [],
-        },
+        prop: { data = [] },
       },
     } = this.props;
 
-    return data.map(({ label, value }) => <option key={value} value={value}>{label}</option>);
+    return data.map(({ label, value }) => (
+      <option key={value} value={value}>
+        {label}
+      </option>
+    ));
   }
 
   render() {
@@ -54,16 +52,9 @@ class SelectComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          tooltip = '',
-          placeholder = '',
-          disabled = false,
-          required = false,
-        },
+        prop: { tooltip = '', placeholder = '', disabled = false, required = false },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
@@ -82,9 +73,7 @@ class SelectComponent extends React.PureComponent {
         >
           {this.renderOptions()}
         </select>
-        <div
-          className={`${selectorPrefix}-${groupKey}-${componentKey}-mask `}
-        />
+        <div className={`${selectorPrefix}-${groupKey}-${componentKey}-mask `} />
       </div>
     );
   }
@@ -102,7 +91,9 @@ SelectComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DRSHOC(SelectComponent, {
-  groupKey: 'form',
-  componentKey: 'Select',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(SelectComponent, {
+    groupKey: 'form',
+    componentKey: 'Select',
+  }),
+);

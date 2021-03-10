@@ -5,7 +5,6 @@ const pageActiveMap = new Map();
  * @type {{getPage(*=): CanvasTabPanel, removePage(String): void, setPage(*=, *=): void}}
  */
 const ActivePageManager = {
-
   /**
    * setPage
    * @param {String} - pageId

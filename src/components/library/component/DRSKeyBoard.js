@@ -29,7 +29,6 @@ class DRSKeyBoard {
 
       [['Ctrl', 'ArrowRight'], ::this.onCtrlArrowRight],
 
-
       [['Shift', 'ArrowUp'], ::this.onCtrlArrowUp],
 
       [['Shift', 'ArrowDown'], ::this.onCtrlArrowDown],
@@ -37,7 +36,6 @@ class DRSKeyBoard {
       [['Shift', 'ArrowLeft'], ::this.onCtrlArrowLeft],
 
       [['Shift', 'ArrowRight'], ::this.onCtrlArrowRight],
-
 
       [['Repeat', 'ArrowUp'], ::this.onRepeatArrowUp],
 
@@ -47,7 +45,6 @@ class DRSKeyBoard {
 
       [['Repeat', 'ArrowRight'], ::this.onRepeatArrowRight],
 
-
       [['Repeat', 'Ctrl', 'ArrowUp'], ::this.onRepeatCtrlArrowUp],
 
       [['Repeat', 'Ctrl', 'ArrowDown'], ::this.onRepeatCtrlArrowDown],
@@ -56,7 +53,6 @@ class DRSKeyBoard {
 
       [['Repeat', 'Ctrl', 'ArrowRight'], ::this.onRepeatCtrlArrowRight],
 
-
       [['Repeat', 'Shift', 'ArrowUp'], ::this.onRepeatCtrlArrowUp],
 
       [['Repeat', 'Shift', 'ArrowDown'], ::this.onRepeatCtrlArrowDown],
@@ -64,7 +60,6 @@ class DRSKeyBoard {
       [['Repeat', 'Shift', 'ArrowLeft'], ::this.onRepeatCtrlArrowLeft],
 
       [['Repeat', 'Shift', 'ArrowRight'], ::this.onRepeatCtrlArrowRight],
-
 
       [['Ctrl', 'c'], ::this.onCtrlC],
 

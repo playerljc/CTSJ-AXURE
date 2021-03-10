@@ -19,17 +19,13 @@ class InlineFrame extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      value,
-    } = props;
+    const { value } = props;
 
     this.state = { ...value };
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      value,
-    } = nextProps;
+    const { value } = nextProps;
 
     this.setState({
       ...value,
@@ -46,10 +42,7 @@ class InlineFrame extends React.PureComponent {
 
   onChooseTarget() {
     const {
-      link: {
-        target,
-        url,
-      },
+      link: { target, url },
     } = this.state;
 
     ChooseTargetPicker.open({
@@ -59,14 +52,17 @@ class InlineFrame extends React.PureComponent {
       zIndex: window.parseInt(getMaxLevelNumber()) + 10,
       onSuccess: (value) => {
         return new Promise((resolve) => {
-          this.setState({
-            link: {
-              ...value,
+          this.setState(
+            {
+              link: {
+                ...value,
+              },
             },
-          }, () => {
-            resolve();
-            this.refresh();
-          });
+            () => {
+              resolve();
+              this.refresh();
+            },
+          );
         });
       },
     });
@@ -74,34 +70,30 @@ class InlineFrame extends React.PureComponent {
 
   onShowBorder() {
     const { showBorder } = this.state;
-    this.setState({
-      showBorder: !showBorder,
-    }, () => {
-      this.refresh();
-    });
+    this.setState(
+      {
+        showBorder: !showBorder,
+      },
+      () => {
+        this.refresh();
+      },
+    );
   }
 
   render() {
     const {
       showBorder,
-      link: {
-        url,
-      },
+      link: { url },
     } = this.state;
 
     return (
-      <div className={`${selectorPrefix}`} >
-        <a
-          className={`${selectorPrefix}-ChooseText`}
-          onClick={::this.onChooseTarget}
-        >Choose a framework goal
+      <div className={`${selectorPrefix}`}>
+        <a className={`${selectorPrefix}-ChooseText`} onClick={::this.onChooseTarget}>
+          Choose a framework goal
         </a>
-        <p className={`${selectorPrefix}-ChooseResult`} >{url}</p>
-        <input
-          type="checkbox"
-          checked={showBorder}
-          onChange={::this.onShowBorder}
-        /><span>Show border</span>
+        <p className={`${selectorPrefix}-ChooseResult`}>{url}</p>
+        <input type="checkbox" checked={showBorder} onChange={::this.onShowBorder} />
+        <span>Show border</span>
       </div>
     );
   }

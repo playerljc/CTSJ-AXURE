@@ -21,9 +21,7 @@ class RadioProperty extends React.PureComponent {
    * @return {*[]}
    */
   getConfig() {
-    const {
-      shape,
-    } = this.props;
+    const { shape } = this.props;
 
     const {
       tooltip = '',
@@ -46,7 +44,7 @@ class RadioProperty extends React.PureComponent {
           <ToolTip
             value={tooltip}
             onChange={(value) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.tooltip = value;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -60,7 +58,7 @@ class RadioProperty extends React.PureComponent {
           <ToolTip
             value={label}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.label = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -75,7 +73,7 @@ class RadioProperty extends React.PureComponent {
             label="checked"
             value={checked}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.checked = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -90,7 +88,7 @@ class RadioProperty extends React.PureComponent {
             label="disabled"
             value={disabled}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.disabled = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -105,7 +103,7 @@ class RadioProperty extends React.PureComponent {
             label="required"
             value={required}
             onChange={(v) => {
-              const prop = shape.getProperty().prop;
+              const {prop} = shape.getProperty();
               prop.required = v;
               shape.setPropertyByProps('prop', prop);
             }}
@@ -116,15 +114,9 @@ class RadioProperty extends React.PureComponent {
   }
 
   render() {
-    const {
-      children,
-    } = this.props;
+    const { children } = this.props;
 
-    return (
-      <div className={selectorPrefix}>
-        {children(this.getConfig())}
-      </div>
-    );
+    return <div className={selectorPrefix}>{children(this.getConfig())}</div>;
   }
 }
 

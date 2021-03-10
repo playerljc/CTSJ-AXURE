@@ -8,7 +8,8 @@ import { Immutable } from '../../../../util/CTMobile-UI-Util';
 import {
   DRSSELECTORPREFIX,
   DROPPABLESELECTORPREFIX,
-  SCALECOLLECTION } from '../../../../util/Constant';
+  SCALECOLLECTION,
+} from '../../../../util/Constant';
 
 import CanvasTabPanelKeyBoard from './CanvasTabPanelKeyBoard';
 import CanvasTabPanelStyle from './CanvasTabPanelStyle';
@@ -16,7 +17,6 @@ import CanvasTabPanelStyle from './CanvasTabPanelStyle';
 import { CanvasPanelContext } from './CanvasPanelContext';
 
 import './CanvasTabPanel.less';
-
 
 const selectorPrefix = 'CanvasTabPanel';
 
@@ -33,7 +33,7 @@ class CanvasTabPanel extends React.PureComponent {
     this.pageStyle = new CanvasTabPanelStyle();
 
     this.state = {
-      property: Object.assign({}, props.property),
+      property: { ...props.property},
     };
 
     this.scaleIndex = 7;
@@ -73,7 +73,7 @@ class CanvasTabPanel extends React.PureComponent {
   getProperty() {
     // const { property } = this.props;
     // return Immutable.cloneDeep(property);
-    return Object.assign({}, this.state.property);
+    return { ...this.state.property};
   }
 
   /**
@@ -86,13 +86,16 @@ class CanvasTabPanel extends React.PureComponent {
     // console.log(this.props);
     const property = { ...this.state.property };
     property[propertyName] = propertyValue;
-    this.setState({
-      property,
-    }, () => {
-      if (success) {
-        success();
-      }
-    });
+    this.setState(
+      {
+        property,
+      },
+      () => {
+        if (success) {
+          success();
+        }
+      },
+    );
   }
 
   /**
@@ -118,7 +121,6 @@ class CanvasTabPanel extends React.PureComponent {
   getDRSClassName() {
     return DRSSELECTORPREFIX.join(' ');
   }
-
 
   /**
    * bindKeyBoard
@@ -152,9 +154,7 @@ class CanvasTabPanel extends React.PureComponent {
    * onMouseWheel
    * @param {String} - direction [top | bottom]
    */
-  onMouseWheel({
-    direction,
-  }) {
+  onMouseWheel({ direction }) {
     if (direction === 'top') {
       if (this.scaleIndex !== 0) {
         this.scaleIndex--;
@@ -181,33 +181,35 @@ class CanvasTabPanel extends React.PureComponent {
   render() {
     const { activePageId, pageId } = this.props;
     return (
-      <CanvasPanelContext.Consumer>{({
-         removePage,
-         setName,
-      }) => {
-        this.removePage = removePage;
-        this.setName = setName;
+      <CanvasPanelContext.Consumer>
+        {({ removePage, setName }) => {
+          this.removePage = removePage;
+          this.setName = setName;
 
-        return (
-          <div
-            className={`${selectorPrefix} ${activePageId === pageId ? `${DROPPABLESELECTORPREFIX}-target` : ''}`}
-            data-pageid={pageId}
-          >
+          return (
             <div
-              className={`${selectorPrefix}-Background`}
-              style={this.pageStyle.getStyle(Immutable.cloneDeep(this.state))}
-            />
-            <div
-              className={`${selectorPrefix}-Scroll ${activePageId === pageId ? this.getDRSClassName() : ''}`}
+              className={`${selectorPrefix} ${
+                activePageId === pageId ? `${DROPPABLESELECTORPREFIX}-target` : ''
+              }`}
               data-pageid={pageId}
-              id={pageId}
-              ref={(el) => {
-                this.innerEl = el;
-              }}
-            />
-          </div>
-        );
-      }}
+            >
+              <div
+                className={`${selectorPrefix}-Background`}
+                style={this.pageStyle.getStyle(Immutable.cloneDeep(this.state))}
+              />
+              <div
+                className={`${selectorPrefix}-Scroll ${
+                  activePageId === pageId ? this.getDRSClassName() : ''
+                }`}
+                data-pageid={pageId}
+                id={pageId}
+                ref={(el) => {
+                  this.innerEl = el;
+                }}
+              />
+            </div>
+          );
+        }}
       </CanvasPanelContext.Consumer>
     );
   }

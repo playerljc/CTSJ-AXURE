@@ -5,11 +5,7 @@ const { Component } = React;
 
 class SystemToolBar extends Component {
   render() {
-    return (
-      <div>
-        SystemToolBar
-      </div>
-    );
+    return <div>SystemToolBar</div>;
   }
 }
 

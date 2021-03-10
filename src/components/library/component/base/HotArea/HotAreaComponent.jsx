@@ -18,20 +18,13 @@ class HotAreaComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          text,
-        },
+        prop: { text },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
-      <div
-        className={`${selectorPrefix}-${groupKey}-${componentKey}`}
-        style={alignStyle}
-      >
+      <div className={`${selectorPrefix}-${groupKey}-${componentKey}`} style={alignStyle}>
         {text}
       </div>
     );
@@ -51,7 +44,9 @@ HotAreaComponent.propTypes = {
   style: PropTypes.object,
 };
 
-export default ComponentBaseHOC(DRSHOC(HotAreaComponent, {
-  groupKey: 'base',
-  componentKey: 'HotArea',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(HotAreaComponent, {
+    groupKey: 'base',
+    componentKey: 'HotArea',
+  }),
+);

@@ -57,8 +57,14 @@ class SummaryPanel extends Component {
 
     Emitter.on(Actions.components.library.component.active, this.onComponentActive);
     Emitter.on(Actions.components.library.component.unactive, this.onUnComponentActive);
-    Emitter.on(Actions.components.library.component.rangeselectactive, this.onComponentRangeSelectActive);
-    Emitter.on(Actions.components.library.component.unrangeselectactive, this.onUnComponentRangeSelectActive);
+    Emitter.on(
+      Actions.components.library.component.rangeselectactive,
+      this.onComponentRangeSelectActive,
+    );
+    Emitter.on(
+      Actions.components.library.component.unrangeselectactive,
+      this.onUnComponentRangeSelectActive,
+    );
   }
 
   componentWillUnMount() {
@@ -71,8 +77,14 @@ class SummaryPanel extends Component {
 
     Emitter.remove(Actions.components.library.component.active, this.onComponentActive);
     Emitter.remove(Actions.components.library.component.unactive, this.onUnComponentActive);
-    Emitter.remove(Actions.components.library.component.rangeselectactive, this.onComponentRangeSelectActive);
-    Emitter.remove(Actions.components.library.component.unrangeselectactive, this.onUnComponentRangeSelectActive);
+    Emitter.remove(
+      Actions.components.library.component.rangeselectactive,
+      this.onComponentRangeSelectActive,
+    );
+    Emitter.remove(
+      Actions.components.library.component.unrangeselectactive,
+      this.onUnComponentRangeSelectActive,
+    );
   }
 
   /**
@@ -129,17 +141,12 @@ class SummaryPanel extends Component {
         const groupKey = Shape.getGroupKey();
         const attribute = Shape.getAttribute();
         const Component = Register.get(groupKey).get(componentKey);
-        const name = Shape.getProperty().prop.name;
+        const {name} = Shape.getProperty().prop;
         const isActive = Shape.isActive() || Shape.isRangeSelectActive();
 
         childrendata.push({
           // TODO: 初始化SummaryTool
-          name: (
-            <Component.SummaryTool
-              name={name}
-              attribute={attribute}
-            />
-          ),
+          name: <Component.SummaryTool name={name} attribute={attribute} />,
           leaf: true,
           id: Shape.getComponentId(),
           active: isActive,

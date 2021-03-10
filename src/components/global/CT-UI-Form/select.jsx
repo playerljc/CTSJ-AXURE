@@ -4,11 +4,7 @@ import FormFieldHOC from './FormFieldHOC';
 class Select extends React.PureComponent {
   render() {
     const { children, ...props } = this.props;
-    return (
-      <select {...props} >
-        {children}
-      </select>
-    );
+    return <select {...props}>{children}</select>;
   }
 }
 

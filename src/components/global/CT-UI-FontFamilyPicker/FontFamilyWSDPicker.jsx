@@ -16,11 +16,7 @@ class FontFamilyWSDPicker extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      fontWeight,
-      fontStyle,
-      textDecoration,
-    } = props;
+    const { fontWeight, fontStyle, textDecoration } = props;
 
     this.state = {
       fontWeight,
@@ -44,11 +40,7 @@ class FontFamilyWSDPicker extends React.PureComponent {
   // }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      fontWeight,
-      fontStyle,
-      textDecoration,
-    } = nextProps;
+    const { fontWeight, fontStyle, textDecoration } = nextProps;
 
     this.setState({
       fontWeight,
@@ -59,29 +51,38 @@ class FontFamilyWSDPicker extends React.PureComponent {
 
   onBoldClick = () => {
     const { fontWeight } = this.state;
-    this.setState({
-      fontWeight: !fontWeight,
-    }, () => {
-      this.refresh();
-    });
+    this.setState(
+      {
+        fontWeight: !fontWeight,
+      },
+      () => {
+        this.refresh();
+      },
+    );
   };
 
   onItalicClick = () => {
     const { fontStyle } = this.state;
-    this.setState({
-      fontStyle: !fontStyle,
-    }, () => {
-      this.refresh();
-    });
+    this.setState(
+      {
+        fontStyle: !fontStyle,
+      },
+      () => {
+        this.refresh();
+      },
+    );
   };
 
   onUnderlineClick = () => {
     const { textDecoration } = this.state;
-    this.setState({
-      textDecoration: !textDecoration,
-    }, () => {
-      this.refresh();
-    });
+    this.setState(
+      {
+        textDecoration: !textDecoration,
+      },
+      () => {
+        this.refresh();
+      },
+    );
   };
 
   refresh() {
@@ -93,17 +94,22 @@ class FontFamilyWSDPicker extends React.PureComponent {
   }
 
   render() {
-    const {
-      fontWeight,
-      fontStyle,
-      textDecoration,
-    } = this.state;
+    const { fontWeight, fontStyle, textDecoration } = this.state;
 
     return (
       <div className={`${selectorPrefix} g-grid-list column3`}>
-        <div className={`g-grid-list-item fa fa-bold ${fontWeight ? 'active' : ''}`} onClick={this.onBoldClick} />
-        <div className={`g-grid-list-item fa fa-italic ${fontStyle ? 'active' : ''}`} onClick={this.onItalicClick} />
-        <div className={`g-grid-list-item fa fa-underline ${textDecoration ? 'active' : ''}`} onClick={this.onUnderlineClick} />
+        <div
+          className={`g-grid-list-item fa fa-bold ${fontWeight ? 'active' : ''}`}
+          onClick={this.onBoldClick}
+        />
+        <div
+          className={`g-grid-list-item fa fa-italic ${fontStyle ? 'active' : ''}`}
+          onClick={this.onItalicClick}
+        />
+        <div
+          className={`g-grid-list-item fa fa-underline ${textDecoration ? 'active' : ''}`}
+          onClick={this.onUnderlineClick}
+        />
       </div>
     );
   }

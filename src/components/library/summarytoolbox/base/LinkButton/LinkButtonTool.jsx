@@ -15,7 +15,7 @@ class LinkButtonTool extends React.PureComponent {
     const { selectorPrefix } = this.props;
     return (
       <React.Fragment>
-        <div className={`${selectorPrefix}-base-LinkButton`} >BUTTON</div>
+        <div className={`${selectorPrefix}-base-LinkButton`}>BUTTON</div>
       </React.Fragment>
     );
   }

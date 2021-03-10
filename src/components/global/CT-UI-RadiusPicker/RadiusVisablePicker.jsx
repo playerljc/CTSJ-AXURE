@@ -68,45 +68,56 @@ class RadiusVisablePickerModal extends React.PureComponent {
     const { borderLeftTopRadiusDisable } = this.state;
     const { onChange } = this.props;
 
-    this.setState({
-      borderLeftTopRadiusDisable: !borderLeftTopRadiusDisable,
-    }, () => {
-      onChange(this.state);
-    });
+    this.setState(
+      {
+        borderLeftTopRadiusDisable: !borderLeftTopRadiusDisable,
+      },
+      () => {
+        onChange(this.state);
+      },
+    );
   };
 
   onRightTopClick = () => {
     const { borderRightTopRadiusDisable } = this.state;
     const { onChange } = this.props;
 
-    this.setState({
-      borderRightTopRadiusDisable: !borderRightTopRadiusDisable,
-    }, () => {
-      onChange(this.state);
-    });
+    this.setState(
+      {
+        borderRightTopRadiusDisable: !borderRightTopRadiusDisable,
+      },
+      () => {
+        onChange(this.state);
+      },
+    );
   };
 
   onLeftBottomClick = () => {
     const { borderLeftBottomRadiusDisable } = this.state;
     const { onChange } = this.props;
 
-
-    this.setState({
-      borderLeftBottomRadiusDisable: !borderLeftBottomRadiusDisable,
-    }, () => {
-      onChange(this.state);
-    });
+    this.setState(
+      {
+        borderLeftBottomRadiusDisable: !borderLeftBottomRadiusDisable,
+      },
+      () => {
+        onChange(this.state);
+      },
+    );
   };
 
   onRightBottomClick = () => {
     const { borderRightBottomRadiusDisable } = this.state;
     const { onChange } = this.props;
 
-    this.setState({
-      borderRightBottomRadiusDisable: !borderRightBottomRadiusDisable,
-    }, () => {
-      onChange(this.state);
-    });
+    this.setState(
+      {
+        borderRightBottomRadiusDisable: !borderRightBottomRadiusDisable,
+      },
+      () => {
+        onChange(this.state);
+      },
+    );
   };
 
   render() {
@@ -125,11 +136,31 @@ class RadiusVisablePickerModal extends React.PureComponent {
     };
 
     return (
-      <div className={`${selectorPrefix}-Modal`} style={style} >
-        <span className={`${selectorPrefix}-Modal-LeftTop ${!borderLeftTopRadiusDisable ? 'active' : ''}`} onClick={this.onLeftTopClick} />
-        <span className={`${selectorPrefix}-Modal-RightTop ${!borderRightTopRadiusDisable ? 'active' : ''}`} onClick={this.onRightTopClick} />
-        <span className={`${selectorPrefix}-Modal-LeftBottom ${!borderLeftBottomRadiusDisable ? 'active' : ''}`} onClick={this.onLeftBottomClick} />
-        <span className={`${selectorPrefix}-Modal-RightBottom ${!borderRightBottomRadiusDisable ? 'active' : ''}`} onClick={this.onRightBottomClick} />
+      <div className={`${selectorPrefix}-Modal`} style={style}>
+        <span
+          className={`${selectorPrefix}-Modal-LeftTop ${
+            !borderLeftTopRadiusDisable ? 'active' : ''
+          }`}
+          onClick={this.onLeftTopClick}
+        />
+        <span
+          className={`${selectorPrefix}-Modal-RightTop ${
+            !borderRightTopRadiusDisable ? 'active' : ''
+          }`}
+          onClick={this.onRightTopClick}
+        />
+        <span
+          className={`${selectorPrefix}-Modal-LeftBottom ${
+            !borderLeftBottomRadiusDisable ? 'active' : ''
+          }`}
+          onClick={this.onLeftBottomClick}
+        />
+        <span
+          className={`${selectorPrefix}-Modal-RightBottom ${
+            !borderRightBottomRadiusDisable ? 'active' : ''
+          }`}
+          onClick={this.onRightBottomClick}
+        />
       </div>
     );
   }
@@ -142,7 +173,6 @@ RadiusVisablePickerModal.propTypes = {
   borderRightBottomRadiusDisable: PropTypes.bool,
   onChange: PropTypes.func,
 };
-
 
 /**
  * RadiusVisablePicker
@@ -203,11 +233,7 @@ class RadiusVisablePicker extends React.PureComponent {
   }
 
   onArrowClick() {
-    const {
-      zIndex = window.parseInt(getMaxLevelNumber()) + 10,
-      onChange,
-      ...other
-    } = this.props;
+    const { zIndex = window.parseInt(getMaxLevelNumber()) + 10, onChange, ...other } = this.props;
 
     const modal = Modal.open({
       title: 'borderVisableSetting',
@@ -218,32 +244,34 @@ class RadiusVisablePicker extends React.PureComponent {
         <RadiusVisablePickerModal
           {...other}
           onChange={(value) => {
-            this.setState({
-              ...value,
-            }, () => {
-              if (onChange) {
-                onChange(value);
-              }
-            });
+            this.setState(
+              {
+                ...value,
+              },
+              () => {
+                if (onChange) {
+                  onChange(value);
+                }
+              },
+            );
           }}
         />
       ),
       yscroll: false,
-      buttons: [{
-        text: 'cancel',
-        handler: () => {
-          Modal.close(modal);
+      buttons: [
+        {
+          text: 'cancel',
+          handler: () => {
+            Modal.close(modal);
+          },
         },
-      }],
+      ],
     });
   }
 
   render() {
     return (
-      <div
-        className={`${selectorPrefix}`}
-        onClick={this.onArrowClick}
-      >
+      <div className={`${selectorPrefix}`} onClick={this.onArrowClick}>
         <div className={`${selectorPrefix}-Inner`} />
         <div className={`fa fa-caret-right ${selectorPrefix}-Arrow`} />
       </div>

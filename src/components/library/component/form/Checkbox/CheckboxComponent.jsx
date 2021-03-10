@@ -16,9 +16,7 @@ class CheckboxComponent extends React.PureComponent {
   componentDidMount() {
     const {
       property: {
-        prop: {
-          checked = false,
-        },
+        prop: { checked = false },
       },
     } = this.props;
 
@@ -28,9 +26,7 @@ class CheckboxComponent extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     const {
       property: {
-        prop: {
-          checked = false,
-        },
+        prop: { checked = false },
       },
     } = nextProps;
 
@@ -43,16 +39,9 @@ class CheckboxComponent extends React.PureComponent {
       groupKey,
       componentKey,
       property: {
-        prop: {
-          tooltip = '',
-          label = '',
-          disabled = false,
-          required = false,
-        },
+        prop: { tooltip = '', label = '', disabled = false, required = false },
       },
-      style: {
-        alignStyle,
-      },
+      style: { alignStyle },
     } = this.props;
 
     return (
@@ -89,7 +78,9 @@ CheckboxComponent.propTypes = {
   selectorPrefix: PropTypes.string,
 };
 
-export default ComponentBaseHOC(DRSHOC(ComponentFocusHOC(CheckboxComponent), {
-  groupKey: 'form',
-  componentKey: 'Checkbox',
-}));
+export default ComponentBaseHOC(
+  DRSHOC(ComponentFocusHOC(CheckboxComponent), {
+    groupKey: 'form',
+    componentKey: 'Checkbox',
+  }),
+);

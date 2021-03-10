@@ -4,9 +4,7 @@ import FormFieldMouseDonwCaptureHOC from './FormFieldMouseDonwCaptureHOC';
 
 class Input extends React.PureComponent {
   render() {
-    return (
-      <input {...this.props} />
-    );
+    return <input {...this.props} />;
   }
 }
 

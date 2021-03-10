@@ -18,9 +18,7 @@ function onSplitVStart() {
   // App.activeShapeEnable();
 }
 
-function onSplitVSuccess() {
-
-}
+function onSplitVSuccess() {}
 
 function onSplitVEnd() {
   // console.log('onSplitVEnd');
@@ -42,9 +40,7 @@ function onSplitHStart() {
   // App.activeShapeEnable();
 }
 
-function onSplitHSuccess() {
-
-}
+function onSplitHSuccess() {}
 
 function onSplitHEnd() {
   // console.log('onSplitHEnd');

@@ -27,12 +27,12 @@ export default {
     if (parentDom) {
       if (parentDom === document.body) {
         return null;
-      } else {
-        return parentDom;
       }
-    } else {
-      return null;
+        return parentDom;
+
     }
+      return null;
+
   },
   /**
    * off
@@ -46,7 +46,9 @@ export default {
       const value = eventListenerHandlers.get(el);
       if (value && value[tag] && value[tag][type]) {
         const index = value[tag][type].indexOf(handler);
-        if (index !== -1) { value[tag][type].splice(index, 1); }
+        if (index !== -1) {
+          value[tag][type].splice(index, 1);
+        }
         el.removeEventListener(type, handler);
       }
     } else if (tag && type && !handler) {
@@ -106,9 +108,7 @@ export default {
     handlers.push(handler);
     el.addEventListener(type, handler, capture);
   },
-  once() {
-
-  },
+  once() {},
   /**
    * addClass
    * @param {HTMLElement} el
@@ -146,9 +146,7 @@ export default {
    * @param {Object} property
    * @param {Object} value
    */
-  attr(el, property, value) {
-
-  },
+  attr(el, property, value) {},
   /**
    * DOM没有提供insertAfter()方法
    * @param {HtmlElement} newElement
@@ -342,7 +340,7 @@ export default {
   getPageLeft(el) {
     let left = el.offsetLeft;
     let offsetParent = null;
-    while (offsetParent = el.offsetParent) {
+    while ((offsetParent = el.offsetParent)) {
       left += offsetParent.offsetLeft;
     }
     return left;
@@ -355,7 +353,7 @@ export default {
   getPageTop(el) {
     let top = el.offsetTop;
     let offsetParent = null;
-    while (offsetParent = el.offsetParent) {
+    while ((offsetParent = el.offsetParent)) {
       top += offsetParent.offsetTop;
     }
     return top;
@@ -369,7 +367,7 @@ export default {
     let top = el.offsetTop;
     let left = el.offsetLeft;
     let offsetParent = null;
-    while (offsetParent = el.offsetParent) {
+    while ((offsetParent = el.offsetParent)) {
       top += offsetParent.offsetTop;
       left += offsetParent.offsetLeft;
     }

@@ -45,4 +45,3 @@ const ActiveShapeKeyBoardBind = {
 };
 
 export default ActiveShapeKeyBoardBind;
-

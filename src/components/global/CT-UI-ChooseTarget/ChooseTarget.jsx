@@ -17,11 +17,7 @@ class ChooseTarget extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      target,
-      url,
-      page,
-    } = props;
+    const { target, url, page } = props;
 
     this.state = {
       target,
@@ -31,11 +27,7 @@ class ChooseTarget extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      target,
-      url,
-      page,
-    } = nextProps;
+    const { target, url, page } = nextProps;
 
     this.setState({
       target,
@@ -49,10 +41,7 @@ class ChooseTarget extends React.PureComponent {
    * @return {Object}
    */
   getValue() {
-    const {
-      page,
-      ...other
-    } = this.state;
+    const { page, ...other } = this.state;
 
     return other;
   }
@@ -110,16 +99,13 @@ class ChooseTarget extends React.PureComponent {
   renderTreeMask() {
     const { zIndex } = this.props;
     const { target } = this.state;
-    return target === 'outer' ?
-      (<div className={`${selectorPrefix}-InsideWrap-Tree-Mask`} style={{ zIndex: zIndex + 10 }} />) :
-      null;
+    return target === 'outer' ? (
+      <div className={`${selectorPrefix}-InsideWrap-Tree-Mask`} style={{ zIndex: zIndex + 10 }} />
+    ) : null;
   }
 
   render() {
-    const {
-      url,
-      page,
-    } = this.state;
+    const { url, page } = this.state;
 
     return (
       <form className={`${selectorPrefix}`}>
@@ -134,11 +120,7 @@ class ChooseTarget extends React.PureComponent {
             <span>Link to a page of the current project</span>
           </div>
           <div className={`${selectorPrefix}-InsideWrap-Tree`}>
-            <Tree
-              data={page}
-              activeKey={url}
-              onActive={::this.onTreeActive}
-            />
+            <Tree data={page} activeKey={url} onActive={::this.onTreeActive} />
             {this.renderTreeMask()}
           </div>
         </div>
