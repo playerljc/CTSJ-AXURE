@@ -12,9 +12,9 @@ class TextAreaTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-form-textarea FontAwesome`}>&#xe62f;</div>
-      </React.Fragment>
+      </>
     );
   }
 }

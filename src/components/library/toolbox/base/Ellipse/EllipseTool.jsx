@@ -14,9 +14,9 @@ class EllipseTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-base-ellipse`} />
-      </React.Fragment>
+      </>
     );
   }
 }

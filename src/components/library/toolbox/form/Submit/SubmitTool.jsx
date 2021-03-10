@@ -14,9 +14,9 @@ class SubmitTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-form-submit`}>Submit</div>
-      </React.Fragment>
+      </>
     );
   }
 }

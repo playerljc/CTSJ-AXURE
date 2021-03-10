@@ -52,10 +52,8 @@ function onEnd() {
  * 当resizeable有变化的时候
  * @param {HTMLElement} - curEl
  * @param {number} - incrementWidth
- * @param {number} - incrementHeight
- * @param {Object} - condition
- * @param {Function} - callback
  * @return {boolean}
+ * @param curEl
  */
 function onChange(curEl, { incrementWidth, incrementHeight, condition }, { handler, context }) {
   const {

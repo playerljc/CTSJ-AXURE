@@ -14,9 +14,9 @@ class PrimaryButtonTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-base-PrimaryButton`}>BUTTON</div>
-      </React.Fragment>
+      </>
     );
   }
 }

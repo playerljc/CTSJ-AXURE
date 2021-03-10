@@ -12,9 +12,9 @@ class Rect1Tool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-base-rect1`} />
-      </React.Fragment>
+      </>
     );
   }
 }

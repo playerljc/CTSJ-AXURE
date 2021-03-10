@@ -18,11 +18,11 @@ class IconTool extends React.PureComponent {
     } = this.props;
 
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-icons-Icon`}>
           <i className={`fas fa-${value}`} />
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }

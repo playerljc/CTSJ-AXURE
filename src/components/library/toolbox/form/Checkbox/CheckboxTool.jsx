@@ -14,9 +14,9 @@ class CheckboxTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-form-Checkbox FontAwesome`}>&#xe608;</div>
-      </React.Fragment>
+      </>
     );
   }
 }

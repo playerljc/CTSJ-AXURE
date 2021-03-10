@@ -9,7 +9,7 @@ import rangeSelectManager from './RangeSelectManager';
 const ActiveShapeKeyBoardBind = {
   /**
    * bindKeyBoard
-   * @param {String} - pageId
+   * @param pageId
    */
   bindKeyBoard(pageId) {
     const activeShapes = activeShapeManager.getShape(pageId);
@@ -27,7 +27,7 @@ const ActiveShapeKeyBoardBind = {
 
   /**
    * unBindKeyBoard
-   * @param {String} - pageId
+   * @param pageId
    */
   unBindKeyBoard(pageId) {
     const activeShapes = activeShapeManager.getShape(pageId);

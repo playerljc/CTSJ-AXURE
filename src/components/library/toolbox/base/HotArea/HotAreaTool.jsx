@@ -14,12 +14,12 @@ class HotAreaTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-base-hotarea`}>
           <div className={`${selectorPrefix}-base-hotarea-top`} />
           <div className={`${selectorPrefix}-base-hotarea-arrow FontAwesome`}>&#xe6a2;</div>
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }

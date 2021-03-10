@@ -7,8 +7,8 @@ const pageActiveMap = new Map();
 const ActivePageManager = {
   /**
    * setPage
-   * @param {String} - pageId
-   * @param {CanvasTabPanel} - page
+   * @param pageId
+   * @param page
    */
   setPage(pageId, page) {
     pageActiveMap.set(pageId, page);
@@ -16,8 +16,8 @@ const ActivePageManager = {
 
   /**
    * getPage
-   * @param {String} - pageId
-   * @return {CanvasTabPanel}
+   * @return {V}
+   * @param pageId
    */
   getPage(pageId) {
     return pageActiveMap.get(pageId);

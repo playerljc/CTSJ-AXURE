@@ -14,9 +14,9 @@ class InlineFrameTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-base-InlineFrame FontAwesome`}>&#xe74c;</div>
-      </React.Fragment>
+      </>
     );
   }
 }

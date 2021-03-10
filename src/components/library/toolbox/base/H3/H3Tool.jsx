@@ -14,9 +14,9 @@ class H3Tool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-base-h3`}>H3</div>
-      </React.Fragment>
+      </>
     );
   }
 }

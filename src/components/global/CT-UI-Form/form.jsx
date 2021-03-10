@@ -27,9 +27,9 @@ class FormFieldManager {
 
   /**
    * createField
-   * @param {ReactElement} - FieldComponent
-   * @param {String} - name
    * @return {ReactElement}
+   * @param FieldComponent
+   * @param name
    */
   createField(FieldComponent, name) {
     const self = this;
@@ -46,8 +46,8 @@ class FormFieldManager {
 
       /**
        * onChange
-       * @param {Event} - e
-       * @param {Function} - onChange
+       * @param e
+       * @param onChange
        */
       onChange(e, onChange) {
         this.setState({
@@ -140,8 +140,8 @@ class FormFieldManager {
 
 /**
  * create
- * @param {ReactElement} - Component
  * @return {ReactElement}
+ * @param Component
  */
 function create(Component) {
   return class extends React.PureComponent {
@@ -152,9 +152,9 @@ function create(Component) {
 
     render() {
       return (
-        <React.Fragment>
+        <>
           <Component {...this.props} form={this.formFieldManager} />
-        </React.Fragment>
+        </>
       );
     }
   };

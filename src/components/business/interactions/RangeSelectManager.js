@@ -8,8 +8,8 @@ const rangeSelectMap = new Map();
 const RangeSelectManager = {
   /**
    * set
-   * @param {String} - pageId
-   * @param {RangeSelect} - rangeSelect
+   * @param pageId
+   * @param rangeSelect
    */
   set(pageId, rangeSelect) {
     rangeSelectMap.set(pageId, rangeSelect);
@@ -17,8 +17,8 @@ const RangeSelectManager = {
 
   /**
    * get
-   * @param {String} - pageId
    * @return {RangeSelect}
+   * @param pageId
    */
   get(pageId) {
     return rangeSelectMap.get(pageId);
@@ -26,7 +26,7 @@ const RangeSelectManager = {
 
   /**
    * delete
-   * @param {String} - pageId
+   * @param pageId
    */
   delete(pageId) {
     rangeSelectMap.delete(pageId);

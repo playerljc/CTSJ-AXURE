@@ -14,9 +14,9 @@ class H1Tool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-base-h1`}>H1</div>
-      </React.Fragment>
+      </>
     );
   }
 }

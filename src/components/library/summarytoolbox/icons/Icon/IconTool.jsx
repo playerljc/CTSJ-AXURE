@@ -17,11 +17,11 @@ class IconTool extends React.PureComponent {
     const attrJSON = JSON.parse(attribute);
 
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-icons-Icon`}>
           <i className={`fas fa-${attrJSON.value}`} />
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }

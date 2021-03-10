@@ -14,14 +14,14 @@ export default (Component) => {
 
     render() {
       return (
-        <React.Fragment>
+        <>
           <Component
             {...this.props}
             ref={(ins) => {
               this.ins = ins;
             }}
           />
-        </React.Fragment>
+        </>
       );
     }
   };

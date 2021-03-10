@@ -65,14 +65,14 @@ function onPutSuccess({
 
 /**
  * onDroppableDragClone
- * @param {HTMLElement} - sourceEl
- * @param {SelectOptions} - scale
  * @return {HTMLElement}
+ * @param sourceEl
+ * @param scale
  */
 function onDragClone(sourceEl, scale) {
   const groupKey = sourceEl.dataset.groupkey;
   const componentKey = sourceEl.dataset.componentkey;
-  const {attribute} = sourceEl.dataset;
+  const { attribute } = sourceEl.dataset;
   const el = Dom6.createElement('<div></div>');
   const ShapePropertyDefaultConfig = Register.get(groupKey)
     .get(componentKey)

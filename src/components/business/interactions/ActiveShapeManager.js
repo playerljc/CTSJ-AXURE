@@ -23,8 +23,8 @@ const ActiveShapeManager = {
 
   /**
    * getShape
-   * @param {String} - pageId
-   * @return {Array<Shape>}
+   * @return {V}
+   * @param pageId
    */
   getShape(pageId) {
     return pageActiveShapeMap.get(pageId);

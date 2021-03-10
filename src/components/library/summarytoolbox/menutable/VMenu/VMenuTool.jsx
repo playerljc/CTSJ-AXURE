@@ -14,9 +14,9 @@ class VMenuTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-menutable-VMenu FontAwesome`}>&#xe62a;</div>
-      </React.Fragment>
+      </>
     );
   }
 }

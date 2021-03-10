@@ -13,6 +13,11 @@ module.exports = {
     return modifyVars;
   },
   getConfig({ webpackConfig, webpack, plugins }) {
+    if (isDev(webpackConfig.mode)) {
+      webpackConfig.module.rules[3].use[3].query.modifyVars = modifyVars;
+    } else {
+      webpackConfig.module.rules[3].use[4].query.modifyVars = modifyVars;
+    }
 
     // 这块只有需要主题切换的时候才能用到
     const MiniCssExtractPluginIndex = isProd(webpackConfig.mode) ? 3 : 2;
@@ -33,7 +38,7 @@ module.exports = {
       }),
     );
 
-    webpackConfig.module.rules[2].include.push(/font-awesome.min.css/,'ol.css');
+    webpackConfig.module.rules[2].include.push(/font-awesome.min.css/, /ol.css/);
 
     if (webpackConfig.mode === 'production') {
       webpackConfig.optimization.splitChunks = {

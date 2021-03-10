@@ -8,7 +8,7 @@ import activePageManager from './ActivePageManager';
 const ActivePageMouseWheelBind = {
   /**
    * bindMouseWheel
-   * @param {String} - pageId
+   * @param pageId
    */
   bindMouseWheel(pageId) {
     const activePage = activePageManager.getPage(pageId);
@@ -19,7 +19,7 @@ const ActivePageMouseWheelBind = {
 
   /**
    * unBindMouseWheel
-   * @param {String} - pageId
+   * @param pageId
    */
   unBindMouseWheel(pageId) {
     const activePage = activePageManager.getPage(pageId);

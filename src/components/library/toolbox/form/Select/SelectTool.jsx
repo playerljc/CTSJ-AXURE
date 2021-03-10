@@ -12,9 +12,9 @@ class SelectTool extends React.PureComponent {
   render() {
     const { selectorPrefix } = this.props;
     return (
-      <React.Fragment>
+      <>
         <div className={`${selectorPrefix}-form-select FontAwesome`}>&#xe6af;</div>
-      </React.Fragment>
+      </>
     );
   }
 }

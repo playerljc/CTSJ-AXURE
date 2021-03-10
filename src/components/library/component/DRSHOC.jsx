@@ -41,7 +41,7 @@ export default (Component, { groupKey, componentKey }) => {
       this.state = {
         active: false,
         rangeSelectActive: false,
-        property: { ...props.property},
+        property: { ...props.property },
       };
     }
 
@@ -224,7 +224,7 @@ export default (Component, { groupKey, componentKey }) => {
      */
     renderActiveIndicatorPointer() {
       return (
-        <React.Fragment>
+        <>
           <span className={`${selectorPrefix}-indicator-pointer top`} />
           <span className={`${selectorPrefix}-indicator-pointer bottom`} />
           <span className={`${selectorPrefix}-indicator-pointer left`} />
@@ -233,7 +233,7 @@ export default (Component, { groupKey, componentKey }) => {
           <span className={`${selectorPrefix}-indicator-pointer leftbottom`} />
           <span className={`${selectorPrefix}-indicator-pointer righttop`} />
           <span className={`${selectorPrefix}-indicator-pointer rightbottom`} />
-        </React.Fragment>
+        </>
       );
     }
 
@@ -242,7 +242,7 @@ export default (Component, { groupKey, componentKey }) => {
      * @return {Object}
      */
     getProperty() {
-      return { ...this.state.property};
+      return { ...this.state.property };
     }
 
     /**
@@ -327,7 +327,7 @@ export default (Component, { groupKey, componentKey }) => {
         value = `${this.el[`offset${styleUpperKey}`] + step}`;
       }
 
-      const {style} = this.getProperty();
+      const { style } = this.getProperty();
       style.position[styleKey] = window.parseInt(value);
       this.setPropertyByProps('style', style, () => {
         const { pageid: pageId, componentid: componentId } = this.el.dataset;

@@ -8,7 +8,7 @@ import activePageManager from './ActivePageManager';
 const ActivePageKeyBoardBind = {
   /**
    * bindKeyBoard
-   * @param {String} - pageId
+   * @param pageId
    */
   bindKeyBoard(pageId) {
     const activePage = activePageManager.getPage(pageId);
@@ -19,7 +19,7 @@ const ActivePageKeyBoardBind = {
 
   /**
    * unBindKeyBoard
-   * @param {String} - pageId
+   * @param pageId
    */
   unBindKeyBoard(pageId) {
     const activePage = activePageManager.getPage(pageId);

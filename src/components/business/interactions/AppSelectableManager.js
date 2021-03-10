@@ -10,7 +10,7 @@ let App;
 
 /**
  * 选取中包含的节点
- * @param {Array<String>} - ids
+ * @param ids
  */
 function moveInclude(ids) {
   App.rangeSelectActive(ids);
@@ -18,7 +18,7 @@ function moveInclude(ids) {
 
 /**
  * 选取中不包含的节点
- * @param {Array<String>} - ids
+ * @param ids
  */
 function moveExclude(ids) {
   App.unRangeSelectActive(ids);
@@ -26,7 +26,7 @@ function moveExclude(ids) {
 
 /**
  * 选取结束后包含的节点
- * @param {Array<HTMLElement>} - els
+ * @param els
  */
 function upInclude(els) {
   App.createRangeSelect(els);
