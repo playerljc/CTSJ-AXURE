@@ -65,7 +65,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@ctsj/build": "^4.0.9",
+    "@ctsj/build": "^6.0.5",
     "@babel/runtime": "^7.9.2",
     "@umijs/fabric": "^2.0.8",
     "cross-env": "^7.0.2",
