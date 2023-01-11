@@ -16,7 +16,7 @@ export default (Component) => {
   class TreeEditorHOC extends React.PureComponent {
     /**
      * constructor
-     * @param {Object} - props
+     * @param props
      */
     constructor(props) {
       super(props);

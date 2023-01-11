@@ -6,8 +6,8 @@
 class CanvasTabPanelStyle {
   /**
    * getBackgroundPositionStyle
-   * @param {Object} - style
    * @return {Object}
+   * @param style
    */
   getBackgroundPositionStyle(style) {
     const {
@@ -42,11 +42,13 @@ class CanvasTabPanelStyle {
     const includex = ['repeat', 'repeatx'];
     const includey = ['repeat', 'repeaty'];
     return {
+      // eslint-disable-next-line no-nested-ternary
       backgroundRepeatX: exclude.includes(repeat)
         ? 'no-repeat'
         : includex.includes(repeat)
         ? 'repeat'
         : 'no-repeat',
+      // eslint-disable-next-line no-nested-ternary
       backgroundRepeatY: exclude.includes(repeat)
         ? 'no-repeat'
         : includey.includes(repeat)
@@ -57,8 +59,8 @@ class CanvasTabPanelStyle {
 
   /**
    * getBackgroundSizeStyle
-   * @param {Object} - style
    * @return {Object}
+   * @param style
    */
   getBackgroundSizeStyle(style) {
     const {
@@ -72,14 +74,15 @@ class CanvasTabPanelStyle {
     const include = ['fill', 'fit'];
 
     return {
+      // eslint-disable-next-line no-nested-ternary
       backgroundSize: include.includes(repeat) ? (repeat === 'fill' ? 'contain' : 'auto') : 'auto',
     };
   }
 
   /**
    * getStyle
-   * @param {Object} - style
    * @return {Object}
+   * @param style
    */
   getStyle(style) {
     const {
@@ -93,7 +96,7 @@ class CanvasTabPanelStyle {
 
     return {
       backgroundColor,
-        backgroundImage: backgroundImg ? `url(${backgroundImg})` : 'none',
+      backgroundImage: backgroundImg ? `url(${backgroundImg})` : 'none',
       ...this.getBackgroundPositionStyle(style),
       ...this.getBackgroundRepeatStyle(style),
       ...this.getBackgroundSizeStyle(style),

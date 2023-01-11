@@ -198,7 +198,7 @@ class App extends React.PureComponent {
 
   /**
    * rangeSelectActive
-   * @param {Array<String>} - ids
+   * @param ids
    */
   rangeSelectActive(ids) {
     // console.log('选取包含的节点:', ids.length);
@@ -223,7 +223,7 @@ class App extends React.PureComponent {
 
   /**
    * unRangeSelectActive
-   * @param {Array<String>} - ids
+   * @param ids
    */
   unRangeSelectActive(ids) {
     let el;
@@ -336,8 +336,8 @@ class App extends React.PureComponent {
 
   /**
    * getPageEl
-   * @param {String} - pageId
    * @return {HTMLElement}
+   * @param pageId
    */
   getPageEl(pageId) {
     return document.getElementById(pageId);
@@ -391,7 +391,7 @@ class App extends React.PureComponent {
 
   /**
    * createActiveShape
-   * @param {Object} - params
+   * @param params
    */
   createActiveShape(params) {
     this.createShape(params);
@@ -402,8 +402,8 @@ class App extends React.PureComponent {
 
   /**
    * createRangeSelect
-   * @param {Array<String>} - ids
    * @return {boolean}
+   * @param ids
    */
   createRangeSelect(ids) {
     if (!ids || ids.length === 0) return false;
@@ -448,7 +448,7 @@ class App extends React.PureComponent {
 
   /**
    * setDRDSScale
-   * @param {SelectOptions} - scale
+   * @param scale
    */
   setDRDSScale(scale) {
     AppDroppableManager.setScale(scale);
@@ -470,7 +470,7 @@ class App extends React.PureComponent {
   /**
    * onAddTab
    * 新增一个页面
-   * @param {String} - pageId
+   * @param pageId
    */
   onAddTab(pageId) {
     ActiveShapeKeyBoardBind.unBindKeyBoard(this.curPageId);
@@ -492,7 +492,7 @@ class App extends React.PureComponent {
   /**
    * onChangeTab
    * 切换一个页面
-   * @param {String} - pageId
+   * @param pageId
    */
   onChangeTab(pageId) {
     ActiveShapeKeyBoardBind.unBindKeyBoard(this.curPageId);
@@ -550,7 +550,7 @@ class App extends React.PureComponent {
 
   /**
    * onPaste
-   * @param {Object} - clipBoardData
+   * @param clipBoardData
    */
   onPaste(clipBoardData = []) {
     clipBoardData.forEach((data) => {
@@ -602,7 +602,7 @@ class App extends React.PureComponent {
 
   /**
    * onSelectAll
-   * @param {Array<String>} - ids
+   * @param ids
    */
   onSelectAll(ids) {
     this.clearRangeSelect();

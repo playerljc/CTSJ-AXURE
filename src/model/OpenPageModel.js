@@ -10,7 +10,7 @@ const Model = new Map();
 export default {
   /**
    * add
-   * @param {CanvasTabPanel} - page
+   * @param page
    */
   add(page) {
     const pageId = page.getPageId();
@@ -18,15 +18,15 @@ export default {
   },
   /**
    * remove
-   * @param {String} - pageId
+   * @param pageId
    */
   remove(pageId) {
     Model.delete(pageId);
   },
   /**
    * get
-   * @param {String} - pageId
    * @return {CanvasTabPanel}
+   * @param pageId
    */
   get(pageId) {
     return Model.get(pageId);

@@ -11,7 +11,7 @@ import TableEditorHOC from './TableEditorHOC';
 class TableTextFieldEditor extends React.PureComponent {
   /**
    * constructor
-   * @param {Object} - props
+   * @param props
    */
   constructor(props) {
     super(props);

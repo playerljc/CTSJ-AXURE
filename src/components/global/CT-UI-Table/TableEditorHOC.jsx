@@ -17,7 +17,7 @@ export default (Component) => {
   class TableEditorHOC extends React.PureComponent {
     /**
      * constructor
-     * @param {Object} - props
+     * @param props
      */
     constructor(props) {
       super(props);

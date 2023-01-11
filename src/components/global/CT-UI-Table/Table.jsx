@@ -64,7 +64,7 @@ class Table extends React.PureComponent {
 
   /**
    * rowData
-   * @param {Object} - rowData
+   * @param rowData
    */
   onRowClick(rowData) {
     const { rowSelection, rowKey } = this.props;
@@ -87,7 +87,7 @@ class Table extends React.PureComponent {
 
   /**
    * onCellClick
-   * @param {Object} - cellData
+   * @param cellData
    */
   onCellClick(cellData) {
     const { cellSelection } = this.props;
@@ -98,7 +98,7 @@ class Table extends React.PureComponent {
 
   /**
    * onColumnClick
-   * @param {String} - key
+   * @param key
    */
   onColumnClick(key) {
     const { columns = [], columnSelection } = this.props;
@@ -156,6 +156,7 @@ class Table extends React.PureComponent {
         pageSize={pageSize}
         onPre={() => {
           const clonePagin = Immutable.cloneDeep(this.state.pagin);
+          // eslint-disable-next-line no-plusplus
           clonePagin.pagin.page--;
           this.setState({
             pagin: clonePagin,
@@ -163,6 +164,7 @@ class Table extends React.PureComponent {
         }}
         onNext={() => {
           const clonePagin = Immutable.cloneDeep(this.state.pagin);
+          // eslint-disable-next-line no-plusplus
           clonePagin.pagin.page++;
           this.setState({
             pagin: clonePagin,

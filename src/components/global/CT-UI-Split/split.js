@@ -278,11 +278,16 @@ function reset() {
  * @return {SelectOptions}
  */
 function getMoveValue({ min, max, val }) {
+  // eslint-disable-next-line @typescript-eslint/no-invalid-this
   const { minBlankWidth = minWidth, minBlankHeight = minHeight } = this.config;
+  // eslint-disable-next-line @typescript-eslint/no-invalid-this
   const { direction = 'horizontal' } = this.config;
+  // eslint-disable-next-line @typescript-eslint/no-invalid-this
   const { direction: selfDirection = '' } = this;
+  // eslint-disable-next-line no-nested-ternary
   return val <= min
     ? min +
+        // eslint-disable-next-line no-nested-ternary
         (selfDirection === 'left' || selfDirection === 'top'
           ? direction === 'horizontal'
             ? minBlankWidth
@@ -290,6 +295,7 @@ function getMoveValue({ min, max, val }) {
           : 0)
     : val >= max
     ? max -
+      // eslint-disable-next-line no-nested-ternary
       (selfDirection === 'right' || selfDirection === 'bottom'
         ? direction === 'horizontal'
           ? minBlankWidth
@@ -307,14 +313,14 @@ class Split {
   /**
    * constructor
    * @constructor
-   * @param {HTMLElement} - el
-   * @param {Object} - config
+   * @param el
+   * @param config
    */
   constructor(el, config) {
     this.el = el;
     this.config = {
       minBlankWidth: minWidth,
-        minBlankHeight: minHeight,
+      minBlankHeight: minHeight,
       ...config,
     };
     this.disable = false;
@@ -340,6 +346,7 @@ class Split {
    * onMainMouseDown
    * @param {MouseEvent} - e
    */
+  // eslint-disable-next-line consistent-return
   onMainMouseDown(e) {
     // e.preventDefault();
     const self = this;
@@ -653,7 +660,7 @@ class Split {
 
   /**
    * setDisable
-   * @param {Boolean} - disable
+   * @param disable
    */
   setDisable(disable) {
     this.disable = disable;
@@ -666,9 +673,9 @@ class Split {
 const SplitFactory = {
   /**
    * 创建一个Split
-   * @param {HTMLElement} - el
-   * @param {Object} - config
    * @return {Split}
+   * @param el
+   * @param config
    */
   create(el, config) {
     return new Split(el, config);

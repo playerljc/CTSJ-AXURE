@@ -7,8 +7,8 @@ const step = 50;
 
 /**
  * onMouseWheel - 按住shift滚动的滚轮
- * @param {MouseWheelEvent} - event
  * @return {boolean}
+ * @param event
  */
 function onMouseWheel(event) {
   const e = event || window.event;

@@ -4,6 +4,10 @@ import './CanvasEmptyPanel.less';
 
 const selectorPrefix = 'CanvasEmptyPanel';
 
+/**
+ * CanvasPanel没有内容的面板
+ * @return {*}
+ */
 export default () => {
   return (
     <div className={`${selectorPrefix}`}>

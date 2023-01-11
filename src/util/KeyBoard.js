@@ -45,7 +45,7 @@ const map = new Map();
 
 /**
  * onKey
- * @param {KeyboardEvent} - e
+ * @param e
  */
 function onKey(e) {
   const { key, shiftKey, ctrlKey, repeat } = e;
@@ -99,8 +99,8 @@ window.addEventListener('keydown', (e) => {
 export default {
   /**
    * on
-   * @param {Array<String>} - type
-   * @param {Function} - handler
+   * @param type
+   * @param handler
    */
   on(type, handler) {
     const key = type.join('+');
@@ -115,7 +115,7 @@ export default {
   /**
    * off
    * @param {Array<String>} type
-   * @param {Function} - handler
+   * @param handler
    */
   off(type, handler) {
     const key = type.join('+');

@@ -34,23 +34,23 @@ const map = new Map();
 export default {
   /**
    * set
-   * @param {String} - pageId
-   * @param {Array<Object>} - entry
+   * @param pageId
+   * @param entry
    */
   set(pageId, entry) {
     map.set(pageId, entry);
   },
   /**
    * get
-   * @param {String} - pageId
    * @return - {Array<Object>}
+   * @param pageId
    */
   get(pageId) {
     return map.get(pageId);
   },
   /**
    * delete
-   * @param {String} - pageId
+   * @param pageId
    */
   delete(pageId) {
     map.delete(pageId);

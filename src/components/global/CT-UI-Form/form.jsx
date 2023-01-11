@@ -32,6 +32,7 @@ class FormFieldManager {
    * @param name
    */
   createField(FieldComponent, name) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     return class extends React.PureComponent {
       constructor(props) {

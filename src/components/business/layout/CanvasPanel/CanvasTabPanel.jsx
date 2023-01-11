@@ -24,6 +24,7 @@ export { selectorPrefix };
 
 /**
  * CanvasTabPanel
+ * @classdesc 实际的Canvas面板
  */
 class CanvasTabPanel extends React.PureComponent {
   constructor(props) {
@@ -33,7 +34,7 @@ class CanvasTabPanel extends React.PureComponent {
     this.pageStyle = new CanvasTabPanelStyle();
 
     this.state = {
-      property: { ...props.property},
+      property: { ...props.property },
     };
 
     this.scaleIndex = 7;
@@ -73,14 +74,14 @@ class CanvasTabPanel extends React.PureComponent {
   getProperty() {
     // const { property } = this.props;
     // return Immutable.cloneDeep(property);
-    return { ...this.state.property};
+    return { ...this.state.property };
   }
 
   /**
    * 根据propertyName设置Property的值
-   * @param {String} - propertyName
-   * @param {Object} - propertyValue
-   * @param {Function} -success
+   * @param propertyName
+   * @param propertyValue
+   * @param success
    */
   setPropertyByProps(propertyName, propertyValue, success) {
     // console.log(this.props);
@@ -157,10 +158,12 @@ class CanvasTabPanel extends React.PureComponent {
   onMouseWheel({ direction }) {
     if (direction === 'top') {
       if (this.scaleIndex !== 0) {
+        // eslint-disable-next-line no-plusplus
         this.scaleIndex--;
       }
     } else if (direction === 'bottom') {
       if (this.scaleIndex !== SCALECOLLECTION.length - 1) {
+        // eslint-disable-next-line no-plusplus
         this.scaleIndex++;
       }
     }

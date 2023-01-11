@@ -68,7 +68,7 @@ class TreeNode extends React.PureComponent {
 
   /**
    * onContextMenuCapture
-   * @param {Event} - e
+   * @param e
    */
   onContextMenuCapture(e) {
     const { icon = '', name = '', leaf = false, id, attributes, onContextMenu } = this.props;
@@ -85,8 +85,8 @@ class TreeNode extends React.PureComponent {
 
   /**
    * onRenderNode
-   * @param {Function} - onRenderNode
    * @return {ReactElement}
+   * @param onRenderNode
    */
   renderSummary(onRenderNode) {
     const { active = false } = this.props;
@@ -121,8 +121,8 @@ class TreeNode extends React.PureComponent {
 
   /**
    * onRenderNode
-   * @param {Function} - onRenderNode
    * @return {ReactElement}
+   * @param onRenderNode
    */
   renderInner(onRenderNode) {
     const { icon = '' } = this.props;
@@ -141,8 +141,8 @@ class TreeNode extends React.PureComponent {
 
   /**
    * renderName
-   * @param {Function} - onRenderNode
    * @return {ReactElement}
+   * @param onRenderNode
    */
   renderName(onRenderNode) {
     const { name = '' } = this.props;

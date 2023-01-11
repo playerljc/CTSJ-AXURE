@@ -250,9 +250,9 @@ class PagePanel extends Component {
 
   /**
    * findParentById
-   * @param {Object} - parent
-   * @param {String} - id
    * @return {Object}
+   * @param parent
+   * @param id
    */
   findParentById(parent, id) {
     let node;
@@ -373,8 +373,8 @@ class PagePanel extends Component {
 
   /**
    * onContextMenu - 右键菜单
-   * @param {Event} - e
-   * @param {Object} - node
+   * @param e
+   * @param node
    */
   onContextMenu(e, node) {
     const menudata = Immutable.cloneDeep(contextMenuData);
@@ -418,8 +418,8 @@ class PagePanel extends Component {
 
   /**
    * onDBClick
-   * @param {Object} - t
    * @return {boolean}
+   * @param t
    */
   onDBClick(t) {
     const {
@@ -469,8 +469,8 @@ class PagePanel extends Component {
 
   /**
    * folder 添加目录
-   * @param {Object} - menuItemAttribute 菜单的attribute
-   * @param {Object} - node 节点数据
+   * @param menuItemAttribute
+   * @param node
    */
   onContextMenufolder(menuItemAttribute, node) {
     Modal.prompt({
@@ -491,8 +491,8 @@ class PagePanel extends Component {
 
   /**
    * addpageabove 向上添加页面
-   * @param {Object} - menuItemAttribute 菜单的attribute
-   * @param {Object} - node 节点数据
+   * @param menuItemAttribute
+   * @param node
    */
   onContextMenuaddpageabove(menuItemAttribute, node) {
     Modal.prompt({
@@ -513,8 +513,8 @@ class PagePanel extends Component {
 
   /**
    * addpagebelow 向下添加页面
-   * @param {Object} - menuItemAttribute 菜单的attribute
-   * @param {Object} - node 节点数据
+   * @param menuItemAttribute
+   * @param node
    */
   onContextMenuaddpagebelow(menuItemAttribute, node) {
     Modal.prompt({
@@ -535,8 +535,8 @@ class PagePanel extends Component {
 
   /**
    * subpage 添加子页面
-   * @param {Object} - menuItemAttribute 菜单的attribute
-   * @param {Object} - node 节点数据
+   * @param menuItemAttribute
+   * @param node
    */
   onContextMenusubpage(menuItemAttribute, node) {
     Modal.prompt({
@@ -574,8 +574,8 @@ class PagePanel extends Component {
 
   /**
    * 上移
-   * @param {Object} - menuItemAttribute 菜单的attribute
-   * @param {Object} - node 节点数据
+   * @param menuItemAttribute
+   * @param node
    */
   onContextMenumoveup(menuItemAttribute, node) {
     const stateClone = Immutable.cloneDeep(this.state.data);
@@ -603,8 +603,8 @@ class PagePanel extends Component {
 
   /**
    * 下移
-   * @param {Object} - menuItemAttribute 菜单的attribute
-   * @param {Object} - node 节点数据
+   * @param menuItemAttribute
+   * @param node
    */
   onContextMenumovedown(menuItemAttribute, node) {
     const stateClone = Immutable.cloneDeep(this.state.data);
@@ -632,8 +632,8 @@ class PagePanel extends Component {
 
   /**
    * 升级 - (和父亲平级)(没有父亲不能升级)
-   * @param {Object} - menuItemAttribute 菜单的attribute
-   * @param {Object} - node 节点数据
+   * @param menuItemAttribute
+   * @param node
    */
   onContextMenuupgrade(menuItemAttribute, node) {
     const stateClone = Immutable.cloneDeep(this.state.data);
@@ -674,8 +674,8 @@ class PagePanel extends Component {
 
   /**
    * 降级 - (成为前一个兄弟的孩子)(没有前一个兄弟不能降级)
-   * @param {Object} - menuItemAttribute 菜单的attribute
-   * @param {Object} - node 节点数据
+   * @param menuItemAttribute
+   * @param node
    */
   onContextMenudowngrade(menuItemAttribute, node) {
     const stateClone = Immutable.cloneDeep(this.state.data);
@@ -699,8 +699,8 @@ class PagePanel extends Component {
 
   /**
    * delete 删除
-   * @param {Object} - menuItemAttribute 菜单的attribute
-   * @param {Object} - node 节点数据
+   * @param menuItemAttribute
+   * @param node
    */
   onContextMenudelete(menuItemAttribute, node) {
     const page = OpenPageModel.get(node.id);
@@ -746,8 +746,8 @@ class PagePanel extends Component {
 
   /**
    * rename 重命名
-   * @param {Object} - menuItemAttribute 菜单的attribute
-   * @param {Object} - node 节点数据
+   * @param menuItemAttribute
+   * @param node
    */
   onContextMenurename(menuItemAttribute, node) {
     function rename(value) {

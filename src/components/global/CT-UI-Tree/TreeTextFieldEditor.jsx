@@ -11,7 +11,7 @@ import TreeEditorHOC from './TreeEditorHOC';
 class TreeTextFieldEditor extends React.PureComponent {
   /**
    * constructor
-   * @param {Object} - props
+   * @param props
    */
   constructor(props) {
     super(props);
@@ -26,7 +26,7 @@ class TreeTextFieldEditor extends React.PureComponent {
 
   /**
    * onInputChange
-   * @param {Event} - e
+   * @param e
    */
   onInputChange(e) {
     this.setState({

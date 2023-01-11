@@ -10,7 +10,7 @@ const Model = new Map();
 export default {
   /**
    * Shape
-   * @param {Shape} - shape
+   * @param shape
    */
   add(shape) {
     const pageId = shape.getPageId();
@@ -25,7 +25,7 @@ export default {
   },
   /**
    * removeShapeByPage
-   * @param {Shape} - shape
+   * @param shape
    */
   removeShapeByPage(shape) {
     const pageId = shape.getPageId();
@@ -37,15 +37,15 @@ export default {
   },
   /**
    * removePage
-   * @param {String} - pageId
+   * @param pageId
    */
   removePage(pageId) {
     Model.delete(pageId);
   },
   /**
    * getShapesByPage
-   * @param {String} - pageId
    * @return {Array}
+   * @param pageId
    */
   getShapesByPage(pageId) {
     const ShapeMap = Model.get(pageId);

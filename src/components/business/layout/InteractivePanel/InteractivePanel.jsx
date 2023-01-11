@@ -67,7 +67,7 @@ class InteractivePanel extends Component {
 
   /**
    * onAddTab
-   * @param {String} - pageId
+   * @param pageId
    */
   onAddTab(pageId) {
     this.setState({
@@ -78,7 +78,7 @@ class InteractivePanel extends Component {
 
   /**
    * onChangeTab
-   * @param {String} - pageId
+   * @param pageId
    */
   onChangeTab(pageId) {
     this.setState({
@@ -101,7 +101,7 @@ class InteractivePanel extends Component {
 
   /**
    * onActiveTab
-   * @param {String} - pageId
+   * @param pageId
    */
   onActiveTab(pageId) {
     this.setState({
@@ -112,8 +112,7 @@ class InteractivePanel extends Component {
 
   /**
    * getShapeComponent
-   * @param {Shape} - shape
-   * @param {ReactElement}
+   * @param shape
    */
   getShapeComponent(shape) {
     const el = shape ? shape.getEl() : null;
@@ -121,6 +120,7 @@ class InteractivePanel extends Component {
     const componentKey = el ? el.dataset.componentkey : null;
     const PropertyComponent =
       groupKey && componentKey ? Register.get(groupKey).get(componentKey) : null;
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     let Component = null;
     if (PropertyComponent) {
       Component = <PropertyComponent.Property shape={shape} />;
@@ -136,6 +136,7 @@ class InteractivePanel extends Component {
   renderComponent() {
     const { pageId, componentId } = this.state;
 
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     let Component = null;
 
     if (pageId) {

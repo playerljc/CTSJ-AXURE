@@ -14,8 +14,8 @@ const selectorPrefix = 'CT-UI-TreeNode';
 class MenuTreeNode extends TreeNode {
   /**
    * onRenderNode
-   * @param {Function} - onRenderNode
    * @return {ReactElement}
+   * @param onRenderNode
    */
   renderSummary(onRenderNode) {
     const { disabled, separation, active = false } = this.props;
@@ -48,8 +48,8 @@ class MenuTreeNode extends TreeNode {
 
   /**
    * onRenderNode
-   * @param {Function} - onRenderNode
    * @return {ReactElement}
+   * @param onRenderNode
    */
   renderInner(onRenderNode) {
     const {

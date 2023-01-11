@@ -52,7 +52,7 @@ class CanvasPanel extends Component {
 
   /**
    * onDBClick
-   * @param {Object} - t
+   * @param t
    */
   onDBClick(t) {
     const data = Immutable.cloneDeep(this.state.data);
@@ -81,7 +81,7 @@ class CanvasPanel extends Component {
 
   /**
    * onChange
-   * @param {String} - pageId
+   * @param pageId
    */
   onChange = (pageId) => {
     this.setState(
@@ -96,8 +96,8 @@ class CanvasPanel extends Component {
 
   /**
    * onRemoveSymbol
-   * @param {String} - pageId
-   * @param {Function} - success
+   * @param pageId
+   * @param success
    */
   [onRemoveSymbol] = (pageId, success) => {
     const data = [...this.state.data];
@@ -146,8 +146,7 @@ class CanvasPanel extends Component {
   /**
    * setName
    * @param {String} - pageId
-   * @param {String} - name
-   * @param {Function} - success
+   * @param success
    */
   setName({ pageId, name }, success) {
     const dataClone = Immutable.cloneDeep(this.state.data);

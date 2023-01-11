@@ -17,8 +17,8 @@ const selectorPrefix = 'CT-UI-Tree';
 class Tree extends React.PureComponent {
   /**
    * renderChildren
-   * @param {Array} - data
    * @return {Array<ReactElement>}
+   * @param data
    */
   renderChildren(data = []) {
     const { onDBClick, onActive, onContextMenu } = this.props;
